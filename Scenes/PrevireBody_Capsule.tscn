@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://icon_circle.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/SharpCollisions/Godot/2D/PhysicsBody2D.cs" type="Script" id=2]
+[ext_resource path="res://Materials/MATERIAL_Debug.tres" type="Material" id=3]
+
+[sub_resource type="CapsuleMesh" id=1]
+radius = 0.5
+radial_segments = 12
+rings = 6
+
+[node name="Body" type="Spatial"]
+script = ExtResource( 2 )
+collisionType = 3
+size = Vector2( 0.6, 1.2 )
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+texture = ExtResource( 1 )
+
+[node name="Debug" type="Spatial" parent="."]
+
+[node name="Shape" type="MeshInstance" parent="Debug"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+sorting_offset = 1.0
+mesh = SubResource( 1 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 3 )

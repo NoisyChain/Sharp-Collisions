@@ -119,7 +119,10 @@ namespace SharpCollisions
 							bodyB, Normal, Depth, ContactPoint
 						);
 					bodyA.Collisions.Add(collision);
-					bodyA.collider.collisionFlags = bodyA.collider.GetCollisionFlags(collision, bodyA);
+
+					if (!bodyA.isTrigger && !bodyB.isTrigger)
+						bodyA.collider.collisionFlags = bodyA.collider.GetCollisionFlags(collision, bodyA);
+					
 					SetCollidedWith(bodyA, bodyB, true);
 					
 					//bodyB.DuringOverlap(bodyA);

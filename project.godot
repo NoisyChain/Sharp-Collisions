@@ -10,7 +10,8 @@ config_version=4
 
 [application]
 
-config/name="Fixed Physics"
+config/name="Sharp Collisions"
+config/description="C# deterministic collision system"
 run/main_scene="res://Scenes/TestScene.tscn"
 config/icon="res://icon.png"
 

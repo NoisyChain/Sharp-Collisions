@@ -3,6 +3,7 @@ Deterministic collision system written in C#
 
 **Features:**
 - 2D collisions (3D coming eventually)
+- Discrete collision detection
 - Deterministic behavior using fixed point math
 - Broad Phase/Narrow Phase
 - AABB collisions

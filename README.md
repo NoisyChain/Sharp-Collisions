@@ -1,7 +1,7 @@
 # Sharp-Collisions
 Deterministic collision system written in C#
 
-Features:
+**Features:**
 - 2D collisions (3D coming eventually)
 - Deterministic behavior using fixed point math
 - Broad Phase/Narrow Phase

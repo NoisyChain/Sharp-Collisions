@@ -2,13 +2,13 @@
 Deterministic collision system written in C#
 
 **Features:**
-- 2D collisions (3D coming eventually)
+- 2D collisions and resolution (3D coming eventually)
 - Discrete collision detection
 - Deterministic behavior using fixed point math
 - Broad Phase/Narrow Phase
 - AABB collisions
 - Sphere/Capsule collisions using distance checks
-- Polygon collisions using GJK-EPA algorithms
+- Convex polygon collisions using GJK-EPA algorithms
 - Collision layers / Ignore collisions
 - Triggers
 - Rotation support

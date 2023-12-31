@@ -1,8 +1,9 @@
+using Godot;
 using FixMath.NET;
 
 namespace SharpCollisions
 {
-	public partial class SharpCollider2D
+	public partial class SharpCollider2D : Node
 	{
 		public Fix64 Height;
 		public FixVector2 RawUpperPoint;

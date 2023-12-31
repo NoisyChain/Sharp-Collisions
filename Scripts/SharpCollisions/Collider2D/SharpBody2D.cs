@@ -1,36 +1,31 @@
+using Godot;
 using FixMath.NET;
 using System.Collections.Generic;
 
 namespace SharpCollisions
 {
-	[System.Serializable]
-	public class SharpBody2D
+	public class SharpBody2D : FixedTransform2D
 	{
 		public delegate void OnOverlapDelegate(SharpBody2D other);
 		public OnOverlapDelegate BeginOverlap;
 		public OnOverlapDelegate DuringOverlap;
 		public OnOverlapDelegate EndOverlap;
 
-		public FixVector2 position;
-		public FixVector2 velocity;
-		public Fix64 rotation;
-		public SharpCollider2D collider;
-		public List<CollisionManifold2D> Collisions;
-		public List<SharpBody2D> CollidedWith;
-		public List<SharpBody2D> BodiesToIgnore;
+		public FixVector2 Velocity;
 
-		public int CollisionLayers;
+		public SharpCollider2D Collider;
+		public List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
+		public List<SharpBody2D> CollidedWith = new List<SharpBody2D>();
+		public List<SharpBody2D> BodiesToIgnore = new List<SharpBody2D>();
 
-		public bool isStatic;
-		public bool isPushable;
-		public bool isTrigger;
+		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
+		public int CollisionLayers = 1;
 
-		public FixVector2 Right => FixVector2.Rotate(FixVector2.Right, rotation);
-		public FixVector2 Up => FixVector2.Rotate(FixVector2.Up, rotation);
-		public FixVector2 Left => -Right;
-		public FixVector2 Down => -Up;
+		[Export] public bool isStatic = false;
+		[Export] public bool isPushable = true;
+		[Export] public bool isTrigger = false;
 		
-		public SharpBody2D() {}
+		/*public SharpBody2D() {}
 		
 		public SharpBody2D(FixVector2 origin, FixVector2 offset, FixVector2 size, 
 			FixVector2[] points, Fix64 angle, CollisionType shape, int layers,
@@ -48,7 +43,17 @@ namespace SharpCollisions
 			Collisions = new List<CollisionManifold2D>();
 			CollidedWith = new List<SharpBody2D>();
 			BodiesToIgnore = new List<SharpBody2D>();
-		}
+		}*/
+
+		public override void _Ready()
+        {
+			base._Ready();
+			Collider = GetNode<SharpCollider2D>("Collider");
+			UpdateCollider();
+            BeginOverlap = OnBeginOverlap;
+            DuringOverlap = OnOverlap;
+            EndOverlap = OnEndOverlap;
+        }
 
 		public void IgnoreBody(SharpBody2D bodyToIgnore, bool ignore)
 		{
@@ -73,7 +78,7 @@ namespace SharpCollisions
 		{
 			if (isStatic) return;
 			
-			velocity = newVelocity;
+			Velocity = newVelocity;
 		}
 		
 		public void Move(int delta, int iterations)
@@ -85,8 +90,8 @@ namespace SharpCollisions
 
 			Fix64 finalDelta = fDelta * fIterations;
 
-			position.x += velocity.x / finalDelta;
-			position.y += velocity.y / finalDelta;
+			Position.x += Velocity.x / finalDelta;
+			Position.y += Velocity.y / finalDelta;
 			UpdateCollider();
 		}
 
@@ -94,7 +99,7 @@ namespace SharpCollisions
 		{
 			if (isStatic) return;
 
-			rotation += angle;
+			Rotation += angle;
 			UpdateCollider();
 		}
 
@@ -102,33 +107,53 @@ namespace SharpCollisions
 		{
 			if (isStatic) return;
 
-			rotation += angle * Fix64.DegToRad;
+			Rotation += angle * Fix64.DegToRad;
 			UpdateCollider();
 		}
 
 		public void SetRotation(Fix64 angle)
 		{
-			rotation = angle;
+			Rotation = angle;
 			UpdateCollider();
 		}
 
 		public void PushAway(FixVector2 direction)
 		{
-			position -= direction;
+			Position -= direction;
 			UpdateCollider();
 		}
 		
 		public void MoveTo(FixVector2 destination)
 		{
-			position = destination;
+			Position = destination;
 			UpdateCollider();
 		}
 		
 		public void UpdateCollider()
 		{
-			collider.Position = position;
-			collider.UpdatePoints(this);
-			collider.UpdateBoundingBox();
+			Collider.Position = Position;
+			Collider.UpdatePoints(this);
+			Collider.UpdateBoundingBox();
 		}
+
+		public override void _FixedProcess(Fix64 delta)
+        {
+            SetVelocity(FixVector2.Zero);
+        }
+
+		public virtual void OnBeginOverlap(SharpBody2D other)
+        {
+            //GD.Print(other.GetHashCode());
+        }
+
+        public virtual void OnOverlap(SharpBody2D other)
+        {
+            //GD.Print(other.GetHashCode());
+        }
+
+        public virtual void OnEndOverlap(SharpBody2D other)
+        {
+            //GD.Print(other.GetHashCode());
+        }
 	}
 }

@@ -26,6 +26,7 @@ namespace SharpCollisions
 		public void AddBody(SharpBody2D newBody)
 		{
 			bodies.Add(newBody);
+			GD.Print(BodyCount);
 		}
 		
 		public bool RemoveBody(SharpBody2D body)
@@ -61,6 +62,7 @@ namespace SharpCollisions
 						return true;
 			}
 			return false;*/
+			
 			//DON'T ASK ME WHAT'S HAPPENING HERE
 			return ((bodyA.CollisionLayers & bodyB.CollisionLayers) & mask) != 0;
 		}
@@ -73,17 +75,18 @@ namespace SharpCollisions
 			{
 				SharpBody2D bodyA = bodies[i];
 				bodyA.Collisions.Clear();
-				bodyA.collider.collisionFlags.Clear();
+				bodyA.Collider.collisionFlags.Clear();
 
 				for (int j = 0; j < bodies.Count; j++)
 				{
 					SharpBody2D bodyB = bodies[j];
 					
 					if (i == j) continue;
+					if (!bodyA.Visible || !bodyB.Visible) continue;
 					if (bodyA.isStatic && bodyB.isStatic) continue;
 					if (bodyA.BodiesToIgnore.Contains(bodyB)) continue;
 					if (!CompareLayers(bodyA, bodyB)) continue;
-					if (!bodyA.collider.BoundingBox.IsOverlapping(bodyB.collider.BoundingBox)) 
+					if (!bodyA.Collider.BoundingBox.IsOverlapping(bodyB.Collider.BoundingBox))
 					{
 						SetCollidedWith(bodyA, bodyB, false);
 						continue;
@@ -101,7 +104,7 @@ namespace SharpCollisions
 				SharpBody2D bodyA = bodies[PossibleCollisions[i].Item1];
 				SharpBody2D bodyB = bodies[PossibleCollisions[i].Item2];
 
-				if (bodyA.collider.IsOverlapping(bodyB.collider, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint))
+				if (bodyA.Collider.IsOverlapping(bodyB.Collider, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint))
 				{
 					if (!bodyA.isTrigger && !bodyB.isTrigger)
 					{
@@ -121,7 +124,7 @@ namespace SharpCollisions
 					bodyA.Collisions.Add(collision);
 
 					if (!bodyA.isTrigger && !bodyB.isTrigger)
-						bodyA.collider.collisionFlags = bodyA.collider.GetCollisionFlags(collision, bodyA);
+						bodyA.Collider.collisionFlags = bodyA.Collider.GetCollisionFlags(collision, bodyA);
 					
 					SetCollidedWith(bodyA, bodyB, true);
 					

@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Scenes/PreviewBody_Box.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/SharpCollisions/Collider2D/SharpBody2D.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/SharpCollisions/Godot/2D/PhysicsManager2D.cs" type="Script" id=2]
-[ext_resource path="res://Scenes/PreviewBody_Circle.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/PrevireBody_Capsule.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scripts/SharpCollisions/Collider2D/SharpCollider2D.cs" type="Script" id=3]
 [ext_resource path="res://Scenes/PreviewBody_Controller.tscn" type="PackedScene" id=5]
 
 [node name="Main" type="Spatial"]
@@ -12,52 +11,82 @@
 script = ExtResource( 2 )
 
 [node name="Character" parent="." instance=ExtResource( 5 )]
-position = Vector2( 0, 0.5 )
-offset = Vector2( 0, 0.5 )
-debugDraw = true
 
-[node name="Body0" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
-DebugShape = "Debug"
-collisionType = 4
-position = Vector2( 2, 0 )
-vertices = PoolVector2Array( 0, 0.7, 0.7, 0.3, 0.35, -0.7, -0.35, -0.7, -0.7, 0.3 )
+[node name="Floor" type="Node" parent="."]
+script = ExtResource( 1 )
+position = Vector2( 0, -2 )
 isStatic = true
-debugDraw = true
+isPushable = false
 
-[node name="Body1" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.5, 0 )
-DebugShape = "Debug"
-position = Vector2( 1.5, 2 )
-CollisionLayers = 3
-debugDraw = true
+[node name="Collider" type="Node" parent="Floor"]
+script = ExtResource( 3 )
+size = Vector2( 6, 0.6 )
+Shape = 1
+DrawDebug = true
 
-[node name="Body2" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
-DebugShape = "Debug/Shape"
-position = Vector2( -3, 0.5 )
-angle = -45.0
-size = Vector2( 1, 1.2 )
-isTrigger = true
-debugDraw = true
+[node name="Viewer" type="Spatial" parent="Floor"]
 
-[node name="Body3" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0 )
-DebugShape = "Debug"
-position = Vector2( 1, -1.5 )
-size = Vector2( 3, 0.6 )
+[node name="Sphere" type="Node" parent="."]
+script = ExtResource( 1 )
+position = Vector2( 3, 1.5 )
 isStatic = true
-debugDraw = true
+isPushable = false
 
-[node name="Body4" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0 )
-DebugShape = "Debug"
-position = Vector2( -1, -1 )
-angle = -45.0
-size = Vector2( 3, 0.6 )
+[node name="Collider" type="Node" parent="Sphere"]
+script = ExtResource( 3 )
+radius = 1.0
+Shape = 2
+DrawDebug = true
+
+[node name="Viewer" type="Spatial" parent="Sphere"]
+
+[node name="Polygon" type="Node" parent="."]
+script = ExtResource( 1 )
+position = Vector2( -2, 0 )
 isStatic = true
-CollisionLayers = 2
-debugDraw = true
+isPushable = false
+
+[node name="Collider" type="Node" parent="Polygon"]
+script = ExtResource( 3 )
+radius = 1.0
+Shape = 4
+vertices = PoolVector2Array( 0, 1, 1, 0.2, 0.6, -1, -0.6, -1, -1, 0.2 )
+DrawDebug = true
+
+[node name="Viewer" type="Spatial" parent="Polygon"]
+
+[node name="Polygon2" type="Node" parent="."]
+script = ExtResource( 1 )
+position = Vector2( 0, 3 )
+rotation = 90.0
+isStatic = true
+isPushable = false
+
+[node name="Collider" type="Node" parent="Polygon2"]
+script = ExtResource( 3 )
+radius = 1.0
+Shape = 4
+vertices = PoolVector2Array( 0, 1, 1, -1, -1, -1 )
+DrawDebug = true
+
+[node name="Viewer" type="Spatial" parent="Polygon2"]
+
+[node name="Capsule" type="Node" parent="."]
+script = ExtResource( 1 )
+position = Vector2( -4, 2 )
+rotation = 35.0
+isStatic = true
+isPushable = false
+
+[node name="Collider" type="Node" parent="Capsule"]
+script = ExtResource( 3 )
+radius = 0.8
+height = 2.0
+Shape = 3
+vertices = PoolVector2Array( 0, 1, 1, 0.2, 0.6, -1, -0.6, -1, -1, 0.2 )
+DrawDebug = true
+
+[node name="Viewer" type="Spatial" parent="Capsule"]
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6 )

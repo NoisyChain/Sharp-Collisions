@@ -1,36 +1,35 @@
 using FixMath.NET;
 using Godot;
-using System;
 
 namespace SharpCollisions
 {
-    public class CharacterController2D : PhysicsBody2D
+    public class CharacterController2D : SharpBody2D
     {
         [Export(PropertyHint.Range, "0, 89")]
         public int SlopeLimit = 45;
-        public bool IsOnGround => body.collider.collisionFlags.Below;
-        public bool IsOnCeiling => body.collider.collisionFlags.Above;
-        public bool IsOnWalls => body.collider.collisionFlags.Walls;
+        public bool IsOnGround => Collider.collisionFlags.Below;
+        public bool IsOnCeiling => Collider.collisionFlags.Above;
+        public bool IsOnWalls => Collider.collisionFlags.Walls;
 
         public FixVector2 GroundNormal => GetGroundNormal();
-        public Fix64 GroundAngle => FixVector2.AngleDegrees(GroundNormal, body.Up);
+        public Fix64 GroundAngle => FixVector2.AngleDegrees(GroundNormal, Up);
         public bool IsWalkableSlope => CompareGroundAngle((Fix64)SlopeLimit);
 
         private FixVector2 VerticalVelocity;
         private FixVector2 LateralVelocity;
         private FixVector2 UpVector = FixVector2.Up;
 
-        private Spatial contactPoint;
+        //private Spatial contactPoint;
 
         public override void _Ready()
         {
             base._Ready();
-            contactPoint = GetNode<Spatial>("Debug/Contact");
+            //contactPoint = GetNode<Spatial>("Debug/Contact");
         }
 
-        public override void _SharpProcess(Fix64 delta)
+        public override void _FixedProcess(Fix64 delta)
         {
-            if (IsOnGround && IsWalkableSlope)
+            /*if (IsOnGround && IsWalkableSlope)
             {
                 UpVector = -GroundNormal;
                 VerticalVelocity = -UpVector;
@@ -49,7 +48,7 @@ namespace SharpCollisions
                     VerticalVelocity = UpVector * (Fix64)5;
                 }
                 contactPoint.Visible = true;
-                contactPoint.GlobalTranslation = (Vector3)body.Collisions[0].ContactPoint;
+                contactPoint.GlobalTranslation = (Vector3)Collisions[0].ContactPoint;
             }
             else
             {
@@ -60,26 +59,26 @@ namespace SharpCollisions
             
             FixVector2 finalVelocity = LateralVelocity + VerticalVelocity;
 		    
-            if (FixVector2.Distance(body.position, FixVector2.Zero) > (Fix64)10)
+            if (FixVector2.Distance(Position, FixVector2.Zero) > (Fix64)10)
             { 
                 LateralVelocity = FixVector2.Zero;
                 VerticalVelocity = FixVector2.Zero;
-                body.MoveTo(FixVector2.Zero);
-            }
+                MoveTo(FixVector2.Zero);
+            }*/
 
-            /*if (Input.IsActionPressed("ui_page_up"))
+            if (Input.IsActionPressed("ui_page_up"))
             {
-                body.RotateDegrees((Fix64)90 * delta);
+                RotateDegrees((Fix64)90 * delta);
             }
             if (Input.IsActionPressed("ui_page_down"))
             {
-                body.RotateDegrees((Fix64)(-90) * delta);
+                RotateDegrees((Fix64)(-90) * delta);
             }
             Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_down", "ui_up");
 		    FixVector2 FixInput = inputDir != Vector2.Zero ? FixVector2.Normalize((FixVector2)inputDir) : FixVector2.Zero;
-		    FixVector2 finalVelocity = FixInput * (Fix64)2;*/
+		    FixVector2 finalVelocity = FixInput * (Fix64)2;
 
-            body.SetVelocity(finalVelocity);
+            SetVelocity(finalVelocity);
 
             //debug2.Visible = body.collider.collisionFlags.Any;
         }
@@ -88,19 +87,19 @@ namespace SharpCollisions
         {
             FixVector2 Normal = FixVector2.Zero;
 
-            if (body.Collisions.Count > 0)
+            if (Collisions.Count > 0)
             {
-                if (FixVector2.Dot(body.Collisions[0].Normal, body.Down) > Fix64.ETA)
-                    Normal = body.Collisions[0].Normal;
+                if (FixVector2.Dot(Collisions[0].Normal, Down) > Fix64.ETA)
+                    Normal = Collisions[0].Normal;
 
-                if (body.Collisions.Count > 1)
+                if (Collisions.Count > 1)
                 {
-                    for (int c = 1; c < body.Collisions.Count; c++)
+                    for (int c = 1; c < Collisions.Count; c++)
                     {
-                        if (FixVector2.Dot(body.Collisions[c].Normal, body.Down) > Fix64.ETA && 
-                            FixVector2.Dot(body.Collisions[c].Normal, FixVector2.Normalize(LateralVelocity)) > Fix64.Zero)
+                        if (FixVector2.Dot(Collisions[c].Normal, Down) > Fix64.ETA && 
+                            FixVector2.Dot(Collisions[c].Normal, FixVector2.Normalize(LateralVelocity)) > Fix64.Zero)
                         {
-                            Normal = body.Collisions[c].Normal;
+                            Normal = Collisions[c].Normal;
                         }
                     }
                 }
@@ -117,7 +116,7 @@ namespace SharpCollisions
 
         public override void OnBeginOverlap(SharpBody2D other)
         {
-            if (!body.isTrigger)
+            if (!isTrigger)
                 GD.Print("Entered Collision!");
         }
 
@@ -128,7 +127,7 @@ namespace SharpCollisions
 
         public override void OnEndOverlap(SharpBody2D other)
         {
-            if (!body.isTrigger)
+            if (!isTrigger)
                 GD.Print("Exited Collision!");
         }
     }

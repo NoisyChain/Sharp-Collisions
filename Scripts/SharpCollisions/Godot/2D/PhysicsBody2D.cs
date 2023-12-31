@@ -6,7 +6,7 @@ using System;
 /// Class to expose SharpBodies in the editor
 /// </summary>
 
-namespace SharpCollisions
+/*namespace SharpCollisions
 {
     public class PhysicsBody2D : Spatial
     {
@@ -123,4 +123,4 @@ namespace SharpCollisions
             //GD.Print(other.GetHashCode());
         }
     }
-}
+}*/

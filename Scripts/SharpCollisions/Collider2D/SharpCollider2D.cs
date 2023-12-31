@@ -1,24 +1,55 @@
+using Godot;
 using System;
 using FixMath.NET;
 
 namespace SharpCollisions
 {
 	[Serializable]
-	public partial class SharpCollider2D
+	public partial class SharpCollider2D  : Node
 	{
-		public bool active => Size != FixVector2.Zero;
+		public bool active => Size != FixVector2.Zero || Radius != Fix64.Zero || Height != Fix64.Zero;
 		public CollisionFlags collisionFlags;
-		public CollisionType Shape;
+		[Export] public CollisionType Shape;
 		public FixVector2 Size;
 		public FixVector2 Position;
 		public FixVector2 Offset;
 		public FixRect BoundingBox;
 		public FixVector2 Center;
 
+		[Export] protected Vector2 size
+        {
+            get => (Vector2)Size;
+            set => Size = (FixVector2)value;
+        }
+
+		[Export] protected float radius
+        {
+            get => (float)Radius;
+            set => Radius = (Fix64)value;
+        }
+
+		[Export] protected float height
+        {
+            get => (float)Height;
+            set => Height = (Fix64)value;
+        }
+
+		[Export] protected Vector2 offset
+        {
+            get => (Vector2)Offset;
+            set => Offset = (FixVector2)value;
+        }
+		[Export(PropertyHint.Enum, "X-Axis,Y-Axis")]
+		private int AxisDirection = 0;
+
+		[Export] private Vector2[] vertices = new Vector2[0];
+
+		[Export] private bool DrawDebug;
+
 		private bool CollisionRequireUpdate = true;
 		private bool BoundingBoxRequireUpdate = true;
-		
-		public SharpCollider2D(){}
+
+        /*public SharpCollider2D(){}
 		
 		public SharpCollider2D(FixVector2 center, FixVector2 offset, FixVector2 size, FixVector2[] points, CollisionType shape)
 		{
@@ -29,9 +60,69 @@ namespace SharpCollisions
 			Height = Fix64.Max(size.x, size.y) / Fix64.Two;
 			Size = size;
 			CreatePoints(points);
+		}*/
+
+        public override void _Ready()
+        {
+            FixVector2[] newPoints = new FixVector2[1] { FixVector2.Zero };
+			if (vertices != null && vertices.Length > 0)
+            {
+                newPoints = new FixVector2[vertices.Length];
+                for (int p = 0; p < vertices.Length; p++)
+                {
+                    newPoints[p] = (FixVector2)vertices[p];
+                }
+            }
+
+			CreatePoints(newPoints);
+        }
+
+        public override void _Process(float delta)
+        {
+            DebugDrawShapes();
+        }
+
+		private void DebugDrawShapes()
+		{
+			if (!DrawDebug) return;
+
+			Color debugColor = new Color(0, 0, 1);
+			switch (Shape)
+			{
+				case CollisionType.AABB:
+					DebugDrawCS.DrawBox((Vector3)Center, (Vector3)Size, debugColor, true);
+					break;
+				case CollisionType.Circle:
+					DebugDrawCS.DrawArcLine((Vector3)Center, Vector3.Right, Vector3.Up, (float)Radius, debugColor);
+					DebugDrawCS.DrawArcLine((Vector3)Center, Vector3.Left, Vector3.Up, (float)Radius, debugColor);
+					DebugDrawCS.DrawArcLine((Vector3)Center, Vector3.Right, Vector3.Down, (float)Radius, debugColor);
+					DebugDrawCS.DrawArcLine((Vector3)Center, Vector3.Left, Vector3.Down, (float)Radius, debugColor);
+					break;
+				case CollisionType.Capsule:
+					Vector3 LineVector = (Vector3)FixVector2.GetNormal(UpperPoint, LowerPoint);
+					Vector3 LineSpacing = LineVector * (float)Radius;
+					Vector3 LineDirection = (Vector3)FixVector2.Normalize(UpperPoint - LowerPoint);
+
+					DebugDrawCS.DrawArcLine((Vector3)UpperPoint, LineVector, LineDirection, (float)Radius, debugColor);
+					DebugDrawCS.DrawArcLine((Vector3)UpperPoint, -LineVector, LineDirection, (float)Radius, debugColor);
+					DebugDrawCS.DrawArcLine((Vector3)LowerPoint, LineVector, -LineDirection, (float)Radius, debugColor);
+					DebugDrawCS.DrawArcLine((Vector3)LowerPoint, -LineVector, -LineDirection, (float)Radius, debugColor);
+					DebugDrawCS.DrawLine((Vector3)UpperPoint + LineSpacing, (Vector3)LowerPoint + LineSpacing, debugColor);
+					DebugDrawCS.DrawLine((Vector3)UpperPoint - LineSpacing, (Vector3)LowerPoint - LineSpacing, debugColor);
+					break;
+				case CollisionType.Box:
+				case CollisionType.Polygon:
+					for (int i = 0; i < Points.Length; i++)
+					{
+						Vector3 start = (Vector3)Points[i];
+						Vector3 end = (Vector3)Points[(i + 1) % Points.Length];
+						DebugDrawCS.DrawLine(start, end, debugColor);
+					}
+					break;
+			}
 		}
 
-		public bool IsOverlapping(SharpCollider2D other, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
+        public bool IsOverlapping(SharpCollider2D other, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
 		{
 			Normal = FixVector2.Zero;
 			Depth = FixVector2.Zero;
@@ -212,7 +303,7 @@ namespace SharpCollisions
 			}
 
 			BoundingBox = new FixRect(minX, minY, maxX, maxY);
-			BoundingBoxRequireUpdate = true;
+			BoundingBoxRequireUpdate = false;
 		}
 	}
 }

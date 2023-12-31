@@ -1,39 +1,23 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://icon_circle.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/SharpCollisions/Godot/2D/CharacterController2D.cs" type="Script" id=2]
-[ext_resource path="res://Materials/MATERIAL_Debug.tres" type="Material" id=3]
-[ext_resource path="res://Materials/MATERIAL_Contact.tres" type="Material" id=4]
+[ext_resource path="res://Scripts/SharpCollisions/Collider2D/SharpCollider2D.cs" type="Script" id=5]
 
-[sub_resource type="CapsuleMesh" id=1]
-radius = 0.5
-radial_segments = 12
-rings = 6
-
-[sub_resource type="SphereMesh" id=2]
-material = ExtResource( 4 )
-radial_segments = 12
-rings = 8
-
-[node name="Body" type="Spatial"]
+[node name="Body" type="Node"]
 script = ExtResource( 2 )
-DebugShape = "Debug/Shape"
-collisionType = 3
-size = Vector2( 0.6, 1 )
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
+[node name="Collider" type="Node" parent="."]
+script = ExtResource( 5 )
+radius = 0.3
+height = 0.6
+offset = Vector2( 0, 0.6 )
+Shape = 3
+AxisDirection = 1
+DrawDebug = true
+
+[node name="Viewer" type="Spatial" parent="."]
+
+[node name="Sprite3D" type="Sprite3D" parent="Viewer"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.319371, 0 )
 texture = ExtResource( 1 )
-
-[node name="Debug" type="Spatial" parent="."]
-
-[node name="Shape" type="MeshInstance" parent="Debug"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
-sorting_offset = 1.0
-mesh = SubResource( 1 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 3 )
-
-[node name="Contact" type="MeshInstance" parent="Debug"]
-transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
-mesh = SubResource( 2 )

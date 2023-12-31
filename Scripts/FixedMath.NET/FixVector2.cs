@@ -93,10 +93,10 @@ namespace FixMath.NET
 
 		public static FixVector2 Transform(FixVector2 v, SharpBody2D body)
 		{
-			FixVector2 r = Rotate(v, body.rotation);
+			FixVector2 r = Rotate(v, body.Rotation);
 
-			Fix64 tx = r.x + body.position.x;
-			Fix64 ty = r.y + body.position.y;
+			Fix64 tx = r.x + body.Position.x;
+			Fix64 ty = r.y + body.Position.y;
 
 			return new FixVector2(tx, ty);
 		}

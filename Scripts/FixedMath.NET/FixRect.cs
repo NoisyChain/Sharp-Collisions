@@ -1,5 +1,7 @@
+using System;
 namespace FixMath.NET
 {
+    [Serializable]
     public struct FixRect
     {
         public Fix64 x, y, w, h;

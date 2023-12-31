@@ -1,9 +1,10 @@
+using Godot;
 using System.Collections.Generic;
 using FixMath.NET;
 
 namespace SharpCollisions
 {
-	public partial class SharpCollider2D
+	public partial class SharpCollider2D : Node
 	{
 		public FixVector2[] RawPoints;
 		public FixVector2[] Points;
@@ -402,7 +403,9 @@ namespace SharpCollisions
 			
 			Points = new FixVector2[RawPoints.Length];
 
-			FixVector2 CapsuleDirection = Size.x < Size.y ? 
+			bool isYAxis = AxisDirection != 0;
+
+			FixVector2 CapsuleDirection = isYAxis ? 
 				new FixVector2(Fix64.Zero, Height - Radius) : 
 				new FixVector2(Height - Radius, Fix64.Zero);
 

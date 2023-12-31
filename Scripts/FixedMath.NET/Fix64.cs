@@ -4,10 +4,10 @@ using System.Runtime.CompilerServices;
 
 namespace FixMath.NET
 {
-
 	/// <summary>
 	/// Represents a Q31.32 fixed-point number.
 	/// </summary>
+	[Serializable]
 	public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
 	{
 		public long m_rawValue;

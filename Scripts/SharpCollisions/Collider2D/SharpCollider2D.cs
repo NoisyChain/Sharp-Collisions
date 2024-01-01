@@ -4,7 +4,6 @@ using FixMath.NET;
 
 namespace SharpCollisions
 {
-	[Serializable]
 	public partial class SharpCollider2D  : Node
 	{
 		public bool active => Size != FixVector2.Zero || Radius != Fix64.Zero || Height != Fix64.Zero;

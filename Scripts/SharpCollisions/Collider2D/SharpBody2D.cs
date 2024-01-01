@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace SharpCollisions
 {
+	[Tool]
 	public class SharpBody2D : FixedTransform2D
 	{
 		public delegate void OnOverlapDelegate(SharpBody2D other);

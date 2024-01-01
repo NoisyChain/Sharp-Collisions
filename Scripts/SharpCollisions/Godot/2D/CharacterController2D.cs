@@ -3,6 +3,7 @@ using Godot;
 
 namespace SharpCollisions
 {
+    [Tool]
     public class CharacterController2D : SharpBody2D
     {
         [Export(PropertyHint.Range, "0, 89")]
@@ -19,17 +20,9 @@ namespace SharpCollisions
         private FixVector2 LateralVelocity;
         private FixVector2 UpVector = FixVector2.Up;
 
-        //private Spatial contactPoint;
-
-        public override void _Ready()
-        {
-            base._Ready();
-            //contactPoint = GetNode<Spatial>("Debug/Contact");
-        }
-
         public override void _FixedProcess(Fix64 delta)
         {
-            /*if (IsOnGround && IsWalkableSlope)
+            if (IsOnGround && IsWalkableSlope)
             {
                 UpVector = -GroundNormal;
                 VerticalVelocity = -UpVector;
@@ -47,14 +40,11 @@ namespace SharpCollisions
                     UpVector = FixVector2.Up;
                     VerticalVelocity = UpVector * (Fix64)5;
                 }
-                contactPoint.Visible = true;
-                contactPoint.GlobalTranslation = (Vector3)Collisions[0].ContactPoint;
             }
             else
             {
                 UpVector = FixVector2.Up;
                 VerticalVelocity -= UpVector * (Fix64)9.81 * delta;
-                contactPoint.Visible = false;
             }
             
             FixVector2 finalVelocity = LateralVelocity + VerticalVelocity;
@@ -64,9 +54,9 @@ namespace SharpCollisions
                 LateralVelocity = FixVector2.Zero;
                 VerticalVelocity = FixVector2.Zero;
                 MoveTo(FixVector2.Zero);
-            }*/
+            }
 
-            if (Input.IsActionPressed("ui_page_up"))
+            /*if (Input.IsActionPressed("ui_page_up"))
             {
                 RotateDegrees((Fix64)90 * delta);
             }
@@ -76,11 +66,9 @@ namespace SharpCollisions
             }
             Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_down", "ui_up");
 		    FixVector2 FixInput = inputDir != Vector2.Zero ? FixVector2.Normalize((FixVector2)inputDir) : FixVector2.Zero;
-		    FixVector2 finalVelocity = FixInput * (Fix64)2;
+		    FixVector2 finalVelocity = FixInput * (Fix64)2;*/
 
             SetVelocity(finalVelocity);
-
-            //debug2.Visible = body.collider.collisionFlags.Any;
         }
 
         public FixVector2 GetGroundNormal()

@@ -1,9 +1,18 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/SharpCollisions/Collider2D/SharpBody2D.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/SharpCollisions/Godot/2D/PhysicsManager2D.cs" type="Script" id=2]
 [ext_resource path="res://Scripts/SharpCollisions/Collider2D/SharpCollider2D.cs" type="Script" id=3]
 [ext_resource path="res://Scenes/PreviewBody_Controller.tscn" type="PackedScene" id=5]
+
+[sub_resource type="CubeMesh" id=1]
+size = Vector3( 6, 0.6, 0.2 )
+
+[sub_resource type="SphereMesh" id=2]
+
+[sub_resource type="CapsuleMesh" id=3]
+radius = 0.8
+mid_height = 2.4
 
 [node name="Main" type="Spatial"]
 
@@ -12,9 +21,10 @@ script = ExtResource( 2 )
 
 [node name="Character" parent="." instance=ExtResource( 5 )]
 
-[node name="Floor" type="Node" parent="."]
+[node name="Floor" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0 )
 script = ExtResource( 1 )
-position = Vector2( 0, -2 )
+position = Vector2( 0, -3 )
 isStatic = true
 isPushable = false
 
@@ -26,9 +36,14 @@ DrawDebug = true
 
 [node name="Viewer" type="Spatial" parent="Floor"]
 
-[node name="Sphere" type="Node" parent="."]
+[node name="MeshInstance" type="MeshInstance" parent="Floor/Viewer"]
+mesh = SubResource( 1 )
+skeleton = NodePath("../..")
+
+[node name="Sphere" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0 )
 script = ExtResource( 1 )
-position = Vector2( 3, 1.5 )
+position = Vector2( 2, 1 )
 isStatic = true
 isPushable = false
 
@@ -40,9 +55,13 @@ DrawDebug = true
 
 [node name="Viewer" type="Spatial" parent="Sphere"]
 
-[node name="Polygon" type="Node" parent="."]
+[node name="MeshInstance" type="MeshInstance" parent="Sphere/Viewer"]
+mesh = SubResource( 2 )
+
+[node name="Polygon" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -2, 0 )
 script = ExtResource( 1 )
-position = Vector2( -2, 0 )
+position = Vector2( -2, -2 )
 isStatic = true
 isPushable = false
 
@@ -55,10 +74,11 @@ DrawDebug = true
 
 [node name="Viewer" type="Spatial" parent="Polygon"]
 
-[node name="Polygon2" type="Node" parent="."]
+[node name="Polygon2" type="Spatial" parent="."]
+transform = Transform( 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0, 3, 0 )
 script = ExtResource( 1 )
 position = Vector2( 0, 3 )
-rotation = 90.0
+rotation = 45.0
 isStatic = true
 isPushable = false
 
@@ -71,9 +91,10 @@ DrawDebug = true
 
 [node name="Viewer" type="Spatial" parent="Polygon2"]
 
-[node name="Capsule" type="Node" parent="."]
+[node name="Capsule" type="Spatial" parent="."]
+transform = Transform( 0.819152, -0.573576, 0, 0.573576, 0.819152, 0, 0, 0, 1, -3, 0.5, 0 )
 script = ExtResource( 1 )
-position = Vector2( -4, 2 )
+position = Vector2( -3, 0.5 )
 rotation = 35.0
 isStatic = true
 isPushable = false
@@ -87,6 +108,10 @@ vertices = PoolVector2Array( 0, 1, 1, 0.2, 0.6, -1, -0.6, -1, -1, 0.2 )
 DrawDebug = true
 
 [node name="Viewer" type="Spatial" parent="Capsule"]
+
+[node name="MeshInstance" type="MeshInstance" parent="Capsule/Viewer"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 3 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6 )

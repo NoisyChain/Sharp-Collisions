@@ -1,5 +1,4 @@
 using Godot;
-//using System;
 using System.Collections.Generic;
 using SharpCollisions;
 using FixMath.NET;
@@ -54,5 +53,10 @@ public class PhysicsManager2D : Spatial
 			return false;
 		}
 		return bodies.Remove(body) && world.RemoveBody(body as SharpBody2D);
+	}
+
+	public SharpBody2D GetBodyByIndex(int index)
+	{
+		return world.bodies[index];
 	}
 }

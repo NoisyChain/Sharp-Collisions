@@ -47,14 +47,14 @@ namespace SharpCollisions
 		}*/
 
 		public override void _Ready()
-        {
+		{
 			base._Ready();
 			Collider = GetNode<SharpCollider2D>("Collider");
 			UpdateCollider();
-            BeginOverlap = OnBeginOverlap;
-            DuringOverlap = OnOverlap;
-            EndOverlap = OnEndOverlap;
-        }
+			BeginOverlap = OnBeginOverlap;
+			DuringOverlap = OnOverlap;
+			EndOverlap = OnEndOverlap;
+		}
 
 		public void IgnoreBody(SharpBody2D bodyToIgnore, bool ignore)
 		{
@@ -138,23 +138,23 @@ namespace SharpCollisions
 		}
 
 		public override void _FixedProcess(Fix64 delta)
-        {
-            SetVelocity(FixVector2.Zero);
-        }
+		{
+			SetVelocity(FixVector2.Zero);
+		}
 
 		public virtual void OnBeginOverlap(SharpBody2D other)
-        {
-            //GD.Print(other.GetHashCode());
-        }
+		{
+			//GD.Print(other.GetHashCode());
+		}
 
-        public virtual void OnOverlap(SharpBody2D other)
-        {
-            //GD.Print(other.GetHashCode());
-        }
+		public virtual void OnOverlap(SharpBody2D other)
+		{
+			//GD.Print(other.GetHashCode());
+		}
 
-        public virtual void OnEndOverlap(SharpBody2D other)
-        {
-            //GD.Print(other.GetHashCode());
-        }
+		public virtual void OnEndOverlap(SharpBody2D other)
+		{
+			//GD.Print(other.GetHashCode());
+		}
 	}
 }

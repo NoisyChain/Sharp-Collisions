@@ -14,7 +14,6 @@ namespace SharpCollisions
 
         public FixVector2 GroundNormal => GetGroundNormal();
         public Fix64 GroundAngle => FixVector2.AngleDegrees(GroundNormal, Up);
-        public bool IsWalkableSlope => CompareGroundAngle((Fix64)SlopeLimit);
 
         private FixVector2 VerticalVelocity;
         private FixVector2 LateralVelocity;
@@ -22,7 +21,7 @@ namespace SharpCollisions
 
         public override void _FixedProcess(Fix64 delta)
         {
-            if (IsOnGround && IsWalkableSlope)
+            if (IsOnGround && IsWalkableSlope())
             {
                 UpVector = -GroundNormal;
                 VerticalVelocity = -UpVector;
@@ -56,6 +55,12 @@ namespace SharpCollisions
                 MoveTo(FixVector2.Zero);
             }
 
+            SetVelocity(finalVelocity);
+
+            //GD.Print(IsOnGround && IsWalkableSlope());
+            foreach (CollisionManifold2D col in Collisions)
+                DebugDrawCS.DrawSphere((Vector3)col.ContactPoint, 0.05f, new Color(1,1,0));
+
             /*if (Input.IsActionPressed("ui_page_up"))
             {
                 RotateDegrees((Fix64)90 * delta);
@@ -65,30 +70,45 @@ namespace SharpCollisions
                 RotateDegrees((Fix64)(-90) * delta);
             }
             Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_down", "ui_up");
-		    FixVector2 FixInput = inputDir != Vector2.Zero ? FixVector2.Normalize((FixVector2)inputDir) : FixVector2.Zero;
-		    FixVector2 finalVelocity = FixInput * (Fix64)2;*/
+		    FixVector2 FixInput = inputDir != Vector2.Zero ? 
+                        FixVector2.Normalize((FixVector2)inputDir) : FixVector2.Zero;
+            FixVector2 finalVelocity = FixInput * (Fix64)2;
+            if (Input.IsActionPressed("ui_left"))
+                RotateDegrees((Fix64)90 * delta);
+            if (Input.IsActionPressed("ui_right"))
+                RotateDegrees((Fix64)(-90) * delta);
 
+            FixVector2 targetPos = Manager.GetBodyByIndex(1).Position;
+            FixVector2 directionToTarget = targetPos - Position;
+
+            Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_down", "ui_up");
+		    FixVector2 FixInput = inputDir != Vector2.Zero ? 
+                        FixVector2.Normalize((FixVector2)inputDir) : FixVector2.Zero;
+
+            Fix64 relativeRotation = FixVector2.Angle(directionToTarget + FixVector2.Up, FixVector2.Up);
+            Fix64 correctedRotation = relativeRotation + Fix64.PiOver2;
+
+            FixVector2 rotatedInput = FixVector2.Rotate(FixInput, correctedRotation);
+		    
+            FixVector2 finalVelocity = rotatedInput * (Fix64)2;
+
+            SetRotation(correctedRotation);
             SetVelocity(finalVelocity);
+            
+            GD.Print(FixVector2.Length(directionToTarget));*/
         }
 
         public FixVector2 GetGroundNormal()
         {
-            FixVector2 Normal = FixVector2.Zero;
+            FixVector2 Normal = FixVector2.Down;
 
             if (Collisions.Count > 0)
             {
-                if (FixVector2.Dot(Collisions[0].Normal, Down) > Fix64.ETA)
-                    Normal = Collisions[0].Normal;
-
-                if (Collisions.Count > 1)
+                for (int c = 0; c < Collisions.Count; c++)
                 {
-                    for (int c = 1; c < Collisions.Count; c++)
+                    if (FixVector2.Dot(Collisions[c].Normal, Down) > Fix64.ETA)
                     {
-                        if (FixVector2.Dot(Collisions[c].Normal, Down) > Fix64.ETA && 
-                            FixVector2.Dot(Collisions[c].Normal, FixVector2.Normalize(LateralVelocity)) > Fix64.Zero)
-                        {
-                            Normal = Collisions[c].Normal;
-                        }
+                        Normal = Collisions[c].Normal;
                     }
                 }
             }
@@ -96,9 +116,9 @@ namespace SharpCollisions
             return Normal;
         }
 
-        public bool CompareGroundAngle(Fix64 Threshold)
+        public bool IsWalkableSlope()
         {
-            Fix64 HalfThreshold = (Threshold + Fix64.One) / (Fix64) 2;
+            Fix64 HalfThreshold = ((Fix64)SlopeLimit + Fix64.One) / (Fix64) 2;
             return GroundAngle >= (Fix64)90 - HalfThreshold && GroundAngle <= (Fix64)90 + HalfThreshold;
         }
 

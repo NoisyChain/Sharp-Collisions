@@ -56,15 +56,6 @@ namespace FixMath.NET
 			return a.x * b.y - a.y * b.x;
 		}
 
-		public static FixVector2 CrossVector(FixVector2 a, FixVector2 b)
-		{
-			FixVector3 A = new FixVector3(a.x, a.y, Fix64.Zero);
-			FixVector3 B = new FixVector3(b.x, b.y, Fix64.Zero);
-
-			FixVector3 Cross = FixVector3.Cross(A, B);
-			return new FixVector2(Cross.x, Cross.y);
-		}
-
 		public static FixVector2 TripleProduct(FixVector2 a, FixVector2 b, FixVector2 c)
 		{
 			FixVector3 A = new FixVector3(a.x, a.y, Fix64.Zero);
@@ -128,6 +119,11 @@ namespace FixMath.NET
 		public static Fix64 AngleDegrees(FixVector2 a, FixVector2 b)
 		{
 			return Angle(a, b) * Fix64.RadToDeg;
+		}
+
+		public static bool IsSameDirection(FixVector2 a, FixVector2 b)
+		{
+			return Dot(a, b) > Fix64.Zero;
 		}
 		
 

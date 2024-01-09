@@ -77,11 +77,10 @@ namespace SharpCollisions
 				bodyA.Collisions.Clear();
 				bodyA.Collider.collisionFlags.Clear();
 
-				for (int j = 0; j < bodies.Count; j++)
+				for (int j = i + 1; j < bodies.Count; j++)
 				{
 					SharpBody2D bodyB = bodies[j];
 					
-					if (i == j) continue;
 					if (!bodyA.Visible || !bodyB.Visible) continue;
 					if (bodyA.isStatic && bodyB.isStatic) continue;
 					if (bodyA.BodiesToIgnore.Contains(bodyB)) continue;
@@ -91,7 +90,7 @@ namespace SharpCollisions
 						SetCollidedWith(bodyA, bodyB, false);
 						continue;
 					}
-
+					
 					PossibleCollisions.Add((i, j));
 				}
 			}
@@ -128,9 +127,7 @@ namespace SharpCollisions
 					
 					SetCollidedWith(bodyA, bodyB, true);
 					
-					//bodyB.DuringOverlap(bodyA);
-
-					//GD.Print($"Body {PossibleCollisions[i].Item1} collided with body {PossibleCollisions[i].Item2}.");
+					GD.Print($"Body {PossibleCollisions[i].Item1} collided with body {PossibleCollisions[i].Item2}.");
 				}
 				else
 				{

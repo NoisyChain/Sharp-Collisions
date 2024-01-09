@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scripts/SharpCollisions/Collider2D/SharpBody2D.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/SharpCollisions/Godot/2D/PhysicsManager2D.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/SharpCollisions/Collider2D/SharpCollider2D.cs" type="Script" id=3]
+[ext_resource path="res://icon_circle.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/PreviewBody_Controller.tscn" type="PackedScene" id=5]
+
+[node name="Main" type="Spatial"]
+
+[node name="PhysicsManager" type="Spatial" parent="."]
+script = ExtResource( 2 )
+iterations = 8
+
+[node name="Character" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+position = Vector2( 0, -1 )
+
+[node name="Sphere" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0 )
+script = ExtResource( 1 )
+position = Vector2( -2, 1 )
+
+[node name="Collider" type="Node" parent="Sphere"]
+script = ExtResource( 3 )
+radius = 0.3
+Shape = 2
+DrawDebug = true
+
+[node name="Viewer" type="Spatial" parent="Sphere"]
+
+[node name="MeshInstance" type="Sprite3D" parent="Sphere/Viewer"]
+texture = ExtResource( 4 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6 )
+projection = 1
+current = true
+size = 9.0

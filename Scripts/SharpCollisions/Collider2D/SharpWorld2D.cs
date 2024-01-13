@@ -1,5 +1,6 @@
 using FixMath.NET;
 using Godot;
+using Godot.Collections;
 using System.Collections.Generic;
 
 namespace SharpCollisions
@@ -7,7 +8,7 @@ namespace SharpCollisions
 	[System.Serializable]
 	public class SharpWorld2D
 	{
-		public List<SharpBody2D> bodies;
+		public Array<SharpBody2D> bodies;
 		
 		public int BodyCount => bodies.Count;
 
@@ -19,7 +20,7 @@ namespace SharpCollisions
 		
 		public SharpWorld2D()
 		{
-			bodies = new List<SharpBody2D>();
+			bodies = new Array<SharpBody2D>();
 			PossibleCollisions = new List<(int, int)>();
 		}
 		

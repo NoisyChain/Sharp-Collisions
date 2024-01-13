@@ -1,6 +1,7 @@
 using Godot;
 using FixMath.NET;
 using System.Collections.Generic;
+using Godot.Collections;
 
 namespace SharpCollisions
 {
@@ -15,9 +16,12 @@ namespace SharpCollisions
 		public FixVector2 Velocity;
 
 		public SharpCollider2D Collider;
-		public List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
-		public List<SharpBody2D> CollidedWith = new List<SharpBody2D>();
-		public List<SharpBody2D> BodiesToIgnore = new List<SharpBody2D>();
+		//public List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
+		//public List<SharpBody2D> CollidedWith = new List<SharpBody2D>();
+		//public List<SharpBody2D> BodiesToIgnore = new List<SharpBody2D>();
+		public Array<CollisionManifold2D> Collisions = new Array<CollisionManifold2D>();
+		public Array<SharpBody2D> CollidedWith = new Array<SharpBody2D>();
+		public Array<SharpBody2D> BodiesToIgnore = new Array<SharpBody2D>();
 
 		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
 		public int CollisionLayers = 1;
@@ -48,6 +52,8 @@ namespace SharpCollisions
 
 		public override void _Ready()
 		{
+			if (Engine.EditorHint) return;
+
 			base._Ready();
 			Collider = GetNode<SharpCollider2D>("Collider");
 			UpdateCollider();

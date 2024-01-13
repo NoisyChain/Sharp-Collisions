@@ -21,13 +21,12 @@ namespace SharpCollisions
 
         public override void _Ready()
         {
-            if (!Engine.EditorHint)
-            {
-                Position = (FixVector2)position;
-                Rotation = (Fix64)rotation * Fix64.DegToRad;
-                Manager = GetTree().Root.GetNode<PhysicsManager2D>("Main/PhysicsManager");
-                Manager.AddBody(this);
-            }
+            if (Engine.EditorHint) return;
+
+            Position = (FixVector2)position;
+            Rotation = (Fix64)rotation * Fix64.DegToRad;
+            Manager = GetTree().Root.GetNode<PhysicsManager2D>("Main/PhysicsManager");
+            Manager.AddBody(this);
         }
 
         public override void _Process(float delta)

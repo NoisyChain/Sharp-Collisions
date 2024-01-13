@@ -1,12 +1,13 @@
 using Godot;
-using System.Collections.Generic;
+//using System.Collections.Generic;
+using Godot.Collections;
 using SharpCollisions;
 using FixMath.NET;
 
 public class PhysicsManager2D : Spatial
 {
 	private SharpWorld2D world;
-	private List<FixedTransform2D> bodies;
+	private Array<FixedTransform2D> bodies;
 	[Export] private int TicksPerSecond = 60;
 	[Export] private int iterations = 2;
 
@@ -21,7 +22,7 @@ public class PhysicsManager2D : Spatial
 	public override void _Ready()
 	{
 		world = new SharpWorld2D();
-		bodies = new List<FixedTransform2D>();
+		bodies = new Array<FixedTransform2D>();
 	}
 
 	public override void _PhysicsProcess(float delta)

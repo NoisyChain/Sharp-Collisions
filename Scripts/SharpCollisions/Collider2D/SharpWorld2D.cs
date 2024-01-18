@@ -1,6 +1,5 @@
 using FixMath.NET;
 using Godot;
-using Godot.Collections;
 using System.Collections.Generic;
 
 namespace SharpCollisions
@@ -8,7 +7,7 @@ namespace SharpCollisions
 	[System.Serializable]
 	public class SharpWorld2D
 	{
-		public Array<SharpBody2D> bodies;
+		public List<SharpBody2D> bodies;
 		
 		public int BodyCount => bodies.Count;
 
@@ -20,7 +19,7 @@ namespace SharpCollisions
 		
 		public SharpWorld2D()
 		{
-			bodies = new Array<SharpBody2D>();
+			bodies = new List<SharpBody2D>();
 			PossibleCollisions = new List<(int, int)>();
 		}
 		
@@ -65,7 +64,7 @@ namespace SharpCollisions
 			return false;*/
 			
 			//DON'T ASK ME WHAT'S HAPPENING HERE
-			return ((bodyA.CollisionLayers & bodyB.CollisionLayers) & mask) != 0;
+			return ((bodyA.CollisionMask & bodyB.CollisionLayers) & mask) != 0;
 		}
 
 		private void BroadPhase()
@@ -83,12 +82,14 @@ namespace SharpCollisions
 					SharpBody2D bodyB = bodies[j];
 					
 					if (!bodyA.Visible || !bodyB.Visible) continue;
-					if (bodyA.isStatic && bodyB.isStatic) continue;
+					if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2) continue;
 					if (bodyA.BodiesToIgnore.Contains(bodyB)) continue;
 					if (!CompareLayers(bodyA, bodyB)) continue;
 					if (!bodyA.Collider.BoundingBox.IsOverlapping(bodyB.Collider.BoundingBox))
 					{
 						SetCollidedWith(bodyA, bodyB, false);
+						SetCollidedWith(bodyB, bodyA, false);
+
 						continue;
 					}
 					
@@ -108,9 +109,9 @@ namespace SharpCollisions
 				{
 					if (!bodyA.isTrigger && !bodyB.isTrigger)
 					{
-						if (bodyA.isStatic || !bodyA.isPushable)
+						if (bodyA.BodyMode != 0)
 							bodyB.PushAway(-Depth);
-						else if (bodyB.isStatic || !bodyB.isPushable)
+						else if (bodyB.BodyMode != 0)
 							bodyA.PushAway(Depth);
 						else
 						{
@@ -118,21 +119,32 @@ namespace SharpCollisions
 							bodyB.PushAway(-Depth / (Fix64)2);
 						}
 					}
-					CollisionManifold2D collision = new CollisionManifold2D(
-							bodyB, Normal, Depth, ContactPoint
-						);
-					bodyA.Collisions.Add(collision);
+					CollisionManifold2D collisionA = new CollisionManifold2D
+					(
+						bodyB, Normal, Depth, ContactPoint
+					);
+					CollisionManifold2D collisionB = new CollisionManifold2D
+					(
+						bodyA, -Normal, Depth, ContactPoint
+					);
+					bodyA.Collisions.Add(collisionA);
+					bodyB.Collisions.Add(collisionB);
 
 					if (!bodyA.isTrigger && !bodyB.isTrigger)
-						bodyA.Collider.collisionFlags = bodyA.Collider.GetCollisionFlags(collision, bodyA);
+					{
+						bodyA.Collider.collisionFlags = bodyA.Collider.GetCollisionFlags(collisionA, bodyA);
+						bodyB.Collider.collisionFlags = bodyB.Collider.GetCollisionFlags(collisionB, bodyB);
+					}
 					
 					SetCollidedWith(bodyA, bodyB, true);
+					SetCollidedWith(bodyB, bodyA, true);
 					
-					GD.Print($"Body {PossibleCollisions[i].Item1} collided with body {PossibleCollisions[i].Item2}.");
+					//GD.Print($"Body {PossibleCollisions[i].Item1} collided with body {PossibleCollisions[i].Item2}.");
 				}
 				else
 				{
 					SetCollidedWith(bodyA, bodyB, false);
+					SetCollidedWith(bodyB, bodyA, false);
 				}
 			}
 		}
@@ -145,7 +157,6 @@ namespace SharpCollisions
 				{
 					bodyA.BeginOverlap(bodyB);
 					bodyA.CollidedWith.Add(bodyB);
-					//GD.Print($"Body {PossibleCollisions[i].Item1} has started colliding with body {PossibleCollisions[i].Item2}.");
 				}
 				else
 					bodyA.DuringOverlap(bodyB);
@@ -156,7 +167,6 @@ namespace SharpCollisions
 				{
 					bodyA.EndOverlap(bodyB);
 					bodyA.CollidedWith.Remove(bodyB);
-					//GD.Print($"Body {PossibleCollisions[i].Item1} has stopped colliding with body {PossibleCollisions[i].Item2}.");
 				}
 			}
 		}

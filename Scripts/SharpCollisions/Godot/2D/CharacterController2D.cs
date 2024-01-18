@@ -8,6 +8,11 @@ namespace SharpCollisions
     {
         [Export(PropertyHint.Range, "0, 89")]
         public int SlopeLimit = 45;
+        [Export(PropertyHint.Range, "0, 89")]
+        public int CeilingAngleLimit = 45;
+        [Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
+		public int FloorLayers = 1;
+        [Export] private bool KeepVelocityOnSlopes;
         public bool IsOnGround => Collider.collisionFlags.Below;
         public bool IsOnCeiling => Collider.collisionFlags.Above;
         public bool IsOnWalls => Collider.collisionFlags.Walls;
@@ -21,7 +26,7 @@ namespace SharpCollisions
 
         public override void _FixedProcess(Fix64 delta)
         {
-            if (IsOnGround && IsWalkableSlope())
+            if (IsOnGround && IsWalkableSlope(GroundAngle))
             {
                 UpVector = -GroundNormal;
                 VerticalVelocity = -UpVector;
@@ -32,7 +37,10 @@ namespace SharpCollisions
                 if (!Input.IsActionPressed("ui_left") && !Input.IsActionPressed("ui_right"))
                     LateralVelocity = FixVector2.Zero;
 
-                LateralVelocity = FixVector2.Normalize(FixVector2.Reject(LateralVelocity, UpVector)) * (Fix64)2;
+                LateralVelocity = FixVector2.Reject(LateralVelocity, UpVector);
+                if (KeepVelocityOnSlopes)
+                    LateralVelocity = FixVector2.Normalize(LateralVelocity);
+                LateralVelocity *=  (Fix64)2;
 
                 if (Input.IsActionPressed("ui_up"))
                 {
@@ -44,11 +52,13 @@ namespace SharpCollisions
             {
                 UpVector = FixVector2.Up;
                 VerticalVelocity -= UpVector * (Fix64)9.81 * delta;
+                if (VerticalVelocity.y < -(Fix64)10)
+                    VerticalVelocity = -UpVector * (Fix64)10;
             }
             
             FixVector2 finalVelocity = LateralVelocity + VerticalVelocity;
 		    
-            if (FixVector2.Distance(Position, FixVector2.Zero) > (Fix64)10)
+            if (FixVector2.Distance(FixedPosition, FixVector2.Zero) > (Fix64)10)
             { 
                 LateralVelocity = FixVector2.Zero;
                 VerticalVelocity = FixVector2.Zero;
@@ -57,7 +67,7 @@ namespace SharpCollisions
 
             SetVelocity(finalVelocity);
 
-            //GD.Print(IsOnGround && IsWalkableSlope());
+            //GD.Print(Collisions.Count);
             foreach (CollisionManifold2D col in Collisions)
                 DebugDrawCS.DrawSphere((Vector3)col.ContactPoint, 0.05f, new Color(1,1,0));
 
@@ -98,17 +108,22 @@ namespace SharpCollisions
             GD.Print(FixVector2.Length(directionToTarget));*/
         }
 
+        //TODO: Select the slope relative to movement direction
         public FixVector2 GetGroundNormal()
-        {
-            FixVector2 Normal = FixVector2.Down;
+        { 
+            FixVector2 Normal = FixVector2.Zero;
 
             if (Collisions.Count > 0)
             {
-                for (int c = 0; c < Collisions.Count; c++)
+                Normal = Collisions[0].Normal;
+
+                if (Collisions.Count > 1)
                 {
-                    if (FixVector2.Dot(Collisions[c].Normal, Down) > Fix64.ETA)
+                    for (int c = 1; c < Collisions.Count; c++)
                     {
-                        Normal = Collisions[c].Normal;
+                        if (IsWalkableSlope(FixVector2.AngleDegrees(Collisions[c].Normal, Up)) ||
+                            !IsWalkableSlope(FixVector2.AngleDegrees(Normal, Up)))
+                            Normal = Collisions[c].Normal;
                     }
                 }
             }
@@ -116,10 +131,10 @@ namespace SharpCollisions
             return Normal;
         }
 
-        public bool IsWalkableSlope()
+        public bool IsWalkableSlope(Fix64 angle)
         {
             Fix64 HalfThreshold = ((Fix64)SlopeLimit + Fix64.One) / (Fix64) 2;
-            return GroundAngle >= (Fix64)90 - HalfThreshold && GroundAngle <= (Fix64)90 + HalfThreshold;
+            return angle >= (Fix64)90 - HalfThreshold && angle <= (Fix64)90 + HalfThreshold;
         }
 
         public override void OnBeginOverlap(SharpBody2D other)
@@ -130,7 +145,7 @@ namespace SharpCollisions
 
         public override void OnOverlap(SharpBody2D other)
         {
-            //GD.Print(body.Collisions.Count);
+            //GD.Print("Still colliding...");
         }
 
         public override void OnEndOverlap(SharpBody2D other)

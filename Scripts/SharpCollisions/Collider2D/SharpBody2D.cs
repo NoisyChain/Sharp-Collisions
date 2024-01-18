@@ -1,7 +1,6 @@
 using Godot;
 using FixMath.NET;
 using System.Collections.Generic;
-using Godot.Collections;
 
 namespace SharpCollisions
 {
@@ -16,18 +15,19 @@ namespace SharpCollisions
 		public FixVector2 Velocity;
 
 		public SharpCollider2D Collider;
-		//public List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
-		//public List<SharpBody2D> CollidedWith = new List<SharpBody2D>();
-		//public List<SharpBody2D> BodiesToIgnore = new List<SharpBody2D>();
-		public Array<CollisionManifold2D> Collisions = new Array<CollisionManifold2D>();
-		public Array<SharpBody2D> CollidedWith = new Array<SharpBody2D>();
-		public Array<SharpBody2D> BodiesToIgnore = new Array<SharpBody2D>();
+		public List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
+		public List<SharpBody2D> CollidedWith = new List<SharpBody2D>();
+		public List<SharpBody2D> BodiesToIgnore = new List<SharpBody2D>();
 
 		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
 		public int CollisionLayers = 1;
+		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
+		public int CollisionMask = 1;
 
-		[Export] public bool isStatic = false;
-		[Export] public bool isPushable = true;
+		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
+		public int BodyMode = 0;
+		//[Export] public bool isStatic = false;
+		//[Export] public bool isPushable = true;
 		[Export] public bool isTrigger = false;
 		
 		/*public SharpBody2D() {}
@@ -83,62 +83,62 @@ namespace SharpCollisions
 		
 		public void SetVelocity(FixVector2 newVelocity)
 		{
-			if (isStatic) return;
+			if (BodyMode == 2) return;
 			
 			Velocity = newVelocity;
 		}
 		
 		public void Move(int delta, int iterations)
 		{
-			if (isStatic) return;
+			if (BodyMode == 2) return;
 			
 			Fix64 fDelta = (Fix64)delta;
 			Fix64 fIterations = (Fix64)iterations;
 
 			Fix64 finalDelta = fDelta * fIterations;
 
-			Position.x += Velocity.x / finalDelta;
-			Position.y += Velocity.y / finalDelta;
+			FixedPosition.x += Velocity.x / finalDelta;
+			FixedPosition.y += Velocity.y / finalDelta;
 			UpdateCollider();
 		}
 
 		public void Rotate(Fix64 angle)
 		{
-			if (isStatic) return;
+			if (BodyMode == 2) return;
 
-			Rotation += angle;
+			FixedRotation += angle;
 			UpdateCollider();
 		}
 
 		public void RotateDegrees(Fix64 angle)
 		{
-			if (isStatic) return;
+			if (BodyMode == 2) return;
 
-			Rotation += angle * Fix64.DegToRad;
+			FixedRotation += angle * Fix64.DegToRad;
 			UpdateCollider();
 		}
 
 		public void SetRotation(Fix64 angle)
 		{
-			Rotation = angle;
+			FixedRotation = angle;
 			UpdateCollider();
 		}
 
 		public void PushAway(FixVector2 direction)
 		{
-			Position -= direction;
+			FixedPosition -= direction;
 			UpdateCollider();
 		}
 		
 		public void MoveTo(FixVector2 destination)
 		{
-			Position = destination;
+			FixedPosition = destination;
 			UpdateCollider();
 		}
 		
 		public void UpdateCollider()
 		{
-			Collider.Position = Position;
+			Collider.Position = FixedPosition;
 			Collider.UpdatePoints(this);
 			Collider.UpdateBoundingBox();
 		}
@@ -150,17 +150,17 @@ namespace SharpCollisions
 
 		public virtual void OnBeginOverlap(SharpBody2D other)
 		{
-			//GD.Print(other.GetHashCode());
+			//GD.Print("Entered Collision!");
 		}
 
 		public virtual void OnOverlap(SharpBody2D other)
 		{
-			//GD.Print(other.GetHashCode());
+			//GD.Print("Still colliding...");
 		}
 
 		public virtual void OnEndOverlap(SharpBody2D other)
 		{
-			//GD.Print(other.GetHashCode());
+			//GD.Print("Exited Collision!");
 		}
 	}
 }

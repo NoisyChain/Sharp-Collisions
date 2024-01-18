@@ -6,14 +6,11 @@ namespace SharpCollisions
     [Tool]
     public class FixedTransform2D : Spatial
     {
-        [Export] protected Vector2 position;
-        [Export] protected float rotation;
+        public FixVector2 FixedPosition;
+        public Fix64 FixedRotation;
 
-        public FixVector2 Position;
-        new public Fix64 Rotation;
-
-        public FixVector2 Right => FixVector2.Rotate(FixVector2.Right, Rotation);
-        public FixVector2 Up => FixVector2.Rotate(FixVector2.Up, Rotation);
+        public FixVector2 Right => FixVector2.Rotate(FixVector2.Right, FixedRotation);
+        public FixVector2 Up => FixVector2.Rotate(FixVector2.Up, FixedRotation);
         public FixVector2 Left => -Right;
         public FixVector2 Down => -Up;
 
@@ -23,24 +20,18 @@ namespace SharpCollisions
         {
             if (Engine.EditorHint) return;
 
-            Position = (FixVector2)position;
-            Rotation = (Fix64)rotation * Fix64.DegToRad;
+            FixedPosition = (FixVector2)GlobalTranslation;
+            FixedRotation = (Fix64)GlobalRotation.z;
             Manager = GetTree().Root.GetNode<PhysicsManager2D>("Main/PhysicsManager");
             Manager.AddBody(this);
         }
 
         public override void _Process(float delta)
         {
-            if (Engine.EditorHint)
-            {
-                GlobalTranslation = new Vector3(position.x, position.y, 0f);
-                GlobalRotation = new Vector3(0, 0, Mathf.Deg2Rad(rotation));
-            }
-            else
-            {
-                GlobalTranslation = (Vector3)Position;
-                GlobalRotation = new Vector3(0, 0, (float)Rotation);
-            }
+            if (Engine.EditorHint) return;
+
+            GlobalTranslation = (Vector3)FixedPosition;
+            GlobalRotation = new Vector3(0, 0, (float)FixedRotation);
         }
 
         /// <summary>

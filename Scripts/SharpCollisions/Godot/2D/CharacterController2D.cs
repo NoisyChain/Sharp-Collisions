@@ -6,18 +6,18 @@ namespace SharpCollisions
     [Tool]
     public class CharacterController2D : SharpBody2D
     {
-        [Export(PropertyHint.Range, "0, 89")]
+        [Export(PropertyHint.Range, "0,89")]
         public int SlopeLimit = 45;
-        [Export(PropertyHint.Range, "0, 89")]
+        [Export(PropertyHint.Range, "0,89")]
         public int CeilingAngleLimit = 45;
+        [Export] private bool KeepVelocityOnSlopes;
         [Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
 		public int FloorLayers = 1;
-        [Export] private bool KeepVelocityOnSlopes;
         public bool IsOnGround => Collider.collisionFlags.Below;
         public bool IsOnCeiling => Collider.collisionFlags.Above;
         public bool IsOnWalls => Collider.collisionFlags.Walls;
 
-        public FixVector2 GroundNormal => GetGroundNormal();
+        public FixVector2 GroundNormal => GetGround().Normal;
         public Fix64 GroundAngle => FixVector2.AngleDegrees(GroundNormal, Up);
 
         private FixVector2 VerticalVelocity;
@@ -26,7 +26,7 @@ namespace SharpCollisions
 
         public override void _FixedProcess(Fix64 delta)
         {
-            if (IsOnGround && IsWalkableSlope(GroundAngle))
+            if (IsOnGround && IsValidFloor() && IsWalkableSlope(GroundAngle))
             {
                 UpVector = -GroundNormal;
                 VerticalVelocity = -UpVector;
@@ -40,7 +40,7 @@ namespace SharpCollisions
                 LateralVelocity = FixVector2.Reject(LateralVelocity, UpVector);
                 if (KeepVelocityOnSlopes)
                     LateralVelocity = FixVector2.Normalize(LateralVelocity);
-                LateralVelocity *=  (Fix64)2;
+                LateralVelocity *= (Fix64)2;
 
                 if (Input.IsActionPressed("ui_up"))
                 {
@@ -109,26 +109,33 @@ namespace SharpCollisions
         }
 
         //TODO: Select the slope relative to movement direction
-        public FixVector2 GetGroundNormal()
+        public CollisionManifold2D GetGround()
         { 
-            FixVector2 Normal = FixVector2.Zero;
+            CollisionManifold2D Ground = null;
 
             if (Collisions.Count > 0)
             {
-                Normal = Collisions[0].Normal;
+                Ground = Collisions[0];
 
                 if (Collisions.Count > 1)
                 {
                     for (int c = 1; c < Collisions.Count; c++)
                     {
-                        if (IsWalkableSlope(FixVector2.AngleDegrees(Collisions[c].Normal, Up)) ||
-                            !IsWalkableSlope(FixVector2.AngleDegrees(Normal, Up)))
-                            Normal = Collisions[c].Normal;
+                        GD.Print(FixVector2.IsExactDirection(Collisions[c].Normal, LateralVelocity));
+                        if ((IsWalkableSlope(FixVector2.AngleDegrees(Collisions[c].Normal, Up)) ||
+                            !IsWalkableSlope(FixVector2.AngleDegrees(Ground.Normal, Up))) &&
+                            FixVector2.IsExactDirection(Collisions[c].Normal, LateralVelocity))
+                            Ground = Collisions[c];
                     }
                 }
             }
 
-            return Normal;
+            return Ground;
+        }
+
+        public bool IsValidFloor()
+        {
+            return ((FloorLayers & GetGround().CollidedWith.CollisionLayers) & SharpWorld2D.mask) != 0;
         }
 
         public bool IsWalkableSlope(Fix64 angle)

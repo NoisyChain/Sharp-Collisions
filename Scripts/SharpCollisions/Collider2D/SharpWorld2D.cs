@@ -15,7 +15,7 @@ namespace SharpCollisions
 		private int MaxIterations = 64;
 		private List<(int, int)> PossibleCollisions;
 
-		const int mask = 0b_1111_1111;
+		public const int mask = 0b_1111_1111;
 		
 		public SharpWorld2D()
 		{

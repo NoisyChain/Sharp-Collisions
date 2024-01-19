@@ -126,6 +126,10 @@ namespace FixMath.NET
 			return Dot(a, b) > Fix64.Zero;
 		}
 		
+		public static bool IsExactDirection(FixVector2 a, FixVector2 b)
+		{
+			return Dot(a, b) > (Fix64)0.9;
+		}
 
 		public static FixVector2 operator +(FixVector2 a, FixVector2 b) {
 			return new FixVector2(a.x + b.x, a.y + b.y);

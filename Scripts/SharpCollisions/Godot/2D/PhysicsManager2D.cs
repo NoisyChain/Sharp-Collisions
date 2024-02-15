@@ -10,6 +10,9 @@ public class PhysicsManager2D : Spatial
 	private Array<FixedTransform2D> bodies;
 	[Export] private int TicksPerSecond = 60;
 	[Export] private int iterations = 2;
+	public Fix64 fixedTPS => (Fix64)TicksPerSecond;
+	public Fix64 fixedIterations => (Fix64)iterations;
+	public Fix64 fixedDelta => Fix64.One / fixedTPS;
 
 	/*[Export] private float TestValue
 	{
@@ -27,7 +30,6 @@ public class PhysicsManager2D : Spatial
 
 	public override void _PhysicsProcess(float delta)
 	{
-		Fix64 fixedDelta = Fix64.One / (Fix64)TicksPerSecond;
 		for (int i = 0; i < bodies.Count; i++)
 			bodies[i]._FixedProcess(fixedDelta);
 		

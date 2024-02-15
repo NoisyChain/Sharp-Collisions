@@ -5,13 +5,9 @@ namespace SharpCollisions
 {
     public class BoxCollider2D : PolygonCollider2D
     {
-        public FixVector2 Extents;
+        public FixVector2 Extents => (FixVector2)extents;
 
-        [Export] private Vector2 extents
-        {
-            get => (Vector2)Extents;
-            set => Extents = (FixVector2)value;
-        }
+        [Export] private Vector2 extents = Vector2.One;
 
         public override void _Ready()
         {

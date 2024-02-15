@@ -5,13 +5,9 @@ namespace SharpCollisions
 {
     public class AABBCollider2D : SharpCollider2D
     {
-        public FixVector2 Extents;
+        public FixVector2 Extents => (FixVector2)extents;
 
-        [Export] private Vector2 extents
-        {
-            get => (Vector2)Extents;
-            set => Extents = (FixVector2)value;
-        }
+        [Export] private Vector2 extents = Vector2.One;
 
         public override void _Ready()
         {
@@ -22,7 +18,11 @@ namespace SharpCollisions
         public override void DebugDrawShapes()
         {
             if (!DrawDebug) return;
-            DebugDrawCS.DrawBox((Vector3)Center, (Vector3)Extents * 2 + Vector3.Forward, debugColor, true);
+            if (Draw3D == null) return;
+
+            Draw3D.Call("clear");
+            Draw3D.Call("cube_normal", (Vector3)Center, Vector3.Forward, (Vector3)Extents + Vector3.Forward, debugColor);
+            //DebugDrawCS.DrawBox((Vector3)Center, (Vector3)Extents * 2 + Vector3.Forward, debugColor, true);
         }
 
         protected override FixRect GetBoundingBoxPoints()

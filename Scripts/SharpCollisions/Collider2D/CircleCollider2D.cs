@@ -5,13 +5,9 @@ namespace SharpCollisions
 {
     public class CircleCollider2D : SharpCollider2D
     {
-        public Fix64 Radius;
-        [Export] protected float radius
-		{
-			get => (float)Radius;
-			set => Radius = (Fix64)value;
-		}
-
+        public Fix64 Radius => (Fix64)radius;
+        [Export] protected float radius;
+        
         public override void _Ready()
         {
             base._Ready();
@@ -21,11 +17,14 @@ namespace SharpCollisions
         public override void DebugDrawShapes()
         {
             if (!DrawDebug) return;
+            if (Draw3D == null) return;
 
-            DebugDrawCS.DrawArcLine((Vector3)Center, Vector3.Right, Vector3.Up, (float)Radius, debugColor);
-            DebugDrawCS.DrawArcLine((Vector3)Center, Vector3.Left, Vector3.Up, (float)Radius, debugColor);
-            DebugDrawCS.DrawArcLine((Vector3)Center, Vector3.Right, Vector3.Down, (float)Radius, debugColor);
-            DebugDrawCS.DrawArcLine((Vector3)Center, Vector3.Left, Vector3.Down, (float)Radius, debugColor);
+            Draw3D.Call("clear");
+            Draw3D.Call("circle_normal", (Vector3)Center, Vector3.Forward, (float)Radius, debugColor);
+            //DebugDrawCS.DrawArcLine((Vector3)Center, Vector3.Right, Vector3.Up, (float)Radius, debugColor);
+            //DebugDrawCS.DrawArcLine((Vector3)Center, Vector3.Left, Vector3.Up, (float)Radius, debugColor);
+            //DebugDrawCS.DrawArcLine((Vector3)Center, Vector3.Right, Vector3.Down, (float)Radius, debugColor);
+            //DebugDrawCS.DrawArcLine((Vector3)Center, Vector3.Left, Vector3.Down, (float)Radius, debugColor);
         }
 
         protected override FixRect GetBoundingBoxPoints()

@@ -35,12 +35,15 @@ namespace SharpCollisions
         public override void DebugDrawShapes()
         {
             if (!DrawDebug) return;
+            if (Draw3D == null) return;
 
+            Draw3D.Call("clear");
             for (int i = 0; i < Points.Length; i++)
             {
                 Vector3 start = (Vector3)Points[i];
                 Vector3 end = (Vector3)Points[(i + 1) % Points.Length];
-                DebugDrawCS.DrawLine(start, end, debugColor);
+                Draw3D.Call("line_segment", start, end, debugColor);
+                //DebugDrawCS.DrawLine(start, end, debugColor);
             }
         }
 

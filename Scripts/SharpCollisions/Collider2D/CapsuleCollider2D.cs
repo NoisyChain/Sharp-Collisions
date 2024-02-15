@@ -5,24 +5,15 @@ namespace SharpCollisions
 {
     public class CapsuleCollider2D : SharpCollider2D
     {
-        public Fix64 Radius;
-        public Fix64 Height;
+        public Fix64 Radius => (Fix64)radius;
+        public Fix64 Height => (Fix64)height;
         public FixVector2 RawUpperPoint;
 		public FixVector2 RawLowerPoint;
 		public FixVector2 UpperPoint;
 		public FixVector2 LowerPoint;
 
-        [Export] protected float radius
-		{
-			get => (float)Radius;
-			set => Radius = (Fix64)value;
-		}
-        [Export] protected float height
-		{
-			get => (float)Height;
-			set => Height = (Fix64)value;
-		}
-
+        [Export] protected float radius;
+        [Export] protected float height;
         [Export(PropertyHint.Enum, "X-Axis,Y-Axis")]
 		private int AxisDirection = 0;
 
@@ -54,17 +45,24 @@ namespace SharpCollisions
         public override void DebugDrawShapes()
         {
             if (!DrawDebug) return;
+            if (Draw3D == null) return;
 
             Vector3 LineVector = (Vector3)FixVector2.GetNormal(UpperPoint, LowerPoint);
             Vector3 LineSpacing = LineVector * (float)Radius;
             Vector3 LineDirection = (Vector3)FixVector2.Normalize(UpperPoint - LowerPoint);
 
-            DebugDrawCS.DrawArcLine((Vector3)UpperPoint, LineVector, LineDirection, (float)Radius, debugColor);
-            DebugDrawCS.DrawArcLine((Vector3)UpperPoint, -LineVector, LineDirection, (float)Radius, debugColor);
-            DebugDrawCS.DrawArcLine((Vector3)LowerPoint, LineVector, -LineDirection, (float)Radius, debugColor);
-            DebugDrawCS.DrawArcLine((Vector3)LowerPoint, -LineVector, -LineDirection, (float)Radius, debugColor);
-            DebugDrawCS.DrawLine((Vector3)UpperPoint + LineSpacing, (Vector3)LowerPoint + LineSpacing, debugColor);
-            DebugDrawCS.DrawLine((Vector3)UpperPoint - LineSpacing, (Vector3)LowerPoint - LineSpacing, debugColor);
+            Draw3D.Call("clear");
+            Draw3D.Call("circle_normal", (Vector3)LowerPoint, Vector3.Forward, (float)Radius, debugColor);
+            Draw3D.Call("circle_normal", (Vector3)UpperPoint, Vector3.Forward, (float)Radius, debugColor);
+            Draw3D.Call("line_segment", (Vector3)UpperPoint + LineSpacing, (Vector3)LowerPoint + LineSpacing, debugColor);
+            Draw3D.Call("line_segment", (Vector3)UpperPoint - LineSpacing, (Vector3)LowerPoint - LineSpacing, debugColor);
+
+            //DebugDrawCS.DrawArcLine((Vector3)UpperPoint, LineVector, LineDirection, (float)Radius, debugColor);
+            //DebugDrawCS.DrawArcLine((Vector3)UpperPoint, -LineVector, LineDirection, (float)Radius, debugColor);
+            //DebugDrawCS.DrawArcLine((Vector3)LowerPoint, LineVector, -LineDirection, (float)Radius, debugColor);
+            //DebugDrawCS.DrawArcLine((Vector3)LowerPoint, -LineVector, -LineDirection, (float)Radius, debugColor);
+            //DebugDrawCS.DrawLine((Vector3)UpperPoint + LineSpacing, (Vector3)LowerPoint + LineSpacing, debugColor);
+            //DebugDrawCS.DrawLine((Vector3)UpperPoint - LineSpacing, (Vector3)LowerPoint - LineSpacing, debugColor);
 		}
 
         protected override FixRect GetBoundingBoxPoints()

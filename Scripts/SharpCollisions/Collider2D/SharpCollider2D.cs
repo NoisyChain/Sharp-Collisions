@@ -7,24 +7,22 @@ namespace SharpCollisions
 {
 	public class SharpCollider2D  : Node
 	{
-		public Color debugColor = new Color(0, 0, 1);
+		[Export] public Color debugColor = new Color(0, 0, 1);
 
 		[Export] public bool Active = true;
 		[Export] protected bool DrawDebug;
 		public CollisionFlags collisionFlags;
 		public CollisionType2D Shape = CollisionType2D.Null;
 		public FixVector2 Position;
-		public FixVector2 Offset;
+		public FixVector2 Offset => (FixVector2)offset;
 		public FixVector2 Center;
 		public FixRect BoundingBox;
-		[Export] protected Vector2 offset
-		{
-			get => (Vector2)Offset;
-			set => Offset = (FixVector2)value;
-		}
+		[Export] protected Vector2 offset;
 
 		protected bool CollisionRequireUpdate = true;
 		protected bool BoundingBoxRequireUpdate = true;
+
+		protected ImmediateGeometry Draw3D;
 
 		/*public SharpCollider2D(){}
 		
@@ -41,7 +39,7 @@ namespace SharpCollisions
 
 		public override void _Ready()
 		{
-			
+			Draw3D = GetNode<ImmediateGeometry>("Draw3D");
 		}
 
 		public override void _Process(float delta)

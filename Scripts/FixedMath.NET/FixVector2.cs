@@ -92,6 +92,16 @@ namespace FixMath.NET
 			return new FixVector2(tx, ty);
 		}
 
+		public static FixVector2 Transform(FixVector2 v, FixVector2 refPosition, Fix64 refRotation)
+		{
+			FixVector2 r = Rotate(v, refRotation);
+
+			Fix64 tx = r.x + refPosition.x;
+			Fix64 ty = r.y + refPosition.y;
+
+			return new FixVector2(tx, ty);
+		}
+
 		public static FixVector2 Project(FixVector2 u, FixVector2 v)
 		{
 			if (u == Zero) return Zero;

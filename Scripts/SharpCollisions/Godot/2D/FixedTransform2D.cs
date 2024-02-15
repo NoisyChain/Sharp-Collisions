@@ -23,7 +23,7 @@ namespace SharpCollisions
             FixedPosition = (FixVector2)GlobalTranslation;
             FixedRotation = (Fix64)GlobalRotation.z;
             Manager = GetTree().Root.GetNode<PhysicsManager2D>("Main/PhysicsManager");
-            Manager.AddBody(this);
+            Manager.AddTransform(this);
         }
 
         public override void _Process(float delta)
@@ -40,9 +40,9 @@ namespace SharpCollisions
         /// <param name="delta"></param>
         public virtual void _FixedProcess(Fix64 delta) { }
 
-        public void _Destroy()
+        public virtual void _Destroy()
         {
-            if (Manager.RemoveBody(this))
+            if (Manager.RemoveTransform(this))
                 QueueFree();
         }
     }

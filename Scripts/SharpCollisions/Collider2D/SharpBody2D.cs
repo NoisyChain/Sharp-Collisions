@@ -55,12 +55,19 @@ namespace SharpCollisions
 			if (Engine.EditorHint) return;
 
 			base._Ready();
+			Manager.AddBody(this);
 			Collider = GetNode<SharpCollider2D>("Collider");
 			UpdateCollider();
 			BeginOverlap = OnBeginOverlap;
 			DuringOverlap = OnOverlap;
 			EndOverlap = OnEndOverlap;
 		}
+
+		public override void _Destroy()
+        {
+            if (Manager.RemoveTransform(this) && Manager.RemoveBody(this))
+                QueueFree();
+        }
 
 		public void IgnoreBody(SharpBody2D bodyToIgnore, bool ignore)
 		{

@@ -82,7 +82,7 @@ namespace FixMath.NET
 			return Normalize(axis);
 		}
 
-		public static FixVector2 Transform(FixVector2 v, SharpBody2D body)
+		public static FixVector2 Transform(FixVector2 v, FixedTransform2D body)
 		{
 			FixVector2 r = Rotate(v, body.FixedRotation);
 
@@ -237,7 +237,7 @@ namespace FixMath.NET
 
         public override string ToString()
         {
-            return $"({(float)x}, {(float)y})";
+            return $"({x}, {y})";
         }
 
         public bool Equals(FixVector2 other)

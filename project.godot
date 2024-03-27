@@ -22,7 +22,7 @@ _global_script_class_icons={
 
 config/name="Sharp Collisions"
 config/description="C# deterministic collision system"
-run/main_scene="res://Scenes/TestScene.tscn"
+run/main_scene="res://Scenes/TestScene3D.tscn"
 config/icon="res://icon.png"
 
 [gui]

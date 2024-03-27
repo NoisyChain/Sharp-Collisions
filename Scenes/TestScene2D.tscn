@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scripts/SharpCollisions/Collider2D/SharpBody2D.cs" type="Script" id=1]
-[ext_resource path="res://Scripts/SharpCollisions/Godot/2D/PhysicsManager2D.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/SharpCollisions/Collider2D/PhysicsManager2D.cs" type="Script" id=2]
 [ext_resource path="res://addons/draw3d/draw_3d.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/SharpCollisions/Collider2D/BoxCollider2D.cs" type="Script" id=4]
 [ext_resource path="res://Scenes/PreviewBody_Controller.tscn" type="PackedScene" id=5]
@@ -85,7 +85,6 @@ script = ExtResource( 2 )
 iterations = 8
 
 [node name="Character" parent="." instance=ExtResource( 5 )]
-KeepSlopeVelocityOnJump = false
 
 [node name="Floor" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0 )

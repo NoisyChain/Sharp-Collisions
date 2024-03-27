@@ -629,15 +629,15 @@ namespace SharpCollisions
 
 		public void LineToLineDistance(FixVector2 p1, FixVector2 p2, FixVector2 p3, FixVector2 p4, out FixVector2 r1, out FixVector2 r2)
 		{
-			var r = p3 - p1;
-			var u = p2 - p1;
-			var v = p4 - p3;
-			var ru = FixVector2.Dot(r, u);
-			var rv = FixVector2.Dot(r, v);
-			var uu = FixVector2.Dot(u, u);
-			var uv = FixVector2.Dot(u, v);
-			var vv = FixVector2.Dot(v, v);
-			var det = uu * vv - uv * uv;
+			FixVector2 r = p3 - p1;
+			FixVector2 u = p2 - p1;
+			FixVector2 v = p4 - p3;
+			Fix64 ru = FixVector2.Dot(r, u);
+			Fix64 rv = FixVector2.Dot(r, v);
+			Fix64 uu = FixVector2.Dot(u, u);
+			Fix64 uv = FixVector2.Dot(u, v);
+			Fix64 vv = FixVector2.Dot(v, v);
+			Fix64 det = uu * vv - uv * uv;
 
 			Fix64 s, t;
 			if (det < Fix64.ETA * uu * vv)
@@ -651,8 +651,8 @@ namespace SharpCollisions
 				t = Fix64.Clamp01((ru * uv - rv * uu) / det);
 			}
 
-			var S = Fix64.Clamp01((t * uv + ru) / uu);
-			var T = Fix64.Clamp01((s * uv - rv) / vv);
+			Fix64 S = Fix64.Clamp01((t * uv + ru) / uu);
+			Fix64 T = Fix64.Clamp01((s * uv - rv) / vv);
 
 			r1 = p1 + S * u;
 			r2 = p3 + T * v;
@@ -692,16 +692,6 @@ public enum CollisionType2D
 	Circle = 1,
 	Capsule = 2,
 	Polygon = 3,
-}
-
-public enum CollisionType3D
-{
-	Null = -1,
-	AABB = 0,
-	Sphere = 1,
-	Capsule = 2,
-	Cylinder = 3,
-	Polygon = 4,
 }
 
 /*[Flags]

@@ -2,7 +2,7 @@
 Deterministic collision system written in C#
 
 **Features:**
-- 2D collisions and resolution (3D coming eventually)
+- 2D/3D collisions and resolution
 - Discrete collision detection
 - Deterministic behavior using fixed point math
 - Broad Phase/Narrow Phase
@@ -15,9 +15,9 @@ Deterministic collision system written in C#
 - Collider offset
 - Collision flags
 - Collision events
-- Collision manifolds (return contact normal, depth and point)
-- A basic character controller
+- Collision manifolds (return contact normal, depth and contact point)
+- A basic character controller for both 2D and 3D
 
 Sharp Collisions is in preview state. There's some things to polish at the moment.
 
-Using Godot 3.5 LTS. Unity/Monogame versions are being planned.
+Using Godot 4.2. Unity/Monogame versions are being planned.

@@ -3,7 +3,7 @@ using FixMath.NET;
 
 namespace SharpCollisions
 {
-    public class PolygonCollider3D : SharpCollider3D
+    public partial class PolygonCollider3D : SharpCollider3D
     {
         public FixVector3[] RawPoints;
 		public FixVector3[] Points;
@@ -35,14 +35,12 @@ namespace SharpCollisions
         public override void DebugDrawShapes()
         {
             if (!DrawDebug) return;
-            if (Draw3D == null) return;
 
-            Draw3D.Call("clear");
             for (int i = 0; i < Points.Length; i++)
             {
                 Vector3 start = (Vector3)Points[i];
                 Vector3 end = (Vector3)Points[(i + 1) % Points.Length];
-                Draw3D.Call("line_segment", start, end, debugColor);
+                DebugDraw.Line(start, end, debugColor);
             }
         }
 

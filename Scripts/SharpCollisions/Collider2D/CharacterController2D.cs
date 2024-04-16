@@ -4,7 +4,7 @@ using Godot;
 namespace SharpCollisions
 {
     [Tool]
-    public class CharacterController2D : SharpBody2D
+    public partial class CharacterController2D : SharpBody2D
     {
         [Export(PropertyHint.Range, "0,89")]
         public int SlopeLimit = 45;
@@ -38,7 +38,7 @@ namespace SharpCollisions
         {
             if (IsOnGround && IsValidFloor() && IsWalkableSlope(GroundAngle))
             {
-                UpVector = -GroundNormal;
+                UpVector = GroundNormal;
                 VerticalVelocity = -UpVector;
                 if (Input.IsActionPressed("ui_left") && !Input.IsActionPressed("ui_right"))
                     LateralVelocity = FixVector2.Left;
@@ -129,7 +129,7 @@ namespace SharpCollisions
             GD.Print(FixVector2.Length(directionToTarget));*/
         }
 
-        public override void _Process(float delta)
+        public override void _Process(double delta)
         {
             base._Process(delta);
             //foreach (CollisionManifold2D col in Collisions)
@@ -189,21 +189,19 @@ namespace SharpCollisions
 
         public bool IsWalkableSlope(Fix64 angle)
         {
-            Fix64 HalfThreshold = ((Fix64)SlopeLimit + Fix64.One) / Fix64.Two;
-            return angle >= (Fix64)90 - HalfThreshold && angle <= (Fix64)90 + HalfThreshold;
+            return Fix64.Abs(angle) <= (Fix64)SlopeLimit + Fix64.One;
         }
 
         public bool IsAngularCeiling()
         {
-            GD.Print(CeilingAngle);
+            //GD.Print(CeilingAngle);
             Fix64 HalfThreshold = ((Fix64)CeilingAngleLimit + Fix64.One) / Fix64.Two;
             return CeilingAngle >= (Fix64)90 - HalfThreshold && CeilingAngle <= (Fix64)90 + HalfThreshold;
         }
 
         public override void OnBeginOverlap(SharpBody2D other)
         {
-            if (!isTrigger)
-                GD.Print("Entered Collision!");
+            //GD.Print("Entered Collision!");
         }
 
         public override void OnOverlap(SharpBody2D other)
@@ -213,8 +211,7 @@ namespace SharpCollisions
 
         public override void OnEndOverlap(SharpBody2D other)
         {
-            if (!isTrigger)
-                GD.Print("Exited Collision!");
+            //GD.Print("Exited Collision!");
         }
     }
 }

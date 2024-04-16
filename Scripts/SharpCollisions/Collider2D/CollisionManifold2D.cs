@@ -4,7 +4,7 @@ using Godot;
 namespace SharpCollisions
 {
     [System.Serializable]
-    public class CollisionManifold2D : Object
+    public partial class CollisionManifold2D : GodotObject
     {
         public SharpBody2D CollidedWith;
         public FixVector2 Normal;

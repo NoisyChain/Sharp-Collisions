@@ -3,7 +3,7 @@ using FixMath.NET;
 
 namespace SharpCollisions
 {
-    public class BoxCollider2D : PolygonCollider2D
+    public partial class BoxCollider2D : PolygonCollider2D
     {
         public FixVector2 Extents => (FixVector2)extents;
 

@@ -1,0 +1,699 @@
+[gd_scene load_steps=15 format=3 uid="uid://ejbnkmlu25ea"]
+
+[ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_xusqx"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/General/PhysicsManager.cs" id="2_jxjwd"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/SharpBody3D.cs" id="4_ctdg3"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/BoxCollider3D.cs" id="5_l2ale"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Tests/BallPhysics3D.cs" id="5_rpyv1"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/SphereCollider3D.cs" id="6_x5v8s"]
+
+[sub_resource type="BoxMesh" id="12"]
+size = Vector3(8, 0.2, 8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qkwm3"]
+size = Vector3(8, 2, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ihm7b"]
+albedo_color = Color(0.835294, 0, 0.482353, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_yfvs1"]
+material = SubResource("StandardMaterial3D_ihm7b")
+radius = 0.3
+height = 0.6
+radial_segments = 16
+rings = 12
+
+[sub_resource type="SphereMesh" id="15"]
+radius = 0.3
+height = 0.6
+radial_segments = 16
+rings = 12
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ebdch"]
+
+[sub_resource type="Sky" id="Sky_qbv02"]
+sky_material = SubResource("ProceduralSkyMaterial_ebdch")
+
+[sub_resource type="Environment" id="Environment_bff8o"]
+background_mode = 2
+sky = SubResource("Sky_qbv02")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 2
+
+[node name="Main" type="Node3D"]
+
+[node name="FPS_HUD" parent="." instance=ExtResource("1_xusqx")]
+
+[node name="PhysicsManager" type="Node" parent="."]
+script = ExtResource("2_jxjwd")
+iterations = 8
+
+[node name="Box" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+script = ExtResource("4_ctdg3")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Box"]
+script = ExtResource("5_l2ale")
+extents = Vector3(4, 0.1, 4)
+
+[node name="Viewer" type="Node3D" parent="Box"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Box/Viewer"]
+mesh = SubResource("12")
+skeleton = NodePath("../..")
+
+[node name="Box2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -4)
+script = ExtResource("4_ctdg3")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Box2"]
+script = ExtResource("5_l2ale")
+extents = Vector3(4, 1, 0.1)
+
+[node name="Viewer" type="Node3D" parent="Box2"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Box2/Viewer"]
+mesh = SubResource("BoxMesh_qkwm3")
+skeleton = NodePath("../..")
+
+[node name="Box3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 4)
+script = ExtResource("4_ctdg3")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Box3"]
+script = ExtResource("5_l2ale")
+extents = Vector3(4, 1, 0.1)
+
+[node name="Viewer" type="Node3D" parent="Box3"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Box3/Viewer"]
+mesh = SubResource("BoxMesh_qkwm3")
+skeleton = NodePath("../..")
+
+[node name="Box4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.8, 0)
+script = ExtResource("4_ctdg3")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Box4"]
+script = ExtResource("5_l2ale")
+extents = Vector3(0.1, 1, 4)
+
+[node name="Viewer" type="Node3D" parent="Box4"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Box4/Viewer"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("BoxMesh_qkwm3")
+skeleton = NodePath("../..")
+
+[node name="Box5" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.8, 0)
+script = ExtResource("4_ctdg3")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Box5"]
+script = ExtResource("5_l2ale")
+extents = Vector3(0.1, 1, 4)
+
+[node name="Viewer" type="Node3D" parent="Box5"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Box5/Viewer"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("BoxMesh_qkwm3")
+skeleton = NodePath("../..")
+
+[node name="Sphere" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1, 0)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere/Viewer"]
+mesh = SubResource("SphereMesh_yfvs1")
+skeleton = NodePath("../..")
+
+[node name="Sphere2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1, -2)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere2"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere2"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere2/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1, 2)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere3"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere3"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere3/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 1, 0.2)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere4"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere4"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere4/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere5" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 1, -1.8)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere5"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere5"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere5/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere6" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 1, 2.2)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere6"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere6"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere6/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere7" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1, 0.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere7"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere7"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere7/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere8" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1, -1.9)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere8"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere8"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere8/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere9" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1, 2.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere9"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere9"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere9/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere10" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1, -1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere10"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere10"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere10/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere11" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1, -3)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere11"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere11"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere11/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere12" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1, 1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere12"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere12"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere12/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere13" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 1, -0.8)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere13"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere13"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere13/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere14" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 1, -2.8)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere14"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere14"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere14/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere15" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 1, 1.2)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere15"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere15"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere15/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere16" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1, -0.9)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere16"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere16"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere16/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere17" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1, -2.9)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere17"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere17"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere17/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere18" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1, 1.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere18"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere18"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere18/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere19" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 1, 2.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere19"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere19"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere19/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere20" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 1, 0.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere20"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere20"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere20/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere21" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 1, 2.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere21"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere21"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere21/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere22" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 1, 0.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere22"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere22"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere22/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere23" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 1, 3.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere23"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere23"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere23/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere24" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 1, 1.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere24"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere24"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere24/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere25" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 1, 3.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere25"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere25"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere25/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere26" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 1, 1.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere26"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere26"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere26/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere27" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 1, 3.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere27"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere27"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere27/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere28" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 1, 1.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere28"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere28"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere28/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere29" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 1, 2.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere29"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere29"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere29/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere30" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 1, 0.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere30"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere30"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere30/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere31" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 1, -0.9)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere31"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere31"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere31/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere32" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 1, -2.9)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere32"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere32"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere32/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere33" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 1, -0.9)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere33"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere33"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere33/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere34" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 1, -2.9)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere34"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere34"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere34/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere35" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 1, -0.9)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere35"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere35"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere35/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere36" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 1, -2.9)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere36"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere36"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere36/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere37" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1, -0.9)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere37"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere37"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere37/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere38" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1, -2.9)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere38"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere38"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere38/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere39" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1, 2.1)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere39"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere39"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere39/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Sphere40" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1, 0.0999999)
+script = ExtResource("5_rpyv1")
+
+[node name="Collider" type="Node" parent="Sphere40"]
+script = ExtResource("6_x5v8s")
+radius = 0.3
+
+[node name="Viewer" type="Node3D" parent="Sphere40"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere40/Viewer"]
+mesh = SubResource("15")
+skeleton = NodePath("../..")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(0.758953, 0.328364, -0.562288, -3.82317e-08, 0.863536, 0.504287, 0.651145, -0.38273, 0.655384, -4.05011, 2.51961, 4.16555)
+current = true
+size = 9.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_bff8o")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.76591, 0.470268, -0.43844, 0, 0.681922, 0.731425, 0.642948, -0.560206, 0.522291, -1.96341, 1.98419, 3.05469)
+shadow_enabled = true

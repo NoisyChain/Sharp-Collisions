@@ -4,7 +4,7 @@ using FixMath.NET;
 namespace SharpCollisions
 {
     [Tool]
-    public class FixedTransform2D : Spatial
+    public partial class FixedTransform2D : SharpNode
     {
         public FixVector2 FixedPosition;
         public Fix64 FixedRotation;
@@ -14,36 +14,20 @@ namespace SharpCollisions
         public FixVector2 Left => -Right;
         public FixVector2 Down => -Up;
 
-        protected PhysicsManager2D Manager;
-
         public override void _Ready()
         {
-            if (Engine.EditorHint) return;
+            base._Ready();
 
-            FixedPosition = (FixVector2)GlobalTranslation;
-            FixedRotation = (Fix64)GlobalRotation.z;
-            Manager = GetTree().Root.GetNode<PhysicsManager2D>("Main/PhysicsManager");
-            Manager.AddTransform(this);
+            FixedPosition = (FixVector2)GlobalPosition;
+            FixedRotation = (Fix64)GlobalRotation.Z;
         }
 
-        public override void _Process(float delta)
+        public override void _Process(double delta)
         {
-            if (Engine.EditorHint) return;
+            if (Engine.IsEditorHint()) return;
 
-            GlobalTranslation = (Vector3)FixedPosition;
+            GlobalPosition = (Vector3)FixedPosition;
             GlobalRotation = new Vector3(0, 0, (float)FixedRotation);
-        }
-
-        /// <summary>
-        /// Use this function if you want to execute your logic inside the physics loop
-        /// </summary>
-        /// <param name="delta"></param>
-        public virtual void _FixedProcess(Fix64 delta) { }
-
-        public virtual void _Destroy()
-        {
-            if (Manager.RemoveTransform(this))
-                QueueFree();
         }
     }
 }

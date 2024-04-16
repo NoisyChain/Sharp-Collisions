@@ -1,80 +1,212 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=17 format=3 uid="uid://chwkjkmc3ymif"]
 
-[ext_resource path="res://Scripts/SharpCollisions/Collider3D/PhysicsManager3D.cs" type="Script" id=1]
-[ext_resource path="res://Scenes/PreviewBody_Controller3D.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scripts/SharpCollisions/Collider3D/SphereCollider3D.cs" type="Script" id=3]
-[ext_resource path="res://Scripts/SharpCollisions/Collider3D/BoxCollider3D.cs" type="Script" id=4]
-[ext_resource path="res://addons/draw3d/draw_3d.gd" type="Script" id=8]
-[ext_resource path="res://Scripts/SharpCollisions/Collider3D/SharpBody3D.cs" type="Script" id=10]
+[ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_xw0ag"]
+[ext_resource type="PackedScene" uid="uid://l1rqh2yogc15" path="res://Scenes/PreviewBody_Controller3D.tscn" id="2"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/General/PhysicsManager.cs" id="2_od8d3"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/SphereCollider3D.cs" id="3"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/BoxCollider3D.cs" id="4"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/CapsuleCollider3D.cs" id="6_3hubp"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Tests/Rotator.cs" id="7_qwg5g"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/SharpBody3D.cs" id="10"]
 
-[sub_resource type="SpatialMaterial" id=16]
-flags_unshaded = true
-flags_use_point_size = true
-vertex_color_use_as_albedo = true
-params_line_width = 2.0
-params_point_size = 8.0
+[sub_resource type="BoxMesh" id="12"]
+size = Vector3(2, 2, 2)
 
-[sub_resource type="CubeMesh" id=12]
+[sub_resource type="SphereMesh" id="15"]
+radius = 1.0
+height = 2.0
 
-[sub_resource type="SpatialMaterial" id=17]
-flags_unshaded = true
-flags_use_point_size = true
-vertex_color_use_as_albedo = true
-params_line_width = 2.0
-params_point_size = 8.0
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_omnyj"]
 
-[sub_resource type="SphereMesh" id=15]
+[sub_resource type="BoxMesh" id="BoxMesh_6erxl"]
+size = Vector3(8, 0.2, 8)
 
-[node name="Main" type="Spatial"]
+[sub_resource type="BoxMesh" id="BoxMesh_3dihv"]
+size = Vector3(8, 2, 0.2)
 
-[node name="PhysicsManager" type="Spatial" parent="."]
-script = ExtResource( 1 )
-iterations = 4
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ebdch"]
 
-[node name="Character" parent="." instance=ExtResource( 2 )]
+[sub_resource type="Sky" id="Sky_qbv02"]
+sky_material = SubResource("ProceduralSkyMaterial_ebdch")
 
-[node name="Box" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.21825, 1, 0 )
-script = ExtResource( 10 )
+[sub_resource type="Environment" id="Environment_bff8o"]
+background_mode = 2
+sky = SubResource("Sky_qbv02")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 2
+
+[node name="Main" type="Node3D"]
+
+[node name="FPS_HUD" parent="." instance=ExtResource("1_xw0ag")]
+
+[node name="Debug" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DebugText" type="Label" parent="Debug"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="PhysicsManager" type="Node" parent="."]
+script = ExtResource("2_od8d3")
+iterations = 8
+
+[node name="Character" parent="." instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+KeepVelocityOnSlopes = false
+KeepSlopeVelocityOnJump = false
+StopAirVelocityOnCeiling = false
+
+[node name="Box" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 0.80857, 0)
+script = ExtResource("10")
 
 [node name="Collider" type="Node" parent="Box"]
-script = ExtResource( 4 )
-DrawDebug = true
+script = ExtResource("4")
 
-[node name="Draw3D" type="ImmediateGeometry" parent="Box/Collider"]
-sorting_offset = 1.0
-material_override = SubResource( 16 )
-cast_shadow = 0
-script = ExtResource( 8 )
+[node name="Viewer" type="Node3D" parent="Box"]
 
-[node name="Viewer" type="Spatial" parent="Box"]
-
-[node name="MeshInstance" type="MeshInstance" parent="Box/Viewer"]
-mesh = SubResource( 12 )
+[node name="MeshInstance" type="MeshInstance3D" parent="Box/Viewer"]
+mesh = SubResource("12")
 skeleton = NodePath("../..")
 
-[node name="Sphere" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.78175, 0, 0 )
-script = ExtResource( 10 )
+[node name="Box2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 2.2, -2.2)
+script = ExtResource("7_qwg5g")
+RotationSpeed = Vector3(45, 45, 45)
+
+[node name="Collider" type="Node" parent="Box2"]
+script = ExtResource("4")
+DrawDebug = true
+
+[node name="Viewer" type="Node3D" parent="Box2"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Box2/Viewer"]
+mesh = SubResource("12")
+skeleton = NodePath("../..")
+
+[node name="Sphere" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, -0.507128, 0)
+script = ExtResource("10")
+BodyMode = 2
 
 [node name="Collider" type="Node" parent="Sphere"]
-script = ExtResource( 3 )
-DrawDebug = true
+script = ExtResource("3")
 radius = 1.0
 
-[node name="Draw3D" type="ImmediateGeometry" parent="Sphere/Collider"]
-sorting_offset = 1.0
-material_override = SubResource( 17 )
-cast_shadow = 0
-script = ExtResource( 8 )
+[node name="Viewer" type="Node3D" parent="Sphere"]
 
-[node name="Viewer" type="Spatial" parent="Sphere"]
-
-[node name="MeshInstance" type="MeshInstance" parent="Sphere/Viewer"]
-mesh = SubResource( 15 )
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere/Viewer"]
+mesh = SubResource("15")
 skeleton = NodePath("../..")
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 2.70268, 5.52147 )
+[node name="Capsule" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.2, 3)
+script = ExtResource("10")
+
+[node name="Collider" type="Node" parent="Capsule"]
+script = ExtResource("6_3hubp")
+radius = 0.5
+height = 1.0
+
+[node name="Viewer" type="Node3D" parent="Capsule"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Capsule/Viewer"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_omnyj")
+skeleton = NodePath("../..")
+
+[node name="Floor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+script = ExtResource("10")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Floor"]
+script = ExtResource("4")
+extents = Vector3(4, 0.1, 4)
+
+[node name="Viewer" type="Node3D" parent="Floor"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Floor/Viewer"]
+mesh = SubResource("BoxMesh_6erxl")
+skeleton = NodePath("../..")
+
+[node name="Wall" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -4)
+script = ExtResource("10")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Wall"]
+script = ExtResource("4")
+extents = Vector3(4, 1, 0.1)
+
+[node name="Viewer" type="Node3D" parent="Wall"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Wall/Viewer"]
+mesh = SubResource("BoxMesh_3dihv")
+skeleton = NodePath("../..")
+
+[node name="Wall2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 4)
+script = ExtResource("10")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Wall2"]
+script = ExtResource("4")
+extents = Vector3(4, 1, 0.1)
+
+[node name="Viewer" type="Node3D" parent="Wall2"]
+visible = false
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Wall2/Viewer"]
+mesh = SubResource("BoxMesh_3dihv")
+skeleton = NodePath("../..")
+
+[node name="Wall3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.8, 0)
+script = ExtResource("10")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Wall3"]
+script = ExtResource("4")
+extents = Vector3(0.1, 1, 4)
+
+[node name="Viewer" type="Node3D" parent="Wall3"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Wall3/Viewer"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("BoxMesh_3dihv")
+skeleton = NodePath("../..")
+
+[node name="Wall4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.8, 0)
+script = ExtResource("10")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Wall4"]
+script = ExtResource("4")
+extents = Vector3(0.1, 1, 4)
+
+[node name="Viewer" type="Node3D" parent="Wall4"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Wall4/Viewer"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("BoxMesh_3dihv")
+skeleton = NodePath("../..")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 2.70268, 5.21228)
 current = true
 size = 9.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_bff8o")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.76591, 0.470268, -0.43844, 0, 0.681922, 0.731425, 0.642948, -0.560206, 0.522291, -1.96341, 1.98419, 3.05469)

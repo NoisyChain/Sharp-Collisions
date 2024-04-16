@@ -3,7 +3,7 @@ using FixMath.NET;
 
 namespace SharpCollisions
 {
-    public class CapsuleCollider3D : SharpCollider3D
+    public partial class CapsuleCollider3D : SharpCollider3D
     {
         public Fix64 Radius => (Fix64)radius;
         public Fix64 Height => (Fix64)height;
@@ -53,22 +53,13 @@ namespace SharpCollisions
         public override void DebugDrawShapes()
         {
             if (!DrawDebug) return;
-            if (Draw3D == null) return;
 
             //Vector3 LineVector = (Vector3)FixVector3.GetNormal(UpperPoint, LowerPoint);
             //Vector3 LineSpacing = LineVector * (float)Radius;
             //Vector3 LineDirection = (Vector3)FixVector3.Normalize(UpperPoint - LowerPoint);
-
-            Draw3D.Call("clear");
-            Draw3D.Call("circle_normal", (Vector3)LowerPoint, Vector3.Forward, (float)Radius, debugColor);
-            Draw3D.Call("circle_normal", (Vector3)LowerPoint, Vector3.Right, (float)Radius, debugColor);
-            Draw3D.Call("circle_normal", (Vector3)LowerPoint, Vector3.Up, (float)Radius, debugColor);
-            Draw3D.Call("circle_normal", (Vector3)UpperPoint, Vector3.Forward, (float)Radius, debugColor);
-            Draw3D.Call("circle_normal", (Vector3)UpperPoint, Vector3.Right, (float)Radius, debugColor);
-            Draw3D.Call("circle_normal", (Vector3)UpperPoint, Vector3.Up, (float)Radius, debugColor);
-            //Draw3D.Call("line_segment", (Vector3)UpperPoint + LineSpacing, (Vector3)LowerPoint + LineSpacing, debugColor);
-            //Draw3D.Call("line_segment", (Vector3)UpperPoint - LineSpacing, (Vector3)LowerPoint - LineSpacing, debugColor);
-		}
+            Transform3D debugTransform = new(ParentNode.GlobalBasis, (Vector3)Center);
+            DebugDraw.Capsule(debugTransform, (float)Radius, (float)Height * 2, debugColor);
+        }
 
         protected override FixVolume GetBoundingBoxPoints()
         {

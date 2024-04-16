@@ -74,7 +74,6 @@ namespace SharpCollisions
 			for (int i = 0; i < bodies.Count; i++)
 			{
 				SharpBody3D bodyA = bodies[i];
-				bodyA.Collisions.Clear();
 				bodyA.Collider.collisionFlags.Clear();
 
 				for (int j = i + 1; j < bodies.Count; j++)
@@ -92,7 +91,8 @@ namespace SharpCollisions
 
 						continue;
 					}
-					
+					bodyA.Collisions.Clear();
+					bodyB.Collisions.Clear();
 					PossibleCollisions.Add((i, j));
 				}
 			}
@@ -110,22 +110,22 @@ namespace SharpCollisions
 					if (!bodyA.isTrigger && !bodyB.isTrigger)
 					{
 						if (bodyA.BodyMode != 0)
-							bodyB.PushAway(-Depth);
+							bodyB.PushAway(Depth);
 						else if (bodyB.BodyMode != 0)
-							bodyA.PushAway(Depth);
+							bodyA.PushAway(-Depth);
 						else
 						{
-							bodyA.PushAway(Depth / (Fix64)2);
-							bodyB.PushAway(-Depth / (Fix64)2);
+							bodyA.PushAway(-Depth / Fix64.Two);
+							bodyB.PushAway(Depth / Fix64.Two);
 						}
 					}
 					CollisionManifold3D collisionA = new CollisionManifold3D
 					(
-						bodyB, Normal, Depth, ContactPoint
+						bodyB, -Normal, Depth, ContactPoint
 					);
 					CollisionManifold3D collisionB = new CollisionManifold3D
 					(
-						bodyA, -Normal, Depth, ContactPoint
+						bodyA, Normal, Depth, ContactPoint
 					);
 					bodyA.Collisions.Add(collisionA);
 					bodyB.Collisions.Add(collisionB);
@@ -179,6 +179,8 @@ namespace SharpCollisions
 		
 		public void Simulate(int steps, int iterations)
 		{
+			if (BodyCount == 0) return;
+			
 			iterations = Mathf.Clamp(iterations, MinIterations, MaxIterations);
 
 			for (int it = 0; it < iterations; it++)

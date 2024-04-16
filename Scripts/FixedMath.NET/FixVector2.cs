@@ -123,7 +123,12 @@ namespace FixMath.NET
 
 		public static Fix64 Angle(FixVector2 a, FixVector2 b)
 		{
-			return Fix64.Atan2(b.y - a.y, b.x - a.x);
+			//return Fix64.Atan2(b.y - a.y, b.x - a.x);
+			Fix64 dot = Dot(a, b);
+			Fix64 magA = Length(a);
+			Fix64 magB = Length(b);
+			if (magA * magB == Fix64.Zero) return Fix64.Zero;
+			return Fix64.Acos(dot / (magA * magB));
 		}
 
 		public static Fix64 AngleDegrees(FixVector2 a, FixVector2 b)
@@ -138,7 +143,14 @@ namespace FixMath.NET
 		
 		public static bool IsExactDirection(FixVector2 a, FixVector2 b)
 		{
-			return Dot(a, b) > (Fix64)0.9;
+			return Dot(a, b) > (Fix64)9e-1;
+		}
+
+		public static FixVector2 ClampMagnitude(FixVector2 vector, Fix64 magnitude)
+		{
+			if (Length(vector) > magnitude)
+				return Normalize(vector) * magnitude;
+			return vector;
 		}
 
 		public static FixVector2 operator +(FixVector2 a, FixVector2 b) {
@@ -213,7 +225,7 @@ namespace FixMath.NET
 		}
 
 		public static explicit operator FixVector2(Vector2 value) {
-			return new FixVector2((Fix64)value.x, (Fix64)value.y);
+			return new FixVector2((Fix64)value.X, (Fix64)value.Y);
 		}
 
 		public static explicit operator Vector3(FixVector2 value) {
@@ -221,7 +233,7 @@ namespace FixMath.NET
 		}
 
 		public static explicit operator FixVector2(Vector3 value) {
-			return new FixVector2((Fix64)value.x, (Fix64)value.y);
+			return new FixVector2((Fix64)value.X, (Fix64)value.Y);
 		}
 
 		public override bool Equals(object obj)

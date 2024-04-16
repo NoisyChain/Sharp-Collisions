@@ -100,22 +100,76 @@ namespace FixMath.NET
 			return u - Project(u, v);
 		}
 
+		/// <summary>
+		/// Rotates a vector using a ZXY Euler angles
+		/// </summary>
+		/// <param name="v">The vector to be rotated.</param>
+		/// <param name="angle">The rotation vector.</param>
+		/// <returns>The rotated vector</returns>
 		public static FixVector3 Rotate(FixVector3 v, FixVector3 angle)
 		{
-			Fix64 rx = v.x * Fix64.Cos(angle.y) * Fix64.Cos(angle.z) - v.y * (Fix64.Sin(angle.x) * Fix64.Sin(angle.y) * Fix64.Cos(angle.z) + Fix64.Cos(angle.x) * Fix64.Sin(angle.z)) + v.z * (Fix64.Cos(angle.x) * Fix64.Sin(angle.y) * Fix64.Cos(angle.z) - Fix64.Sin(angle.x) * Fix64.Sin(angle.z));
-    		Fix64 ry = v.x * Fix64.Cos(angle.y) * Fix64.Sin(angle.z) + v.y * (Fix64.Sin(angle.x) * Fix64.Sin(angle.y) * Fix64.Sin(angle.z) + Fix64.Cos(angle.x) * Fix64.Cos(angle.z)) + v.z * (Fix64.Cos(angle.x) * Fix64.Sin(angle.y) * Fix64.Sin(angle.z) + Fix64.Sin(angle.x) * Fix64.Cos(angle.z));
-    		Fix64 rz = v.x * Fix64.Sin(angle.y) + v.y * (-Fix64.Sin(angle.x) * Fix64.Cos(angle.y)) + v.z * (Fix64.Cos(angle.x) * Fix64.Cos(angle.y));
+			FixVector3 RotRoll = Roll(v, angle.z);
+			FixVector3 RotPitch = Pitch(RotRoll, angle.x);
+			FixVector3 RotYaw = Yaw(RotPitch, angle.y);
 			
-			//FixVector2 rxy = FixVector2.Rotate(new FixVector2(v.x, v.y), angle.z);
-			//FixVector2 rxz = FixVector2.Rotate(new FixVector2(v.x, v.z), angle.y);
-			//FixVector2 ryz = FixVector2.Rotate(new FixVector2(v.y, v.z), angle.x);
-			
-			return new FixVector3(rx, ry, rz);
+			return RotYaw;
+		}
+
+		/// <summary>
+		/// Rotates a vector using the Rodriguez rotation formula
+		/// about an arbitrary axis.
+		/// </summary>
+		/// <param name="v">The vector to be rotated.</param>
+		/// <param name="axis">The rotation axis.</param>
+		/// <param name="angle">The rotation angle.</param>
+		/// <returns>The rotated vector</returns>
+		public static FixVector3 RodriguezRotate(FixVector3 v, FixVector3 axis, Fix64 angle)
+		{
+			FixVector3 vxp = Cross(axis, v);
+			FixVector3 vxvxp = Cross(axis, vxp);
+			return v + Fix64.Sin(angle) * vxp + (Fix64.One - Fix64.Cos(angle)) * vxvxp;
+		}
+
+		/// <summary>
+		///Rotates the vector on the X axis
+		/// </summary>
+		public static FixVector3 Pitch(FixVector3 v, Fix64 angle)
+		{
+			FixVector3 newVector = v;
+			newVector.y = v.y * Fix64.Cos(angle) - v.z * Fix64.Sin(angle);
+			newVector.z = v.y * Fix64.Sin(angle) + v.z * Fix64.Cos(angle);
+			return newVector;
+		}
+
+		/// <summary>
+		///Rotates the vector on the Y axis
+		/// </summary>
+		public static FixVector3 Yaw(FixVector3 v, Fix64 angle)
+		{
+			FixVector3 newVector = v;
+			newVector.x = v.x * Fix64.Cos(angle) + v.z * Fix64.Sin(angle);
+			newVector.z = v.x * -Fix64.Sin(angle) + v.z * Fix64.Cos(angle);
+			return newVector;
+		}
+
+		/// <summary>
+		///Rotates the vector on the Z axis
+		/// </summary>
+		public static FixVector3 Roll(FixVector3 v, Fix64 angle)
+		{
+			FixVector3 newVector = v;
+			newVector.x = v.x * Fix64.Cos(angle) - v.y * Fix64.Sin(angle);
+			newVector.y = v.x * Fix64.Sin(angle) + v.y * Fix64.Cos(angle);
+			return newVector;
 		}
 
 		public static Fix64 Angle(FixVector3 a, FixVector3 b)
 		{
-			return Fix64.Atan2(b.y - a.y, b.x - a.x);
+			Fix64 dot = Dot(a, b);
+			Fix64 magA = Length(a);
+			Fix64 magB = Length(b);
+			if (magA * magB == Fix64.Zero) return Fix64.Zero;
+			return Fix64.Acos(dot / (magA * magB));
 		}
 
 		public static Fix64 AngleDegrees(FixVector3 a, FixVector3 b)
@@ -130,7 +184,14 @@ namespace FixMath.NET
 		
 		public static bool IsExactDirection(FixVector3 a, FixVector3 b)
 		{
-			return Dot(a, b) > (Fix64)0.9;
+			return Dot(a, b) > (Fix64)9e-1;
+		}
+
+		public static FixVector3 ClampMagnitude(FixVector3 vector, Fix64 magnitude)
+		{
+			if (Length(vector) > magnitude)
+				return Normalize(vector) * magnitude;
+			return vector;
 		}
 
         public static FixVector3 operator +(FixVector3 a, FixVector3 b) {
@@ -217,7 +278,7 @@ namespace FixMath.NET
 		}
 
 		public static explicit operator FixVector3(Vector3 value) {
-			return new FixVector3((Fix64)value.x, (Fix64)value.y, (Fix64)value.z);
+			return new FixVector3((Fix64)value.X, (Fix64)value.Y, (Fix64)value.Z);
 		}
 
 		public override bool Equals(object obj)

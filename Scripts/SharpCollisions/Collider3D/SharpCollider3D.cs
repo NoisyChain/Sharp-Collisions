@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SharpCollisions
 {
-	public class SharpCollider3D  : Node
+	public partial class SharpCollider3D  : Node
 	{
 		[Export] public Color debugColor = new Color(0, 0, 1);
 
@@ -19,11 +19,10 @@ namespace SharpCollisions
 		public FixVector3 Center;
 		public FixVolume BoundingBox;
 		[Export] protected Vector3 offset;
+		protected Node3D ParentNode;
 
 		protected bool CollisionRequireUpdate = true;
 		protected bool BoundingBoxRequireUpdate = true;
-
-		protected ImmediateGeometry Draw3D;
 
 		/*public SharpCollider2D(){}
 		
@@ -40,10 +39,10 @@ namespace SharpCollisions
 
 		public override void _Ready()
 		{
-			Draw3D = GetNode<ImmediateGeometry>("Draw3D");
+			ParentNode = GetParent() as Node3D;
 		}
 
-		public override void _Process(float delta)
+		public override void _Process(double delta)
 		{
 			DebugDrawShapes();
 		}
@@ -78,7 +77,7 @@ namespace SharpCollisions
             else if (colliderA.Shape == CollisionType3D.Capsule && colliderB.Shape == CollisionType3D.Capsule)
                 return CapsuleToCapsuleCollision(colliderA as CapsuleCollider3D, colliderB as CapsuleCollider3D, out Normal, out Depth, out ContactPoint);
 			else if (colliderA.Shape == CollisionType3D.Sphere && colliderB.Shape == CollisionType3D.Capsule)
-				return CapsuleToSphereCollision(colliderB as CapsuleCollider3D, colliderA as SphereCollider3D, out Normal, out Depth, out ContactPoint);
+				return SphereToCapsuleCollision(colliderA as SphereCollider3D, colliderB as CapsuleCollider3D, out Normal, out Depth, out ContactPoint);
 			else if (colliderA.Shape == CollisionType3D.Capsule && colliderB.Shape == CollisionType3D.Sphere)
 				return CapsuleToSphereCollision(colliderA as CapsuleCollider3D, colliderB as SphereCollider3D, out Normal, out Depth, out ContactPoint);
 			else if (colliderA.Shape == CollisionType3D.Polygon && colliderB.Shape == CollisionType3D.Polygon ||
@@ -95,17 +94,17 @@ namespace SharpCollisions
 		{
 			CollisionFlags flag = collisionFlags;
 
-			if (FixVector3.Dot(collisiondData.Normal, body.Down) > Fix64.ETA)
-				flag.Below = true;
 			if (FixVector3.Dot(collisiondData.Normal, body.Up) > Fix64.ETA)
+				flag.Below = true;
+			if (FixVector3.Dot(collisiondData.Normal, body.Down) > Fix64.ETA)
 				flag.Above = true;
-			if (FixVector3.Dot(collisiondData.Normal, body.Right) > Fix64.ETA)
-				flag.Right = true;
 			if (FixVector3.Dot(collisiondData.Normal, body.Left) > Fix64.ETA)
+				flag.Right = true;
+			if (FixVector3.Dot(collisiondData.Normal, body.Right) > Fix64.ETA)
 				flag.Left = true;
-            if (FixVector3.Dot(collisiondData.Normal, body.Forward) > Fix64.ETA)
+            if (FixVector3.Dot(collisiondData.Normal, body.Back) > Fix64.ETA)
 				flag.Forward = true;
-			if (FixVector3.Dot(collisiondData.Normal, body.Back) > Fix64.ETA)
+			if (FixVector3.Dot(collisiondData.Normal, body.Forward) > Fix64.ETA)
 				flag.Back = true;
 			
 			return flag;
@@ -220,7 +219,7 @@ namespace SharpCollisions
 			if (collision)
 			{
 				Normal = FixVector3.Normalize(colliderB.Center - colliderA.Center);
-				Depth = Normal * (radii - distance);
+				Depth = Normal * Fix64.Abs(radii - distance);
 				ContactPoint = SphereContactPoint(colliderA, colliderB);
 			}
 			
@@ -243,9 +242,8 @@ namespace SharpCollisions
 			if (collision)
 			{
 				Normal = FixVector3.Normalize(r2 - r1);
-				Depth = Normal * (radii - distance);
+				Depth = Normal * Fix64.Abs(radii - distance);
 				ContactPoint = CapsuleContactPoint(r1, colliderA.Radius, r2, colliderB.Radius, Normal);
-;
 			}
 			
 			return collision;
@@ -267,8 +265,32 @@ namespace SharpCollisions
 			if (collision)
 			{
 				Normal = FixVector3.Normalize(colliderB.Center - CapsulePoint);
-				Depth = Normal * (radii - distance);
+				Depth = Normal * Fix64.Abs(radii - distance);
 				ContactPoint = CapsuleContactPoint(CapsulePoint, colliderA.Radius, colliderB.Center, colliderB.Radius, Normal);
+			}
+			
+			return collision;
+		}
+
+		//Just doing this because I don't know how to invert the normal in the previous function yet lol
+		public bool SphereToCapsuleCollision(SphereCollider3D colliderA, CapsuleCollider3D colliderB, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint)
+		{
+			Normal = FixVector3.Zero;
+			Depth = FixVector3.Zero;
+			ContactPoint = FixVector3.Zero;
+
+			LineToPointDistance(colliderB.UpperPoint, colliderB.LowerPoint, colliderA.Center, out FixVector3 CapsulePoint);
+
+			Fix64 radii = colliderA.Radius + colliderB.Radius;
+			Fix64 distance = FixVector3.Distance(CapsulePoint, colliderA.Center);
+			
+			bool collision = distance <= radii;
+			
+			if (collision)
+			{
+				Normal = FixVector3.Normalize(CapsulePoint - colliderA.Center);
+				Depth = Normal * Fix64.Abs(radii - distance);
+				ContactPoint = CapsuleContactPoint(CapsulePoint, colliderB.Radius, colliderA.Center, colliderA.Radius, Normal);
 			}
 			
 			return collision;
@@ -314,7 +336,7 @@ namespace SharpCollisions
 					return LineSimplex(ref Simplex, ref supportDirection);
 				case 3: //Triangle
 					return TriangleSimplex(ref Simplex, ref supportDirection);
-				case 4:
+				case 4: //Tetrahedron
                     return TetrahedronSimplex(ref Simplex, ref supportDirection);
 			}
 
@@ -336,7 +358,8 @@ namespace SharpCollisions
 			FixVector3 ab = b - a;
 			FixVector3 ao = a * Fix64.NegativeOne;
 
-			supportDirection = FixVector3.TripleProduct(ab, ao, ab);
+        	supportDirection = FixVector3.TripleProduct(ab, ao, ab);
+
 			return false;
 		}
 
@@ -349,19 +372,20 @@ namespace SharpCollisions
 			FixVector3 ab = b - a;
 			FixVector3 ac = c - a;
 			FixVector3 ao = a * Fix64.NegativeOne;
-
+		
 			FixVector3 abc = FixVector3.Cross(ab, ac);
-
+		
 			if (FixVector3.IsSameDirection(FixVector3.Cross(abc, ac), ao))
 			{
 				if (FixVector3.IsSameDirection(ac, ao))
 				{
-					Simplex.Reset(new List<FixVector3>(){ a, c });
+					Simplex.Reset(new List<FixVector3>(){a, c});
 					supportDirection = FixVector3.TripleProduct(ac, ao, ac);
 				}
+
 				else
 				{
-					Simplex.Reset(new List<FixVector3>(){ a, b });
+					Simplex.Reset(new List<FixVector3>(){a, b});
 					return LineSimplex(ref Simplex, ref supportDirection);
 				}
 			}
@@ -369,43 +393,24 @@ namespace SharpCollisions
 			{
 				if (FixVector3.IsSameDirection(FixVector3.Cross(ab, abc), ao))
 				{
-					Simplex.Reset(new List<FixVector3>(){ a, b });
+					Simplex.Reset(new List<FixVector3>(){a, b});
 					return LineSimplex(ref Simplex, ref supportDirection);
 				}
+
 				else
 				{
 					if (FixVector3.IsSameDirection(abc, ao))
 					{
 						supportDirection = abc;
 					}
+
 					else
 					{
-						Simplex.Reset(new List<FixVector3>(){ a, c, b });
+						Simplex.Reset(new List<FixVector3>(){a, c, b});
 						supportDirection = -abc;
 					}
 				}
 			}
-
-			/*if(FixVector3.IsSameDirection(abPerp, ao))
-			{
-                // the origin is outside line ab
-                // get rid of c and add a new support in the direction of abPerp
-				Simplex.Reset(new List<FixVector3>(){a, b});
-                supportDirection = abPerp;
-            }
-            else if(FixVector3.IsSameDirection(acPerp, ao))
-			{
-                // the origin is outside line ac
-                // get rid of b and add a new support in the direction of acPerp
-				Simplex.Reset(new List<FixVector3>(){a, c});
-                supportDirection = acPerp;
-            }
-            else
-			{
-                // the origin is inside both ab and ac,
-                // so it must be inside the triangle!
-                return true;
-            }*/
 
 			return false;
 		}
@@ -420,179 +425,185 @@ namespace SharpCollisions
 			FixVector3 ac = c - a;
 			FixVector3 ad = d - a;
 			FixVector3 ao = a * Fix64.NegativeOne;
-
+		
 			FixVector3 abc = FixVector3.Cross(ab, ac);
 			FixVector3 acd = FixVector3.Cross(ac, ad);
 			FixVector3 adb = FixVector3.Cross(ad, ab);
-
+		
 			if (FixVector3.IsSameDirection(abc, ao))
 			{
 				Simplex.Reset(new List<FixVector3>(){a, b, c});
 				return TriangleSimplex(ref Simplex, ref supportDirection);
 			}
+				
 			if (FixVector3.IsSameDirection(acd, ao))
 			{
 				Simplex.Reset(new List<FixVector3>(){a, c, d});
 				return TriangleSimplex(ref Simplex, ref supportDirection);
 			}
+		
 			if (FixVector3.IsSameDirection(adb, ao))
 			{
-				Simplex.Reset(new List<FixVector3>(){a, d, b});
+				Simplex.Reset(new List<FixVector3>(){a, b, d});
 				return TriangleSimplex(ref Simplex, ref supportDirection);
 			}
-			return false;
-		}
-
-		private bool GetPolytopeDirection(List<FixVector3> polytope)
-		{
-			Fix64 e0 = (polytope[1].x - polytope[0].x) * (polytope[1].y + polytope[0].y);
-			Fix64 e1 = (polytope[2].x - polytope[1].x) * (polytope[2].y + polytope[1].y);
-			Fix64 e2 = (polytope[0].x - polytope[2].x) * (polytope[0].y + polytope[2].y);
-
-			return e0 + e1 + e2 > Fix64.Zero;
-		}
-
-		private void GetFaceNormals(ref List<FixVector3> polytope, ref List<int> faces, out List<FixVector3> normals, out List<Fix64> distances, out int minFace)
-		{
-			normals = new List<FixVector3>();
-			distances = new List<Fix64>();
-			minFace = 0;
-			Fix64 minDistance = Fix64.MaxValue;
-
-			for (int i = 0; i < faces.Count; i += 3)
-			{
-				FixVector3 a = polytope[faces[i]];
-				FixVector3 b = polytope[faces[i + 1]];
-				FixVector3 c = polytope[faces[i + 2]];
-
-				FixVector3 normal = FixVector3.Normalize(FixVector3.Cross(b - a, c - a));
-				Fix64 distance = FixVector3.Dot(normal, a);
-
-				if (distance < Fix64.Zero)
-				{
-					normal *= Fix64.NegativeOne;
-					distance *= Fix64.NegativeOne;
-				}
-
-				normals.Add(normal);
-				distances.Add(distance);
-
-				if (distance < minDistance)
-				{
-					minFace = i / 3;
-					minDistance = distance;
-				}
-			}
-		}
-
-		private void AddIfUniqueEdge(ref List<(int, int)> edges, List<int> faces, int a, int b)
-		{
-			//      0--<--3
-			//     / \ B /   A: 2-0
-			//    / A \ /    B: 0-2
-			//   1-->--2
-
-			var reverse = edges.Find(x => x == (faces[b], faces[a]));
 		
-			if (reverse != edges[edges.Count - 1])
+			return true;
+		}
+
+		private void Reconstruct(ref List<FixVector3> polytope, ref List<IntPack3> faces, FixVector3 extendPoint)
+		{
+			//I do realize that this function can be done more efficietly
+			List<int> removalFaces = new List<int>();
+			for(var i = 0; i < faces.Count; i++)
 			{
-				edges.Remove(reverse);
+				var face = faces[i];
+
+				FixVector3 ab = polytope[face.b] - polytope[face.a];
+				FixVector3 ac = polytope[face.c] - polytope[face.a];
+				FixVector3 norm = FixVector3.Normalize(FixVector3.Cross(ab, ac));
+
+				FixVector3 a0 = polytope[face.a] * Fix64.NegativeOne;
+				if(FixVector3.IsSameDirection(a0, norm))
+					norm *= Fix64.NegativeOne;
+
+				if(FixVector3.IsSameDirection(norm, extendPoint - polytope[face.a]))
+					removalFaces.Add(i);
 			}
-			else
+
+			//get the edges that are not shared between the faces that should be removed
+			List<IntPack2> edges = new List<IntPack2>();
+			for(int i = 0; i < removalFaces.Count; i++)
 			{
-				edges.Add((faces[a], faces[b]));
+				IntPack3 face = faces[removalFaces[i]];
+				IntPack2 edgeAB = new IntPack2(face.a, face.b);
+				IntPack2 edgeAC = new IntPack2(face.c, face.a);
+				IntPack2 edgeBC = new IntPack2(face.b, face.c);
+
+				int k = EdgeInEdges(edges, edgeAB);
+				if(k != -1)
+					edges.RemoveAt(k);
+				else
+					edges.Add(edgeAB);
+
+				k = EdgeInEdges(edges, edgeBC);
+				if(k != -1)
+					edges.RemoveAt(k);
+				else
+					edges.Add(edgeBC);
+				k = EdgeInEdges(edges, edgeAC);
+				if(k != -1)
+					edges.RemoveAt(k);
+				else
+					edges.Add(edgeAC);
+			}
+
+			//remove the faces from the polytope
+			for(var i = removalFaces.Count - 1; i >= 0; i--)
+				faces.RemoveAt(removalFaces[i]);
+
+			//form new faces with the edges and new point
+			for(int i = 0; i < edges.Count; i++)
+				faces.Add(new IntPack3(edges[i].a, edges[i].b, polytope.Count - 1));
+		}
+
+		private int EdgeInEdges (List<IntPack2> edges, IntPack2 edge)
+		{
+			for(int i = 0; i < edges.Count; i++)
+			{
+				if (edges[i].IsReverse(edge))
+					return i;
+			}
+
+			return -1;
+		}
+
+		private void FindClosestFace(ref List<FixVector3> polytope, ref List<IntPack3> faces, out Fix64 distance, out FixVector3 normal)
+		{
+			distance = Fix64.MaxValue;
+			normal = FixVector3.Zero;
+
+			for (int i = 0; i < faces.Count; i++)
+			{
+				IntPack3 face = faces[i];
+
+				FixVector3 ab = polytope[face.b] - polytope[face.a];
+				FixVector3 ac = polytope[face.c] - polytope[face.a];
+				FixVector3 norm = FixVector3.Normalize(FixVector3.Cross(ab, ac));
+
+				FixVector3 a0 = polytope[face.a] * Fix64.NegativeOne;
+				
+				if(FixVector3.IsSameDirection(a0, norm))
+					norm *= Fix64.NegativeOne;
+
+				Fix64 dist = FixVector3.Dot(polytope[face.a], norm);
+
+				if(dist < distance)
+				{
+					distance = dist;
+					normal = norm;
+				}
 			}
 		}
 
 		private void EPA(Simplex3D simplex, SharpCollider3D colliderA, SharpCollider3D colliderB, out FixVector3 Normal, out Fix64 Depth, out FixVector3 Contact)
 		{
 			List<FixVector3> polytope = simplex.Points;
-			List<int> faces  = new List<int>()
+			List<IntPack3> simplexFaces  = new List<IntPack3>()
 			{
-				0, 1, 2,
-				0, 3, 1,
-				0, 2, 3,
-				1, 3, 2
+				new IntPack3(0, 1, 2),
+				new IntPack3(0, 3, 1),
+				new IntPack3(0, 2, 3),
+				new IntPack3(1, 3, 2)
 			};
 
-			GetFaceNormals(ref polytope, ref faces, out List<FixVector3> normals, out List<Fix64> distances, out int minFace);
+			int maxIterations = 0;
+			Normal = FixVector3.Zero;
+			Depth = Fix64.MaxValue;
+			Contact = FixVector3.Zero;
 
-			Fix64 minDistance = Fix64.MaxValue;
-			FixVector3 minNormal = FixVector3.Zero;
-
-			while (minDistance == Fix64.MaxValue)
+			while (true)
 			{
-				minNormal   = normals[minFace];
-				minDistance = distances[minFace];
-		
-				FixVector3 support = SupportFunction(colliderA, colliderB, minNormal);
-				Fix64 sDistance = FixVector3.Dot(minNormal, support);
-		
-				if (Fix64.Abs(sDistance - minDistance) > Fix64.ETA)
-				{
-					minDistance = Fix64.MaxValue;
+				maxIterations++;
+				FindClosestFace(ref polytope, ref simplexFaces, out Fix64 fDistance, out FixVector3 fNormal);
 				
-					//std::vector<std::pair<size_t, size_t>> uniqueEdges;
-					List<(int, int)> uniqueEdges = new List<(int, int)>();
+				FixVector3 support = SupportFunction(colliderA, colliderB, fNormal);
+				Fix64 dist = FixVector3.Dot(support, fNormal);
 
-					for (int i = 0; i < normals.Count; i++)
-					{
-						if (FixVector3.IsSameDirection(normals[i], support))
-						{
-							int f = i * 3;
+				//Break the loop after a while to avoid infinite loops
+				//It should never happen, but better safe than sorry
+				if (maxIterations == 64) break;
 
-							AddIfUniqueEdge(ref uniqueEdges, faces, f, f + 1);
-							AddIfUniqueEdge(ref uniqueEdges, faces, f + 1, f + 2);
-							AddIfUniqueEdge(ref uniqueEdges, faces, f + 2, f);
-
-							faces[f + 2] = faces[faces.Count - 1]; faces.RemoveAt(faces.Count - 1);
-							faces[f + 1] = faces[faces.Count - 1]; faces.RemoveAt(faces.Count - 1);
-							faces[f    ] = faces[faces.Count - 1]; faces.RemoveAt(faces.Count - 1);
-
-							normals[i] = normals[normals.Count - 1];
-							normals.RemoveAt(normals.Count - 1);
-							distances[i] = distances[distances.Count - 1];
-							distances.RemoveAt(distances.Count - 1);
-
-							i--;
-						}
-					}
-
-					//std::vector<size_t> newFaces;
-					List<int> newFaces = new List<int>();
-					foreach ((int, int) edges in uniqueEdges)
-					{
-						newFaces.AddRange(new List<int>() { edges.Item1, edges.Item2, polytope.Count} );
-					}
-			 
-					polytope.Add(support);
-
-					GetFaceNormals(ref polytope, ref newFaces, out List<FixVector3> newNormals, out List<Fix64> newDistances, out int newMinFace);
-
-					Fix64 oldMinDistance = Fix64.MaxValue;
-					for (int i = 0; i < distances.Count; i++)
-					{
-						if (distances[i] < oldMinDistance)
-						{
-							oldMinDistance = distances[i];
-							minFace = i;
-						}
-					}
- 
-					if (newDistances[newMinFace] < oldMinDistance)
-					{
-						minFace = newMinFace + distances.Count;
-					}
-
-					faces.AddRange(newFaces);
-					normals.AddRange(newNormals);
-					distances.AddRange(newDistances);
+				if (dist - fDistance < Fix64.ETA)
+				{
+					DrawPolytope(polytope, simplexFaces);
+					Normal = FixVector3.Normalize(fNormal);
+					Depth = Fix64.Abs(fDistance) + Fix64.ETA;
+					break;
 				}
-			}
 
-			Normal = minNormal;
-			Depth = Fix64.Abs(minDistance);
-			Contact = GJKGetContactPoint(colliderA, colliderB);
+				polytope.Add(support);
+				Reconstruct(ref polytope, ref simplexFaces, support);
+			}
+		}
+
+		private void DrawPolytope(List<FixVector3> polytope, List<IntPack3> simplexFaces)
+		{
+			if (!DrawDebug) return;
+
+			DebugDraw.Sphere(Vector3.Zero, 0.03f, new Color(0f, 0f, 0f));
+			
+			for (int i = 0; i < simplexFaces.Count; i++)
+			{
+				Vector3 a = (Vector3)polytope[simplexFaces[i].a];
+				Vector3 b = (Vector3)polytope[simplexFaces[i].b];
+				Vector3 c = (Vector3)polytope[simplexFaces[i].c];
+				DebugDraw.Line(a, b);
+				DebugDraw.Line(b, c);
+				DebugDraw.Line(c, a);
+			}
+			for (int j = 0; j < polytope.Count; j++)
+				DebugDraw.Sphere((Vector3)polytope[j], 0.02f, new Color(0f, 1f, 0f));
 		}
 
 		public FixVector3 AABBContactPoint(AABBCollider3D A, AABBCollider3D B)

@@ -3,7 +3,7 @@ using FixMath.NET;
 
 namespace SharpCollisions
 {
-    public class AABBCollider2D : SharpCollider2D
+    public partial class AABBCollider2D : SharpCollider2D
     {
         public FixVector2 Extents => (FixVector2)extents;
 
@@ -18,11 +18,9 @@ namespace SharpCollisions
         public override void DebugDrawShapes()
         {
             if (!DrawDebug) return;
-            if (Draw3D == null) return;
 
-            Draw3D.Call("clear");
-            Draw3D.Call("cube_normal", (Vector3)Center, Vector3.Forward, (Vector3)Extents + Vector3.Forward, debugColor);
-            //DebugDrawCS.DrawBox((Vector3)Center, (Vector3)Extents * 2 + Vector3.Forward, debugColor, true);
+            Transform3D debugTransform = new(ParentNode.GlobalBasis, (Vector3)Center);
+            DebugDraw.Box(debugTransform, (Vector3)Extents * 2, debugColor);
         }
 
         protected override FixRect GetBoundingBoxPoints()

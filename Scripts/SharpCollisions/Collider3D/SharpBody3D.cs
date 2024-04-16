@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace SharpCollisions
 {
 	[Tool]
-	public class SharpBody3D : FixedTransform3D
+	public partial class SharpBody3D : FixedTransform3D
 	{
 		public delegate void OnOverlapDelegate(SharpBody3D other);
 		public OnOverlapDelegate BeginOverlap;
@@ -52,7 +52,7 @@ namespace SharpCollisions
 
 		public override void _Ready()
 		{
-			if (Engine.EditorHint) return;
+			if (Engine.IsEditorHint()) return;
 
 			base._Ready();
 			Manager.AddBody(this);
@@ -65,7 +65,7 @@ namespace SharpCollisions
 
 		public override void _Destroy()
         {
-            if (Manager.RemoveTransform(this) && Manager.RemoveBody(this))
+            if (Manager.RemoveNode(this) && Manager.RemoveBody(this))
                 QueueFree();
         }
 
@@ -98,15 +98,16 @@ namespace SharpCollisions
 		public void Move(int delta, int iterations)
 		{
 			if (BodyMode == 2) return;
+			if (FixVector3.Length(Velocity) == Fix64.Zero) return;
 			
 			Fix64 fDelta = (Fix64)delta;
 			Fix64 fIterations = (Fix64)iterations;
 
-			Fix64 finalDelta = fDelta * fIterations;
+			Fix64 finalDelta = Fix64.One / (fDelta * fIterations);
 
-			FixedPosition.x += Velocity.x / finalDelta;
-			FixedPosition.y += Velocity.y / finalDelta;
-			FixedPosition.z += Velocity.z / finalDelta;
+			FixedPosition.x += Velocity.x * finalDelta;
+			FixedPosition.y += Velocity.y * finalDelta;
+			FixedPosition.z += Velocity.z * finalDelta;
 			UpdateCollider();
 		}
 
@@ -134,7 +135,7 @@ namespace SharpCollisions
 
 		public void PushAway(FixVector3 direction)
 		{
-			FixedPosition -= direction;
+			FixedPosition += direction;
 			UpdateCollider();
 		}
 		

@@ -1,0 +1,192 @@
+[gd_scene load_steps=17 format=3 uid="uid://de044kf0kbivf"]
+
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/SharpBody2D.cs" id="1"]
+[ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_ver4r"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/General/PhysicsManager.cs" id="2_fb5pd"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/BoxCollider2D.cs" id="4"]
+[ext_resource type="PackedScene" uid="uid://yy8gg16i0mv1" path="res://Scenes/PreviewBody_Controller.tscn" id="5"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/CircleCollider2D.cs" id="6"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/CapsuleCollider2D.cs" id="7"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/PolygonCollider2D.cs" id="8"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/AABBCollider2D.cs" id="9"]
+
+[sub_resource type="BoxMesh" id="1"]
+size = Vector3(6, 0.6, 0.2)
+
+[sub_resource type="SphereMesh" id="SphereMesh_qsbbd"]
+radius = 0.4
+height = 0.8
+
+[sub_resource type="CapsuleMesh" id="3"]
+radius = 0.8
+height = 4.0
+
+[sub_resource type="BoxMesh" id="12"]
+size = Vector3(2, 2, 1)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nqv3l"]
+
+[sub_resource type="Sky" id="Sky_u2jf7"]
+sky_material = SubResource("ProceduralSkyMaterial_nqv3l")
+
+[sub_resource type="Environment" id="Environment_g36mt"]
+background_mode = 2
+sky = SubResource("Sky_u2jf7")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 2
+
+[node name="Main" type="Node3D"]
+
+[node name="FPS_HUD" parent="." instance=ExtResource("1_ver4r")]
+
+[node name="PhysicsManager" type="Node" parent="."]
+script = ExtResource("2_fb5pd")
+iterations = 8
+
+[node name="Character" parent="." instance=ExtResource("5")]
+CeilingAngleLimit = 15
+
+[node name="Floor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
+script = ExtResource("1")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Floor"]
+script = ExtResource("4")
+extents = Vector2(3, 0.3)
+DrawDebug = true
+
+[node name="Viewer" type="Node3D" parent="Floor"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Floor/Viewer"]
+mesh = SubResource("1")
+skeleton = NodePath("../..")
+
+[node name="Floor2" type="Node3D" parent="."]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 4, -2, 0)
+script = ExtResource("1")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Floor2"]
+script = ExtResource("4")
+extents = Vector2(3, 0.3)
+DrawDebug = true
+
+[node name="Viewer" type="Node3D" parent="Floor2"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Floor2/Viewer"]
+mesh = SubResource("1")
+skeleton = NodePath("../..")
+
+[node name="Floor3" type="Node3D" parent="."]
+transform = Transform3D(0.642788, 0.766044, 0, -0.766044, 0.642788, 0, 0, 0, 1, -4, -2, 0)
+script = ExtResource("1")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Floor3"]
+script = ExtResource("4")
+extents = Vector2(3, 0.3)
+DrawDebug = true
+
+[node name="Viewer" type="Node3D" parent="Floor3"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Floor3/Viewer"]
+mesh = SubResource("1")
+skeleton = NodePath("../..")
+
+[node name="Sphere" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -2, 0)
+script = ExtResource("1")
+
+[node name="Collider" type="Node" parent="Sphere"]
+script = ExtResource("6")
+radius = 0.4
+DrawDebug = true
+
+[node name="Viewer" type="Node3D" parent="Sphere"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere/Viewer"]
+mesh = SubResource("SphereMesh_qsbbd")
+
+[node name="Polygon" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -2, 0)
+script = ExtResource("1")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Polygon"]
+script = ExtResource("8")
+vertices = PackedVector2Array(0, 0.7, 0.7, 0, 0.5, -0.7, -0.5, -0.7, -0.7, 0)
+DrawDebug = true
+
+[node name="Viewer" type="Node3D" parent="Polygon"]
+
+[node name="Polygon2" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 3, 0)
+script = ExtResource("1")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Polygon2"]
+script = ExtResource("8")
+vertices = PackedVector2Array(0, 1, 1, -1, -1, -1)
+DrawDebug = true
+
+[node name="Viewer" type="Node3D" parent="Polygon2"]
+
+[node name="Capsule" type="Node3D" parent="."]
+transform = Transform3D(0.819152, -0.573576, 0, 0.573576, 0.819152, 0, 0, 0, 1, -3, 1, 0)
+script = ExtResource("1")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Capsule"]
+script = ExtResource("7")
+radius = 0.8
+height = 2.0
+DrawDebug = true
+
+[node name="Viewer" type="Node3D" parent="Capsule"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Capsule/Viewer"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("3")
+
+[node name="AABBTest" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0)
+script = ExtResource("1")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="AABBTest"]
+script = ExtResource("9")
+DrawDebug = true
+
+[node name="Viewer" type="Node3D" parent="AABBTest"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="AABBTest/Viewer"]
+mesh = SubResource("12")
+skeleton = NodePath("../..")
+
+[node name="AABBTest2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.5, 0)
+script = ExtResource("1")
+
+[node name="Collider" type="Node" parent="AABBTest2"]
+script = ExtResource("9")
+DrawDebug = true
+
+[node name="Viewer" type="Node3D" parent="AABBTest2"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="AABBTest2/Viewer"]
+mesh = SubResource("12")
+skeleton = NodePath("../..")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+projection = 1
+current = true
+size = 9.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_g36mt")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.76591, 0.470268, -0.43844, 0, 0.681922, 0.731425, 0.642948, -0.560206, 0.522291, -1.96341, 1.98419, 3.05469)

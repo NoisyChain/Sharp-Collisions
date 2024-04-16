@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace SharpCollisions
 {
-	public class SharpCollider2D  : Node
+	public partial class SharpCollider2D  : Node
 	{
 		[Export] public Color debugColor = new Color(0, 0, 1);
 
@@ -18,11 +18,10 @@ namespace SharpCollisions
 		public FixVector2 Center;
 		public FixRect BoundingBox;
 		[Export] protected Vector2 offset;
+		protected Node3D ParentNode;
 
 		protected bool CollisionRequireUpdate = true;
 		protected bool BoundingBoxRequireUpdate = true;
-
-		protected ImmediateGeometry Draw3D;
 
 		/*public SharpCollider2D(){}
 		
@@ -39,10 +38,10 @@ namespace SharpCollisions
 
 		public override void _Ready()
 		{
-			Draw3D = GetNode<ImmediateGeometry>("Draw3D");
+			ParentNode = GetParent() as Node3D;
 		}
 
-		public override void _Process(float delta)
+		public override void _Process(double delta)
 		{
 			DebugDrawShapes();
 		}
@@ -77,7 +76,7 @@ namespace SharpCollisions
             else if (colliderA.Shape == CollisionType2D.Capsule && colliderB.Shape == CollisionType2D.Capsule)
                 return CapsuleToCapsuleCollision(colliderA as CapsuleCollider2D, colliderB as CapsuleCollider2D, out Normal, out Depth, out ContactPoint);
 			else if (colliderA.Shape == CollisionType2D.Circle && colliderB.Shape == CollisionType2D.Capsule)
-				return CapsuleToCircleCollision(colliderB as CapsuleCollider2D, colliderA as CircleCollider2D, out Normal, out Depth, out ContactPoint);
+				return CircleToCapsuleCollision(colliderA as CircleCollider2D, colliderB as CapsuleCollider2D, out Normal, out Depth, out ContactPoint);
 			else if (colliderA.Shape == CollisionType2D.Capsule && colliderB.Shape == CollisionType2D.Circle)
 				return CapsuleToCircleCollision(colliderA as CapsuleCollider2D, colliderB as CircleCollider2D, out Normal, out Depth, out ContactPoint);
 			else if (colliderA.Shape == CollisionType2D.Polygon && colliderB.Shape == CollisionType2D.Polygon ||
@@ -94,13 +93,13 @@ namespace SharpCollisions
 		{
 			CollisionFlags flag = collisionFlags;
 
-			if (FixVector2.Dot(collisiondData.Normal, body.Down) > Fix64.ETA)
-				flag.Below = true;
 			if (FixVector2.Dot(collisiondData.Normal, body.Up) > Fix64.ETA)
+				flag.Below = true;
+			if (FixVector2.Dot(collisiondData.Normal, body.Down) > Fix64.ETA)
 				flag.Above = true;
-			if (FixVector2.Dot(collisiondData.Normal, body.Right) > Fix64.ETA)
-				flag.Right = true;
 			if (FixVector2.Dot(collisiondData.Normal, body.Left) > Fix64.ETA)
+				flag.Right = true;
+			if (FixVector2.Dot(collisiondData.Normal, body.Right) > Fix64.ETA)
 				flag.Left = true;
 			
 			return flag;
@@ -246,6 +245,30 @@ namespace SharpCollisions
 			return collision;
 		}
 
+		//Just doing this because I don't know how to invert the normal in the previous function yet lol
+		public bool CircleToCapsuleCollision(CircleCollider2D colliderA, CapsuleCollider2D colliderB, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
+		{
+			Normal = FixVector2.Zero;
+			Depth = FixVector2.Zero;
+			ContactPoint = FixVector2.Zero;
+
+			LineToPointDistance(colliderB.UpperPoint, colliderB.LowerPoint, colliderA.Center, out FixVector2 CapsulePoint);
+
+			Fix64 radii = colliderA.Radius + colliderB.Radius;
+			Fix64 distance = FixVector2.Distance(CapsulePoint, colliderA.Center);
+			
+			bool collision = distance <= radii;
+			
+			if (collision)
+			{
+				Normal = FixVector2.Normalize(CapsulePoint - colliderA.Center);
+				Depth = Normal * (radii - distance);
+				ContactPoint = CapsuleContactPoint(CapsulePoint, colliderB.Radius, colliderA.Center, colliderA.Radius, Normal);
+			}
+			
+			return collision;
+		}
+
 		public bool GJKPolygonCollision(SharpCollider2D colliderA, SharpCollider2D colliderB, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
 		{
 			Normal = FixVector2.Zero;
@@ -286,8 +309,6 @@ namespace SharpCollisions
 					return LineSimplex(ref Simplex, ref supportDirection);
 				case 3: //Triangle
 					return TriangleSimplex(ref Simplex, ref supportDirection);
-				case 4: //Tetrahedron (not used in 2D)
-					break;
 			}
 
 			//Should never be here
@@ -349,42 +370,6 @@ namespace SharpCollisions
 			return false;
 		}
 
-		//Saving this code for the 3D version
-		/*
-		bool TetrahedronSimplex(ref Simplex3D Simplex, ref FixVector2 supportDirection, out FixVector2 Normal, out FixVector2 Depth)
-		{
-			FixVector3 a = Simplex.Points[0];
-			FixVector3 b = Simplex.Points[1];
-			FixVector3 c = Simplex.Points[2];
-			FixVector3 d = Simplex.Points[3];
-
-			FixVector3 ab = b - a;
-			FixVector3 ac = c - a;
-			FixVector3 ad = d - a;
-			FixVector3 ao = a * Fix64.NegativeOne;
-
-			FixVector3 abc = FixVector3.Cross(ab, ac);
-			FixVector3 acd = FixVector3.Cross(ac, ad);
-			FixVector3 adb = FixVector3.Cross(ad, ab);
-
-			if (IsSameDirection(abc, ao))
-			{
-				Simplex.Reset(new List<FixVector2>(){a, b, c});
-				return TriangleSimplex(ref Simplex, ref supportDirection, out Normal, out Depth);
-			}
-			if (IsSameDirection(acd, ao))
-			{
-				Simplex.Reset(new List<FixVector2>(){a, c, d});
-				return TriangleSimplex(ref Simplex, ref supportDirection, out Normal, out Depth);
-			}
-			if (IsSameDirection(adb, ao))
-			{
-				Simplex.Reset(new List<FixVector2>(){a, d, b});
-				return TriangleSimplex(ref Simplex, ref supportDirection, out Normal, out Depth);
-			}
-			return false;
-		}*/
-
 		private bool GetPolytopeDirection(List<FixVector2> polytope)
 		{
 			Fix64 e0 = (polytope[1].x - polytope[0].x) * (polytope[1].y + polytope[0].y);
@@ -396,6 +381,7 @@ namespace SharpCollisions
 
 		private void EPA(Simplex2D simplex, SharpCollider2D colliderA, SharpCollider2D colliderB, out FixVector2 Normal, out Fix64 Depth, out FixVector2 Contact)
 		{
+			int maxIterations = 0;
 			int minIndex = 0;
 			Fix64 minDistance = Fix64.MaxValue;
 			FixVector2 minNormal = FixVector2.Zero;
@@ -404,6 +390,11 @@ namespace SharpCollisions
 
 			while (minDistance == Fix64.MaxValue)
 			{
+				maxIterations++;
+				//Break the loop after a while to avoid infinite loops
+				//It should never happen, but better safe than sorry
+				if (maxIterations == 64) break;
+
 				for (int i = 0; i < polytope.Count; i++)
 				{
 					int j = (i + 1) % polytope.Count;
@@ -434,10 +425,25 @@ namespace SharpCollisions
 					polytope.Insert(minIndex, support);
 				}
 			}
+			DrawPolytope(polytope);
 
 			Normal = minNormal;
-			Depth = Fix64.Abs(minDistance);
+			Depth = Fix64.Abs(minDistance) + Fix64.ETA;
 			Contact = GJKGetContactPoint(colliderA, colliderB);
+		}
+
+		private void DrawPolytope(List<FixVector2> polytope)
+		{
+			if (!DrawDebug) return;
+
+			DebugDraw.Sphere(Vector3.Zero, 0.03f, new Color(0f, 0f, 0f));
+			
+			for (int i = 0; i < polytope.Count; i++)
+			{
+				Vector3 a = (Vector3)polytope[i];
+				Vector3 b = (Vector3)polytope[(i + 1) % polytope.Count];
+				DebugDraw.Line(a, b);
+			}
 		}
 
 		public FixVector2 AABBContactPoint(AABBCollider2D A, AABBCollider2D B)
@@ -629,15 +635,15 @@ namespace SharpCollisions
 
 		public void LineToLineDistance(FixVector2 p1, FixVector2 p2, FixVector2 p3, FixVector2 p4, out FixVector2 r1, out FixVector2 r2)
 		{
-			var r = p3 - p1;
-			var u = p2 - p1;
-			var v = p4 - p3;
-			var ru = FixVector2.Dot(r, u);
-			var rv = FixVector2.Dot(r, v);
-			var uu = FixVector2.Dot(u, u);
-			var uv = FixVector2.Dot(u, v);
-			var vv = FixVector2.Dot(v, v);
-			var det = uu * vv - uv * uv;
+			FixVector2 r = p3 - p1;
+			FixVector2 u = p2 - p1;
+			FixVector2 v = p4 - p3;
+			Fix64 ru = FixVector2.Dot(r, u);
+			Fix64 rv = FixVector2.Dot(r, v);
+			Fix64 uu = FixVector2.Dot(u, u);
+			Fix64 uv = FixVector2.Dot(u, v);
+			Fix64 vv = FixVector2.Dot(v, v);
+			Fix64 det = uu * vv - uv * uv;
 
 			Fix64 s, t;
 			if (det < Fix64.ETA * uu * vv)
@@ -651,8 +657,8 @@ namespace SharpCollisions
 				t = Fix64.Clamp01((ru * uv - rv * uu) / det);
 			}
 
-			var S = Fix64.Clamp01((t * uv + ru) / uu);
-			var T = Fix64.Clamp01((s * uv - rv) / vv);
+			Fix64 S = Fix64.Clamp01((t * uv + ru) / uu);
+			Fix64 T = Fix64.Clamp01((s * uv - rv) / vv);
 
 			r1 = p1 + S * u;
 			r2 = p3 + T * v;
@@ -692,16 +698,6 @@ public enum CollisionType2D
 	Circle = 1,
 	Capsule = 2,
 	Polygon = 3,
-}
-
-public enum CollisionType3D
-{
-	Null = -1,
-	AABB = 0,
-	Sphere = 1,
-	Capsule = 2,
-	Cylinder = 3,
-	Polygon = 4,
 }
 
 /*[Flags]

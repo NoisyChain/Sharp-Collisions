@@ -3,7 +3,7 @@ using FixMath.NET;
 
 namespace SharpCollisions
 {
-    public class CapsuleCollider2D : SharpCollider2D
+    public partial class CapsuleCollider2D : SharpCollider2D
     {
         public Fix64 Radius => (Fix64)radius;
         public Fix64 Height => (Fix64)height;
@@ -45,25 +45,14 @@ namespace SharpCollisions
         public override void DebugDrawShapes()
         {
             if (!DrawDebug) return;
-            if (Draw3D == null) return;
 
-            Vector3 LineVector = (Vector3)FixVector2.GetNormal(UpperPoint, LowerPoint);
-            Vector3 LineSpacing = LineVector * (float)Radius;
-            Vector3 LineDirection = (Vector3)FixVector2.Normalize(UpperPoint - LowerPoint);
+            ///Vector3 LineVector = (Vector3)FixVector2.GetNormal(UpperPoint, LowerPoint);
+            ///Vector3 LineSpacing = LineVector * (float)Radius;
+            ///Vector3 LineDirection = (Vector3)FixVector2.Normalize(UpperPoint - LowerPoint);
 
-            Draw3D.Call("clear");
-            Draw3D.Call("circle_normal", (Vector3)LowerPoint, Vector3.Forward, (float)Radius, debugColor);
-            Draw3D.Call("circle_normal", (Vector3)UpperPoint, Vector3.Forward, (float)Radius, debugColor);
-            Draw3D.Call("line_segment", (Vector3)UpperPoint + LineSpacing, (Vector3)LowerPoint + LineSpacing, debugColor);
-            Draw3D.Call("line_segment", (Vector3)UpperPoint - LineSpacing, (Vector3)LowerPoint - LineSpacing, debugColor);
-
-            //DebugDrawCS.DrawArcLine((Vector3)UpperPoint, LineVector, LineDirection, (float)Radius, debugColor);
-            //DebugDrawCS.DrawArcLine((Vector3)UpperPoint, -LineVector, LineDirection, (float)Radius, debugColor);
-            //DebugDrawCS.DrawArcLine((Vector3)LowerPoint, LineVector, -LineDirection, (float)Radius, debugColor);
-            //DebugDrawCS.DrawArcLine((Vector3)LowerPoint, -LineVector, -LineDirection, (float)Radius, debugColor);
-            //DebugDrawCS.DrawLine((Vector3)UpperPoint + LineSpacing, (Vector3)LowerPoint + LineSpacing, debugColor);
-            //DebugDrawCS.DrawLine((Vector3)UpperPoint - LineSpacing, (Vector3)LowerPoint - LineSpacing, debugColor);
-		}
+            Transform3D debugTransform = new(ParentNode.GlobalBasis, (Vector3)Center);
+            DebugDraw.Capsule(debugTransform, (float)Radius, (float)Height * 2, debugColor);
+        }
 
         protected override FixRect GetBoundingBoxPoints()
         {

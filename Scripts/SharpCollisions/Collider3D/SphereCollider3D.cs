@@ -3,7 +3,7 @@ using FixMath.NET;
 
 namespace SharpCollisions
 {
-    public partial class CircleCollider2D : SharpCollider2D
+    public partial class SphereCollider3D : SharpCollider3D
     {
         public Fix64 Radius => (Fix64)radius;
         [Export] protected float radius;
@@ -11,7 +11,7 @@ namespace SharpCollisions
         public override void _Ready()
         {
             base._Ready();
-            Shape = CollisionType2D.Circle;
+            Shape = CollisionType3D.Sphere;
         }
 
         public override void DebugDrawShapes()
@@ -21,30 +21,32 @@ namespace SharpCollisions
             DebugDraw.Sphere(debugTransform, (float)Radius, debugColor);
         }
 
-        protected override FixRect GetBoundingBoxPoints()
+        protected override FixVolume GetBoundingBoxPoints()
         {
-            return UpdateCircleBoundingBox();
+            return UpdateSphereBoundingBox();
         }
 
-        public override void UpdatePoints(SharpBody2D body)
+        public override void UpdatePoints(SharpBody3D body)
         {
             base.UpdatePoints(body);
         }
 
-		public override FixVector2 Support(FixVector2 direction)
+		public override FixVector3 Support(FixVector3 direction)
 		{
-			FixVector2 NormalizedDirection = FixVector2.Normalize(direction);
+			FixVector3 NormalizedDirection = FixVector3.Normalize(direction);
 			return Center + Radius * NormalizedDirection;
 		}
 
-        public FixRect UpdateCircleBoundingBox()
+        public FixVolume UpdateSphereBoundingBox()
         {
             Fix64 minX = Center.x - Radius;
             Fix64 minY = Center.y - Radius;
+            Fix64 minZ = Center.z - Radius;
             Fix64 maxX = Center.x + Radius;
             Fix64 maxY = Center.y + Radius;
+            Fix64 maxZ = Center.z + Radius;
 
-            return new FixRect(minX, minY, maxX, maxY);
+            return new FixVolume(minX, minY, minZ, maxX, maxY, maxZ);
         }
     }
 }

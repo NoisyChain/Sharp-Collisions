@@ -6,37 +6,40 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[ {
-"base": "ImmediateGeometry",
-"class": "Draw3D",
-"language": "GDScript",
-"path": "res://addons/draw3d/draw_3d.gd"
-} ]
-_global_script_class_icons={
-"Draw3D": "res://addons/draw3d/CanvasItem.svg"
-}
+config_version=5
 
 [application]
 
-config/name="Sharp Collisions"
-config/description="C# deterministic collision system"
-run/main_scene="res://Scenes/TestScene.tscn"
-config/icon="res://icon.png"
+config/name="Sharp Collisions 4"
+run/main_scene="res://Scenes/TestScene3D.tscn"
+config/features=PackedStringArray("4.2", "C#", "GL Compatibility")
+config/icon="res://icon.svg"
 
-[gui]
+[autoload]
 
-common/drop_mouse_on_gui_input_disabled=true
+DebugDraw="*res://addons/debug_drawing/DebugDraw.cs"
 
-[mono]
+[display]
 
-project/assembly_name="Fixed Physics"
+window/vsync/vsync_mode=0
 
-[physics]
+[dotnet]
 
-common/enable_pause_aware_picking=true
+project/assembly_name="Sharp Collisions 4"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/debug_drawing/plugin.cfg")
+
+[input]
+
+jump={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"echo":false,"script":null)
+]
+}
 
 [rendering]
 
-environment/default_environment="res://default_env.tres"
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

@@ -18,7 +18,7 @@ namespace FixMath.NET
 		public static readonly Fix64 MinValue = new Fix64(MIN_VALUE);
 		public static readonly Fix64 One = new Fix64(ONE);
 		public static readonly Fix64 Two = new Fix64(2);
-		public static readonly Fix64 ETA = (Fix64)1e-6;
+		public static readonly Fix64 ETA = (Fix64)1e-3;
 		public static readonly Fix64 NegativeOne = -One;
 		public static readonly Fix64 Zero = new Fix64();
 		/// <summary>
@@ -938,10 +938,10 @@ namespace FixMath.NET
 
 		public static Fix64 Clamp01(Fix64 value)
 		{
-			if (value < Fix64.Zero)
-				return Fix64.Zero;
-			else if (value > Fix64.One)
-				return Fix64.One;
+			if (value < Zero)
+				return Zero;
+			else if (value > One)
+				return One;
 			else return value;
 		}
 
@@ -956,6 +956,13 @@ namespace FixMath.NET
 			if (a >= b) return a;
 			else return b;
 		}
+
+		public static Fix64 Lerp(Fix64 from, Fix64 to, int numberOfSteps, int currentStep)
+		{
+			return (to - from) * (Fix64)currentStep / (Fix64)numberOfSteps;
+		}
+
+		//---------------------------
 
 		public static explicit operator Fix64(long value)
 		{

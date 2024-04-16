@@ -5,19 +5,19 @@ using System.Collections.Generic;
 namespace SharpCollisions
 {
 	[Tool]
-	public partial class SharpBody2D : FixedTransform2D
+	public partial class SharpBody3D : FixedTransform3D
 	{
-		public delegate void OnOverlapDelegate(SharpBody2D other);
+		public delegate void OnOverlapDelegate(SharpBody3D other);
 		public OnOverlapDelegate BeginOverlap;
 		public OnOverlapDelegate DuringOverlap;
 		public OnOverlapDelegate EndOverlap;
 
-		public FixVector2 Velocity;
+		public FixVector3 Velocity;
 
-		public SharpCollider2D Collider;
-		public List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
-		public List<SharpBody2D> CollidedWith = new List<SharpBody2D>();
-		public List<SharpBody2D> BodiesToIgnore = new List<SharpBody2D>();
+		public SharpCollider3D Collider;
+		public List<CollisionManifold3D> Collisions = new List<CollisionManifold3D>();
+		public List<SharpBody3D> CollidedWith = new List<SharpBody3D>();
+		public List<SharpBody3D> BodiesToIgnore = new List<SharpBody3D>();
 
 		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
 		public int CollisionLayers = 1;
@@ -56,7 +56,7 @@ namespace SharpCollisions
 
 			base._Ready();
 			Manager.AddBody(this);
-			Collider = GetNode<SharpCollider2D>("Collider");
+			Collider = GetNode<SharpCollider3D>("Collider");
 			UpdateCollider();
 			BeginOverlap = OnBeginOverlap;
 			DuringOverlap = OnOverlap;
@@ -69,7 +69,7 @@ namespace SharpCollisions
                 QueueFree();
         }
 
-		public void IgnoreBody(SharpBody2D bodyToIgnore, bool ignore)
+		public void IgnoreBody(SharpBody3D bodyToIgnore, bool ignore)
 		{
 			if (ignore)
 			{
@@ -88,7 +88,7 @@ namespace SharpCollisions
 			BodiesToIgnore.Clear();
 		}
 		
-		public void SetVelocity(FixVector2 newVelocity)
+		public void SetVelocity(FixVector3 newVelocity)
 		{
 			if (BodyMode == 2) return;
 			
@@ -98,7 +98,7 @@ namespace SharpCollisions
 		public void Move(int delta, int iterations)
 		{
 			if (BodyMode == 2) return;
-			if (FixVector2.Length(Velocity) == Fix64.Zero) return;
+			if (FixVector3.Length(Velocity) == Fix64.Zero) return;
 			
 			Fix64 fDelta = (Fix64)delta;
 			Fix64 fIterations = (Fix64)iterations;
@@ -107,10 +107,11 @@ namespace SharpCollisions
 
 			FixedPosition.x += Velocity.x * finalDelta;
 			FixedPosition.y += Velocity.y * finalDelta;
+			FixedPosition.z += Velocity.z * finalDelta;
 			UpdateCollider();
 		}
 
-		public void Rotate(Fix64 angle)
+		public void Rotate(FixVector3 angle)
 		{
 			if (BodyMode == 2) return;
 
@@ -118,7 +119,7 @@ namespace SharpCollisions
 			UpdateCollider();
 		}
 
-		public void RotateDegrees(Fix64 angle)
+		public void RotateDegrees(FixVector3 angle)
 		{
 			if (BodyMode == 2) return;
 
@@ -126,19 +127,19 @@ namespace SharpCollisions
 			UpdateCollider();
 		}
 
-		public void SetRotation(Fix64 angle)
+		public void SetRotation(FixVector3 angle)
 		{
 			FixedRotation = angle;
 			UpdateCollider();
 		}
 
-		public void PushAway(FixVector2 direction)
+		public void PushAway(FixVector3 direction)
 		{
 			FixedPosition += direction;
 			UpdateCollider();
 		}
 		
-		public void MoveTo(FixVector2 destination)
+		public void MoveTo(FixVector3 destination)
 		{
 			FixedPosition = destination;
 			UpdateCollider();
@@ -153,20 +154,20 @@ namespace SharpCollisions
 
 		public override void _FixedProcess(Fix64 delta)
 		{
-			SetVelocity(FixVector2.Zero);
+			SetVelocity(FixVector3.Zero);
 		}
 
-		public virtual void OnBeginOverlap(SharpBody2D other)
+		public virtual void OnBeginOverlap(SharpBody3D other)
 		{
 			//GD.Print("Entered Collision!");
 		}
 
-		public virtual void OnOverlap(SharpBody2D other)
+		public virtual void OnOverlap(SharpBody3D other)
 		{
 			//GD.Print("Still colliding...");
 		}
 
-		public virtual void OnEndOverlap(SharpBody2D other)
+		public virtual void OnEndOverlap(SharpBody3D other)
 		{
 			//GD.Print("Exited Collision!");
 		}

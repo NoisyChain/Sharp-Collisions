@@ -3,16 +3,16 @@ using FixMath.NET;
 
 namespace SharpCollisions
 {
-    public partial class AABBCollider2D : SharpCollider2D
+    public partial class AABBCollider3D : SharpCollider3D
     {
-        public FixVector2 Extents => (FixVector2)extents;
+        public FixVector3 Extents => (FixVector3)extents;
 
-        [Export] private Vector2 extents = Vector2.One;
+        [Export] private Vector3 extents = Vector3.One;
 
         public override void _Ready()
         {
             base._Ready();
-            Shape = CollisionType2D.AABB;
+            Shape = CollisionType3D.AABB;
         }
 
         public override void DebugDrawShapes()
@@ -23,24 +23,26 @@ namespace SharpCollisions
             DebugDraw.Box(debugTransform, (Vector3)Extents * 2, debugColor);
         }
 
-        protected override FixRect GetBoundingBoxPoints()
+        protected override FixVolume GetBoundingBoxPoints()
         {
             return UpdateAABBBoundingBox();
         }
 
-        public override void UpdatePoints(SharpBody2D body)
+        public override void UpdatePoints(SharpBody3D body)
         {
             base.UpdatePoints(body);
         }
 
-        public FixRect UpdateAABBBoundingBox()
+        public FixVolume UpdateAABBBoundingBox()
         {
             Fix64 minX = Center.x - Extents.x;
             Fix64 minY = Center.y - Extents.y;
+            Fix64 minZ = Center.z - Extents.z;
             Fix64 maxX = Center.x + Extents.x;
             Fix64 maxY = Center.y + Extents.y;
+            Fix64 maxZ = Center.z + Extents.z;
 
-            return new FixRect(minX, minY, maxX, maxY);
+            return new FixVolume(minX, minY, minZ, maxX, maxY, maxZ);
         }
     }
 }

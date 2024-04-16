@@ -3,33 +3,33 @@ using FixMath.NET;
 
 namespace SharpCollisions
 {
-    public partial class PolygonCollider2D : SharpCollider2D
+    public partial class PolygonCollider3D : SharpCollider3D
     {
-        public FixVector2[] RawPoints;
-		public FixVector2[] Points;
+        public FixVector3[] RawPoints;
+		public FixVector3[] Points;
 
-        [Export] private Vector2[] vertices = new Vector2[0];
+        [Export] private Vector3[] vertices = new Vector3[0];
 
         public override void _Ready()
         {
             base._Ready();
-            Shape = CollisionType2D.Polygon;
+            Shape = CollisionType3D.Polygon;
             CreatePolygonPoints();
         }
 
         private void CreatePolygonPoints()
         {
-            RawPoints = new FixVector2[vertices.Length];
+            RawPoints = new FixVector3[vertices.Length];
             for (int i = 0; i < RawPoints.Length; i++)
-                RawPoints[i] = (FixVector2)vertices[i] + Offset;
+                RawPoints[i] = (FixVector3)vertices[i] + Offset;
             
-            Points = new FixVector2[RawPoints.Length];
+            Points = new FixVector3[RawPoints.Length];
         }
 
-        private void UpdatePolygonPoints(SharpBody2D body)
+        private void UpdatePolygonPoints(SharpBody3D body)
         {
             for (int i = 0; i < RawPoints.Length; i++)
-				Points[i] = FixVector2.Transform(RawPoints[i], body);
+				Points[i] = FixVector3.Transform(RawPoints[i], body);
         }
 
         public override void DebugDrawShapes()
@@ -44,25 +44,25 @@ namespace SharpCollisions
             }
         }
 
-        protected override FixRect GetBoundingBoxPoints()
+        protected override FixVolume GetBoundingBoxPoints()
         {
             return UpdatePolygonBoundingBox();
         }
 
-        public override void UpdatePoints(SharpBody2D body)
+        public override void UpdatePoints(SharpBody3D body)
         {
             UpdatePolygonPoints(body);
             base.UpdatePoints(body);
         }
 
-        public override FixVector2 Support(FixVector2 direction)
+        public override FixVector3 Support(FixVector3 direction)
         {
-            FixVector2 maxPoint = FixVector2.Zero;
+            FixVector3 maxPoint = FixVector3.Zero;
 			Fix64 maxDistance = Fix64.MinValue;
 
 			for (int i = 0; i < Points.Length; i++)
 			{
-				Fix64 dist = FixVector2.Dot(Points[i], direction);
+				Fix64 dist = FixVector3.Dot(Points[i], direction);
 				if (dist > maxDistance)
 				{
 					maxDistance = dist;
@@ -72,26 +72,30 @@ namespace SharpCollisions
 			return maxPoint;
         }
 
-        public FixRect UpdatePolygonBoundingBox()
+        public FixVolume UpdatePolygonBoundingBox()
         {
             Fix64 minX = Fix64.MaxValue;
 			Fix64 minY = Fix64.MaxValue;
+            Fix64 minZ = Fix64.MaxValue;
 			Fix64 maxX = Fix64.MinValue;
 			Fix64 maxY = Fix64.MinValue;
+            Fix64 maxZ = Fix64.MinValue;
 
-            FixVector2[] points = Points;
+            FixVector3[] points = Points;
 
             for (int p = 0; p < points.Length; p++)
             {
-                FixVector2 v = points[p];
+                FixVector3 v = points[p];
 
                 if (v.x < minX) minX = v.x;
                 if (v.x > maxX) maxX = v.x;
                 if (v.y < minY) minY = v.y;
                 if (v.y > maxY) maxY = v.y;
+                if (v.z < minZ) minZ = v.z;
+                if (v.z > maxZ) maxZ = v.z;
             }
 
-            return new FixRect(minX, minY, maxX, maxY);
+            return new FixVolume(minX, minY, minZ, maxX, maxY, maxZ);
         }
     }
 }

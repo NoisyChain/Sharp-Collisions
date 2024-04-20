@@ -6,6 +6,7 @@ namespace SharpCollisions
     [Tool]
     public partial class FixedTransform3D : SharpNode
     {
+        public FixedTransform3D Parent;
         public FixVector3 FixedPosition;
         public FixVector3 FixedRotation;
 
@@ -22,6 +23,8 @@ namespace SharpCollisions
 
             FixedPosition = (FixVector3)GlobalPosition;
             FixedRotation = (FixVector3)GlobalRotation;
+            Parent = GetParent<Node3D>() as FixedTransform3D;
+            GD.Print(Parent != null ? Parent.Name : "No parent found.");
         }
 
         public override void _Process(double delta)
@@ -30,6 +33,21 @@ namespace SharpCollisions
 
             GlobalPosition = (Vector3)FixedPosition;
             GlobalRotation = (Vector3)FixedRotation;
+        }
+
+        public void SetParent(FixedTransform3D newParent)
+        {
+            if (newParent == null)
+            {
+                GetParent<Node3D>().RemoveChild(this);
+                Parent = null;
+            }
+            else
+            {
+                GetParent<Node3D>().RemoveChild(this);
+                newParent.AddChild(this);
+                Parent = newParent;
+            }
         }
     }
 }

@@ -12,12 +12,13 @@ namespace SharpCollisions
 		public OnOverlapDelegate DuringOverlap;
 		public OnOverlapDelegate EndOverlap;
 
+		protected uint ID; 
 		public FixVector3 Velocity;
 
 		public SharpCollider3D Collider;
 		public List<CollisionManifold3D> Collisions = new List<CollisionManifold3D>();
-		public List<SharpBody3D> CollidedWith = new List<SharpBody3D>();
-		public List<SharpBody3D> BodiesToIgnore = new List<SharpBody3D>();
+		public List<uint> CollidedWith = new List<uint>();
+		public List<uint> BodiesToIgnore = new List<uint>();
 
 		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
 		public int CollisionLayers = 1;
@@ -26,28 +27,27 @@ namespace SharpCollisions
 
 		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
 		public int BodyMode = 0;
-		//[Export] public bool isStatic = false;
-		//[Export] public bool isPushable = true;
+		
 		[Export] public bool isTrigger = false;
 		
-		/*public SharpBody2D() {}
+		/*public SharpBody3D() {}
 		
-		public SharpBody2D(FixVector2 origin, FixVector2 offset, FixVector2 size, 
-			FixVector2[] points, Fix64 angle, CollisionType shape, int layers,
+		public SharpBody3D(FixVector3 origin, FixVector3 offset, FixVector3 size, 
+			FixVector3[] points, Fix64 angle, CollisionType shape, int layers,
 			bool staticBody, bool pushableBody, bool trigger)
 		{
 			position = origin;
 			rotation = angle;
-			velocity = FixVector2.Zero;
+			velocity = FixVector3.Zero;
 			isStatic = staticBody;
 			isPushable = pushableBody;
 			isTrigger = trigger;
 			CollisionLayers = layers;
-			collider = new SharpCollider2D(position, offset, size, points, shape);
+			collider = new SharpCollider3D(position, offset, size, points, shape);
 			UpdateCollider();
-			Collisions = new List<CollisionManifold2D>();
-			CollidedWith = new List<SharpBody2D>();
-			BodiesToIgnore = new List<SharpBody2D>();
+			Collisions = new List<CollisionManifold3D>();
+			CollidedWith = new List<int>();
+			BodiesToIgnore = new List<int>();
 		}*/
 
 		public override void _Ready()
@@ -69,17 +69,27 @@ namespace SharpCollisions
                 QueueFree();
         }
 
+		public void SetBodyID(uint value)
+		{
+			ID = value;
+		}
+
+		public uint GetBodyID()
+		{
+			return ID;
+		}
+
 		public void IgnoreBody(SharpBody3D bodyToIgnore, bool ignore)
 		{
 			if (ignore)
 			{
-				BodiesToIgnore.Add(bodyToIgnore);
-				bodyToIgnore.BodiesToIgnore.Add(this);
+				BodiesToIgnore.Add(bodyToIgnore.ID);
+				bodyToIgnore.BodiesToIgnore.Add(ID);
 			}
 			else
 			{
-				if (BodiesToIgnore.Contains(bodyToIgnore))	BodiesToIgnore.Remove(bodyToIgnore);
-				if (bodyToIgnore.BodiesToIgnore.Contains(this))	bodyToIgnore.BodiesToIgnore.Remove(this);
+				if (BodiesToIgnore.Contains(bodyToIgnore.ID))	BodiesToIgnore.Remove(bodyToIgnore.ID);
+				if (bodyToIgnore.BodiesToIgnore.Contains(ID))	bodyToIgnore.BodiesToIgnore.Remove(ID);
 			}
 		}
 
@@ -152,10 +162,10 @@ namespace SharpCollisions
 			Collider.UpdateBoundingBox();
 		}
 
-		public override void _FixedProcess(Fix64 delta)
+		/*public override void _FixedProcess(Fix64 delta)
 		{
 			SetVelocity(FixVector3.Zero);
-		}
+		}*/
 
 		public virtual void OnBeginOverlap(SharpBody3D other)
 		{

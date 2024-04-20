@@ -66,22 +66,22 @@ namespace SharpCollisions
             {
                 UpVector = GroundNormal;
                 VerticalVelocity = -UpVector;
-                if (Input.IsActionPressed("ui_left"))
+                if (Input.IsActionPressed("left"))
                     LateralVelocity.x = Fix64.NegativeOne;
-                else if (Input.IsActionPressed("ui_right"))
+                else if (Input.IsActionPressed("right"))
                     LateralVelocity.x = Fix64.One;
                 else
                     LateralVelocity.x = Fix64.Zero;
                 
-                if (Input.IsActionPressed("ui_up"))
+                if (Input.IsActionPressed("up"))
                     LateralVelocity.z = Fix64.NegativeOne;
-                else if (Input.IsActionPressed("ui_down"))
+                else if (Input.IsActionPressed("down"))
                     LateralVelocity.z = Fix64.One;
                 else
                     LateralVelocity.z = Fix64.Zero;
                 LateralVelocity = FixVector3.Normalize(LateralVelocity);
 
-                LateralVelocity = FixVector3.Reject(LateralVelocity, UpVector);
+                //LateralVelocity = FixVector3.Reject(LateralVelocity, UpVector);
                 //if (KeepVelocityOnSlopes)
                     //LateralVelocity = FixVector3.Normalize(LateralVelocity);
                 
@@ -99,6 +99,7 @@ namespace SharpCollisions
 
                     VerticalVelocity = UpVector * jumpSpeed;
                 }
+
                 DebugDraw.Sphere(GlobalPosition, 0.1f, new Color(0f, 1f, 1f));
             }
             else
@@ -126,20 +127,17 @@ namespace SharpCollisions
 
             //SetRotation(correctedRotation);
             SetVelocity(finalVelocity);
-
             string groundAngle = IsOnGround ? GroundAngle.ToString() : "No Ground";
             debug.Text = "Normal: " + UpVector.ToString() + 
                 "\nFlags: " + Collider.collisionFlags.ToString() + 
-                "\nCollisions:" + Collisions.Count +
+                "\nCollisions:" + Collisions.Count + 
                 "\nFloor angle: " + groundAngle;
         }
 
-        public override void _Process(double delta)
+        /*public override void _Process(double delta)
         {
             base._Process(delta);
-            //foreach (CollisionManifold2D col in Collisions)
-                //DebugDrawCS.DrawSphere((Vector3)col.ContactPoint, 0.05f, new Color(1,1,0));
-        }
+        }*/
 
         public CollisionManifold3D GetGround()
         { 

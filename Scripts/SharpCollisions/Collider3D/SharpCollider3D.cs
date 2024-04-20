@@ -2,6 +2,7 @@ using Godot;
 using FixMath.NET;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel;
 
 
 namespace SharpCollisions
@@ -9,10 +10,10 @@ namespace SharpCollisions
 	public partial class SharpCollider3D  : Node
 	{
 		[Export] public Color debugColor = new Color(0, 0, 1);
-
 		[Export] public bool Active = true;
 		[Export] protected bool DrawDebug;
 		public CollisionFlags collisionFlags;
+		public CollisionFlags globalCollisionFlags;
 		public CollisionType3D Shape = CollisionType3D.Null;
 		public FixVector3 Position;
 		public FixVector3 Offset => (FixVector3)offset;
@@ -105,6 +106,26 @@ namespace SharpCollisions
             if (FixVector3.Dot(collisiondData.Normal, body.Back) > Fix64.ETA)
 				flag.Forward = true;
 			if (FixVector3.Dot(collisiondData.Normal, body.Forward) > Fix64.ETA)
+				flag.Back = true;
+			
+			return flag;
+		}
+
+		public CollisionFlags GetGlobalCollisionFlags(CollisionManifold3D collisiondData)
+		{
+			CollisionFlags flag = collisionFlags;
+
+			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Up) > Fix64.ETA)
+				flag.Below = true;
+			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Down) > Fix64.ETA)
+				flag.Above = true;
+			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Left) > Fix64.ETA)
+				flag.Right = true;
+			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Right) > Fix64.ETA)
+				flag.Left = true;
+            if (FixVector3.Dot(collisiondData.Normal, FixVector3.Back) > Fix64.ETA)
+				flag.Forward = true;
+			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Forward) > Fix64.ETA)
 				flag.Back = true;
 			
 			return flag;
@@ -579,6 +600,7 @@ namespace SharpCollisions
 					DrawPolytope(polytope, simplexFaces);
 					Normal = FixVector3.Normalize(fNormal);
 					Depth = Fix64.Abs(fDistance) + Fix64.ETA;
+					//Contact = GJKGetContactPoint(colliderA, colliderB); <<Not functional yet
 					break;
 				}
 

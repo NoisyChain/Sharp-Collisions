@@ -34,17 +34,25 @@ namespace SharpCollisions
         private Fix64 ceilingUnstickForce = (Fix64)1.25f;
         private Fix64 worldBounds = (Fix64)10;
 
+        private Label debug;
+
+        public override void _Ready()
+        {
+            base._Ready();
+            debug = GetNode<Label>("../Debug/DebugText");
+        }
+
         public override void _FixedProcess(Fix64 delta)
         {
             if (IsOnGround && IsValidFloor() && IsWalkableSlope(GroundAngle))
             {
                 UpVector = GroundNormal;
                 VerticalVelocity = -UpVector;
-                if (Input.IsActionPressed("ui_left") && !Input.IsActionPressed("ui_right"))
+                if (Input.IsActionPressed("left") && !Input.IsActionPressed("right"))
                     LateralVelocity = FixVector2.Left;
-                if (!Input.IsActionPressed("ui_left") && Input.IsActionPressed("ui_right"))
+                if (!Input.IsActionPressed("left") && Input.IsActionPressed("right"))
                     LateralVelocity = FixVector2.Right;
-                if (!Input.IsActionPressed("ui_left") && !Input.IsActionPressed("ui_right"))
+                if (!Input.IsActionPressed("left") && !Input.IsActionPressed("right"))
                     LateralVelocity = FixVector2.Zero;
 
                 LateralVelocity = FixVector2.Reject(LateralVelocity, UpVector);
@@ -52,7 +60,7 @@ namespace SharpCollisions
                     LateralVelocity = FixVector2.Normalize(LateralVelocity);
                 LateralVelocity *= speed;
 
-                if (Input.IsActionPressed("ui_up"))
+                if (Input.IsActionPressed("jump"))
                 {
                     UpVector = FixVector2.Up;
                     if (!KeepSlopeVelocityOnJump)
@@ -64,6 +72,7 @@ namespace SharpCollisions
 
                     VerticalVelocity = UpVector * jumpSpeed;
                 }
+                DebugDraw.Sphere(GlobalPosition, 0.1f, new Color(0f, 1f, 1f));
             }
             else
             {
@@ -89,6 +98,12 @@ namespace SharpCollisions
             }
 
             SetVelocity(finalVelocity);
+
+            string groundAngle = IsOnGround ? GroundAngle.ToString() : "No Ground";
+            debug.Text = "Normal: " + UpVector.ToString() + 
+                "\nFlags: " + Collider.collisionFlags.ToString() + 
+                "\nCollisions:" + Collisions.Count + 
+                "\nFloor angle: " + groundAngle;
 
             //GD.Print(Collisions.Count);
 
@@ -132,8 +147,6 @@ namespace SharpCollisions
         public override void _Process(double delta)
         {
             base._Process(delta);
-            //foreach (CollisionManifold2D col in Collisions)
-                //DebugDrawCS.DrawSphere((Vector3)col.ContactPoint, 0.05f, new Color(1,1,0));
         }
 
         public CollisionManifold2D GetGround()
@@ -148,9 +161,8 @@ namespace SharpCollisions
                 {
                     for (int c = 1; c < Collisions.Count; c++)
                     {
-                        if ((IsWalkableSlope(FixVector2.AngleDegrees(Collisions[c].Normal, Up)) ||
-                            !IsWalkableSlope(FixVector2.AngleDegrees(Ground.Normal, Up))) &&
-                            FixVector2.IsExactDirection(Collisions[c].Normal, LateralVelocity))
+                        if (IsWalkableSlope(FixVector2.AngleDegrees(Collisions[c].Normal, Up)) ||
+                            !IsWalkableSlope(FixVector2.AngleDegrees(Ground.Normal, Up)))
                             Ground = Collisions[c];
                     }
                 }

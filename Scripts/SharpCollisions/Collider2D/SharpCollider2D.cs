@@ -12,6 +12,7 @@ namespace SharpCollisions
 		[Export] public bool Active = true;
 		[Export] protected bool DrawDebug;
 		public CollisionFlags collisionFlags;
+		public CollisionFlags globalCollisionFlags;
 		public CollisionType2D Shape = CollisionType2D.Null;
 		public FixVector2 Position;
 		public FixVector2 Offset => (FixVector2)offset;
@@ -100,6 +101,22 @@ namespace SharpCollisions
 			if (FixVector2.Dot(collisiondData.Normal, body.Left) > Fix64.ETA)
 				flag.Right = true;
 			if (FixVector2.Dot(collisiondData.Normal, body.Right) > Fix64.ETA)
+				flag.Left = true;
+			
+			return flag;
+		}
+
+		public CollisionFlags GetGlobalCollisionFlags(CollisionManifold2D collisiondData)
+		{
+			CollisionFlags flag = collisionFlags;
+
+			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Up) > Fix64.ETA)
+				flag.Below = true;
+			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Down) > Fix64.ETA)
+				flag.Above = true;
+			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Left) > Fix64.ETA)
+				flag.Right = true;
+			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Right) > Fix64.ETA)
 				flag.Left = true;
 			
 			return flag;
@@ -745,7 +762,28 @@ public struct CollisionFlags
 		Forward = false;
 		Back = false;
 	}
-
+	public bool Compare(CollisionFlags compareTo)
+	{
+		return Below == compareTo.Below || Above == compareTo.Above || 
+			Right == compareTo.Right || Left == compareTo.Left || 
+			Forward == compareTo.Forward || Back == compareTo.Back;
+	}
+	public bool ComparePositive(CollisionFlags compareTo)
+	{
+		return (Below && Below == compareTo.Below) ||
+			(Above && Above == compareTo.Above) || 
+			(Right && Right == compareTo.Right) ||
+			(Left && Left == compareTo.Left) || 
+			(Forward && Forward == compareTo.Forward) ||
+			(Back && Back == compareTo.Back);
+	}
+	
+	public bool Equals(CollisionFlags compareTo)
+	{
+		return Below == compareTo.Below && Above == compareTo.Above &&
+			Right == compareTo.Right && Left == compareTo.Left &&
+			Forward == compareTo.Forward && Back == compareTo.Back;
+	}
     public override string ToString()
     {
         return $"(Below: {Below}, Above: {Above}, Right: {Right}, Left: {Left}, Forward: {Forward}, Back: {Back})";

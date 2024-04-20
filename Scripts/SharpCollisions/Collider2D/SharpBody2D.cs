@@ -12,12 +12,13 @@ namespace SharpCollisions
 		public OnOverlapDelegate DuringOverlap;
 		public OnOverlapDelegate EndOverlap;
 
+		protected uint ID; 
 		public FixVector2 Velocity;
 
 		public SharpCollider2D Collider;
 		public List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
-		public List<SharpBody2D> CollidedWith = new List<SharpBody2D>();
-		public List<SharpBody2D> BodiesToIgnore = new List<SharpBody2D>();
+		public List<uint> CollidedWith = new List<uint>();
+		public List<uint> BodiesToIgnore = new List<uint>();
 
 		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
 		public int CollisionLayers = 1;
@@ -26,8 +27,7 @@ namespace SharpCollisions
 
 		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
 		public int BodyMode = 0;
-		//[Export] public bool isStatic = false;
-		//[Export] public bool isPushable = true;
+		
 		[Export] public bool isTrigger = false;
 		
 		/*public SharpBody2D() {}
@@ -69,17 +69,27 @@ namespace SharpCollisions
                 QueueFree();
         }
 
+		public void SetBodyID(uint value)
+		{
+			ID = value;
+		}
+
+		public uint GetBodyID()
+		{
+			return ID;
+		}
+
 		public void IgnoreBody(SharpBody2D bodyToIgnore, bool ignore)
 		{
 			if (ignore)
 			{
-				BodiesToIgnore.Add(bodyToIgnore);
-				bodyToIgnore.BodiesToIgnore.Add(this);
+				BodiesToIgnore.Add(bodyToIgnore.ID);
+				bodyToIgnore.BodiesToIgnore.Add(ID);
 			}
 			else
 			{
-				if (BodiesToIgnore.Contains(bodyToIgnore))	BodiesToIgnore.Remove(bodyToIgnore);
-				if (bodyToIgnore.BodiesToIgnore.Contains(this))	bodyToIgnore.BodiesToIgnore.Remove(this);
+				if (BodiesToIgnore.Contains(bodyToIgnore.ID))	BodiesToIgnore.Remove(bodyToIgnore.ID);
+				if (bodyToIgnore.BodiesToIgnore.Contains(ID))	bodyToIgnore.BodiesToIgnore.Remove(ID);
 			}
 		}
 
@@ -151,10 +161,10 @@ namespace SharpCollisions
 			Collider.UpdateBoundingBox();
 		}
 
-		public override void _FixedProcess(Fix64 delta)
+		/*public override void _FixedProcess(Fix64 delta)
 		{
 			SetVelocity(FixVector2.Zero);
-		}
+		}*/
 
 		public virtual void OnBeginOverlap(SharpBody2D other)
 		{

@@ -47,7 +47,7 @@ tonemap_mode = 2
 
 [node name="PhysicsManager" type="Node" parent="."]
 script = ExtResource("2_jxjwd")
-iterations = 8
+UseEngineSettings = true
 
 [node name="Box" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)

@@ -31,6 +31,11 @@ namespace SharpCollisions
 
 		public override void _PhysicsProcess(double delta)
 		{
+			PhysicsLoop();
+		}
+
+		private void PhysicsLoop()
+		{
 			for (int i = 0; i < nodes.Count; i++)
 				nodes[i]._FixedPreProcess(fixedDelta);
 			

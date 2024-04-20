@@ -83,7 +83,6 @@ RotationSpeed = Vector3(45, 45, 45)
 
 [node name="Collider" type="Node" parent="Box2"]
 script = ExtResource("4")
-DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Box2"]
 
@@ -210,3 +209,4 @@ environment = SubResource("Environment_bff8o")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.76591, 0.470268, -0.43844, 0, 0.681922, 0.731425, 0.642948, -0.560206, 0.522291, -1.96341, 1.98419, 3.05469)
+shadow_enabled = true

@@ -63,12 +63,15 @@ KeepVelocityOnSlopes = false
 KeepSlopeVelocityOnJump = false
 StopAirVelocityOnCeiling = false
 
-[node name="Box" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 0.80857, 0)
+[node name="Box" type="Node3D" parent="." node_paths=PackedStringArray("Parent")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.86684, 2.92442, 0.121072)
 script = ExtResource("10")
+BodyMode = 1
+Parent = NodePath("../Character")
 
 [node name="Collider" type="Node" parent="Box"]
 script = ExtResource("4")
+DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Box"]
 

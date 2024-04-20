@@ -32,5 +32,34 @@ namespace SharpCollisions
             GlobalPosition = (Vector3)FixedPosition;
             GlobalRotation = new Vector3(0, 0, (float)FixedRotation);
         }
+
+        /*public override void _FixedPreProcess(Fix64 delta)
+        {
+            TransformWithParent();
+        }*/
+
+        public void SetParent(FixedTransform2D newParent)
+        {
+            if (newParent == null)
+            {
+                GetParent<Node3D>().RemoveChild(this);
+                Parent = null;
+            }
+            else
+            {
+                GetParent<Node3D>().RemoveChild(this);
+                newParent.AddChild(this);
+                Parent = newParent;
+            }
+        }
+
+        public void TransformWithParent() //This is broken lol
+        {
+            if (Parent == null) return;
+
+            //Fix64 localRotation = FixedRotation - Parent.FixedRotation;
+            //FixedRotation = Parent.FixedRotation + localRotation;
+            //FixedPosition = FixVector2.Transform(FixedPosition, Parent.FixedPosition, Parent.FixedRotation);
+        }
     }
 }

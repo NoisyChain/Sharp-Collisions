@@ -10,6 +10,7 @@ namespace SharpCollisions
 		public List<SharpBody3D> bodies;
 		
 		public int BodyCount => bodies.Count;
+		private uint CreatedBodies = 0;
 
 		private int MinIterations = 1;
 		private int MaxIterations = 64;
@@ -25,7 +26,9 @@ namespace SharpCollisions
 		
 		public void AddBody(SharpBody3D newBody)
 		{
+			newBody.SetBodyID(CreatedBodies);
 			bodies.Add(newBody);
+			CreatedBodies++;
 			GD.Print(BodyCount);
 		}
 		
@@ -75,6 +78,7 @@ namespace SharpCollisions
 			{
 				SharpBody3D bodyA = bodies[i];
 				bodyA.Collider.collisionFlags.Clear();
+				bodyA.Collider.globalCollisionFlags.Clear();
 
 				for (int j = i + 1; j < bodies.Count; j++)
 				{
@@ -82,7 +86,7 @@ namespace SharpCollisions
 					
 					if (!bodyA.Visible || !bodyB.Visible) continue;
 					if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2) continue;
-					if (bodyA.BodiesToIgnore.Contains(bodyB)) continue;
+					if (bodyA.BodiesToIgnore.Contains(bodyB.GetBodyID())) continue;
 					if (!CompareLayers(bodyA, bodyB)) continue;
 					if (!bodyA.Collider.BoundingBox.IsOverlapping(bodyB.Collider.BoundingBox))
 					{
@@ -96,6 +100,8 @@ namespace SharpCollisions
 					PossibleCollisions.Add((i, j));
 				}
 			}
+
+			//GD.Print(PossibleCollisions.Count);
 		}
 
 		private void NarrowPhase()
@@ -109,15 +115,24 @@ namespace SharpCollisions
 				{
 					if (!bodyA.isTrigger && !bodyB.isTrigger)
 					{
-						if (bodyA.BodyMode != 0)
+						if (bodyA.BodyMode == 1 || bodyB.BodyMode == 1)
+						{
+							if (bodyA.BodyMode == 1)
+								bodyA.PushAway(-Depth);
+							else if (bodyB.BodyMode == 1)
+								bodyB.PushAway(Depth);
+						}
+						else if (bodyA.BodyMode == 2)
 							bodyB.PushAway(Depth);
-						else if (bodyB.BodyMode != 0)
+						else if (bodyB.BodyMode == 2)
 							bodyA.PushAway(-Depth);
-						else
+						else if (bodyA.BodyMode == 0 && bodyB.BodyMode == 0)
 						{
 							bodyA.PushAway(-Depth / Fix64.Two);
 							bodyB.PushAway(Depth / Fix64.Two);
 						}
+
+						//ResolvePhysics(bodyA, bodyB, Normal);
 					}
 					CollisionManifold3D collisionA = new CollisionManifold3D
 					(
@@ -134,6 +149,8 @@ namespace SharpCollisions
 					{
 						bodyA.Collider.collisionFlags = bodyA.Collider.GetCollisionFlags(collisionA, bodyA);
 						bodyB.Collider.collisionFlags = bodyB.Collider.GetCollisionFlags(collisionB, bodyB);
+						bodyA.Collider.globalCollisionFlags = bodyA.Collider.GetGlobalCollisionFlags(collisionA);
+						bodyB.Collider.globalCollisionFlags = bodyB.Collider.GetGlobalCollisionFlags(collisionB);
 					}
 					
 					SetCollidedWith(bodyA, bodyB, true);
@@ -153,20 +170,20 @@ namespace SharpCollisions
 		{
 			if (hasCollided)
 			{
-				if (!bodyA.CollidedWith.Contains(bodyB))
+				if (!bodyA.CollidedWith.Contains(bodyB.GetBodyID()))
 				{
 					bodyA.BeginOverlap(bodyB);
-					bodyA.CollidedWith.Add(bodyB);
+					bodyA.CollidedWith.Add(bodyB.GetBodyID());
 				}
 				else
 					bodyA.DuringOverlap(bodyB);
 			}
 			else
 			{
-				if (bodyA.CollidedWith.Contains(bodyB))
+				if (bodyA.CollidedWith.Contains(bodyB.GetBodyID()))
 				{
 					bodyA.EndOverlap(bodyB);
-					bodyA.CollidedWith.Remove(bodyB);
+					bodyA.CollidedWith.Remove(bodyB.GetBodyID());
 				}
 			}
 		}
@@ -176,19 +193,57 @@ namespace SharpCollisions
 			for (int i = 0; i < bodies.Count; i++)
 				bodies[i].Move(steps, iterations);
 		}
+
+		/*private void SetPersistentFlags()
+		{
+			for (int i = 0; i < bodies.Count; i++)
+			{
+				SharpBody3D bodyA = bodies[i];
+				bodyA.Collider.persistentFlags = bodyA.Collider.globalCollisionFlags;
+			}
+		}
 		
+		private bool Unpushable(SharpBody3D bodyA, SharpBody3D bodyB)
+		{
+			
+			return bodyB.collidedWithStatic && bodyA.Collider.collisionFlags.ComparePositive(bodyB.Collider.collisionFlags);
+		}*/
+
+		void ResolvePhysics(SharpBody3D bodyA, SharpBody3D bodyB, FixVector3 normal)
+		{
+			FixVector3 relativeVelocity = bodyB.Velocity - bodyA.Velocity;
+
+			if (FixVector3.IsSameDirection(relativeVelocity, normal))
+			{
+				return;
+			}
+
+			//Restituition (bounciness)
+			Fix64 e = Fix64.Zero; //Min(bodyA.Restituition, bodyB.Restituition)
+
+			Fix64 j = -(Fix64.One + e) * FixVector3.Dot(relativeVelocity, normal);
+
+			j /= Fix64.Two; //bodyA.InverseMass + bodyB.InverseMass
+
+			FixVector3 impulse = j * normal;
+
+			if (bodyA.BodyMode == 0) bodyA.Velocity -= impulse;
+			if (bodyB.BodyMode == 0) bodyB.Velocity += impulse;
+		}	
 		public void Simulate(int steps, int iterations)
 		{
 			if (BodyCount == 0) return;
-			
 			iterations = Mathf.Clamp(iterations, MinIterations, MaxIterations);
-
+			
+			//SetPersistentFlags();
 			for (int it = 0; it < iterations; it++)
 			{
 				MoveBodies(steps, iterations);
 				BroadPhase();
 				NarrowPhase();
 			}
+			
 		}
+
 	}
 }

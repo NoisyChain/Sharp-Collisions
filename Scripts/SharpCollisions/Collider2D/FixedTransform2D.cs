@@ -6,6 +6,7 @@ namespace SharpCollisions
     [Tool]
     public partial class FixedTransform2D : SharpNode
     {
+        public FixedTransform2D Parent;
         public FixVector2 FixedPosition;
         public Fix64 FixedRotation;
 
@@ -20,6 +21,8 @@ namespace SharpCollisions
 
             FixedPosition = (FixVector2)GlobalPosition;
             FixedRotation = (Fix64)GlobalRotation.Z;
+            Parent = GetParent<Node3D>() as FixedTransform2D;
+            GD.Print(Parent != null ? Parent.Name : "No parent found.");
         }
 
         public override void _Process(double delta)

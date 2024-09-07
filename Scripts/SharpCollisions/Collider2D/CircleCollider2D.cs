@@ -17,8 +17,11 @@ namespace SharpCollisions
         public override void DebugDrawShapes()
         {
             if (!DrawDebug) return;
-            Transform3D debugTransform = new(ParentNode.GlobalBasis, (Vector3)Center);
-            DebugDraw.Sphere(debugTransform, (float)Radius, debugColor);
+
+            Vector3 DirX = (Vector3)ParentNode.Right;
+            Vector3 DirY = (Vector3)ParentNode.Up;
+
+            DebugDraw3D.DrawSimpleSphere((Vector3)Center, DirX, DirY, Vector3.Zero, (float)Radius + 0.005f, debugColor);
         }
 
         protected override FixRect GetBoundingBoxPoints()

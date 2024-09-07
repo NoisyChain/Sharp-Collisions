@@ -66,6 +66,25 @@ namespace FixMath.NET
 			return Cross(Cross(a, b), c);
 		}
 
+		public static FixVector3 GetNormal(FixVector3 a, FixVector3 b, int direction)
+		{
+			FixVector3 edge = b - a;
+			FixVector3 axis = Zero;
+			switch (direction)
+			{
+				case 0:
+					axis = new FixVector3(edge.z, -edge.y, edge.x);
+					break;
+				case 1:
+					axis = new FixVector3(-edge.y, edge.z, edge.x);
+					break;
+				case 2:
+					axis = new FixVector3(-edge.y, edge.x, edge.z);
+					break;
+			}
+			return Normalize(axis);
+		}
+
 		public static FixVector3 Transform(FixVector3 v, FixedTransform3D body)
 		{
 			FixVector3 r = Rotate(v, body.FixedRotation);

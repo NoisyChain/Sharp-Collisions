@@ -100,7 +100,7 @@ namespace SharpCollisions
                     VerticalVelocity = UpVector * jumpSpeed;
                 }
 
-                DebugDraw.Sphere(GlobalPosition, 0.1f, new Color(0f, 1f, 1f));
+                DebugDraw3D.DrawSphere(GlobalPosition, 0.1f, new Color(0f, 1f, 1f));
             }
             else
             {

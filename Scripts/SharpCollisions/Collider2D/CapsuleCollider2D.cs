@@ -46,12 +46,19 @@ namespace SharpCollisions
         {
             if (!DrawDebug) return;
 
-            ///Vector3 LineVector = (Vector3)FixVector2.GetNormal(UpperPoint, LowerPoint);
-            ///Vector3 LineSpacing = LineVector * (float)Radius;
-            ///Vector3 LineDirection = (Vector3)FixVector2.Normalize(UpperPoint - LowerPoint);
+            Vector3 DirX = (Vector3)ParentNode.Right;
+            Vector3 DirY = (Vector3)ParentNode.Up;
 
-            Transform3D debugTransform = new(ParentNode.GlobalBasis, (Vector3)Center);
-            DebugDraw.Capsule(debugTransform, (float)Radius, (float)Height * 2, debugColor);
+            float inflatedRadius = (float)Radius + 0.005f;
+
+            Vector3 LineVector = (Vector3)FixVector2.GetNormal(UpperPoint, LowerPoint);
+            Vector3 LineSpacing = LineVector * inflatedRadius;
+
+            DebugDraw3D.DrawSimpleSphere((Vector3)UpperPoint, DirX, DirY, Vector3.Zero, inflatedRadius, debugColor);
+            DebugDraw3D.DrawSimpleSphere((Vector3)LowerPoint, DirX, DirY, Vector3.Zero, inflatedRadius, debugColor);
+            DebugDraw3D.DrawLine((Vector3)UpperPoint, (Vector3)LowerPoint, debugColor);
+            DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing, (Vector3)LowerPoint + LineSpacing, debugColor);
+            DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing, (Vector3)LowerPoint - LineSpacing, debugColor);
         }
 
         protected override FixRect GetBoundingBoxPoints()

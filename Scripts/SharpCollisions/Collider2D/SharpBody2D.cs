@@ -138,18 +138,24 @@ namespace SharpCollisions
 
 		public void SetRotation(Fix64 angle)
 		{
+			if (BodyMode == 2) return;
+
 			FixedRotation = angle;
 			UpdateCollider();
 		}
 
 		public void PushAway(FixVector2 direction)
 		{
+			if (BodyMode == 2) return;
+
 			FixedPosition += direction;
 			UpdateCollider();
 		}
 		
 		public void MoveTo(FixVector2 destination)
 		{
+			if (BodyMode == 2) return;
+			
 			FixedPosition = destination;
 			UpdateCollider();
 		}

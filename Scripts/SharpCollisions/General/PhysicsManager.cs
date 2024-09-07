@@ -27,6 +27,8 @@ namespace SharpCollisions
 			world2D = new SharpWorld2D();
 			world3D = new SharpWorld3D();
 			nodes = new List<SharpNode>();
+
+			DebugDraw3D.ScopedConfig().SetThickness(0.01f);
 		}
 
 		public override void _PhysicsProcess(double delta)

@@ -15,6 +15,7 @@ namespace SharpCollisions
 		private int MinIterations = 1;
 		private int MaxIterations = 64;
 		private List<(int, int)> PossibleCollisions;
+		private List<(int, int, bool)> ConfirmedCollisions;
 
 		public const int mask = 0b_1111_1111;
 		
@@ -22,6 +23,7 @@ namespace SharpCollisions
 		{
 			bodies = new List<SharpBody3D>();
 			PossibleCollisions = new List<(int, int)>();
+			ConfirmedCollisions = new List<(int, int, bool)>();
 		}
 		
 		public void AddBody(SharpBody3D newBody)
@@ -84,24 +86,22 @@ namespace SharpCollisions
 				{
 					SharpBody3D bodyB = bodies[j];
 					
-					if (!bodyA.Visible || !bodyB.Visible) continue;
-					if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2) continue;
-					if (bodyA.BodiesToIgnore.Contains(bodyB.GetBodyID())) continue;
-					if (!CompareLayers(bodyA, bodyB)) continue;
+					if (!bodyA.Visible || !bodyB.Visible)
+					{ ClearCollision(bodyA, bodyB); continue; }
+					if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2)
+					{ ClearCollision(bodyA, bodyB); continue; }
+					if (bodyA.BodiesToIgnore.Contains(bodyB.GetBodyID()))
+					{ ClearCollision(bodyA, bodyB); continue; }
+					if (!CompareLayers(bodyA, bodyB))
+					{ ClearCollision(bodyA, bodyB); continue; }
 					if (!bodyA.Collider.BoundingBox.IsOverlapping(bodyB.Collider.BoundingBox))
-					{
-						SetCollidedWith(bodyA, bodyB, false);
-						SetCollidedWith(bodyB, bodyA, false);
-
-						continue;
-					}
+					{ ClearCollision(bodyA, bodyB); continue; }
+						
 					bodyA.Collisions.Clear();
 					bodyB.Collisions.Clear();
 					PossibleCollisions.Add((i, j));
 				}
 			}
-
-			//GD.Print(PossibleCollisions.Count);
 		}
 
 		private void NarrowPhase()
@@ -153,15 +153,15 @@ namespace SharpCollisions
 						bodyB.Collider.globalCollisionFlags = bodyB.Collider.GetGlobalCollisionFlags(collisionB);
 					}
 					
-					SetCollidedWith(bodyA, bodyB, true);
-					SetCollidedWith(bodyB, bodyA, true);
+					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, true)))
+						ConfirmedCollisions.Add((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, true));
 					
 					//GD.Print($"Body {PossibleCollisions[i].Item1} collided with body {PossibleCollisions[i].Item2}.");
 				}
 				else
 				{
-					SetCollidedWith(bodyA, bodyB, false);
-					SetCollidedWith(bodyB, bodyA, false);
+					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, false)))
+						ConfirmedCollisions.Add((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, false));
 				}
 			}
 		}
@@ -188,28 +188,31 @@ namespace SharpCollisions
 			}
 		}
 
+		private void ClearCollision(SharpBody3D bodyA, SharpBody3D bodyB)
+		{
+			SetCollidedWith(bodyA, bodyB, false);
+			SetCollidedWith(bodyB, bodyA, false);
+		}
+
+
 		private void MoveBodies(int steps, int iterations)
 		{
 			for (int i = 0; i < bodies.Count; i++)
 				bodies[i].Move(steps, iterations);
 		}
 
-		/*private void SetPersistentFlags()
+		private void CallCollisionEvents()
 		{
-			for (int i = 0; i < bodies.Count; i++)
+			for (int i = 0; i < ConfirmedCollisions.Count; i++)
 			{
-				SharpBody3D bodyA = bodies[i];
-				bodyA.Collider.persistentFlags = bodyA.Collider.globalCollisionFlags;
+				(int, int, bool) cur = ConfirmedCollisions[i];
+				SetCollidedWith(bodies[cur.Item1], bodies[cur.Item2], cur.Item3);
+				SetCollidedWith(bodies[cur.Item2], bodies[cur.Item1], cur.Item3);
 			}
+			ConfirmedCollisions.Clear();
 		}
-		
-		private bool Unpushable(SharpBody3D bodyA, SharpBody3D bodyB)
-		{
-			
-			return bodyB.collidedWithStatic && bodyA.Collider.collisionFlags.ComparePositive(bodyB.Collider.collisionFlags);
-		}*/
 
-		void ResolvePhysics(SharpBody3D bodyA, SharpBody3D bodyB, FixVector3 normal)
+		/*void ResolvePhysics(SharpBody3D bodyA, SharpBody3D bodyB, FixVector3 normal)
 		{
 			FixVector3 relativeVelocity = bodyB.Velocity - bodyA.Velocity;
 
@@ -229,20 +232,20 @@ namespace SharpCollisions
 
 			if (bodyA.BodyMode == 0) bodyA.Velocity -= impulse;
 			if (bodyB.BodyMode == 0) bodyB.Velocity += impulse;
-		}	
+		}*/
+		
 		public void Simulate(int steps, int iterations)
 		{
 			if (BodyCount == 0) return;
 			iterations = Mathf.Clamp(iterations, MinIterations, MaxIterations);
 			
-			//SetPersistentFlags();
 			for (int it = 0; it < iterations; it++)
 			{
 				MoveBodies(steps, iterations);
 				BroadPhase();
 				NarrowPhase();
 			}
-			
+			CallCollisionEvents();
 		}
 
 	}

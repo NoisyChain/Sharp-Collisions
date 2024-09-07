@@ -55,7 +55,6 @@ offset_bottom = 23.0
 
 [node name="PhysicsManager" type="Node" parent="."]
 script = ExtResource("2_od8d3")
-iterations = 8
 
 [node name="Character" parent="." instance=ExtResource("2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -71,7 +70,6 @@ Parent = NodePath("../Character")
 
 [node name="Collider" type="Node" parent="Box"]
 script = ExtResource("4")
-DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Box"]
 
@@ -86,6 +84,7 @@ RotationSpeed = Vector3(45, 45, 45)
 
 [node name="Collider" type="Node" parent="Box2"]
 script = ExtResource("4")
+DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Box2"]
 
@@ -94,13 +93,14 @@ mesh = SubResource("12")
 skeleton = NodePath("../..")
 
 [node name="Sphere" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, -0.507128, 0)
-script = ExtResource("10")
-BodyMode = 2
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1.33168, 0)
+script = ExtResource("7_qwg5g")
+RotationSpeed = Vector3(45, 45, 45)
 
 [node name="Collider" type="Node" parent="Sphere"]
 script = ExtResource("3")
 radius = 1.0
+DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Sphere"]
 
@@ -109,13 +109,14 @@ mesh = SubResource("15")
 skeleton = NodePath("../..")
 
 [node name="Capsule" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.2, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.29014, 3)
 script = ExtResource("10")
 
 [node name="Collider" type="Node" parent="Capsule"]
 script = ExtResource("6_3hubp")
 radius = 0.5
 height = 1.0
+DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Capsule"]
 

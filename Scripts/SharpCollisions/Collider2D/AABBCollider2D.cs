@@ -18,9 +18,24 @@ namespace SharpCollisions
         public override void DebugDrawShapes()
         {
             if (!DrawDebug) return;
+            
+            Vector2 fCenter = (Vector2)Center;
+            Vector2 fExtents = (Vector2)Extents;
 
-            Transform3D debugTransform = new(ParentNode.GlobalBasis, (Vector3)Center);
-            DebugDraw.Box(debugTransform, (Vector3)Extents * 2, debugColor);
+            float minX = fCenter.X - fExtents.X;
+            float minY = fCenter.Y - fExtents.Y;
+            float maxX = fCenter.X + fExtents.X;
+            float maxY = fCenter.Y + fExtents.Y;
+
+            Vector3 point1 = new Vector3(minX, minY, 0);
+            Vector3 point2 = new Vector3(maxX, minY, 0);
+            Vector3 point3 = new Vector3(maxX, maxY, 0);
+            Vector3 point4 = new Vector3(minX, maxY, 0);
+
+            DebugDraw3D.DrawLine(point1, point2, debugColor);
+            DebugDraw3D.DrawLine(point2, point3, debugColor);
+            DebugDraw3D.DrawLine(point3, point4, debugColor);
+            DebugDraw3D.DrawLine(point4, point1, debugColor);
         }
 
         protected override FixRect GetBoundingBoxPoints()

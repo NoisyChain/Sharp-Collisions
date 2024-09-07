@@ -40,7 +40,7 @@ namespace SharpCollisions
             {
                 Vector3 start = (Vector3)Points[i];
                 Vector3 end = (Vector3)Points[(i + 1) % Points.Length];
-                DebugDraw.Line(start, end, debugColor);
+                DebugDraw3D.DrawLine(start, end, debugColor);
             }
         }
 

@@ -15,6 +15,7 @@ namespace SharpCollisions
 		private int MinIterations = 1;
 		private int MaxIterations = 64;
 		private List<(int, int)> PossibleCollisions;
+		private List<(int, int, bool)> ConfirmedCollisions;
 
 		public const int mask = 0b_1111_1111;
 		
@@ -22,6 +23,7 @@ namespace SharpCollisions
 		{
 			bodies = new List<SharpBody2D>();
 			PossibleCollisions = new List<(int, int)>();
+			ConfirmedCollisions = new List<(int, int, bool)>();
 		}
 		
 		public void AddBody(SharpBody2D newBody)
@@ -84,17 +86,17 @@ namespace SharpCollisions
 				{
 					SharpBody2D bodyB = bodies[j];
 					
-					if (!bodyA.Visible || !bodyB.Visible) continue;
-					if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2) continue;
-					if (bodyA.BodiesToIgnore.Contains(bodyB.GetBodyID())) continue;
-					if (!CompareLayers(bodyA, bodyB)) continue;
+					if (!bodyA.Visible || !bodyB.Visible)
+					{ ClearCollision(bodyA, bodyB); continue; }
+					if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2)
+					{ ClearCollision(bodyA, bodyB); continue; }
+					if (bodyA.BodiesToIgnore.Contains(bodyB.GetBodyID()))
+					{ ClearCollision(bodyA, bodyB); continue; }
+					if (!CompareLayers(bodyA, bodyB))
+					{ ClearCollision(bodyA, bodyB); continue; }
 					if (!bodyA.Collider.BoundingBox.IsOverlapping(bodyB.Collider.BoundingBox))
-					{
-						SetCollidedWith(bodyA, bodyB, false);
-						SetCollidedWith(bodyB, bodyA, false);
+					{ ClearCollision(bodyA, bodyB); continue; }
 
-						continue;
-					}
 					bodyA.Collisions.Clear();
 					bodyB.Collisions.Clear();
 					
@@ -152,15 +154,15 @@ namespace SharpCollisions
 						bodyB.Collider.globalCollisionFlags = bodyB.Collider.GetGlobalCollisionFlags(collisionB);
 					}
 					
-					SetCollidedWith(bodyA, bodyB, true);
-					SetCollidedWith(bodyB, bodyA, true);
+					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, true)))
+						ConfirmedCollisions.Add((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, true));
 					
 					//GD.Print($"Body {PossibleCollisions[i].Item1} collided with body {PossibleCollisions[i].Item2}.");
 				}
 				else
 				{
-					SetCollidedWith(bodyA, bodyB, false);
-					SetCollidedWith(bodyB, bodyA, false);
+					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, false)))
+						ConfirmedCollisions.Add((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, false));
 				}
 			}
 		}
@@ -187,13 +189,30 @@ namespace SharpCollisions
 			}
 		}
 
+		private void ClearCollision(SharpBody2D bodyA, SharpBody2D bodyB)
+		{
+			SetCollidedWith(bodyA, bodyB, false);
+			SetCollidedWith(bodyB, bodyA, false);
+		}
+
 		private void MoveBodies(int steps, int iterations)
 		{
 			for (int i = 0; i < bodies.Count; i++)
 				bodies[i].Move(steps, iterations);
 		}
 
-		void ResolvePhysics(SharpBody2D bodyA, SharpBody2D bodyB, FixVector2 normal)
+		private void CallCollisionEvents()
+		{
+			for (int i = 0; i < ConfirmedCollisions.Count; i++)
+			{
+				(int, int, bool) cur = ConfirmedCollisions[i];
+				SetCollidedWith(bodies[cur.Item1], bodies[cur.Item2], cur.Item3);
+				SetCollidedWith(bodies[cur.Item2], bodies[cur.Item1], cur.Item3);
+			}
+			ConfirmedCollisions.Clear();
+		}
+
+		/*void ResolvePhysics(SharpBody2D bodyA, SharpBody2D bodyB, FixVector2 normal)
 		{
 			FixVector2 relativeVelocity = bodyB.Velocity - bodyA.Velocity;
 
@@ -213,7 +232,7 @@ namespace SharpCollisions
 
 			if (bodyA.BodyMode == 0) bodyA.Velocity -= impulse;
 			if (bodyB.BodyMode == 0) bodyB.Velocity += impulse;
-		}
+		}*/
 		
 		public void Simulate(int steps, int iterations)
 		{
@@ -227,6 +246,7 @@ namespace SharpCollisions
 				BroadPhase();
 				NarrowPhase();
 			}
+			CallCollisionEvents();
 		}
 	}
 }

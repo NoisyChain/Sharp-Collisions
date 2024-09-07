@@ -54,8 +54,8 @@ namespace SharpCollisions
         {
             if (!DrawDebug) return;
 
-            Transform3D debugTransform = new(ParentNode.GlobalBasis, (Vector3)Center);
-            DebugDraw.Cylinder(debugTransform, (float)Radius, (float)Height * 2);
+            //Transform3D debugTransform = new(ParentNode.GlobalBasis, (Vector3)Center);
+            //DebugDraw.Cylinder(debugTransform, (float)Radius, (float)Height * 2);
         }
 
         protected override FixVolume GetBoundingBoxPoints()

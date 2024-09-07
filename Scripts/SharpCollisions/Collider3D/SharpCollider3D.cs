@@ -9,9 +9,13 @@ namespace SharpCollisions
 {
 	public partial class SharpCollider3D  : Node
 	{
+		public const int MAX_GJK_ITERATIONS = 32;
+		public const int MAX_EPA_ITERATIONS = 32;
+
 		[Export] public Color debugColor = new Color(0, 0, 1);
 		[Export] public bool Active = true;
 		[Export] protected bool DrawDebug;
+		[Export] protected bool DrawDebugPolytope;
 		public CollisionFlags collisionFlags;
 		public CollisionFlags globalCollisionFlags;
 		public CollisionType3D Shape = CollisionType3D.Null;
@@ -20,7 +24,7 @@ namespace SharpCollisions
 		public FixVector3 Center;
 		public FixVolume BoundingBox;
 		[Export] protected Vector3 offset;
-		protected Node3D ParentNode;
+		protected SharpBody3D ParentNode;
 
 		protected bool CollisionRequireUpdate = true;
 		protected bool BoundingBoxRequireUpdate = true;
@@ -40,7 +44,7 @@ namespace SharpCollisions
 
 		public override void _Ready()
 		{
-			ParentNode = GetParent() as Node3D;
+			ParentNode = GetParent() as SharpBody3D;
 		}
 
 		public override void _Process(double delta)
@@ -319,6 +323,8 @@ namespace SharpCollisions
 
 		public bool GJKPolygonCollision(SharpCollider3D colliderA, SharpCollider3D colliderB, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint)
 		{
+			int maxIterations = 0;
+
 			Normal = FixVector3.Zero;
 			Depth = FixVector3.Zero;
 			ContactPoint = FixVector3.Zero;
@@ -332,6 +338,11 @@ namespace SharpCollisions
 
 			while (true)
 			{
+				//Break the loop after a while to avoid infinite loops
+				//It should never happen, but better safe than sorry
+				maxIterations++;
+				if (maxIterations == MAX_GJK_ITERATIONS) return false;
+
 				SupportPoint = SupportFunction(colliderA, colliderB, supportDirection);
 				if (!FixVector3.IsSameDirection(SupportPoint, supportDirection))
 					return false;
@@ -569,6 +580,8 @@ namespace SharpCollisions
 
 		private void EPA(Simplex3D simplex, SharpCollider3D colliderA, SharpCollider3D colliderB, out FixVector3 Normal, out Fix64 Depth, out FixVector3 Contact)
 		{
+			int maxIterations = 0;
+			
 			List<FixVector3> polytope = simplex.Points;
 			List<IntPack3> simplexFaces  = new List<IntPack3>()
 			{
@@ -578,22 +591,21 @@ namespace SharpCollisions
 				new IntPack3(1, 3, 2)
 			};
 
-			int maxIterations = 0;
 			Normal = FixVector3.Zero;
 			Depth = Fix64.MaxValue;
 			Contact = FixVector3.Zero;
 
 			while (true)
 			{
+				//Break the loop after a while to avoid infinite loops
+				//It should never happen, but better safe than sorry
 				maxIterations++;
+				if (maxIterations == MAX_EPA_ITERATIONS) break;
+
 				FindClosestFace(ref polytope, ref simplexFaces, out Fix64 fDistance, out FixVector3 fNormal);
 				
 				FixVector3 support = SupportFunction(colliderA, colliderB, fNormal);
 				Fix64 dist = FixVector3.Dot(support, fNormal);
-
-				//Break the loop after a while to avoid infinite loops
-				//It should never happen, but better safe than sorry
-				if (maxIterations == 64) break;
 
 				if (dist - fDistance < Fix64.ETA)
 				{
@@ -612,20 +624,19 @@ namespace SharpCollisions
 		private void DrawPolytope(List<FixVector3> polytope, List<IntPack3> simplexFaces)
 		{
 			if (!DrawDebug) return;
+			if (DrawDebug && !DrawDebugPolytope) return;
 
-			DebugDraw.Sphere(Vector3.Zero, 0.03f, new Color(0f, 0f, 0f));
+			DebugDraw3D.DrawSphere(Vector3.Zero, 0.03f, new Color(0f, 0f, 0f));
 			
 			for (int i = 0; i < simplexFaces.Count; i++)
 			{
 				Vector3 a = (Vector3)polytope[simplexFaces[i].a];
 				Vector3 b = (Vector3)polytope[simplexFaces[i].b];
 				Vector3 c = (Vector3)polytope[simplexFaces[i].c];
-				DebugDraw.Line(a, b);
-				DebugDraw.Line(b, c);
-				DebugDraw.Line(c, a);
+				DebugDraw3D.DrawLine(a, b);
+				DebugDraw3D.DrawLine(b, c);
+				DebugDraw3D.DrawLine(c, a);
 			}
-			for (int j = 0; j < polytope.Count; j++)
-				DebugDraw.Sphere((Vector3)polytope[j], 0.02f, new Color(0f, 1f, 0f));
 		}
 
 		public FixVector3 AABBContactPoint(AABBCollider3D A, AABBCollider3D B)

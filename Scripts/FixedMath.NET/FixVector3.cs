@@ -85,7 +85,7 @@ namespace FixMath.NET
 			return Normalize(axis);
 		}
 
-		public static FixVector3 Transform(FixVector3 v, FixedTransform3D body)
+		public static FixVector3 Transform(FixVector3 v, SharpCollisions.Sharp3D.FixedTransform3D body)
 		{
 			FixVector3 r = Rotate(v, body.FixedRotation);
 

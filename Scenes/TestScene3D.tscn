@@ -3,11 +3,11 @@
 [ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_xw0ag"]
 [ext_resource type="PackedScene" uid="uid://l1rqh2yogc15" path="res://Scenes/PreviewBody_Controller3D.tscn" id="2"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/General/PhysicsManager.cs" id="2_od8d3"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/SphereCollider3D.cs" id="3"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/BoxCollider3D.cs" id="4"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/CapsuleCollider3D.cs" id="6_3hubp"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Tests/Rotator.cs" id="7_qwg5g"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/SharpBody3D.cs" id="10"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/SphereCollider3D.cs" id="3"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/BoxCollider3D.cs" id="4"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/CapsuleCollider3D.cs" id="6_3hubp"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Examples/Rotator.cs" id="7_qwg5g"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Commons/SharpBody3D.cs" id="10"]
 
 [sub_resource type="BoxMesh" id="12"]
 size = Vector3(2, 2, 2)
@@ -62,14 +62,14 @@ KeepVelocityOnSlopes = false
 KeepSlopeVelocityOnJump = false
 StopAirVelocityOnCeiling = false
 
-[node name="Box" type="Node3D" parent="." node_paths=PackedStringArray("Parent")]
+[node name="Box" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.86684, 2.92442, 0.121072)
 script = ExtResource("10")
 BodyMode = 1
-Parent = NodePath("../Character")
 
 [node name="Collider" type="Node" parent="Box"]
 script = ExtResource("4")
+DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Box"]
 
@@ -133,6 +133,7 @@ BodyMode = 2
 [node name="Collider" type="Node" parent="Floor"]
 script = ExtResource("4")
 extents = Vector3(4, 0.1, 4)
+DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Floor"]
 
@@ -148,6 +149,7 @@ BodyMode = 2
 [node name="Collider" type="Node" parent="Wall"]
 script = ExtResource("4")
 extents = Vector3(4, 1, 0.1)
+DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Wall"]
 
@@ -179,6 +181,7 @@ BodyMode = 2
 [node name="Collider" type="Node" parent="Wall3"]
 script = ExtResource("4")
 extents = Vector3(0.1, 1, 4)
+DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Wall3"]
 
@@ -195,6 +198,7 @@ BodyMode = 2
 [node name="Collider" type="Node" parent="Wall4"]
 script = ExtResource("4")
 extents = Vector3(0.1, 1, 4)
+DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Wall4"]
 

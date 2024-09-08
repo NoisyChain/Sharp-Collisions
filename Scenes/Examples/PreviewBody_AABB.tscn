@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://icon.png" type="Texture" id=1]
-[ext_resource path="res://Scripts/SharpCollisions/Collider2D/SharpBody2D.cs" type="Script" id=2]
-[ext_resource path="res://Scripts/SharpCollisions/Collider2D/SharpCollider2D.cs" type="Script" id=4]
+[ext_resource type="Texture" uid="uid://bysbpvck7hqj3" path="res://icon.png" id="1"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Commons/SharpBody2D.cs" id="2"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Commons/SharpCollider2D.cs" id="4"]
 
 [node name="Body" type="Spatial"]
 script = ExtResource( 2 )

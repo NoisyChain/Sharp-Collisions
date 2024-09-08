@@ -82,7 +82,7 @@ namespace FixMath.NET
 			return Normalize(axis);
 		}
 
-		public static FixVector2 Transform(FixVector2 v, FixedTransform2D body)
+		public static FixVector2 Transform(FixVector2 v, SharpCollisions.Sharp2D.FixedTransform2D body)
 		{
 			FixVector2 r = Rotate(v, body.FixedRotation);
 

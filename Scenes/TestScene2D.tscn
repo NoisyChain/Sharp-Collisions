@@ -1,14 +1,14 @@
 [gd_scene load_steps=17 format=3 uid="uid://de044kf0kbivf"]
 
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/SharpBody2D.cs" id="1"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Commons/SharpBody2D.cs" id="1"]
 [ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_ver4r"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/General/PhysicsManager.cs" id="2_fb5pd"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/BoxCollider2D.cs" id="4"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/BoxCollider2D.cs" id="4"]
 [ext_resource type="PackedScene" uid="uid://yy8gg16i0mv1" path="res://Scenes/PreviewBody_Controller.tscn" id="5"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/CircleCollider2D.cs" id="6"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/CapsuleCollider2D.cs" id="7"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/PolygonCollider2D.cs" id="8"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/AABBCollider2D.cs" id="9"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/CircleCollider2D.cs" id="6"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/CapsuleCollider2D.cs" id="7"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/PolygonCollider2D.cs" id="8"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/AABBCollider2D.cs" id="9"]
 
 [sub_resource type="BoxMesh" id="1"]
 size = Vector3(6, 0.6, 0.2)

@@ -1,11 +1,14 @@
 using Godot;
 using System.Collections.Generic;
 using FixMath.NET;
+using SharpCollisions.Sharp2D;
+using SharpCollisions.Sharp3D;
 
 namespace SharpCollisions
 {
 	public partial class PhysicsManager : Node
 	{
+		public static PhysicsManager Instance;
 		private SharpWorld2D world2D;
 		private SharpWorld3D world3D;
 		private List<SharpNode> nodes;
@@ -24,6 +27,7 @@ namespace SharpCollisions
 				TicksPerSecond = (int)ProjectSettings.GetSetting("physics/common/physics_ticks_per_second");
 				iterations = (int)ProjectSettings.GetSetting("physics/common/max_physics_steps_per_frame");
 			}
+			Instance = this;
 			world2D = new SharpWorld2D();
 			world3D = new SharpWorld3D();
 			nodes = new List<SharpNode>();

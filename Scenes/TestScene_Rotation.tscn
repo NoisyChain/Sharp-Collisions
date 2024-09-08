@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://btxxlg3u4pefo"]
 
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/SharpBody2D.cs" id="1"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Commons/SharpBody2D.cs" id="1"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/General/PhysicsManager.cs" id="2"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/SharpCollider2D.cs" id="3"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Commons/SharpCollider2D.cs" id="3"]
 [ext_resource type="Texture2D" uid="uid://bx6bfwnydn8wd" path="res://icon_circle.png" id="4"]
 [ext_resource type="PackedScene" uid="uid://yy8gg16i0mv1" path="res://Scenes/PreviewBody_Controller.tscn" id="5"]
 

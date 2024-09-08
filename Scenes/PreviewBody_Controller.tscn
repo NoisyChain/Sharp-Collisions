@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://yy8gg16i0mv1"]
 
 [ext_resource type="Texture2D" uid="uid://bx6bfwnydn8wd" path="res://icon_circle.png" id="1"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/CharacterController2D.cs" id="2"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Examples/CharacterController2D.cs" id="2"]
 [ext_resource type="Texture2D" uid="uid://bysbpvck7hqj3" path="res://icon.png" id="3"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/CapsuleCollider2D.cs" id="4"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/CapsuleCollider2D.cs" id="4"]
 
 [node name="Body" type="Node3D"]
 script = ExtResource("2")

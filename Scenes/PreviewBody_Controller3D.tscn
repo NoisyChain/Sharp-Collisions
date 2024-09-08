@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://l1rqh2yogc15"]
 
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/CapsuleCollider3D.cs" id="2_bk3aq"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/CharacterController3D.cs" id="3"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/CapsuleCollider3D.cs" id="2_bk3aq"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Examples/CharacterController3D.cs" id="3"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_oe6u2"]
 radius = 0.3

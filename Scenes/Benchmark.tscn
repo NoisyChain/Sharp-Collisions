@@ -2,10 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_xusqx"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/General/PhysicsManager.cs" id="2_jxjwd"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/SharpBody3D.cs" id="4_ctdg3"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/BoxCollider3D.cs" id="5_l2ale"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Tests/BallPhysics3D.cs" id="5_rpyv1"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/SphereCollider3D.cs" id="6_x5v8s"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Commons/SharpBody3D.cs" id="4_ctdg3"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/BoxCollider3D.cs" id="5_l2ale"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Examples/BallPhysics3D.cs" id="5_rpyv1"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/SphereCollider3D.cs" id="6_x5v8s"]
 
 [sub_resource type="BoxMesh" id="12"]
 size = Vector3(8, 0.2, 8)

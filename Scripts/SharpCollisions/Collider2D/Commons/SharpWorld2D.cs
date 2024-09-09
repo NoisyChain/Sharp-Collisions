@@ -14,7 +14,7 @@ namespace SharpCollisions.Sharp2D
 
 		private int MinIterations = 1;
 		private int MaxIterations = 64;
-		private List<(int, int)> PossibleCollisions;
+		private List<PossibleCollision> PossibleCollisions;
 		private List<(int, int, bool)> ConfirmedCollisions;
 
 		public const int mask = 0b_1111_1111;
@@ -22,7 +22,7 @@ namespace SharpCollisions.Sharp2D
 		public SharpWorld2D()
 		{
 			bodies = new List<SharpBody2D>();
-			PossibleCollisions = new List<(int, int)>();
+			PossibleCollisions = new List<PossibleCollision>();
 			ConfirmedCollisions = new List<(int, int, bool)>();
 		}
 		
@@ -97,20 +97,27 @@ namespace SharpCollisions.Sharp2D
 					if (!bodyA.Collider.BoundingBox.IsOverlapping(bodyB.Collider.BoundingBox))
 					{ ClearCollision(bodyA, bodyB); continue; }
 
+					PossibleCollisions.Add(new PossibleCollision(
+						i, j, FixVector2.Distance(bodyA.Collider.Center, bodyB.Collider.Center)
+					));
+
 					bodyA.Collisions.Clear();
 					bodyB.Collisions.Clear();
-					
-					PossibleCollisions.Add((i, j));
 				}
 			}
+
+			//Sort the colliders so the nearest colliders are checked first
+			PossibleCollisions.Sort((a, b) => a.distance.CompareTo(b.distance));
+			//Sort again to reorder by bodies keeping the distance
+			PossibleCollisions.Sort((a, b) => a.BodyA.CompareTo(b.BodyA));
 		}
 
 		private void NarrowPhase()
 		{
 			for(int i = 0; i < PossibleCollisions.Count; i ++)
 			{
-				SharpBody2D bodyA = bodies[PossibleCollisions[i].Item1];
-				SharpBody2D bodyB = bodies[PossibleCollisions[i].Item2];
+				SharpBody2D bodyA = bodies[PossibleCollisions[i].BodyA];
+				SharpBody2D bodyB = bodies[PossibleCollisions[i].BodyB];
 
 				if (bodyA.Collider.IsOverlapping(bodyB.Collider, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint))
 				{
@@ -154,15 +161,15 @@ namespace SharpCollisions.Sharp2D
 						bodyB.Collider.globalCollisionFlags = bodyB.Collider.GetGlobalCollisionFlags(collisionB);
 					}
 					
-					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, true)))
-						ConfirmedCollisions.Add((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, true));
+					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].BodyA, PossibleCollisions[i].BodyB, true)))
+						ConfirmedCollisions.Add((PossibleCollisions[i].BodyA, PossibleCollisions[i].BodyB, true));
 					
 					//GD.Print($"Body {PossibleCollisions[i].Item1} collided with body {PossibleCollisions[i].Item2}.");
 				}
 				else
 				{
-					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, false)))
-						ConfirmedCollisions.Add((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, false));
+					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].BodyA, PossibleCollisions[i].BodyB, false)))
+						ConfirmedCollisions.Add((PossibleCollisions[i].BodyA, PossibleCollisions[i].BodyB, false));
 				}
 			}
 		}
@@ -247,6 +254,13 @@ namespace SharpCollisions.Sharp2D
 				NarrowPhase();
 			}
 			CallCollisionEvents();
+		}
+
+		public Fix64 GetBoundingBoxesDistance(FixRect a, FixRect b)
+		{
+			FixVector2 centerA = new FixVector2(a.w / Fix64.Two, a.h / Fix64.Two);
+			FixVector2 centerB = new FixVector2(b.w / Fix64.Two, b.h / Fix64.Two);
+			return FixVector2.Distance(centerA, centerB);
 		}
 	}
 }

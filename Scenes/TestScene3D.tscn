@@ -126,7 +126,7 @@ mesh = SubResource("CapsuleMesh_omnyj")
 skeleton = NodePath("../..")
 
 [node name="Floor" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -0.1, 4)
 script = ExtResource("10")
 BodyMode = 2
 
@@ -138,6 +138,54 @@ DrawDebug = true
 [node name="Viewer" type="Node3D" parent="Floor"]
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Floor/Viewer"]
+mesh = SubResource("BoxMesh_6erxl")
+skeleton = NodePath("../..")
+
+[node name="Floor2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -0.1, -4)
+script = ExtResource("10")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Floor2"]
+script = ExtResource("4")
+extents = Vector3(4, 0.1, 4)
+DrawDebug = true
+
+[node name="Viewer" type="Node3D" parent="Floor2"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Floor2/Viewer"]
+mesh = SubResource("BoxMesh_6erxl")
+skeleton = NodePath("../..")
+
+[node name="Floor3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.1, 4)
+script = ExtResource("10")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Floor3"]
+script = ExtResource("4")
+extents = Vector3(4, 0.1, 4)
+DrawDebug = true
+
+[node name="Viewer" type="Node3D" parent="Floor3"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Floor3/Viewer"]
+mesh = SubResource("BoxMesh_6erxl")
+skeleton = NodePath("../..")
+
+[node name="Floor4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.1, -4)
+script = ExtResource("10")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Floor4"]
+script = ExtResource("4")
+extents = Vector3(4, 0.1, 4)
+DrawDebug = true
+
+[node name="Viewer" type="Node3D" parent="Floor4"]
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Floor4/Viewer"]
 mesh = SubResource("BoxMesh_6erxl")
 skeleton = NodePath("../..")
 

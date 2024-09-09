@@ -3,7 +3,7 @@ using FixMath.NET;
 
 namespace SharpCollisions.Sharp3D
 {
-    [GlobalClass]
+    [Tool] [GlobalClass]
     public partial class BoxCollider3D : PolygonCollider3D
     {
         public FixVector3 Extents;

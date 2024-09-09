@@ -56,8 +56,11 @@ namespace SharpCollisions.Sharp2D
 
 			base._Ready();
 			Manager.AddBody(this);
-			Collider = GetNode<SharpCollider2D>("Collider");
+			if (Collider == null)
+				Collider = GetNode<SharpCollider2D>("Collider");
+
 			Collider.Initialize();
+			
 			UpdateCollider();
 			BeginOverlap = OnBeginOverlap;
 			DuringOverlap = OnOverlap;
@@ -67,7 +70,9 @@ namespace SharpCollisions.Sharp2D
 		public override void _Process(double delta)
 		{
 			base._Process(delta);
-			if (Collider != null) Collider.DebugDrawShapes(this);
+
+			if (Collider != null)
+				Collider.DebugDrawShapes(this);
 		}
 
 		public override void _Destroy()
@@ -169,6 +174,12 @@ namespace SharpCollisions.Sharp2D
 		
 		public void UpdateCollider()
 		{
+			if (Collider == null)
+			{
+				GD.Print("There is no collider attached to this body. No collision will happen.");
+				return;
+			}
+
 			Collider.Position = FixedPosition;
 			Collider.UpdatePoints(this);
 			Collider.UpdateBoundingBox();

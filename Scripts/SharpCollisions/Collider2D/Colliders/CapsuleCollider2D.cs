@@ -3,7 +3,7 @@ using FixMath.NET;
 
 namespace SharpCollisions.Sharp2D
 {
-    [GlobalClass]
+    [Tool] [GlobalClass]
     public partial class CapsuleCollider2D : SharpCollider2D
     {
         public Fix64 Radius;

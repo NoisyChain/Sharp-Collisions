@@ -56,8 +56,11 @@ namespace SharpCollisions.Sharp3D
 
 			base._Ready();
 			Manager.AddBody(this);
-			Collider = GetNode<SharpCollider3D>("Collider");
-			Collider.Initialize();
+			if (Collider == null)
+				Collider = GetNode<SharpCollider3D>("Collider");
+
+				Collider.Initialize();
+
 			UpdateCollider();
 			BeginOverlap = OnBeginOverlap;
 			DuringOverlap = OnOverlap;
@@ -67,7 +70,8 @@ namespace SharpCollisions.Sharp3D
 		public override void _Process(double delta)
 		{
 			base._Process(delta);
-			if (Collider != null) Collider.DebugDrawShapes(this);
+			if (Collider != null)
+				Collider.DebugDrawShapes(this);
 		}
 
 		public override void _Destroy()
@@ -164,15 +168,16 @@ namespace SharpCollisions.Sharp3D
 		
 		public void UpdateCollider()
 		{
+			if (Collider == null)
+			{
+				GD.Print("There is no collider attached to this body. No collision will happen.");
+				return;
+			}
+			
 			Collider.Position = FixedPosition;
 			Collider.UpdatePoints(this);
 			Collider.UpdateBoundingBox();
 		}
-
-		/*public override void _FixedProcess(Fix64 delta)
-		{
-			SetVelocity(FixVector3.Zero);
-		}*/
 
 		public virtual void OnBeginOverlap(SharpBody3D other)
 		{

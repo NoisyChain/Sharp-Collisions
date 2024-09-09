@@ -4,10 +4,6 @@ using SharpCollisions.Sharp3D;
 
 public partial class BallPhysics3D : SharpBody3D
 {
-    public bool IsOnWallZ => Collider.collisionFlags.Below || Collider.collisionFlags.Above;
-    public bool IsOnWallX => Collider.collisionFlags.Right || Collider.collisionFlags.Left;
-    public bool IsOnWallY => Collider.collisionFlags.Back || Collider.collisionFlags.Forward;
-
     private FixVector3 Direction;
 
     public override void _Ready()

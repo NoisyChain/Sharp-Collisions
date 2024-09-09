@@ -3,13 +3,13 @@ using FixMath.NET;
 
 namespace SharpCollisions.Sharp3D
 {
-	[GlobalClass]
+	[Tool] [GlobalClass]
 	public partial class SharpCollider3D : Node
 	{
-		[Export] public Color debugColor = new Color(0, 0, 1);
 		[Export] public bool Active = true;
+		[Export] protected Vector3 offset;
+		[Export] public Color debugColor = new Color(0, 0, 1);
 		[Export] protected bool DrawDebug;
-		[Export] protected bool DrawDebugPolytope;
 		public CollisionFlags collisionFlags;
 		public CollisionFlags globalCollisionFlags;
 		public CollisionType3D Shape = CollisionType3D.Null;
@@ -17,7 +17,6 @@ namespace SharpCollisions.Sharp3D
 		public FixVector3 Offset;
 		public FixVector3 Center;
 		public FixVolume BoundingBox;
-		[Export] protected Vector3 offset;
 
 		protected bool CollisionRequireUpdate = true;
 		protected bool BoundingBoxRequireUpdate = true;

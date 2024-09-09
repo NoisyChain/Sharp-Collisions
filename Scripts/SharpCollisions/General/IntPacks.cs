@@ -46,14 +46,14 @@ namespace SharpCollisions
 
     public struct PossibleCollision
     {
-        public int a;
-        public int b;
+        public int BodyA;
+        public int BodyB;
         public Fix64 distance;
 
         public PossibleCollision(int newA, int newB, Fix64 newDist)
         {
-            a = newA;
-            b = newB;
+            BodyA = newA;
+            BodyB = newB;
             distance = newDist;
         }
     };

@@ -63,5 +63,15 @@ namespace SharpCollisions.Sharp3D
             //FixedRotation = Parent.FixedRotation + localRotation;
             //FixedPosition = FixVector3.Transform(FixedPosition, Parent.FixedPosition, Parent.FixedRotation);
         }
+
+        public static FixVector3 LocalToWorld(FixVector3 v)
+        {
+            return v;
+        }
+
+        public static FixVector3 WorldToLocal(FixVector3 v)
+        {
+            return v;
+        }
     }
 }

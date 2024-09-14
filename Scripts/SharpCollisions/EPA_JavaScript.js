@@ -233,7 +233,7 @@ var getFurthestPointInDirection = function(verts, dir)
 				FixVector3 support = SupportFunction(colliderA, colliderB, minNormal);
 				Fix64 sDistance = FixVector3.Dot(minNormal, support);
 		
-				if (sDistance - minDistance > Fix64.ETA)
+				if (sDistance - minDistance > Fix64.Epsilon)
 				{
 					//Doing this just to avoid infinite loops
 					if (limitIterations == 64)
@@ -305,7 +305,7 @@ var getFurthestPointInDirection = function(verts, dir)
 			}
 			
 			Normal = FixVector3.Normalize(minNormal);
-			Depth = Fix64.Abs(minDistance) + Fix64.ETA;
+			Depth = Fix64.Abs(minDistance) + Fix64.Epsilon;
 			Contact = GJKGetContactPoint(colliderA, colliderB);
 			DrawPolytope(polytope, faces);
 		}

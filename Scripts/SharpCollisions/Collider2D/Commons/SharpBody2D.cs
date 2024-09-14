@@ -71,7 +71,7 @@ namespace SharpCollisions.Sharp2D
 		{
 			base._Process(delta);
 
-			if (Collider != null)
+			if (!Engine.IsEditorHint() && Collider != null)
 				Collider.DebugDrawShapes(this);
 		}
 

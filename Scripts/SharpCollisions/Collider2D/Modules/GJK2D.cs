@@ -179,7 +179,7 @@ namespace SharpCollisions.Sharp2D.GJK
 				FixVector2 support = SupportFunction(colliderA, colliderB, minNormal);
 				Fix64 sDistance = FixVector2.Dot(minNormal, support);
 
-				if (Fix64.Abs(sDistance - minDistance) > Fix64.ETA)
+				if (Fix64.Abs(sDistance - minDistance) > Fix64.Epsilon)
 				{
 					minDistance = Fix64.MaxValue;
 					polytope.Insert(minIndex, support);
@@ -188,8 +188,8 @@ namespace SharpCollisions.Sharp2D.GJK
 			DrawPolytope(polytope);
 
 			Normal = minNormal;
-			Depth = Fix64.Abs(minDistance) + Fix64.ETA;
-			Contact = GetContactPoint(colliderA, colliderB);
+			Depth = Fix64.Abs(minDistance) + Fix64.Epsilon;
+			Contact = GetContactPoint(colliderA, colliderB, Normal);
 		}
 
 		private void DrawPolytope(List<FixVector2> polytope)
@@ -206,11 +206,135 @@ namespace SharpCollisions.Sharp2D.GJK
 			}
 		}
 
-        public FixVector2 GetContactPoint(SharpCollider2D colliderA, SharpCollider2D colliderB)
+        public FixVector2 GetContactPoint(SharpCollider2D colliderA, SharpCollider2D colliderB, FixVector2 mtv)
 		{
-			FixVector2 contacts = FixVector2.Zero;
+			if (colliderA.Shape == CollisionType2D.Circle && colliderB.Shape == CollisionType2D.Polygon)
+				return CirclePolygonContact(colliderA as CircleCollider2D, colliderB as PolygonCollider2D);
+			else if (colliderA.Shape == CollisionType2D.Polygon && colliderB.Shape == CollisionType2D.Circle)
+				return CirclePolygonContact(colliderB as CircleCollider2D, colliderA as PolygonCollider2D);
+			if (colliderA.Shape == CollisionType2D.Capsule && colliderB.Shape == CollisionType2D.Polygon)
+				return CapsulePolygonContact(colliderA as CapsuleCollider2D, colliderB as PolygonCollider2D);
+			else if (colliderA.Shape == CollisionType2D.Polygon && colliderB.Shape == CollisionType2D.Capsule)
+				return CapsulePolygonContact(colliderB as CapsuleCollider2D, colliderA as PolygonCollider2D);
+			else if (colliderA.Shape == CollisionType2D.Polygon && colliderB.Shape == CollisionType2D.Polygon)
+				return PolygonContact(colliderA as PolygonCollider2D, colliderB as PolygonCollider2D, mtv);
+			
+			return FixVector2.Zero;
+		}
 
-			return contacts;
+		public FixVector2 CirclePolygonContact(CircleCollider2D colliderA, PolygonCollider2D colliderB)
+		{
+			FixVector2 contact = FixVector2.Zero;
+            Fix64 minDistSq = Fix64.MaxValue;
+
+            for(int i = 0; i < colliderB.Points.Length; i++)
+            {
+                FixVector2 va = colliderB.Points[i];
+                FixVector2 vb = colliderB.Points[(i + 1) % colliderB.Points.Length];
+
+                SharpCollider2D.LineToPointDistance(va, vb, colliderA.Center, out FixVector2 r1);
+				Fix64 distSq = FixVector2.DistanceSq(colliderA.Center, r1);
+				
+				if(distSq < minDistSq)
+                {
+                    minDistSq = distSq;
+                    contact = r1;
+                }
+            }
+
+			return contact;
+		}
+
+		public FixVector2 CapsulePolygonContact(CapsuleCollider2D colliderA, PolygonCollider2D colliderB)
+		{
+			FixVector2 contact = FixVector2.Zero;
+            Fix64 minDistSq = Fix64.MaxValue;
+
+            for(int i = 0; i < colliderB.Points.Length; i++)
+            {
+                FixVector2 va = colliderB.Points[i];
+                FixVector2 vb = colliderB.Points[(i + 1) % colliderB.Points.Length];
+
+                SharpCollider2D.LineToLineDistance(va, vb, colliderA.UpperPoint, colliderA.LowerPoint, out FixVector2 r1, out FixVector2 r2);
+				Fix64 distSq = FixVector2.DistanceSq(r2, r1);
+				
+				if(distSq < minDistSq)
+                {
+                    minDistSq = distSq;
+                    contact = r1;
+                }
+            }
+
+			return contact;
+		}
+
+		public FixVector2 PolygonContact(PolygonCollider2D colliderA, PolygonCollider2D colliderB, FixVector2 mtv)
+		{
+			FixVector2 contact1 = FixVector2.Zero;
+            FixVector2 contact2 = FixVector2.Zero;
+
+            Fix64 minDistSq = Fix64.MaxValue;
+
+            for(int i = 0; i < colliderA.Points.Length; i++)
+            {
+                FixVector2 pa = colliderA.Points[i];
+				FixVector2 pb = colliderA.Points[(i + 1) % colliderA.Points.Length];
+
+                for(int j = 0; j < colliderB.Points.Length; j++)
+                {
+                    FixVector2 va = colliderB.Points[j];
+                    FixVector2 vb = colliderB.Points[(j + 1) % colliderB.Points.Length];
+
+                    SharpCollider2D.LineToLineDistance(va, vb, pa, pb, out FixVector2 r1, out FixVector2 r2);
+					Fix64 distSq = FixVector2.DistanceSq(r2, r1);
+
+                    if(Fix64.Approximate(distSq, minDistSq))
+                    {
+                        if (!FixVector2.Approximate(r1, contact1))
+                        {
+                            contact2 = r1;
+                        }
+                    }
+                    else if(distSq < minDistSq)
+                    {
+                        minDistSq = distSq;
+                        contact1 = r1;
+                    }
+                }
+            }
+
+            for (int i = 0; i < colliderB.Points.Length; i++)
+            {
+                FixVector2 pa = colliderB.Points[i];
+				FixVector2 pb = colliderB.Points[(i + 1) % colliderB.Points.Length];
+
+                for (int j = 0; j < colliderA.Points.Length; j++)
+                {
+                    FixVector2 va = colliderA.Points[j];
+                    FixVector2 vb = colliderA.Points[(j + 1) % colliderA.Points.Length];
+
+                    SharpCollider2D.LineToLineDistance(va, vb, pa, pb, out FixVector2 r1, out FixVector2 r2);
+					Fix64 distSq = FixVector2.DistanceSq(r2, r1);
+
+                    if (Fix64.Approximate(distSq, minDistSq))
+                    {
+                        if (!FixVector2.Approximate(r1, contact1))
+                        {
+                            contact2 = r1;
+                        }
+                    }
+                    else if (distSq < minDistSq)
+                    {
+                        minDistSq = distSq;
+                        contact1 = r1;
+                    }
+                }
+            }
+
+			if (contact2 == FixVector2.Zero)
+				return contact1;
+			else
+				return (contact1 + contact2) / Fix64.Two;
 		}
     }
 }

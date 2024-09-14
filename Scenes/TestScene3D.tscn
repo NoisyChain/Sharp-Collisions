@@ -65,10 +65,11 @@ StopAirVelocityOnCeiling = false
 [node name="Box" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.86684, 2.92442, 0.121072)
 script = ExtResource("10")
-BodyMode = 1
+BodyMode = 2
 
 [node name="Collider" type="Node" parent="Box"]
 script = ExtResource("4")
+DrawDebugPolytope = true
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Box"]
@@ -84,6 +85,7 @@ RotationSpeed = Vector3(45, 45, 45)
 
 [node name="Collider" type="Node" parent="Box2"]
 script = ExtResource("4")
+DrawDebugPolytope = true
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Box2"]
@@ -133,6 +135,7 @@ BodyMode = 2
 [node name="Collider" type="Node" parent="Floor"]
 script = ExtResource("4")
 extents = Vector3(4, 0.1, 4)
+DrawDebugPolytope = true
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Floor"]

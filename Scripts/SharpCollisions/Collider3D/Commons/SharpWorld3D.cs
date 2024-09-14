@@ -99,16 +99,17 @@ namespace SharpCollisions.Sharp3D
 					{ ClearCollision(bodyA, bodyB); continue; }
 
 					PossibleCollisions.Add(new PossibleCollision(
-						i, j, FixVector3.Distance(bodyA.Collider.Center, bodyB.Collider.Center)
+						i, j,
+						GetCollisionDistance(bodyA.Collider, bodyB.Collider)
 					));
-						
+
 					bodyA.Collisions.Clear();
 					bodyB.Collisions.Clear();
 				}
 			}
 
 			//Sort the colliders so the nearest colliders are checked first
-			PossibleCollisions.Sort((a, b) => a.distance.CompareTo(b.distance));
+			PossibleCollisions.Sort((a, b) => b.distance.CompareTo(a.distance));
 			//Sort again to reorder by bodies keeping the distance
 			PossibleCollisions.Sort((a, b) => a.BodyA.CompareTo(b.BodyA));
 		}
@@ -201,6 +202,8 @@ namespace SharpCollisions.Sharp3D
 		{
 			SetCollidedWith(bodyA, bodyB, false);
 			SetCollidedWith(bodyB, bodyA, false);
+			bodyA.Collisions.Clear();
+			//bodyB.Collisions.Clear();
 		}
 
 
@@ -257,11 +260,19 @@ namespace SharpCollisions.Sharp3D
 			CallCollisionEvents();
 		}
 
-		public Fix64 GetBoundingBoxesDistance(FixVolume a, FixVolume b)
+		public Fix64 GetCollisionDistance(SharpCollider3D colliderA, SharpCollider3D colliderB)
 		{
-			FixVector3 centerA = new FixVector3(a.w / Fix64.Two, a.h / Fix64.Two, a.d / Fix64.Two);
-			FixVector3 centerB = new FixVector3(b.w / Fix64.Two, b.h / Fix64.Two, b.d / Fix64.Two);
-			return FixVector3.Distance(centerA, centerB);
+			FixVector3 length = colliderB.Center - colliderA.Center;
+
+			FixVector3 newDepth = FixVector3.Zero;
+			newDepth.x = (colliderA.BoundingBox.w - colliderA.Center.x) + (colliderB.BoundingBox.w - colliderB.Center.x);
+			newDepth.y = (colliderA.BoundingBox.h - colliderA.Center.y) + (colliderB.BoundingBox.h - colliderB.Center.y);
+			newDepth.z = (colliderA.BoundingBox.d - colliderA.Center.z) + (colliderB.BoundingBox.d - colliderB.Center.z);
+			newDepth.x -= Fix64.Abs(length.x);
+			newDepth.y -= Fix64.Abs(length.y);
+			newDepth.z -= Fix64.Abs(length.z);
+
+			return FixVector3.Length(newDepth);
 		}
 	}
 }

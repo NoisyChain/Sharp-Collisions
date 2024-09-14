@@ -86,13 +86,13 @@ namespace SharpCollisions.Sharp2D
 		{
 			CollisionFlags flag = collisionFlags;
 
-			if (FixVector2.Dot(collisiondData.Normal, body.Up) > Fix64.ETA)
+			if (FixVector2.Dot(collisiondData.Normal, body.Up) > Fix64.Epsilon)
 				flag.Below = true;
-			if (FixVector2.Dot(collisiondData.Normal, body.Down) > Fix64.ETA)
+			if (FixVector2.Dot(collisiondData.Normal, body.Down) > Fix64.Epsilon)
 				flag.Above = true;
-			if (FixVector2.Dot(collisiondData.Normal, body.Left) > Fix64.ETA)
+			if (FixVector2.Dot(collisiondData.Normal, body.Left) > Fix64.Epsilon)
 				flag.Right = true;
-			if (FixVector2.Dot(collisiondData.Normal, body.Right) > Fix64.ETA)
+			if (FixVector2.Dot(collisiondData.Normal, body.Right) > Fix64.Epsilon)
 				flag.Left = true;
 			
 			return flag;
@@ -102,13 +102,13 @@ namespace SharpCollisions.Sharp2D
 		{
 			CollisionFlags flag = collisionFlags;
 
-			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Up) > Fix64.ETA)
+			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Up) > Fix64.Epsilon)
 				flag.Below = true;
-			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Down) > Fix64.ETA)
+			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Down) > Fix64.Epsilon)
 				flag.Above = true;
-			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Left) > Fix64.ETA)
+			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Left) > Fix64.Epsilon)
 				flag.Right = true;
-			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Right) > Fix64.ETA)
+			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Right) > Fix64.Epsilon)
 				flag.Left = true;
 			
 			return flag;
@@ -136,7 +136,7 @@ namespace SharpCollisions.Sharp2D
 			CollisionRequireUpdate = false;
 		}
 
-		public void LineToLineDistance(FixVector2 p1, FixVector2 p2, FixVector2 p3, FixVector2 p4, out FixVector2 r1, out FixVector2 r2)
+		public static void LineToLineDistance(FixVector2 p1, FixVector2 p2, FixVector2 p3, FixVector2 p4, out FixVector2 r1, out FixVector2 r2)
 		{
 			FixVector2 r = p3 - p1;
 			FixVector2 u = p2 - p1;
@@ -149,7 +149,7 @@ namespace SharpCollisions.Sharp2D
 			Fix64 det = uu * vv - uv * uv;
 
 			Fix64 s, t;
-			if (det < Fix64.ETA * uu * vv)
+			if (det < Fix64.Epsilon * uu * vv)
 			{
 				s = Fix64.Clamp01(ru / uu);
 				t = Fix64.Zero;
@@ -169,11 +169,11 @@ namespace SharpCollisions.Sharp2D
 
 		//Line to point collision code taken from Noah Zuo's Blog
 		//https://arrowinmyknee.com/2021/03/15/some-math-about-capsule-collision/
-		public void LineToPointDistance(FixVector2 p1, FixVector2 p2, FixVector2 p3, out FixVector2 r1)
+		public static void LineToPointDistance(FixVector2 p1, FixVector2 p2, FixVector2 p3, out FixVector2 r1)
 		{
 			FixVector2 ab = p2 - p1;
 			Fix64 length = FixVector2.Dot(p3 - p1, ab);
-			if (length <= Fix64.ETA) 
+			if (length <= Fix64.Epsilon) 
 			{
 				r1 = p1;
 			} 

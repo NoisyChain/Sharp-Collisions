@@ -74,17 +74,17 @@ namespace SharpCollisions.Sharp3D
 		{
 			CollisionFlags flag = collisionFlags;
 
-			if (FixVector3.Dot(collisiondData.Normal, body.Up) > Fix64.ETA)
+			if (FixVector3.Dot(collisiondData.Normal, body.Up) > Fix64.Epsilon)
 				flag.Below = true;
-			if (FixVector3.Dot(collisiondData.Normal, body.Down) > Fix64.ETA)
+			if (FixVector3.Dot(collisiondData.Normal, body.Down) > Fix64.Epsilon)
 				flag.Above = true;
-			if (FixVector3.Dot(collisiondData.Normal, body.Left) > Fix64.ETA)
+			if (FixVector3.Dot(collisiondData.Normal, body.Left) > Fix64.Epsilon)
 				flag.Right = true;
-			if (FixVector3.Dot(collisiondData.Normal, body.Right) > Fix64.ETA)
+			if (FixVector3.Dot(collisiondData.Normal, body.Right) > Fix64.Epsilon)
 				flag.Left = true;
-            if (FixVector3.Dot(collisiondData.Normal, body.Back) > Fix64.ETA)
+            if (FixVector3.Dot(collisiondData.Normal, body.Back) > Fix64.Epsilon)
 				flag.Forward = true;
-			if (FixVector3.Dot(collisiondData.Normal, body.Forward) > Fix64.ETA)
+			if (FixVector3.Dot(collisiondData.Normal, body.Forward) > Fix64.Epsilon)
 				flag.Back = true;
 			
 			return flag;
@@ -94,17 +94,17 @@ namespace SharpCollisions.Sharp3D
 		{
 			CollisionFlags flag = collisionFlags;
 
-			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Up) > Fix64.ETA)
+			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Up) > Fix64.Epsilon)
 				flag.Below = true;
-			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Down) > Fix64.ETA)
+			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Down) > Fix64.Epsilon)
 				flag.Above = true;
-			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Left) > Fix64.ETA)
+			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Left) > Fix64.Epsilon)
 				flag.Right = true;
-			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Right) > Fix64.ETA)
+			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Right) > Fix64.Epsilon)
 				flag.Left = true;
-            if (FixVector3.Dot(collisiondData.Normal, FixVector3.Back) > Fix64.ETA)
+            if (FixVector3.Dot(collisiondData.Normal, FixVector3.Back) > Fix64.Epsilon)
 				flag.Forward = true;
-			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Forward) > Fix64.ETA)
+			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Forward) > Fix64.Epsilon)
 				flag.Back = true;
 			
 			return flag;
@@ -132,7 +132,7 @@ namespace SharpCollisions.Sharp3D
 			CollisionRequireUpdate = false;
 		}
 
-		public void LineToLineDistance(FixVector3 p1, FixVector3 p2, FixVector3 p3, FixVector3 p4, out FixVector3 r1, out FixVector3 r2)
+		public static void LineToLineDistance(FixVector3 p1, FixVector3 p2, FixVector3 p3, FixVector3 p4, out FixVector3 r1, out FixVector3 r2)
 		{
 			FixVector3 r = p3 - p1;
 			FixVector3 u = p2 - p1;
@@ -145,7 +145,7 @@ namespace SharpCollisions.Sharp3D
 			Fix64 det = uu * vv - uv * uv;
 
 			Fix64 s, t;
-			if (det < Fix64.ETA * uu * vv)
+			if (det < Fix64.Epsilon * uu * vv)
 			{
 				s = Fix64.Clamp01(ru / uu);
 				t = Fix64.Zero;
@@ -165,11 +165,11 @@ namespace SharpCollisions.Sharp3D
 
 		//Line to point collision code taken from Noah Zuo's Blog
 		//https://arrowinmyknee.com/2021/03/15/some-math-about-capsule-collision/
-		public void LineToPointDistance(FixVector3 p1, FixVector3 p2, FixVector3 p3, out FixVector3 r1)
+		public static void LineToPointDistance(FixVector3 p1, FixVector3 p2, FixVector3 p3, out FixVector3 r1)
 		{
 			FixVector3 ab = p2 - p1;
 			Fix64 length = FixVector3.Dot(p3 - p1, ab);
-			if (length <= Fix64.ETA) 
+			if (length <= Fix64.Epsilon) 
 			{
 				r1 = p1;
 			} 
@@ -186,6 +186,61 @@ namespace SharpCollisions.Sharp3D
 					r1 = p1 + length * ab;
 				}
 			}
+		}
+
+		public static void LineToPlaneIntersection(FixVector3 rayOrigin, FixVector3 rayEnd, 
+                           				FixVector3 normal, FixVector3 coord, out FixVector3 r1, out FixVector3 r2)
+		{
+			// get d value
+			Fix64 d = FixVector3.Dot(normal, coord);
+			FixVector3 rayNormal = FixVector3.Normalize(rayEnd - rayOrigin);
+
+			//Avoid divisions by zero
+			if (FixVector3.Dot(normal, rayNormal) == Fix64.Zero)
+			{
+				r1 = FixVector3.Zero; // No intersection, the line is parallel to the plane
+				r2 = FixVector3.Zero;
+				return;
+			}
+
+			// Compute the X value for the directed line ray intersecting the plane
+			Fix64 x = (d - FixVector3.Dot(normal, rayOrigin)) / FixVector3.Dot(normal, rayNormal);
+
+			FixVector3 point = rayOrigin + rayNormal * x; //Make sure your ray vector is normalized
+
+			LineToPointDistance(rayOrigin, rayEnd, point, out FixVector3 pointInLine);
+
+			// output contact point
+			r1 = point;
+			r2 = pointInLine;
+		}
+
+		public static FixVector3 GetBarycentricCoordinates(FixVector3 p, FixVector3 a, FixVector3 b, FixVector3 c)
+		{
+			// Vectors from vertex A to vertices B and C
+			FixVector3 v0 = b - a, v1 = c - a, v2 = p - a;
+
+			// Compute dot products
+			Fix64 d00 = FixVector3.Dot(v0, v0);
+			Fix64 d01 = FixVector3.Dot(v0, v1);
+			Fix64 d11 = FixVector3.Dot(v1, v1);
+			Fix64 d20 = FixVector3.Dot(v2, v0);
+			Fix64 d21 = FixVector3.Dot(v2, v1);
+			Fix64 denom = d00 * d11 - d01 * d01;
+
+			// Check for a zero denominator before division
+			if (Fix64.Abs(denom) <= Fix64.Epsilon)
+			{
+				GD.PrintErr("Cannot compute barycentric coordinates for a degenerate triangle.");
+				return FixVector3.Zero;
+			}
+
+			// Compute barycentric coordinates
+			Fix64 v = (d11 * d20 - d01 * d21) / denom;
+			Fix64 w = (d00 * d21 - d01 * d20) / denom;
+			Fix64 u = Fix64.One - v - w;
+
+			return new FixVector3(u, v, w);
 		}
 	}
 }

@@ -98,7 +98,7 @@ namespace SharpCollisions.Sharp2D
 					{ ClearCollision(bodyA, bodyB); continue; }
 
 					PossibleCollisions.Add(new PossibleCollision(
-						i, j, FixVector2.Distance(bodyA.Collider.Center, bodyB.Collider.Center)
+						i, j, GetCollisionDistance(bodyA.Collider, bodyB.Collider)
 					));
 
 					bodyA.Collisions.Clear();
@@ -107,7 +107,7 @@ namespace SharpCollisions.Sharp2D
 			}
 
 			//Sort the colliders so the nearest colliders are checked first
-			PossibleCollisions.Sort((a, b) => a.distance.CompareTo(b.distance));
+			PossibleCollisions.Sort((a, b) => b.distance.CompareTo(a.distance));
 			//Sort again to reorder by bodies keeping the distance
 			PossibleCollisions.Sort((a, b) => a.BodyA.CompareTo(b.BodyA));
 		}
@@ -200,6 +200,8 @@ namespace SharpCollisions.Sharp2D
 		{
 			SetCollidedWith(bodyA, bodyB, false);
 			SetCollidedWith(bodyB, bodyA, false);
+			bodyA.Collisions.Clear();
+			bodyB.Collisions.Clear();
 		}
 
 		private void MoveBodies(int steps, int iterations)
@@ -256,11 +258,17 @@ namespace SharpCollisions.Sharp2D
 			CallCollisionEvents();
 		}
 
-		public Fix64 GetBoundingBoxesDistance(FixRect a, FixRect b)
+		public Fix64 GetCollisionDistance(SharpCollider2D colliderA, SharpCollider2D colliderB)
 		{
-			FixVector2 centerA = new FixVector2(a.w / Fix64.Two, a.h / Fix64.Two);
-			FixVector2 centerB = new FixVector2(b.w / Fix64.Two, b.h / Fix64.Two);
-			return FixVector2.Distance(centerA, centerB);
+			FixVector2 length = colliderB.Center - colliderA.Center;
+
+			FixVector2 newDepth = FixVector2.Zero;
+			newDepth.x = (colliderA.BoundingBox.w - colliderA.Center.x) + (colliderB.BoundingBox.w - colliderB.Center.x);
+			newDepth.y = (colliderA.BoundingBox.h - colliderA.Center.y) + (colliderB.BoundingBox.h - colliderB.Center.y);
+			newDepth.x -= Fix64.Abs(length.x);
+			newDepth.y -= Fix64.Abs(length.y);
+
+			return FixVector2.Length(newDepth);
 		}
 	}
 }

@@ -250,10 +250,11 @@ namespace SharpCollisions.Sharp3D.GJK
 			return -1;
 		}
 
-		private void FindClosestFace(ref List<FixVector3> polytope, ref List<IntPack3> faces, out Fix64 distance, out FixVector3 normal)
+		private void FindClosestFace(ref List<FixVector3> polytope, ref List<IntPack3> faces, out int index, out Fix64 distance, out FixVector3 normal)
 		{
 			distance = Fix64.MaxValue;
 			normal = FixVector3.Zero;
+			index = 0;
 
 			for (int i = 0; i < faces.Count; i++)
 			{
@@ -274,6 +275,7 @@ namespace SharpCollisions.Sharp3D.GJK
 				{
 					distance = dist;
 					normal = norm;
+					index = i;
 				}
 			}
 		}
@@ -283,7 +285,7 @@ namespace SharpCollisions.Sharp3D.GJK
 			int maxIterations = 0;
 			
 			List<FixVector3> polytope = simplex.Points;
-			List<IntPack3> simplexFaces  = new List<IntPack3>()
+			List<IntPack3> polytopeFaces  = new List<IntPack3>()
 			{
 				new IntPack3(0, 1, 2),
 				new IntPack3(0, 3, 1),
@@ -302,30 +304,75 @@ namespace SharpCollisions.Sharp3D.GJK
 				maxIterations++;
 				if (maxIterations == MAX_EPA_ITERATIONS) break;
 
-				FindClosestFace(ref polytope, ref simplexFaces, out Fix64 fDistance, out FixVector3 fNormal);
+				FindClosestFace(ref polytope, ref polytopeFaces, out int fIndex, out Fix64 fDistance, out FixVector3 fNormal);
 				
 				FixVector3 support = SupportFunction(colliderA, colliderB, fNormal);
 				Fix64 dist = FixVector3.Dot(support, fNormal);
 
-				if (dist - fDistance < Fix64.ETA)
+				if (dist - fDistance < Fix64.Epsilon)
 				{
-					DrawPolytope(polytope, simplexFaces);
+					DrawPolytope(polytope, polytopeFaces);
 					Normal = FixVector3.Normalize(fNormal);
-					Depth = Fix64.Abs(fDistance) + Fix64.ETA;
-					Contact = GetContactPoint(colliderA, colliderB); //Not functional yet
+					Depth = Fix64.Abs(fDistance) + Fix64.Epsilon;
+					Contact = GetContactPoint(colliderA, colliderB, polytope, polytopeFaces[fIndex], Normal); //Not functional yet
 					break;
 				}
 
 				polytope.Add(support);
-				Reconstruct(ref polytope, ref simplexFaces, support);
+				Reconstruct(ref polytope, ref polytopeFaces, support);
 			}
 		}
 
-        public FixVector3 GetContactPoint(SharpCollider3D colliderA, SharpCollider3D colliderB)
+		//Strategy to get the contact point:
+		//1 - Get the origin point (0, 0, 0)
+		//2 - get the nearest face
+		//3 - Cast a ray in the normal direction
+		//4 - line to face colision
+		//5 - get the local contact point
+		//6 - convert it to global space somehow
+        public FixVector3 GetContactPoint(SharpCollider3D colliderA, SharpCollider3D colliderB, List<FixVector3> polytope, IntPack3 polytopeFace, FixVector3 contactNormal)
 		{
-			FixVector3 contacts = FixVector3.Zero;
+			FixVector3 a = polytope[polytopeFace.a];
+			FixVector3 b = polytope[polytopeFace.b];
+			FixVector3 c = polytope[polytopeFace.c];
 
-			return contacts;
+			// Finding the projection of the origin onto the plane of the triangle
+			Fix64 distance = FixVector3.Dot(a, contactNormal);
+			FixVector3 projectedPoint = -distance * contactNormal;
+
+			// Getting the barycentric coordinates of this projection within the triangle belonging to the simplex
+			FixVector3 UVW = SharpCollider3D.GetBarycentricCoordinates(projectedPoint, a, b, c);
+
+			// Taking the corresponding triangle from the first polyhedron
+			//FixVector3 a1 = colliderA.Points[a.Index1];
+			//FixVector3 b1 = colliderA.Points[b.Index1];
+			//FixVector3 c1 = colliderA.Points[c.Index1];
+			FixVector3 Nor1 = FixVector3.Normalize(colliderB.Center - colliderA.Center);
+			FixVector3 a1 = colliderA.Support(Nor1 - a);
+			FixVector3 b1 = colliderA.Support(Nor1 - b);
+			FixVector3 c1 = colliderA.Support(Nor1 - c);
+
+			// Contact point on the first polyhedron
+			FixVector3 contactPoint1 = UVW.x * a1 + UVW.y * b1 + UVW.z * c1;
+
+			// Taking the corresponding triangle from the second polyhedron
+			//FixVector3 a2 = colliderB.Points[a.Index2];
+			//FixVector3 b2 = colliderB.Points[b.Index2];
+			//FixVector3 c2 = colliderB.Points[c.Index2];
+			FixVector3 Nor2 = FixVector3.Normalize(colliderA.Center - colliderB.Center);
+			FixVector3 a2 = colliderB.Support(Nor2 - a);
+			FixVector3 b2 = colliderB.Support(Nor2 - b);
+			FixVector3 c2 = colliderB.Support(Nor2 - c);
+
+			// Contact point on the second polyhedron
+			FixVector3 contactPoint2 = UVW.x * a2 + UVW.y * b2 + UVW.z * c2;
+
+			return (contactPoint1 + contactPoint2) / Fix64.Two; // Returning the midpoint
+			//FixVector3 d = contactNormal * (Fix64)1000;
+			//SharpCollider3D.LineToFaceDistance(a, b, c, FixVector3.Zero, d, out FixVector3 r1, out FixVector3 r2);
+			//SharpCollider3D.LineToPlaneIntersection(FixVector3.Zero, d, contactNormal, polytope[polytopeFace.a], out FixVector3 r1, out FixVector3 r2);
+
+			//return r1;
 		}
 
 		private void DrawPolytope(List<FixVector3> polytope, List<IntPack3> simplexFaces)

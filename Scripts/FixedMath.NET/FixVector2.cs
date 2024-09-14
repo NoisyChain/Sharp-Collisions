@@ -37,6 +37,18 @@ namespace FixMath.NET
 			return Fix64.Sqrt(dx * dx + dy * dy);
 		}
 
+		public static Fix64 LengthSq(FixVector2 v)
+		{
+			return v.x * v.x + v.y * v.y;
+		}
+
+		public static Fix64 DistanceSq(FixVector2 vec0, FixVector2 vec1)
+		{
+			Fix64 dx = vec0.x - vec1.x;
+			Fix64 dy = vec0.y - vec1.y;
+			return dx * dx + dy * dy;
+		}
+
 		public static FixVector2 Normalize(FixVector2 v)
 		{
 			Fix64 len = Length(v);
@@ -144,6 +156,11 @@ namespace FixMath.NET
 		public static bool IsExactDirection(FixVector2 a, FixVector2 b)
 		{
 			return Dot(a, b) > (Fix64)9e-1;
+		}
+
+		public static bool Approximate(FixVector2 a, FixVector2 b)
+		{
+			return Fix64.Approximate(a.x, b.x) && Fix64.Approximate(a.y, b.y);
 		}
 
 		public static FixVector2 ClampMagnitude(FixVector2 vector, Fix64 magnitude)

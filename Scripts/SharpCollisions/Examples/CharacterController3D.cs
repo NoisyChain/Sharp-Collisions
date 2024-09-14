@@ -99,7 +99,7 @@ namespace SharpCollisions.Sharp3D
                     VerticalVelocity = UpVector * jumpSpeed;
                 }
 
-                DebugDraw3D.DrawSphere(GlobalPosition, 0.1f, new Color(0f, 1f, 1f));
+                //DebugDraw3D.DrawSphere(GlobalPosition, 0.1f, new Color(0f, 1f, 1f));
             }
             else
             {
@@ -127,16 +127,19 @@ namespace SharpCollisions.Sharp3D
             //SetRotation(correctedRotation);
             SetVelocity(finalVelocity);
             string groundAngle = IsOnGround ? GroundAngle.ToString() : "No Ground";
-            debug.Text = "Normal: " + UpVector.ToString() + 
+            if (debug != null) debug.Text = "Normal: " + UpVector.ToString() + 
                 "\nFlags: " + Collider.collisionFlags.ToString() + 
-                "\nCollisions:" + Collisions.Count + 
+                "\nCollisions: " + Collisions.Count + 
+                "\nContact Point: " + (Collisions.Count > 0 ? Collisions[0].ContactPoint : 0) + 
                 "\nFloor angle: " + groundAngle;
         }
 
-        /*public override void _Process(double delta)
+        public override void _Process(double delta)
         {
             base._Process(delta);
-        }*/
+            foreach(CollisionManifold3D col in Collisions)
+                DebugDraw3D.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, new Color(0f, 1f, 1f));
+        }
 
         public CollisionManifold3D GetGround()
         { 

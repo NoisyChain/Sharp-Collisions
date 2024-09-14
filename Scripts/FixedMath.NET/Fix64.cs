@@ -17,8 +17,8 @@ namespace FixMath.NET
 		public static readonly Fix64 MaxValue = new Fix64(MAX_VALUE);
 		public static readonly Fix64 MinValue = new Fix64(MIN_VALUE);
 		public static readonly Fix64 One = new Fix64(ONE);
-		public static readonly Fix64 Two = new Fix64(2);
-		public static readonly Fix64 ETA = (Fix64)1e-3;
+		public static readonly Fix64 Two = new Fix64(TWO);
+		public static readonly Fix64 Epsilon = One / (Fix64)1000;
 		public static readonly Fix64 NegativeOne = -One;
 		public static readonly Fix64 Zero = new Fix64();
 		/// <summary>
@@ -44,6 +44,7 @@ namespace FixMath.NET
 		const int NUM_BITS = 64;
 		const int FRACTIONAL_PLACES = 32;
 		const long ONE = 1L << FRACTIONAL_PLACES;
+		const long TWO = 2L << FRACTIONAL_PLACES;
 		const long PI_TIMES_2 = 0x6487ED511;
 		const long PI = 0x3243F6A88;
 		const long PI_OVER_2 = 0x1921FB544;
@@ -960,6 +961,11 @@ namespace FixMath.NET
 		public static Fix64 Lerp(Fix64 from, Fix64 to, int numberOfSteps, int currentStep)
 		{
 			return (to - from) * (Fix64)currentStep / (Fix64)numberOfSteps;
+		}
+
+		public static bool Approximate(Fix64 a, Fix64 b)
+		{
+			return Abs(a - b) < Epsilon;
 		}
 
 		//---------------------------

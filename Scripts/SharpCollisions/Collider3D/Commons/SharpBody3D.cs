@@ -70,7 +70,7 @@ namespace SharpCollisions.Sharp3D
 		public override void _Process(double delta)
 		{
 			base._Process(delta);
-			if (Collider != null)
+			if (!Engine.IsEditorHint() && Collider != null)
 				Collider.DebugDrawShapes(this);
 		}
 

@@ -6,22 +6,22 @@ namespace SharpCollisions.Sharp2D
     [System.Serializable]
     public struct Simplex2D
     {
-        public List<FixVector2> Points;
+        public List<SupportPoint2D> Points;
         public int Size;
 
         public Simplex2D()
         {
-            Points = new List<FixVector2>() { FixVector2.Zero, FixVector2.Zero, FixVector2.Zero };
+            Points = new List<SupportPoint2D>() { new SupportPoint2D(), new SupportPoint2D(), new SupportPoint2D() };
             Size = 0;
         }
 
-        public Simplex2D(List<FixVector2> newList)
+        public Simplex2D(List<SupportPoint2D> newList)
         {
             Points = newList;
             Size = 0;
         }
 
-        public void MoveForward(FixVector2 newPoint)
+        public void MoveForward(SupportPoint2D newPoint)
         {
             //List<FixVector2> TempPoints = new List<FixVector2>()
             //{ newPoint, Points[0], Points[1] };
@@ -33,7 +33,7 @@ namespace SharpCollisions.Sharp2D
             if (Size > 3) Size = 3;
         }
 
-        public void Reset(List<FixVector2> newPoints)
+        public void Reset(List<SupportPoint2D> newPoints)
         {
             for (int p = 0; p < newPoints.Count; p++)
             {
@@ -44,9 +44,10 @@ namespace SharpCollisions.Sharp2D
 
         public void Clear()
         {
-            Points[2] = FixVector2.Zero;
-            Points[1] = FixVector2.Zero;
-            Points[0] = FixVector2.Zero;
+            for (int p = 0; p < Points.Count; p++)
+            {
+                Points[p] = new SupportPoint2D();
+            }
             Size = 0;
         }
 

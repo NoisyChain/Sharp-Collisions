@@ -32,9 +32,20 @@ public partial class RayCastingTest : Node3D
 		DebugDraw3D.DrawLine(a, b, new Color(1, 1, 1));
 		DebugDraw3D.DrawLine(b, c, new Color(1, 1, 1));
 		DebugDraw3D.DrawLine(c, a, new Color(1, 1, 1));
+		Vector3 centroid = FindTriangleCentroid(a, b, c);
+		DebugDraw3D.DrawSphere(centroid, 0.25f, new Color(0, 1, 1));
 		DebugDraw3D.DrawLine(RayOrigin, RayEnd, new Color(0, 1, 0));
 		if (LinePoint.DistanceTo(Intersection) < 0.001f)
 			DebugDraw3D.DrawSphere(Intersection, 0.25f, new Color(1, 0, 0));
+	}
+
+	public static Vector3 FindTriangleCentroid(Vector3 a, Vector3 b, Vector3 c)
+	{
+		float centerX = (a.X + b.X + c.X) / 3;
+		float centerY = (a.Y + b.Y + c.Y) / 3;
+		float centerZ = (a.Z + b.Z + c.Z) / 3;
+
+		return new Vector3(centerX, centerY, centerZ);
 	}
 
 	public static Vector3 LinePlaneIntersection(Vector3 rayOrigin, Vector3 ray, Vector3 normal, Vector3 coord)

@@ -18,9 +18,16 @@ namespace FixMath.NET
 		public static readonly Fix64 MinValue = new Fix64(MIN_VALUE);
 		public static readonly Fix64 One = new Fix64(ONE);
 		public static readonly Fix64 Two = new Fix64(TWO);
-		public static readonly Fix64 Epsilon = One / (Fix64)1000;
 		public static readonly Fix64 NegativeOne = -One;
 		public static readonly Fix64 Zero = new Fix64();
+		/// <summary>
+		/// Low-precision error margin
+		/// </summary>
+		public static readonly Fix64 Epsilon = (Fix64)1e-3;
+		/// <summary>
+		/// High-precision error margin
+		/// </summary>
+		public static readonly Fix64 EpsilonPlus = (Fix64)1e-6;
 		/// <summary>
 		/// The value of Pi
 		/// </summary>

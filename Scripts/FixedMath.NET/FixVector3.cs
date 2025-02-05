@@ -59,7 +59,11 @@ namespace FixMath.NET
 		{
 			Fix64 len = Length(v);
 			if (len == Fix64.Zero) return Zero;
-			return new FixVector3(v.x / len, v.y / len, v.z / len);
+			FixVector3 nor = new FixVector3(v.x / len, v.y / len, v.z / len);
+			//if (Fix64.Abs(nor.x) < Fix64.Epsilon) nor.x = Fix64.Zero;
+			//if (Fix64.Abs(nor.y) < Fix64.Epsilon) nor.y = Fix64.Zero;
+			//if (Fix64.Abs(nor.z) < Fix64.Epsilon) nor.z = Fix64.Zero;
+			return nor;
 		}
         public static Fix64 Dot(FixVector3 a, FixVector3 b)
 		{
@@ -98,15 +102,25 @@ namespace FixMath.NET
 			return Normalize(axis);
 		}
 
+		public static FixVector3 GetPlaneNormal(FixVector3 a, FixVector3 b, FixVector3 c)
+		{
+			FixVector3 ab = b - a;
+			FixVector3 ac = c - b;
+			return Normalize(Cross(ab, ac));
+		}
+
+		public static FixVector3 FindTriangleCentroid(FixVector3 a, FixVector3 b, FixVector3 c)
+		{
+			Fix64 centerX = (a.x + b.x + c.x) / (Fix64)3;
+			Fix64 centerY = (a.y + b.y + c.y) / (Fix64)3;
+			Fix64 centerZ = (a.z + b.z + c.z) / (Fix64)3;
+
+			return new FixVector3(centerX, centerY, centerZ);
+		}
+
 		public static FixVector3 Transform(FixVector3 v, SharpCollisions.Sharp3D.FixedTransform3D body)
 		{
-			FixVector3 r = Rotate(v, body.FixedRotation);
-
-			Fix64 tx = r.x + body.FixedPosition.x;
-			Fix64 ty = r.y + body.FixedPosition.y;
-			Fix64 tz = r.z + body.FixedPosition.z;
-
-			return new FixVector3(tx, ty, tz);
+			return Transform(v, body.FixedPosition, body.FixedRotation);
 		}
 
 		public static FixVector3 Transform(FixVector3 v, FixVector3 refPosition, FixVector3 refRotation)

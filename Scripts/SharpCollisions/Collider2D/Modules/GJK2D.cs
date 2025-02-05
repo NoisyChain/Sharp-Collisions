@@ -10,8 +10,20 @@ namespace SharpCollisions.Sharp2D.GJK
 		public const int MAX_GJK_ITERATIONS = 32;
 		public const int MAX_EPA_ITERATIONS = 32;
 
-        public GJK2D() {}
-        public GJK2D(bool draw) { AllowDraw = draw; }
+		private Simplex2D Simplex;
+		private List<FixVector2> polytope;
+
+        public GJK2D()
+		{
+			Simplex = new Simplex2D();
+			polytope = new List<FixVector2>();
+		}
+        public GJK2D(bool draw)
+		{
+			Simplex = new Simplex2D();
+			polytope = new List<FixVector2>();
+			AllowDraw = draw;
+		}
 
 		private FixVector2 SupportFunction(SharpCollider2D colliderA, SharpCollider2D colliderB, FixVector2 direction)
 		{
@@ -29,9 +41,7 @@ namespace SharpCollisions.Sharp2D.GJK
 			Depth = FixVector2.Zero;
 			ContactPoint = FixVector2.Zero;
 
-			Simplex2D Simplex = new Simplex2D(
-				new List<FixVector2>() { FixVector2.Zero, FixVector2.Zero, FixVector2.Zero }
-			);
+			Simplex.Clear();
 
 			FixVector2 supportDirection = colliderB.Center - colliderA.Center;
 			FixVector2 SupportPoint;
@@ -145,7 +155,7 @@ namespace SharpCollisions.Sharp2D.GJK
 			int minIndex = 0;
 			Fix64 minDistance = Fix64.MaxValue;
 			FixVector2 minNormal = FixVector2.Zero;
-			List<FixVector2> polytope = simplex.Points;
+			polytope = simplex.Points;
 			bool IsClockWise = GetPolytopeDirection(polytope);
 
 			while (minDistance == Fix64.MaxValue)
@@ -189,7 +199,7 @@ namespace SharpCollisions.Sharp2D.GJK
 
 			Normal = minNormal;
 			Depth = Fix64.Abs(minDistance) + Fix64.Epsilon;
-			Contact = GetContactPoint(colliderA, colliderB, Normal);
+			Contact = GetContactPoint(colliderA, colliderB);
 		}
 
 		private void DrawPolytope(List<FixVector2> polytope)
@@ -206,7 +216,7 @@ namespace SharpCollisions.Sharp2D.GJK
 			}
 		}
 
-        public FixVector2 GetContactPoint(SharpCollider2D colliderA, SharpCollider2D colliderB, FixVector2 mtv)
+        public FixVector2 GetContactPoint(SharpCollider2D colliderA, SharpCollider2D colliderB)
 		{
 			if (colliderA.Shape == CollisionType2D.Circle && colliderB.Shape == CollisionType2D.Polygon)
 				return CirclePolygonContact(colliderA as CircleCollider2D, colliderB as PolygonCollider2D);
@@ -217,7 +227,7 @@ namespace SharpCollisions.Sharp2D.GJK
 			else if (colliderA.Shape == CollisionType2D.Polygon && colliderB.Shape == CollisionType2D.Capsule)
 				return CapsulePolygonContact(colliderB as CapsuleCollider2D, colliderA as PolygonCollider2D);
 			else if (colliderA.Shape == CollisionType2D.Polygon && colliderB.Shape == CollisionType2D.Polygon)
-				return PolygonContact(colliderA as PolygonCollider2D, colliderB as PolygonCollider2D, mtv);
+				return PolygonContact(colliderA as PolygonCollider2D, colliderB as PolygonCollider2D);
 			
 			return FixVector2.Zero;
 		}
@@ -268,7 +278,7 @@ namespace SharpCollisions.Sharp2D.GJK
 			return contact;
 		}
 
-		public FixVector2 PolygonContact(PolygonCollider2D colliderA, PolygonCollider2D colliderB, FixVector2 mtv)
+		public FixVector2 PolygonContact(PolygonCollider2D colliderA, PolygonCollider2D colliderB)
 		{
 			FixVector2 contact1 = FixVector2.Zero;
             FixVector2 contact2 = FixVector2.Zero;

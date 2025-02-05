@@ -56,6 +56,7 @@ BodyMode = 2
 [node name="Collider" type="Node" parent="Box"]
 script = ExtResource("5_l2ale")
 extents = Vector3(4, 0.1, 4)
+Faces = []
 
 [node name="Viewer" type="Node3D" parent="Box"]
 
@@ -71,6 +72,7 @@ BodyMode = 2
 [node name="Collider" type="Node" parent="Box2"]
 script = ExtResource("5_l2ale")
 extents = Vector3(4, 1, 0.1)
+Faces = []
 
 [node name="Viewer" type="Node3D" parent="Box2"]
 
@@ -86,6 +88,7 @@ BodyMode = 2
 [node name="Collider" type="Node" parent="Box3"]
 script = ExtResource("5_l2ale")
 extents = Vector3(4, 1, 0.1)
+Faces = []
 
 [node name="Viewer" type="Node3D" parent="Box3"]
 
@@ -101,6 +104,7 @@ BodyMode = 2
 [node name="Collider" type="Node" parent="Box4"]
 script = ExtResource("5_l2ale")
 extents = Vector3(0.1, 1, 4)
+Faces = []
 
 [node name="Viewer" type="Node3D" parent="Box4"]
 
@@ -117,6 +121,7 @@ BodyMode = 2
 [node name="Collider" type="Node" parent="Box5"]
 script = ExtResource("5_l2ale")
 extents = Vector3(0.1, 1, 4)
+Faces = []
 
 [node name="Viewer" type="Node3D" parent="Box5"]
 

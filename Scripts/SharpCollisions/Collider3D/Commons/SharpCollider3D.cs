@@ -188,8 +188,8 @@ namespace SharpCollisions.Sharp3D
 			}
 		}
 
-		public static void LineToPlaneIntersection(FixVector3 rayOrigin, FixVector3 rayEnd, 
-                           				FixVector3 normal, FixVector3 coord, out FixVector3 r1, out FixVector3 r2)
+		public static void LineToPlaneIntersection(FixVector3 rayOrigin, FixVector3 rayEnd, FixVector3 normal, 
+												FixVector3 coord, out FixVector3 r1, out FixVector3 r2)
 		{
 			// get d value
 			Fix64 d = FixVector3.Dot(normal, coord);
@@ -206,12 +206,12 @@ namespace SharpCollisions.Sharp3D
 			// Compute the X value for the directed line ray intersecting the plane
 			Fix64 x = (d - FixVector3.Dot(normal, rayOrigin)) / FixVector3.Dot(normal, rayNormal);
 
-			FixVector3 point = rayOrigin + rayNormal * x; //Make sure your ray vector is normalized
+			FixVector3 pointInFace = rayOrigin + rayNormal * x; //Make sure your ray vector is normalized
 
-			LineToPointDistance(rayOrigin, rayEnd, point, out FixVector3 pointInLine);
+			LineToPointDistance(rayOrigin, rayEnd, pointInFace, out FixVector3 pointInLine);
 
 			// output contact point
-			r1 = point;
+			r1 = pointInFace;
 			r2 = pointInLine;
 		}
 
@@ -229,9 +229,10 @@ namespace SharpCollisions.Sharp3D
 			Fix64 denom = d00 * d11 - d01 * d01;
 
 			// Check for a zero denominator before division
-			if (Fix64.Abs(denom) <= Fix64.Epsilon)
+			// I want a higher precision for this to avoid too many errors
+			if (Fix64.Abs(denom) <= Fix64.EpsilonPlus)
 			{
-				GD.PrintErr("Cannot compute barycentric coordinates for a degenerate triangle.");
+				GD.Print("Degenerate triangle found. Cancelling operation");
 				return FixVector3.Zero;
 			}
 

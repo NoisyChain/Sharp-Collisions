@@ -16,6 +16,11 @@ namespace FixMath.NET
             d = _d;
         }
 
+        public FixVector3 Center()
+        {
+            return new FixVector3((x + w) / Fix64.Two, (y + h) / Fix64.Two, (z + d) / Fix64.Two);
+        }
+
         public bool IsOverlapping(FixVolume other)
         {
 			bool collisionX = x < other.w && w > other.x;
@@ -28,7 +33,6 @@ namespace FixMath.NET
         public override string ToString()
         {
             return $"({x}, {y}, {x}, {w}, {h}, {d})";
- 
         }
     }
 }

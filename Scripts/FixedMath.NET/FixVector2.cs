@@ -53,7 +53,10 @@ namespace FixMath.NET
 		{
 			Fix64 len = Length(v);
 			if (len == Fix64.Zero) return Zero;
-			return new FixVector2(v.x / len, v.y / len);
+			FixVector2 nor = new FixVector2(v.x / len, v.y / len);
+			//if (Fix64.Abs(nor.x) < Fix64.Epsilon) nor.x = Fix64.Zero;
+			//if (Fix64.Abs(nor.y) < Fix64.Epsilon) nor.y = Fix64.Zero;
+			return nor;
 		}
 
 		public static Fix64 Dot(FixVector2 a, FixVector2 b)
@@ -96,12 +99,7 @@ namespace FixMath.NET
 
 		public static FixVector2 Transform(FixVector2 v, SharpCollisions.Sharp2D.FixedTransform2D body)
 		{
-			FixVector2 r = Rotate(v, body.FixedRotation);
-
-			Fix64 tx = r.x + body.FixedPosition.x;
-			Fix64 ty = r.y + body.FixedPosition.y;
-
-			return new FixVector2(tx, ty);
+			return Transform(v, body.FixedPosition, body.FixedRotation);
 		}
 
 		public static FixVector2 Transform(FixVector2 v, FixVector2 refPosition, Fix64 refRotation)

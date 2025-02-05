@@ -9,6 +9,12 @@ namespace SharpCollisions.Sharp2D
         public List<FixVector2> Points;
         public int Size;
 
+        public Simplex2D()
+        {
+            Points = new List<FixVector2>() { FixVector2.Zero, FixVector2.Zero, FixVector2.Zero };
+            Size = 0;
+        }
+
         public Simplex2D(List<FixVector2> newList)
         {
             Points = newList;
@@ -17,9 +23,12 @@ namespace SharpCollisions.Sharp2D
 
         public void MoveForward(FixVector2 newPoint)
         {
-            List<FixVector2> TempPoints = new List<FixVector2>()
-            { newPoint, Points[0], Points[1] };
-            Points = TempPoints;
+            //List<FixVector2> TempPoints = new List<FixVector2>()
+            //{ newPoint, Points[0], Points[1] };
+            //Points = TempPoints;
+            Points[2] = Points[1];
+            Points[1] = Points[0];
+            Points[0] = newPoint;
             Size++;
             if (Size > 3) Size = 3;
         }
@@ -33,9 +42,18 @@ namespace SharpCollisions.Sharp2D
             Size = newPoints.Count;
         }
 
+        public void Clear()
+        {
+            for (int p = 0; p < Points.Count; p++)
+            {
+                Points[p] = FixVector2.Zero;
+            }
+            Size = 0;
+        }
+
         public override string ToString()
         {
-            return $"({Points[0].ToString()}, {Points[1].ToString()}, {Points[2].ToString()})";
+            return $"({Points[0]}, {Points[1]}, {Points[2]})";
         }
     };
 }

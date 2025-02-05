@@ -44,10 +44,9 @@ namespace SharpCollisions.Sharp2D
 
         public void Clear()
         {
-            for (int p = 0; p < Points.Count; p++)
-            {
-                Points[p] = FixVector2.Zero;
-            }
+            Points[2] = FixVector2.Zero;
+            Points[1] = FixVector2.Zero;
+            Points[0] = FixVector2.Zero;
             Size = 0;
         }
 

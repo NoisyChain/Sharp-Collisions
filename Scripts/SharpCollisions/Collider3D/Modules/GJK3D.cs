@@ -324,49 +324,13 @@ namespace SharpCollisions.Sharp3D.GJK
 					DrawPolytope(Polytope);
 					Normal = FixVector3.Normalize(fNormal);
 					Depth = Fix64.Abs(fDistance) + Fix64.Epsilon;
-					Contact = GetContactPoint(Polytope, Normal); //Not functional yet
+					Contact = GetContactPoint(Polytope, Normal);
 					break;
 				}
 
 				Polytope.Vertices.Add(support);
 				Reconstruct(ref Polytope, support);
 			}
-		}
-
-        /*public FixVector3 GetContactPoint(SharpCollider3D colliderA, SharpCollider3D colliderB, Polytope3D polytope, FixVector3 normal)
-		{
-			if (colliderA.Shape == CollisionType3D.Sphere && colliderB.Shape == CollisionType3D.Polygon)
-				return SpherePolygonContact(colliderA as SphereCollider3D, colliderB as PolygonCollider3D, polytope, normal);
-			else if (colliderA.Shape == CollisionType3D.Polygon && colliderB.Shape == CollisionType3D.Sphere)
-				return SpherePolygonContact(colliderB as SphereCollider3D, colliderA as PolygonCollider3D, polytope, -normal);
-			if (colliderA.Shape == CollisionType3D.Capsule && colliderB.Shape == CollisionType3D.Polygon)
-				return CapsulePolygonContact(colliderA as CapsuleCollider3D, colliderB as PolygonCollider3D, polytope, normal);
-			else if (colliderA.Shape == CollisionType3D.Polygon && colliderB.Shape == CollisionType3D.Capsule)
-				return CapsulePolygonContact(colliderB as CapsuleCollider3D, colliderA as PolygonCollider3D, polytope, -normal);
-			else if (colliderA.Shape == CollisionType3D.Polygon && colliderB.Shape == CollisionType3D.Polygon)
-				return PolygonContact(colliderA as PolygonCollider3D, colliderB as PolygonCollider3D, polytope, normal);
-			
-			return FixVector3.Zero;
-		}*/
-
-		public FixVector3 SpherePolygonContact(SphereCollider3D colliderA, PolygonCollider3D colliderB, Polytope3D polytope, FixVector3 normal)
-		{
-			FixVector3 spherePoint = colliderA.Support(normal);
-			Vector3I polygonFace = colliderB.GetNearestFace(normal, out FixVector3 faceNormal);
-			SharpCollider3D.LineToPlaneIntersection(colliderA.Center, colliderA.Center + normal * colliderA.Radius, faceNormal, 
-												colliderB.Points[polygonFace.X], out FixVector3 r1, out FixVector3 r2);
-			
-			return (r1 + r2) / Fix64.Two;
-		}
-
-		public FixVector3 CapsulePolygonContact(CapsuleCollider3D colliderA, PolygonCollider3D colliderB, Polytope3D polytope, FixVector3 normal)
-		{
-			FixVector3 capsulePoint = colliderA.Support(normal);
-			Vector3I polygonFace = colliderB.GetNearestFace(normal, out FixVector3 faceNormal);
-			SharpCollider3D.LineToPlaneIntersection(colliderA.Center, colliderA.Center + normal * colliderA.Radius, faceNormal, 
-												colliderB.Points[polygonFace.X], out FixVector3 r1, out FixVector3 r2);
-			
-			return (r1 + r2) / Fix64.Two;
 		}
 
 		//Contact point math solved thanks to GJKEPA

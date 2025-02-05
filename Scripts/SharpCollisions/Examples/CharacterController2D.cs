@@ -86,6 +86,11 @@ namespace SharpCollisions.Sharp2D
                 if (VerticalVelocity.y < -fallSpeedLimit)
                     VerticalVelocity = -UpVector * fallSpeedLimit;
             }
+
+            VerticalVelocity -= UpVector * gravity * delta;
+                
+                if (VerticalVelocity.y < -fallSpeedLimit)
+                    VerticalVelocity = -UpVector * fallSpeedLimit;
             
             FixVector2 finalVelocity = LateralVelocity + VerticalVelocity;
 		    

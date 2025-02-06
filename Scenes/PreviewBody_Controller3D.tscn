@@ -1,32 +1,39 @@
-[gd_scene load_steps=5 format=3 uid="uid://l1rqh2yogc15"]
+[gd_scene load_steps=7 format=3 uid="uid://l1rqh2yogc15"]
 
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/CapsuleCollider3D.cs" id="2_bk3aq"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Examples/CharacterController3D.cs" id="3"]
+[ext_resource type="Texture2D" uid="uid://bx6bfwnydn8wd" path="res://icon_circle.png" id="3_3ojkc"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_oe6u2"]
 radius = 0.3
 height = 0.9
 radial_segments = 16
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qdvso"]
+albedo_texture = ExtResource("3_3ojkc")
+
 [sub_resource type="SphereMesh" id="SphereMesh_03unl"]
+material = SubResource("StandardMaterial3D_qdvso")
 radius = 0.3
 height = 0.6
 radial_segments = 16
 rings = 6
 
-[node name="Body" type="Node3D"]
+[node name="Body" type="Node3D" node_paths=PackedStringArray("Collider")]
 script = ExtResource("3")
+Collider = NodePath("Collider")
 
 [node name="Collider" type="Node" parent="."]
 script = ExtResource("2_bk3aq")
 radius = 0.3
 height = 0.6
 AxisDirection = 1
-DrawDebug = true
 offset = Vector3(0, 0.6, 0)
+DrawDebug = true
 
 [node name="Graphics" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Graphics"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)

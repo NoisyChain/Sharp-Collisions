@@ -37,11 +37,26 @@ namespace FixMath.NET
 			return Fix64.Sqrt(dx * dx + dy * dy);
 		}
 
+		public static Fix64 LengthSq(FixVector2 v)
+		{
+			return v.x * v.x + v.y * v.y;
+		}
+
+		public static Fix64 DistanceSq(FixVector2 vec0, FixVector2 vec1)
+		{
+			Fix64 dx = vec0.x - vec1.x;
+			Fix64 dy = vec0.y - vec1.y;
+			return dx * dx + dy * dy;
+		}
+
 		public static FixVector2 Normalize(FixVector2 v)
 		{
 			Fix64 len = Length(v);
 			if (len == Fix64.Zero) return Zero;
-			return new FixVector2(v.x / len, v.y / len);
+			FixVector2 nor = new FixVector2(v.x / len, v.y / len);
+			//if (Fix64.Abs(nor.x) < Fix64.Epsilon) nor.x = Fix64.Zero;
+			//if (Fix64.Abs(nor.y) < Fix64.Epsilon) nor.y = Fix64.Zero;
+			return nor;
 		}
 
 		public static Fix64 Dot(FixVector2 a, FixVector2 b)
@@ -84,12 +99,7 @@ namespace FixMath.NET
 
 		public static FixVector2 Transform(FixVector2 v, SharpCollisions.Sharp2D.FixedTransform2D body)
 		{
-			FixVector2 r = Rotate(v, body.FixedRotation);
-
-			Fix64 tx = r.x + body.FixedPosition.x;
-			Fix64 ty = r.y + body.FixedPosition.y;
-
-			return new FixVector2(tx, ty);
+			return Transform(v, body.FixedPosition, body.FixedRotation);
 		}
 
 		public static FixVector2 Transform(FixVector2 v, FixVector2 refPosition, Fix64 refRotation)
@@ -144,6 +154,11 @@ namespace FixMath.NET
 		public static bool IsExactDirection(FixVector2 a, FixVector2 b)
 		{
 			return Dot(a, b) > (Fix64)9e-1;
+		}
+
+		public static bool Approximate(FixVector2 a, FixVector2 b)
+		{
+			return Fix64.Approximate(a.x, b.x) && Fix64.Approximate(a.y, b.y);
 		}
 
 		public static FixVector2 ClampMagnitude(FixVector2 vector, Fix64 magnitude)

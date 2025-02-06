@@ -4,11 +4,12 @@ using SharpCollisions.Sharp2D.GJK;
 
 namespace SharpCollisions.Sharp2D
 {
-    [GlobalClass]
+    [Tool] [GlobalClass]
     public partial class PolygonCollider2D : SharpCollider2D
     {
+        [Export] protected bool DrawDebugPolytope;
+        
         public GJK2D GJK;
-
         public FixVector2[] RawPoints;
 		public FixVector2[] Points;
 

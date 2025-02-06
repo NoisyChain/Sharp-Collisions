@@ -3,7 +3,7 @@ using FixMath.NET;
 
 namespace SharpCollisions.Sharp2D
 {
-    [GlobalClass]
+    [Tool] [GlobalClass]
     public partial class AABBCollider2D : SharpCollider2D
     {
         public FixVector2 Extents;

@@ -44,16 +44,42 @@ namespace SharpCollisions
         }
     };
 
+    public struct SupportPoint2D
+    {
+        public FixVector2 pointA;
+        public FixVector2 pointB;
+        public FixVector2 Point() { return pointA - pointB; }
+
+        public SupportPoint2D(FixVector2 a, FixVector2 b)
+        {
+            pointA = a;
+            pointB = b;
+        }
+    }
+
+    public struct SupportPoint3D
+    {
+        public FixVector3 pointA;
+        public FixVector3 pointB;
+        public FixVector3 Point() { return pointA - pointB; }
+
+        public SupportPoint3D(FixVector3 a, FixVector3 b)
+        {
+            pointA = a;
+            pointB = b;
+        }
+    }
+
     public struct PossibleCollision
     {
-        public int a;
-        public int b;
+        public int BodyA;
+        public int BodyB;
         public Fix64 distance;
 
         public PossibleCollision(int newA, int newB, Fix64 newDist)
         {
-            a = newA;
-            b = newB;
+            BodyA = newA;
+            BodyB = newB;
             distance = newDist;
         }
     };

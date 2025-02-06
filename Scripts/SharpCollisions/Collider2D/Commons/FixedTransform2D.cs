@@ -61,5 +61,15 @@ namespace SharpCollisions.Sharp2D
             //FixedRotation = Parent.FixedRotation + localRotation;
             //FixedPosition = FixVector2.Transform(FixedPosition, Parent.FixedPosition, Parent.FixedRotation);
         }
+
+        public static FixVector2 LocalToWorld(FixVector2 v)
+        {
+            return v;
+        }
+
+        public static FixVector2 WorldToLocal(FixVector2 v)
+        {
+            return v;
+        }
     }
 }

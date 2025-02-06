@@ -14,7 +14,7 @@ namespace SharpCollisions.Sharp3D
 
 		private int MinIterations = 1;
 		private int MaxIterations = 64;
-		private List<(int, int)> PossibleCollisions;
+		private List<PossibleCollision> PossibleCollisions;
 		private List<(int, int, bool)> ConfirmedCollisions;
 
 		public const int mask = 0b_1111_1111;
@@ -22,7 +22,7 @@ namespace SharpCollisions.Sharp3D
 		public SharpWorld3D()
 		{
 			bodies = new List<SharpBody3D>();
-			PossibleCollisions = new List<(int, int)>();
+			PossibleCollisions = new List<PossibleCollision>();
 			ConfirmedCollisions = new List<(int, int, bool)>();
 		}
 		
@@ -94,22 +94,32 @@ namespace SharpCollisions.Sharp3D
 					{ ClearCollision(bodyA, bodyB); continue; }
 					if (!CompareLayers(bodyA, bodyB))
 					{ ClearCollision(bodyA, bodyB); continue; }
+
 					if (!bodyA.Collider.BoundingBox.IsOverlapping(bodyB.Collider.BoundingBox))
 					{ ClearCollision(bodyA, bodyB); continue; }
-						
+
+					PossibleCollisions.Add(new PossibleCollision(
+						i, j,
+						GetCollisionDistance(bodyA.Collider, bodyB.Collider)
+					));
+
 					bodyA.Collisions.Clear();
 					bodyB.Collisions.Clear();
-					PossibleCollisions.Add((i, j));
 				}
 			}
+
+			//Sort the colliders so the nearest colliders are checked first
+			PossibleCollisions.Sort((a, b) => b.distance.CompareTo(a.distance));
+			//Sort again to reorder by bodies keeping the distance
+			PossibleCollisions.Sort((a, b) => a.BodyA.CompareTo(b.BodyA));
 		}
 
 		private void NarrowPhase()
 		{
 			for(int i = 0; i < PossibleCollisions.Count; i ++)
 			{
-				SharpBody3D bodyA = bodies[PossibleCollisions[i].Item1];
-				SharpBody3D bodyB = bodies[PossibleCollisions[i].Item2];
+				SharpBody3D bodyA = bodies[PossibleCollisions[i].BodyA];
+				SharpBody3D bodyB = bodies[PossibleCollisions[i].BodyB];
 
 				if (bodyA.Collider.IsOverlapping(bodyB.Collider, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint))
 				{
@@ -153,15 +163,15 @@ namespace SharpCollisions.Sharp3D
 						bodyB.Collider.globalCollisionFlags = bodyB.Collider.GetGlobalCollisionFlags(collisionB);
 					}
 					
-					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, true)))
-						ConfirmedCollisions.Add((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, true));
+					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].BodyA, PossibleCollisions[i].BodyB, true)))
+						ConfirmedCollisions.Add((PossibleCollisions[i].BodyA, PossibleCollisions[i].BodyB, true));
 					
 					//GD.Print($"Body {PossibleCollisions[i].Item1} collided with body {PossibleCollisions[i].Item2}.");
 				}
 				else
 				{
-					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, false)))
-						ConfirmedCollisions.Add((PossibleCollisions[i].Item1, PossibleCollisions[i].Item2, false));
+					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].BodyA, PossibleCollisions[i].BodyB, false)))
+						ConfirmedCollisions.Add((PossibleCollisions[i].BodyA, PossibleCollisions[i].BodyB, false));
 				}
 			}
 		}
@@ -192,6 +202,8 @@ namespace SharpCollisions.Sharp3D
 		{
 			SetCollidedWith(bodyA, bodyB, false);
 			SetCollidedWith(bodyB, bodyA, false);
+			bodyA.Collisions.Clear();
+			//bodyB.Collisions.Clear();
 		}
 
 
@@ -248,5 +260,19 @@ namespace SharpCollisions.Sharp3D
 			CallCollisionEvents();
 		}
 
+		public Fix64 GetCollisionDistance(SharpCollider3D colliderA, SharpCollider3D colliderB)
+		{
+			FixVector3 length = colliderB.Center - colliderA.Center;
+
+			FixVector3 newDepth = FixVector3.Zero;
+			newDepth.x = (colliderA.BoundingBox.w - colliderA.Center.x) + (colliderB.BoundingBox.w - colliderB.Center.x);
+			newDepth.y = (colliderA.BoundingBox.h - colliderA.Center.y) + (colliderB.BoundingBox.h - colliderB.Center.y);
+			newDepth.z = (colliderA.BoundingBox.d - colliderA.Center.z) + (colliderB.BoundingBox.d - colliderB.Center.z);
+			newDepth.x -= Fix64.Abs(length.x);
+			newDepth.y -= Fix64.Abs(length.y);
+			newDepth.z -= Fix64.Abs(length.z);
+
+			return FixVector3.Length(newDepth);
+		}
 	}
 }

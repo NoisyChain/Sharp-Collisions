@@ -21,10 +21,10 @@ namespace SharpCollisions.Sharp2D
         {
             RawPoints = new FixVector2[]
             {
-                new FixVector2(Offset.x - Extents.x, Offset.y + Extents.y),
-                new FixVector2(Offset.x - Extents.x, Offset.y - Extents.y),
-                new FixVector2(Offset.x + Extents.x, Offset.y - Extents.y),
-                new FixVector2(Offset.x + Extents.x, Offset.y + Extents.y)
+                new FixVector2(-Extents.x, Extents.y),
+                new FixVector2(-Extents.x, -Extents.y),
+                new FixVector2(Extents.x, -Extents.y),
+                new FixVector2(Extents.x, Extents.y)
             };
             
             Points = new FixVector2[RawPoints.Length];

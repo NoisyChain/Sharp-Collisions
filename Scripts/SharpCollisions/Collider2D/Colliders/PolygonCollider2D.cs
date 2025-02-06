@@ -36,9 +36,20 @@ namespace SharpCollisions.Sharp2D
 
         private void CreatePolygonPoints()
         {
+            //If there is no enough vertices to create a 2D shape,
+            //create a simple triangle as the default shape
+            if (vertices.Length < 3)
+            {
+                vertices = new Vector2[]
+                {
+                    new Vector2(-1, -1),
+                    new Vector2(0, 1),
+                    new Vector2(1, -1)
+                };
+            }
             RawPoints = new FixVector2[vertices.Length];
             for (int i = 0; i < RawPoints.Length; i++)
-                RawPoints[i] = (FixVector2)vertices[i] + Offset;
+                RawPoints[i] = (FixVector2)vertices[i];
             
             Points = new FixVector2[RawPoints.Length];
         }
@@ -46,7 +57,10 @@ namespace SharpCollisions.Sharp2D
         private void UpdatePolygonPoints(SharpBody2D body)
         {
             for (int i = 0; i < RawPoints.Length; i++)
-				Points[i] = FixVector2.Transform(RawPoints[i], body);
+            {
+                Points[i] = FixVector2.Rotate(RawPoints[i], RotationOffset * Fix64.DegToRad);
+				Points[i] = FixVector2.Transform(Points[i] + PositionOffset, body);
+            }
         }
 
         public override void DebugDrawShapes(SharpBody2D reference)

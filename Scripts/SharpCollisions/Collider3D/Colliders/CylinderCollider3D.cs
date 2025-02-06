@@ -15,8 +15,6 @@ namespace SharpCollisions.Sharp3D
 
         [Export] protected float radius;
         [Export] protected float height;
-        [Export(PropertyHint.Enum, "X-Axis,Y-Axis,Z-Axix")]
-		private int AxisDirection = 0;
 
         public override void Initialize()
         {
@@ -29,22 +27,10 @@ namespace SharpCollisions.Sharp3D
 
         private void CreateCylinderPoints()
         {
-            FixVector3 CapsuleDirection = FixVector3.Zero;
+            FixVector3 CapsuleDirection = new FixVector3(Fix64.Zero, Fix64.Zero, Height);
 
-            switch (AxisDirection)
-            {
-                case 0:
-                    CapsuleDirection = new FixVector3(Height, Fix64.Zero, Fix64.Zero);
-                    break;
-                case 1:
-                    CapsuleDirection = new FixVector3(Fix64.Zero, Height, Fix64.Zero);
-                    break;
-                case 2:
-                    CapsuleDirection = new FixVector3(Fix64.Zero, Fix64.Zero, Height);
-                    break;
-            }
-			RawUpperPoint = Offset + CapsuleDirection;
-			RawLowerPoint = Offset - CapsuleDirection;
+			RawUpperPoint = CapsuleDirection;
+			RawLowerPoint = -CapsuleDirection;
         }
 
         private void UpdateCylinderPoints(SharpBody3D body)

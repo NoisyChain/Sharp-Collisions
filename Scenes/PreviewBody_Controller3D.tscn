@@ -27,13 +27,11 @@ Collider = NodePath("Collider")
 script = ExtResource("2_bk3aq")
 radius = 0.3
 height = 0.6
-AxisDirection = 1
-offset = Vector3(0, 0.6, 0)
+positionOffset = Vector3(0, 0.6, 0)
 DrawDebug = true
 
 [node name="Graphics" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
-visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Graphics"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)

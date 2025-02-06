@@ -7,14 +7,16 @@ namespace SharpCollisions.Sharp3D
 	public partial class SharpCollider3D : Node
 	{
 		[Export] public bool Active = true;
-		[Export] protected Vector3 offset;
+		[Export] protected Vector3 positionOffset;
+		[Export] protected Vector3 rotationOffset;
 		[Export] public Color debugColor = new Color(0, 0, 1);
 		[Export] protected bool DrawDebug;
 		public CollisionFlags collisionFlags;
 		public CollisionFlags globalCollisionFlags;
 		public CollisionType3D Shape = CollisionType3D.Null;
 		public FixVector3 Position;
-		public FixVector3 Offset;
+		public FixVector3 PositionOffset;
+		public FixVector3 RotationOffset;
 		public FixVector3 Center;
 		public FixVolume BoundingBox;
 
@@ -41,7 +43,8 @@ namespace SharpCollisions.Sharp3D
 
 		public virtual void Initialize()
 		{
-			Offset = (FixVector3)offset;
+			PositionOffset = (FixVector3)positionOffset;
+			RotationOffset = (FixVector3)rotationOffset;
 		}
 
 		public virtual void DebugDrawShapes(SharpBody3D reference)
@@ -128,7 +131,7 @@ namespace SharpCollisions.Sharp3D
 
 		public virtual void UpdatePoints(SharpBody3D body)
 		{
-			Center = FixVector3.Transform(Offset, body);
+			Center = FixVector3.Transform(PositionOffset, body);
 			CollisionRequireUpdate = false;
 		}
 

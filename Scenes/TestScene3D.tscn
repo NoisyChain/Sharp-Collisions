@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://chwkjkmc3ymif"]
+[gd_scene load_steps=19 format=3 uid="uid://chwkjkmc3ymif"]
 
 [ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_xw0ag"]
 [ext_resource type="PackedScene" uid="uid://l1rqh2yogc15" path="res://Scenes/PreviewBody_Controller3D.tscn" id="2"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/BoxCollider3D.cs" id="4"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/CapsuleCollider3D.cs" id="6_3hubp"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Examples/Rotator.cs" id="7_qwg5g"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/PolygonCollider3D.cs" id="9_0bdky"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Commons/SharpBody3D.cs" id="10"]
 
 [sub_resource type="BoxMesh" id="12"]
@@ -23,6 +24,8 @@ size = Vector3(8, 0.2, 8)
 
 [sub_resource type="BoxMesh" id="BoxMesh_3dihv"]
 size = Vector3(8, 2, 0.2)
+
+[sub_resource type="PrismMesh" id="PrismMesh_4fpna"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ebdch"]
 
@@ -55,6 +58,7 @@ offset_bottom = 23.0
 
 [node name="PhysicsManager" type="Node" parent="."]
 script = ExtResource("2_od8d3")
+debugLineThickness = 0.012
 
 [node name="Character" parent="." instance=ExtResource("2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -70,7 +74,6 @@ BodyMode = 2
 [node name="Collider" type="Node" parent="Box"]
 script = ExtResource("4")
 Faces = []
-DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Box"]
 
@@ -86,7 +89,6 @@ RotationSpeed = Vector3(45, 45, 45)
 [node name="Collider" type="Node" parent="Box2"]
 script = ExtResource("4")
 Faces = []
-DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Box2"]
 
@@ -102,7 +104,6 @@ RotationSpeed = Vector3(45, 45, 45)
 [node name="Collider" type="Node" parent="Sphere"]
 script = ExtResource("3")
 radius = 1.0
-DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Sphere"]
 
@@ -118,7 +119,7 @@ script = ExtResource("10")
 script = ExtResource("6_3hubp")
 radius = 0.5
 height = 1.0
-DrawDebug = true
+rotationOffset = Vector3(0, 0, 90)
 
 [node name="Viewer" type="Node3D" parent="Capsule"]
 
@@ -256,6 +257,24 @@ Faces = []
 [node name="MeshInstance" type="MeshInstance3D" parent="Wall4/Viewer"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("BoxMesh_3dihv")
+skeleton = NodePath("../..")
+
+[node name="Polygon" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 2)
+script = ExtResource("10")
+BodyMode = 2
+
+[node name="Collider" type="Node" parent="Polygon"]
+script = ExtResource("9_0bdky")
+Faces = []
+positionOffset = Vector3(0, 0.5, 0)
+DrawDebug = true
+
+[node name="Viewer" type="Node3D" parent="Polygon"]
+visible = false
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Polygon/Viewer"]
+mesh = SubResource("PrismMesh_4fpna")
 skeleton = NodePath("../..")
 
 [node name="Camera" type="Camera3D" parent="."]

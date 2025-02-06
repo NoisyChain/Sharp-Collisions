@@ -15,8 +15,6 @@ namespace SharpCollisions.Sharp2D
 
         [Export] protected float radius;
         [Export] protected float height;
-        [Export(PropertyHint.Enum, "X-Axis,Y-Axis")]
-		private int AxisDirection = 0;
 
         public override void Initialize()
         {
@@ -49,20 +47,18 @@ namespace SharpCollisions.Sharp2D
 
         private void CreateCapsulePoints()
         {
-            bool isYAxis = AxisDirection != 0;
+			FixVector2 CapsuleDirection = new FixVector2(Fix64.Zero, Height - Radius);
 
-			FixVector2 CapsuleDirection = isYAxis ? 
-				new FixVector2(Fix64.Zero, Height - Radius) : 
-				new FixVector2(Height - Radius, Fix64.Zero);
-
-			RawUpperPoint = Offset + CapsuleDirection;
-			RawLowerPoint = Offset - CapsuleDirection;
+			RawUpperPoint = CapsuleDirection;
+			RawLowerPoint = -CapsuleDirection;
         }
 
         private void UpdateCapsulePoints(SharpBody2D body)
         {
-            UpperPoint = FixVector2.Transform(RawUpperPoint, body);
-			LowerPoint = FixVector2.Transform(RawLowerPoint, body);
+            UpperPoint = FixVector2.Rotate(RawUpperPoint, RotationOffset * Fix64.DegToRad);
+			LowerPoint = FixVector2.Rotate(RawLowerPoint, RotationOffset * Fix64.DegToRad);
+            UpperPoint = FixVector2.Transform(UpperPoint + PositionOffset, body);
+			LowerPoint = FixVector2.Transform(LowerPoint + PositionOffset, body);
         }
 
         public override void DebugDrawShapes(SharpBody2D reference)

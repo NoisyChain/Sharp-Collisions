@@ -15,8 +15,6 @@ namespace SharpCollisions.Sharp3D
 
         [Export] protected float radius;
         [Export] protected float height;
-        [Export(PropertyHint.Enum, "X-Axis,Y-Axis,Z-Axix")]
-		private int AxisDirection = 0;
 
         public override void Initialize()
         {
@@ -49,28 +47,18 @@ namespace SharpCollisions.Sharp3D
 
         private void CreateCapsulePoints()
         {
-            FixVector3 CapsuleDirection = FixVector3.Zero;
+            FixVector3 CapsuleDirection = new FixVector3(Fix64.Zero, Height - Radius, Fix64.Zero);
 
-            switch (AxisDirection)
-            {
-                case 0:
-                    CapsuleDirection = new FixVector3(Height - Radius, Fix64.Zero, Fix64.Zero);
-                    break;
-                case 1:
-                    CapsuleDirection = new FixVector3(Fix64.Zero, Height - Radius, Fix64.Zero);
-                    break;
-                case 2:
-                    CapsuleDirection = new FixVector3(Fix64.Zero, Fix64.Zero, Height - Radius);
-                    break;
-            }
-			RawUpperPoint = Offset + CapsuleDirection;
-			RawLowerPoint = Offset - CapsuleDirection;
+			RawUpperPoint = CapsuleDirection;
+			RawLowerPoint = -CapsuleDirection;
         }
 
         private void UpdateCapsulePoints(SharpBody3D body)
         {
-            UpperPoint = FixVector3.Transform(RawUpperPoint, body);
-			LowerPoint = FixVector3.Transform(RawLowerPoint, body);
+            UpperPoint = FixVector3.Rotate(RawUpperPoint, RotationOffset * Fix64.DegToRad);
+			LowerPoint = FixVector3.Rotate(RawLowerPoint, RotationOffset * Fix64.DegToRad);
+            UpperPoint = FixVector3.Transform(UpperPoint + PositionOffset, body);
+			LowerPoint = FixVector3.Transform(LowerPoint + PositionOffset, body);
         }
 
         public override void DebugDrawShapes(SharpBody3D reference)
@@ -87,24 +75,8 @@ namespace SharpCollisions.Sharp3D
             Vector3 LineSpacingY = DirY * inflatedRadius;
             Vector3 LineSpacingZ = DirZ * inflatedRadius;
 
-            Vector3 LineSpacing1 = Vector3.Zero;
-            Vector3 LineSpacing2 = Vector3.Zero;
-
-            switch (AxisDirection)
-            {
-                case 0:
-                    LineSpacing1 = LineSpacingY;
-                    LineSpacing2 = LineSpacingZ;
-                    break;
-                case 1:
-                    LineSpacing1 = LineSpacingX;
-                    LineSpacing2 = LineSpacingZ;
-                    break;
-                case 2:
-                    LineSpacing1 = LineSpacingX;
-                    LineSpacing2 = LineSpacingY;
-                    break;
-            }
+            Vector3 LineSpacing1 = LineSpacingX;
+            Vector3 LineSpacing2 = LineSpacingZ;
 
             DebugDraw3D.DrawSimpleSphere((Vector3)UpperPoint, DirX, DirY, DirZ, inflatedRadius, debugColor);
             DebugDraw3D.DrawSimpleSphere((Vector3)LowerPoint, DirX, DirY, DirZ, inflatedRadius, debugColor);

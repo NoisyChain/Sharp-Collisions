@@ -52,14 +52,14 @@ namespace SharpCollisions.Sharp3D
         {
             RawPoints = new FixVector3[]
             {
-                new FixVector3(Offset.x - Extents.x, Offset.y - Extents.y, Offset.z + Extents.z),
-                new FixVector3(Offset.x - Extents.x, Offset.y - Extents.y, Offset.z - Extents.z),
-                new FixVector3(Offset.x + Extents.x, Offset.y - Extents.y, Offset.z - Extents.z),
-                new FixVector3(Offset.x + Extents.x, Offset.y - Extents.y, Offset.z + Extents.z),
-                new FixVector3(Offset.x - Extents.x, Offset.y + Extents.y, Offset.z + Extents.z),
-                new FixVector3(Offset.x - Extents.x, Offset.y + Extents.y, Offset.z - Extents.z),
-                new FixVector3(Offset.x + Extents.x, Offset.y + Extents.y, Offset.z - Extents.z),
-                new FixVector3(Offset.x + Extents.x, Offset.y + Extents.y, Offset.z + Extents.z)
+                new FixVector3(-Extents.x, -Extents.y, Extents.z),
+                new FixVector3(-Extents.x, -Extents.y, -Extents.z),
+                new FixVector3(Extents.x, -Extents.y, -Extents.z),
+                new FixVector3(Extents.x, -Extents.y, Extents.z),
+                new FixVector3(-Extents.x, Extents.y, Extents.z),
+                new FixVector3(-Extents.x, Extents.y, -Extents.z),
+                new FixVector3(Extents.x, Extents.y, -Extents.z),
+                new FixVector3(Extents.x, Extents.y, Extents.z)
             };
             
             Points = new FixVector3[RawPoints.Length];

@@ -211,7 +211,7 @@ namespace SharpCollisions.Sharp2D.GJK
 			FixVector2 contact1 = FixVector2.Zero;
             FixVector2 contact2 = FixVector2.Zero;
 
-            //Fix64 minDistSq1 = Fix64.MaxValue;
+            Fix64 minDistSq = Fix64.MaxValue;
 			//Fix64 minDistSq2 = Fix64.MaxValue;
 
             for(int i = 0; i < colliderB.Points.Length; i++)
@@ -220,21 +220,12 @@ namespace SharpCollisions.Sharp2D.GJK
                 FixVector2 vb = colliderB.Points[(i + 1) % colliderB.Points.Length];
 
                 SharpCollider2D.LineToLineDistance(va, vb, colliderA.UpperPoint, colliderA.LowerPoint, out FixVector2 r1, out FixVector2 r2);
-				Fix64 distSq1 = FixVector2.DistanceSq(r2, r1);
-
-				SharpCollider2D.LineToLineDistance(va, vb, colliderA.LowerPoint, colliderA.UpperPoint, out FixVector2 r3, out FixVector2 r4);
-				Fix64 distSq2 = FixVector2.DistanceSq(r3, r4);
+				Fix64 distSq = FixVector2.DistanceSq(r2, r1);
 				
-				if(distSq1 <= colliderA.Radius)
+				if(distSq < minDistSq)
 				{
-					//minDistSq1 = distSq1;
+					minDistSq = distSq;
 					contact1 = r1;
-				}
-
-				if(distSq2 <= colliderA.Radius)
-				{
-					//minDistSq2 = distSq2;
-					contact2 = r3;
 				}
             }
 

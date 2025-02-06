@@ -17,6 +17,8 @@ namespace SharpCollisions.Sharp3D
         [Export] private Vector3[] vertices = new Vector3[0];
         [Export] public Array<Vector3I> Faces;
 
+        private bool defaultShape = false;
+
         public override void Initialize()
         {
             GJK = new GJK3D(DrawDebugPolytope);
@@ -39,20 +41,38 @@ namespace SharpCollisions.Sharp3D
 
         protected virtual void CreatePolygonPoints()
         {
+            //If there is no enough vertices to create a 3D shape,
+            //create a simple tetrahedron as the default shape
+            if (vertices.Length < 4)
+            {
+                vertices = new Vector3[]
+                {
+                    new Vector3(0, -1, 1),
+                    new Vector3(-1, -1, -1),
+                    new Vector3(1, -1, -1),
+                    new Vector3(0, 1, 0),
+                };
+                defaultShape = true;
+            }
+
             RawPoints = new FixVector3[vertices.Length];
             for (int i = 0; i < RawPoints.Length; i++)
-                RawPoints[i] = (FixVector3)vertices[i] + Offset;
+                RawPoints[i] = (FixVector3)vertices[i];
             
             Points = new FixVector3[RawPoints.Length];
         }
 
         protected virtual void CreateFaces()
         {
-            if (Faces.Count == 0)
+            //If the default shape is confirmed, create faces for it
+            if (defaultShape)
             {
                 Faces = new Array<Vector3I>()
                 {
-                    new Vector3I(0, 1, 2)
+                    new Vector3I(0, 1, 2),
+                    new Vector3I(3, 1, 0),
+                    new Vector3I(0, 2, 3),
+                    new Vector3I(3, 2, 1)
                 };
             }
         }
@@ -60,7 +80,10 @@ namespace SharpCollisions.Sharp3D
         private void UpdatePolygonPoints(SharpBody3D body)
         {
             for (int i = 0; i < RawPoints.Length; i++)
-				Points[i] = FixVector3.Transform(RawPoints[i], body);
+            {
+                Points[i] = FixVector3.Rotate(RawPoints[i], RotationOffset * Fix64.DegToRad);
+				Points[i] = FixVector3.Transform(Points[i] + PositionOffset, body);
+            }
         }
 
         public override void DebugDrawShapes(SharpBody3D reference)
@@ -72,6 +95,11 @@ namespace SharpCollisions.Sharp3D
                 DebugDraw3D.DrawLine((Vector3)Points[Faces[i].X], (Vector3)Points[Faces[i].Y], debugColor);
                 DebugDraw3D.DrawLine((Vector3)Points[Faces[i].Y], (Vector3)Points[Faces[i].Z], debugColor);
                 DebugDraw3D.DrawLine((Vector3)Points[Faces[i].Z], (Vector3)Points[Faces[i].X], debugColor);
+
+                FixVector3 origin = FixVector3.FindTriangleCentroid(Points[Faces[i].X], Points[Faces[i].Y], Points[Faces[i].Z]);
+                FixVector3 normal = FixVector3.GetPlaneNormal(Points[Faces[i].X], Points[Faces[i].Y], Points[Faces[i].Z]);
+                Vector3 dir = (Vector3)origin + ((Vector3)normal * 0.5f);
+                DebugDraw3D.DrawLine((Vector3)origin, dir, new Color(0, 1, 0));
             }
         }
 

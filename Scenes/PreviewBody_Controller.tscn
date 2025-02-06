@@ -12,8 +12,7 @@ script = ExtResource("2")
 script = ExtResource("4")
 radius = 0.3
 height = 0.6
-AxisDirection = 1
-offset = Vector2(0, 0.6)
+positionOffset = Vector2(0, 0.6)
 DrawDebug = true
 
 [node name="Graphics" type="Node3D" parent="."]

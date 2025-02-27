@@ -55,7 +55,7 @@ namespace SharpCollisions.Sharp2D
 			if (Engine.IsEditorHint()) return;
 
 			base._Ready();
-			Manager.AddBody(this);
+			SharpManager.Instance.AddBody(this);
 			if (Collider == null)
 				Collider = GetNode<SharpCollider2D>("Collider");
 
@@ -77,7 +77,7 @@ namespace SharpCollisions.Sharp2D
 
 		public override void _Destroy()
         {
-            if (Manager.RemoveNode(this) && Manager.RemoveBody(this))
+            if (SharpManager.Instance.RemoveNode(this) && SharpManager.Instance.RemoveBody(this))
                 QueueFree();
         }
 

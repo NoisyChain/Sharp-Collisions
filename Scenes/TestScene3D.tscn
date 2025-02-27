@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_xw0ag"]
 [ext_resource type="PackedScene" uid="uid://l1rqh2yogc15" path="res://Scenes/Examples/PreviewBody_Controller3D.tscn" id="2"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/General/PhysicsManager.cs" id="2_od8d3"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/General/SharpManager.cs" id="2_od8d3"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/SphereCollider3D.cs" id="3"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/BoxCollider3D.cs" id="4"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/CapsuleCollider3D.cs" id="6_3hubp"]

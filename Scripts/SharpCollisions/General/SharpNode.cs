@@ -6,12 +6,10 @@ namespace SharpCollisions
     [Tool]
     public partial class SharpNode : Node3D
     {
-        protected PhysicsManager Manager;
         public override void _Ready()
         {
             if (Engine.IsEditorHint()) return;
-            Manager = GetTree().Root.GetNode<PhysicsManager>("Main/PhysicsManager");
-            Manager.AddNode(this);
+            SharpManager.Instance.AddNode(this);
         }
 
         /// <summary>
@@ -34,7 +32,7 @@ namespace SharpCollisions
 
         public virtual void _Destroy()
         {
-            if (Manager.RemoveNode(this))
+            if (SharpManager.Instance.RemoveNode(this))
                 QueueFree();
         }
     }

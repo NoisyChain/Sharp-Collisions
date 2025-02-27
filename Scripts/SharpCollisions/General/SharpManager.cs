@@ -7,9 +7,9 @@ using SharpCollisions.Sharp3D;
 
 namespace SharpCollisions
 {
-	public partial class PhysicsManager : Node
+	public partial class SharpManager : Node
 	{
-		public static PhysicsManager Instance;
+		public static SharpManager Instance;
 		private SharpWorld2D world2D;
 		private SharpWorld3D world3D;
 		private List<SharpNode> nodes;
@@ -39,10 +39,10 @@ namespace SharpCollisions
 			world3D = new SharpWorld3D();
 			nodes = new List<SharpNode>();
 
-			//DebugDraw3D is breaking with multithreading lol
 			DebugDraw3D.ScopedConfig().SetThickness(debugLineThickness);
 
 			//Start physics simulation on a separate thread
+			//Some weird flickering is happening because of this
 			physicsThread = new Thread(() => Loop());
 			physicsThread.IsBackground = true;
 			started = true;

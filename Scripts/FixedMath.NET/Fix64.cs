@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Runtime.CompilerServices;
+using Godot;
 
 namespace FixMath.NET
 {
@@ -1133,6 +1134,11 @@ namespace FixMath.NET
 		public Fix64(int value)
 		{
 			m_rawValue = value * ONE;
+		}
+
+		public Fix64(string value)
+		{
+			m_rawValue = (long)(value.ToFloat() * ONE);
 		}
 	}
 }

@@ -14,7 +14,7 @@ namespace SharpCollisions.Sharp2D.GJK
             Vertices = new List<SupportPoint2D>();
         }
 
-        public Polytope2D(List<SupportPoint2D> vertices, List<IntPack2> faces, int closestFace)
+        public Polytope2D(List<SupportPoint2D> vertices)
         {
             Vertices = vertices;
         }

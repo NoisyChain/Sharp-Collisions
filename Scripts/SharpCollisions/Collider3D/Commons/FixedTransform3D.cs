@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using FixMath.NET;
 
 namespace SharpCollisions.Sharp3D
@@ -7,8 +8,11 @@ namespace SharpCollisions.Sharp3D
     public partial class FixedTransform3D : SharpNode
     {
         [Export] public FixedTransform3D Parent;
+        [Export] public Array<FixedTransform3D> Children;
         public FixVector3 FixedPosition;
         public FixVector3 FixedRotation;
+        public FixVector3 LocalFixedPosition;
+        public FixVector3 LocalFixedRotation;
 
         public FixVector3 Right => FixVector3.Rotate(FixVector3.Right, FixedRotation);
         public FixVector3 Up => FixVector3.Rotate(FixVector3.Up, FixedRotation);
@@ -24,7 +28,7 @@ namespace SharpCollisions.Sharp3D
             FixedPosition = (FixVector3)GlobalPosition;
             FixedRotation = (FixVector3)GlobalRotation;
             //Parent = GetParent<Node3D>() as FixedTransform3D;
-            GD.Print(Parent != null ? Parent.Name : "No parent found.");
+            //GD.Print(Parent != null ? Parent.Name : "No parent found.");
         }
 
         public override void _Process(double delta)

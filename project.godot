@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Sharp Collisions 4"
 config/tags=PackedStringArray("experiment", "high_priority", "library")
-run/main_scene="res://Scenes/TestScene3D.tscn"
+run/main_scene="res://Scenes/Menu.tscn"
 config/features=PackedStringArray("4.3", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 

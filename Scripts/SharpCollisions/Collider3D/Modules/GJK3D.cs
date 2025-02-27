@@ -12,15 +12,11 @@ namespace SharpCollisions.Sharp3D.GJK
 
 		private Simplex3D Simplex;
 		private Polytope3D Polytope;
-		//private List<FixVector3> polytope;
-		//private List<IntPack3> polytopeFaces;
 
         public GJK3D(bool draw = false) 
 		{
 			Simplex = new Simplex3D();
 			Polytope = new Polytope3D();
-			//polytope = new List<FixVector3>();
-			//polytopeFaces = new List<IntPack3>();
 			AllowDraw = draw; 
 		}
 
@@ -40,7 +36,7 @@ namespace SharpCollisions.Sharp3D.GJK
 			Depth = FixVector3.Zero;
 			ContactPoint = FixVector3.Zero;
 
-			Simplex.Clear();
+			Simplex = new Simplex3D();
 
 			FixVector3 supportDirection = colliderB.Center - colliderA.Center;
 			SupportPoint3D SupportPoint;
@@ -293,15 +289,16 @@ namespace SharpCollisions.Sharp3D.GJK
 		private void EPA(Simplex3D simplex, SharpCollider3D colliderA, SharpCollider3D colliderB, out FixVector3 Normal, out Fix64 Depth, out FixVector3 Contact)
 		{
 			int maxIterations = 0;
-			
-			Polytope.Vertices = simplex.Points;
-			Polytope.Faces = new List<IntPack3>()
+
+			List<IntPack3> faces = new List<IntPack3>()
 			{
 				new IntPack3(0, 1, 2),
 				new IntPack3(0, 3, 1),
 				new IntPack3(0, 2, 3),
 				new IntPack3(1, 3, 2)
 			};
+
+			Polytope = new Polytope3D(simplex.Points, faces, 0);
 
 			Normal = FixVector3.Zero;
 			Depth = Fix64.MaxValue;

@@ -23,14 +23,11 @@ namespace SharpCollisions.Sharp2D
 
         public void MoveForward(SupportPoint2D newPoint)
         {
-            //List<FixVector2> TempPoints = new List<FixVector2>()
-            //{ newPoint, Points[0], Points[1] };
-            //Points = TempPoints;
             Points[2] = Points[1];
             Points[1] = Points[0];
             Points[0] = newPoint;
-            Size++;
-            if (Size > 3) Size = 3;
+
+            if (Size < 3) Size++;
         }
 
         public void Reset(List<SupportPoint2D> newPoints)

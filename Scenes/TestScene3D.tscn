@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=3 uid="uid://chwkjkmc3ymif"]
 
 [ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_xw0ag"]
-[ext_resource type="PackedScene" uid="uid://l1rqh2yogc15" path="res://Scenes/PreviewBody_Controller3D.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://l1rqh2yogc15" path="res://Scenes/Examples/PreviewBody_Controller3D.tscn" id="2"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/General/PhysicsManager.cs" id="2_od8d3"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/SphereCollider3D.cs" id="3"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/BoxCollider3D.cs" id="4"]
@@ -43,33 +43,22 @@ tonemap_mode = 2
 
 [node name="FPS_HUD" parent="." instance=ExtResource("1_xw0ag")]
 
-[node name="Debug" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="DebugText" type="Label" parent="Debug"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-
 [node name="PhysicsManager" type="Node" parent="."]
 script = ExtResource("2_od8d3")
 debugLineThickness = 0.012
 
-[node name="Character" parent="." instance=ExtResource("2")]
+[node name="Character" parent="." node_paths=PackedStringArray("Children") instance=ExtResource("2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 KeepVelocityOnSlopes = false
 KeepSlopeVelocityOnJump = false
 StopAirVelocityOnCeiling = false
+Children = []
 
-[node name="Box" type="Node3D" parent="."]
+[node name="Box" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.86684, 2.92442, 0.121072)
 script = ExtResource("10")
 BodyMode = 2
+Children = []
 
 [node name="Collider" type="Node" parent="Box"]
 script = ExtResource("4")
@@ -81,10 +70,11 @@ Faces = []
 mesh = SubResource("12")
 skeleton = NodePath("../..")
 
-[node name="Box2" type="Node3D" parent="."]
+[node name="Box2" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 2.2, -2.2)
 script = ExtResource("7_qwg5g")
 RotationSpeed = Vector3(45, 45, 45)
+Children = []
 
 [node name="Collider" type="Node" parent="Box2"]
 script = ExtResource("4")
@@ -96,10 +86,11 @@ Faces = []
 mesh = SubResource("12")
 skeleton = NodePath("../..")
 
-[node name="Sphere" type="Node3D" parent="."]
+[node name="Sphere" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1.33168, 0)
 script = ExtResource("7_qwg5g")
 RotationSpeed = Vector3(45, 45, 45)
+Children = []
 
 [node name="Collider" type="Node" parent="Sphere"]
 script = ExtResource("3")
@@ -111,9 +102,10 @@ radius = 1.0
 mesh = SubResource("15")
 skeleton = NodePath("../..")
 
-[node name="Capsule" type="Node3D" parent="."]
+[node name="Capsule" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.29014, 3)
 script = ExtResource("10")
+Children = []
 
 [node name="Collider" type="Node" parent="Capsule"]
 script = ExtResource("6_3hubp")
@@ -128,10 +120,11 @@ transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 
 mesh = SubResource("CapsuleMesh_omnyj")
 skeleton = NodePath("../..")
 
-[node name="Floor" type="Node3D" parent="."]
+[node name="Floor" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -0.1, 4)
 script = ExtResource("10")
 BodyMode = 2
+Children = []
 
 [node name="Collider" type="Node" parent="Floor"]
 script = ExtResource("4")
@@ -144,10 +137,11 @@ Faces = []
 mesh = SubResource("BoxMesh_6erxl")
 skeleton = NodePath("../..")
 
-[node name="Floor2" type="Node3D" parent="."]
+[node name="Floor2" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -0.1, -4)
 script = ExtResource("10")
 BodyMode = 2
+Children = []
 
 [node name="Collider" type="Node" parent="Floor2"]
 script = ExtResource("4")
@@ -160,10 +154,11 @@ Faces = []
 mesh = SubResource("BoxMesh_6erxl")
 skeleton = NodePath("../..")
 
-[node name="Floor3" type="Node3D" parent="."]
+[node name="Floor3" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.1, 4)
 script = ExtResource("10")
 BodyMode = 2
+Children = []
 
 [node name="Collider" type="Node" parent="Floor3"]
 script = ExtResource("4")
@@ -176,10 +171,11 @@ Faces = []
 mesh = SubResource("BoxMesh_6erxl")
 skeleton = NodePath("../..")
 
-[node name="Floor4" type="Node3D" parent="."]
+[node name="Floor4" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.1, -4)
 script = ExtResource("10")
 BodyMode = 2
+Children = []
 
 [node name="Collider" type="Node" parent="Floor4"]
 script = ExtResource("4")
@@ -192,10 +188,11 @@ Faces = []
 mesh = SubResource("BoxMesh_6erxl")
 skeleton = NodePath("../..")
 
-[node name="Wall" type="Node3D" parent="."]
+[node name="Wall" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -4)
 script = ExtResource("10")
 BodyMode = 2
+Children = []
 
 [node name="Collider" type="Node" parent="Wall"]
 script = ExtResource("4")
@@ -208,10 +205,11 @@ Faces = []
 mesh = SubResource("BoxMesh_3dihv")
 skeleton = NodePath("../..")
 
-[node name="Wall2" type="Node3D" parent="."]
+[node name="Wall2" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 4)
 script = ExtResource("10")
 BodyMode = 2
+Children = []
 
 [node name="Collider" type="Node" parent="Wall2"]
 script = ExtResource("4")
@@ -225,10 +223,11 @@ visible = false
 mesh = SubResource("BoxMesh_3dihv")
 skeleton = NodePath("../..")
 
-[node name="Wall3" type="Node3D" parent="."]
+[node name="Wall3" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.8, 0)
 script = ExtResource("10")
 BodyMode = 2
+Children = []
 
 [node name="Collider" type="Node" parent="Wall3"]
 script = ExtResource("4")
@@ -242,10 +241,11 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 
 mesh = SubResource("BoxMesh_3dihv")
 skeleton = NodePath("../..")
 
-[node name="Wall4" type="Node3D" parent="."]
+[node name="Wall4" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.8, 0)
 script = ExtResource("10")
 BodyMode = 2
+Children = []
 
 [node name="Collider" type="Node" parent="Wall4"]
 script = ExtResource("4")
@@ -259,10 +259,11 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 
 mesh = SubResource("BoxMesh_3dihv")
 skeleton = NodePath("../..")
 
-[node name="Polygon" type="Node3D" parent="."]
+[node name="Polygon" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 2)
 script = ExtResource("10")
 BodyMode = 2
+Children = []
 
 [node name="Collider" type="Node" parent="Polygon"]
 script = ExtResource("9_0bdky")

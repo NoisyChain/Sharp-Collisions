@@ -86,36 +86,28 @@ namespace SharpCollisions.Sharp2D
 			return false;
 		}
 
-		public CollisionFlags GetCollisionFlags(CollisionManifold2D collisiondData, SharpBody2D body)
+		public void GetCollisionFlags(FixVector2 normal, SharpBody2D body)
 		{
-			CollisionFlags flag = collisionFlags;
-
-			if (FixVector2.Dot(collisiondData.Normal, body.Up) > Fix64.Epsilon)
-				flag.Below = true;
-			if (FixVector2.Dot(collisiondData.Normal, body.Down) > Fix64.Epsilon)
-				flag.Above = true;
-			if (FixVector2.Dot(collisiondData.Normal, body.Left) > Fix64.Epsilon)
-				flag.Right = true;
-			if (FixVector2.Dot(collisiondData.Normal, body.Right) > Fix64.Epsilon)
-				flag.Left = true;
-			
-			return flag;
+			if (FixVector2.Dot(normal, body.Up) > Fix64.Epsilon)
+				collisionFlags.Below = true;
+			if (FixVector2.Dot(normal, body.Down) > Fix64.Epsilon)
+				collisionFlags.Above = true;
+			if (FixVector2.Dot(normal, body.Left) > Fix64.Epsilon)
+				collisionFlags.Right = true;
+			if (FixVector2.Dot(normal, body.Right) > Fix64.Epsilon)
+				collisionFlags.Left = true;
 		}
 
-		public CollisionFlags GetGlobalCollisionFlags(CollisionManifold2D collisiondData)
+		public void GetGlobalCollisionFlags(FixVector2 normal)
 		{
-			CollisionFlags flag = collisionFlags;
-
-			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Up) > Fix64.Epsilon)
-				flag.Below = true;
-			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Down) > Fix64.Epsilon)
-				flag.Above = true;
-			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Left) > Fix64.Epsilon)
-				flag.Right = true;
-			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Right) > Fix64.Epsilon)
-				flag.Left = true;
-			
-			return flag;
+			if (FixVector2.Dot(normal, FixVector2.Up) > Fix64.Epsilon)
+				globalCollisionFlags.Below = true;
+			if (FixVector2.Dot(normal, FixVector2.Down) > Fix64.Epsilon)
+				globalCollisionFlags.Above = true;
+			if (FixVector2.Dot(normal, FixVector2.Left) > Fix64.Epsilon)
+				globalCollisionFlags.Right = true;
+			if (FixVector2.Dot(normal, FixVector2.Right) > Fix64.Epsilon)
+				globalCollisionFlags.Left = true;
 		}
 
 		public virtual FixVector2 Support(FixVector2 direction)

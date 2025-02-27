@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Threading;
 using FixMath.NET;
 using SharpCollisions.Sharp2D;
 using SharpCollisions.Sharp3D;
@@ -20,25 +21,46 @@ namespace SharpCollisions
 		public Fix64 fixedIterations => (Fix64)iterations;
 		public Fix64 fixedDelta => Fix64.One / fixedTPS;
 
+		private Thread physicsThread;
+		private bool started;
+
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
+			Instance = this;
+
 			if (UseEngineSettings)
 			{
 				TicksPerSecond = (int)ProjectSettings.GetSetting("physics/common/physics_ticks_per_second");
 				iterations = (int)ProjectSettings.GetSetting("physics/common/max_physics_steps_per_frame");
 			}
-			Instance = this;
+
 			world2D = new SharpWorld2D();
 			world3D = new SharpWorld3D();
 			nodes = new List<SharpNode>();
 
+			//DebugDraw3D is breaking with multithreading lol
 			DebugDraw3D.ScopedConfig().SetThickness(debugLineThickness);
+
+			//Start physics simulation on a separate thread
+			physicsThread = new Thread(() => Loop());
+			physicsThread.IsBackground = true;
+			started = true;
+			physicsThread.Start();
 		}
 
-		public override void _PhysicsProcess(double delta)
+        /*public override void _PhysicsProcess(double delta)
 		{
 			PhysicsLoop();
+		}*/
+
+        private void Loop()
+		{
+			while(started)
+			{
+				PhysicsLoop();
+				Thread.Sleep(16);
+			}
 		}
 
 		private void PhysicsLoop()
@@ -70,7 +92,7 @@ namespace SharpCollisions
 			}
 			
 			world2D.AddBody(newBody);
-			GD.Print("Body created!");
+			GD.Print("2D Body created!");
 		}
 		
 		public void AddBody(SharpBody3D newBody)
@@ -82,7 +104,7 @@ namespace SharpCollisions
 			}
 			
 			world3D.AddBody(newBody);
-			GD.Print("Body created!");
+			GD.Print("3D Body created!");
 		}
 
 		public bool RemoveNode(SharpNode selectedNode)

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://rv1iioll6oo5"]
+
+[ext_resource type="Script" path="res://FixedString.cs" id="1_frka4"]
+
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("texts")]
+script = ExtResource("1_frka4")
+texts = NodePath("Label")
+value1 = Vector3i(3526, 1258, 4567)
+value2 = Vector3(3.526, 1.258, 4.567)
+
+[node name="Label" type="Label" parent="."]
+offset_right = 489.0
+offset_bottom = 648.0

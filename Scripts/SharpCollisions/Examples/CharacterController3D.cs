@@ -34,12 +34,12 @@ namespace SharpCollisions.Sharp3D
         private Fix64 ceilingUnstickForce = (Fix64)1.25f;
         private Fix64 worldBounds = (Fix64)10;
 
-        private Label debug;
+        [Export] private Label debug;
+        private string debugText;
 
         public override void _Ready()
         {
             base._Ready();
-            debug = GetNode<Label>("../Debug/DebugText");
         }
 
         public override void _FixedProcess(Fix64 delta)
@@ -127,7 +127,7 @@ namespace SharpCollisions.Sharp3D
             //SetRotation(correctedRotation);
             SetVelocity(finalVelocity);
             string groundAngle = IsOnGround ? GroundAngle.ToString() : "No Ground";
-            if (debug != null) debug.Text = "Normal: " + UpVector.ToString() + 
+            if (debug != null) debugText = "Normal: " + UpVector.ToString() + 
                 "\nFlags: " + Collider.collisionFlags.ToString() + 
                 "\nCollisions: " + Collisions.Count + 
                 "\nContact Point: " + (Collisions.Count > 0 ? Collisions[0].ContactPoint : 0) + 
@@ -137,8 +137,9 @@ namespace SharpCollisions.Sharp3D
         public override void _Process(double delta)
         {
             base._Process(delta);
+            debug.Text = debugText;
             //foreach(CollisionManifold3D col in Collisions)
-            //    DebugDraw3D.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, new Color(0f, 1f, 1f));
+                //DebugDraw3D.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, new Color(0f, 1f, 1f));
         }
 
         public CollisionManifold3D GetGround()

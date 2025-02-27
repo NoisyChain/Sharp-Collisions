@@ -1,0 +1,69 @@
+[gd_scene load_steps=2 format=3 uid="uid://dreocubj01fgp"]
+
+[ext_resource type="Script" path="res://Scripts/menu.gd" id="1_3xa80"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_3xa80")
+
+[node name="Button_2D" type="Button" parent="."]
+layout_mode = 1
+offset_left = 19.0
+offset_top = 15.0
+offset_right = 98.0
+offset_bottom = 46.0
+text = "2D Scene"
+
+[node name="Button_2D2" type="Button" parent="."]
+layout_mode = 1
+offset_left = 108.0
+offset_top = 15.0
+offset_right = 187.0
+offset_bottom = 46.0
+text = "2D Scene (3D Graphics)"
+
+[node name="Button_3D" type="Button" parent="."]
+layout_mode = 1
+offset_left = 19.0
+offset_top = 53.0
+offset_right = 98.0
+offset_bottom = 84.0
+text = "3D Scene"
+
+[node name="Button_BM1" type="Button" parent="."]
+layout_mode = 1
+offset_left = 19.0
+offset_top = 93.0
+offset_right = 98.0
+offset_bottom = 124.0
+text = "Benchmark 1"
+
+[node name="Button_BM2" type="Button" parent="."]
+layout_mode = 1
+offset_left = 19.0
+offset_top = 133.0
+offset_right = 129.0
+offset_bottom = 164.0
+text = "Benchmark 2"
+
+[node name="Button_BM3" type="Button" parent="."]
+layout_mode = 1
+offset_left = 19.0
+offset_top = 173.0
+offset_right = 129.0
+offset_bottom = 204.0
+text = "Benchmark 3"
+
+[connection signal="pressed" from="Button_2D" to="." method="_on_button_2d_pressed"]
+[connection signal="pressed" from="Button_2D2" to="." method="_on_button_2d_2_pressed"]
+[connection signal="pressed" from="Button_3D" to="." method="_on_button_3d_pressed"]
+[connection signal="pressed" from="Button_BM1" to="." method="_on_button_bm_1_pressed"]
+[connection signal="pressed" from="Button_BM2" to="." method="_on_button_bm_2_pressed"]
+[connection signal="pressed" from="Button_BM3" to="." method="_on_button_bm_3_pressed"]

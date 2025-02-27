@@ -86,8 +86,8 @@ namespace SharpCollisions.Sharp2D
 				{
 					SharpBody2D bodyB = bodies[j];
 					
-					if (!bodyA.Visible || !bodyB.Visible)
-					{ ClearCollision(bodyA, bodyB); continue; }
+					//if (!bodyA.Visible || !bodyB.Visible)
+					//{ ClearCollision(bodyA, bodyB); continue; }
 					if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2)
 					{ ClearCollision(bodyA, bodyB); continue; }
 					if (bodyA.BodiesToIgnore.Contains(bodyB.GetBodyID()))
@@ -142,23 +142,16 @@ namespace SharpCollisions.Sharp2D
 
 						//ResolvePhysics(bodyA, bodyB, Normal);
 					}
-					CollisionManifold2D collisionA = new CollisionManifold2D
-					(
-						bodyB, -Normal, Depth, ContactPoint
-					);
-					CollisionManifold2D collisionB = new CollisionManifold2D
-					(
-						bodyA, Normal, Depth, ContactPoint
-					);
-					bodyA.Collisions.Add(collisionA);
-					bodyB.Collisions.Add(collisionB);
+
+					bodyA.Collisions.Add(new CollisionManifold2D(bodyB, -Normal, Depth, ContactPoint));
+					bodyB.Collisions.Add(new CollisionManifold2D(bodyA, Normal, Depth, ContactPoint));
 
 					if (!bodyA.isTrigger && !bodyB.isTrigger)
 					{
-						bodyA.Collider.collisionFlags = bodyA.Collider.GetCollisionFlags(collisionA, bodyA);
-						bodyB.Collider.collisionFlags = bodyB.Collider.GetCollisionFlags(collisionB, bodyB);
-						bodyA.Collider.globalCollisionFlags = bodyA.Collider.GetGlobalCollisionFlags(collisionA);
-						bodyB.Collider.globalCollisionFlags = bodyB.Collider.GetGlobalCollisionFlags(collisionB);
+						bodyA.Collider.GetCollisionFlags(-Normal, bodyA);
+						bodyB.Collider.GetCollisionFlags(Normal, bodyB);
+						bodyA.Collider.GetGlobalCollisionFlags(-Normal);
+						bodyB.Collider.GetGlobalCollisionFlags(Normal);
 					}
 					
 					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].BodyA, PossibleCollisions[i].BodyB, true)))

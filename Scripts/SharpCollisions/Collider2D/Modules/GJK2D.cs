@@ -33,9 +33,6 @@ namespace SharpCollisions.Sharp2D.GJK
 
 			Simplex = new Simplex2D();
 
-			//For some reason this function breaks everything and I can't understand why lol
-			//Simplex.Clear();
-
 			FixVector2 supportDirection = colliderB.Center - colliderA.Center;
 			SupportPoint2D SupportPoint;
 			while (true)
@@ -129,7 +126,7 @@ namespace SharpCollisions.Sharp2D.GJK
 			int minIndex = 0;
 			Fix64 minDistance = Fix64.MaxValue;
 			FixVector2 minNormal = FixVector2.Zero;
-			Polytope.Vertices = simplex.Points;
+			Polytope = new Polytope2D(simplex.Points);
 			bool IsClockWise = GetPolytopeDirection(Polytope);
 			while (minDistance == Fix64.MaxValue)
 			{
@@ -208,11 +205,9 @@ namespace SharpCollisions.Sharp2D.GJK
 
 		public FixVector2 CapsulePolygonContact(CapsuleCollider2D colliderA, PolygonCollider2D colliderB)
 		{
-			FixVector2 contact1 = FixVector2.Zero;
-            FixVector2 contact2 = FixVector2.Zero;
+			FixVector2 contact = FixVector2.Zero;
 
             Fix64 minDistSq = Fix64.MaxValue;
-			//Fix64 minDistSq2 = Fix64.MaxValue;
 
             for(int i = 0; i < colliderB.Points.Length; i++)
             {
@@ -225,14 +220,11 @@ namespace SharpCollisions.Sharp2D.GJK
 				if(distSq < minDistSq)
 				{
 					minDistSq = distSq;
-					contact1 = r1;
+					contact = r1;
 				}
             }
 
-			if (contact2 == FixVector2.Zero)
-				return contact1;
-			else
-				return (contact1 + contact2) / Fix64.Two;
+			return contact;
 		}
 
 		public FixVector2 PolygonContact(PolygonCollider2D colliderA, PolygonCollider2D colliderB)

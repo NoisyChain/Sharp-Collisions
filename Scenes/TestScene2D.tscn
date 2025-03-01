@@ -43,15 +43,15 @@ tonemap_mode = 2
 [node name="PhysicsManager" type="Node" parent="."]
 script = ExtResource("2_fb5pd")
 
-[node name="Character" parent="." node_paths=PackedStringArray("Children") instance=ExtResource("5")]
+[node name="Character" parent="." instance=ExtResource("5")]
 CeilingAngleLimit = 15
-Children = []
+Active = false
 
-[node name="Floor" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
+[node name="Floor" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
 script = ExtResource("1")
 BodyMode = 2
-Children = []
+Active = false
 
 [node name="Collider" type="Node" parent="Floor"]
 script = ExtResource("4")
@@ -63,11 +63,11 @@ extents = Vector2(3, 0.3)
 mesh = SubResource("1")
 skeleton = NodePath("../..")
 
-[node name="Floor2" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
+[node name="Floor2" type="Node3D" parent="."]
 transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 4, -2, 0)
 script = ExtResource("1")
 BodyMode = 2
-Children = []
+Active = false
 
 [node name="Collider" type="Node" parent="Floor2"]
 script = ExtResource("4")
@@ -79,11 +79,11 @@ extents = Vector2(3, 0.3)
 mesh = SubResource("1")
 skeleton = NodePath("../..")
 
-[node name="Floor3" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
+[node name="Floor3" type="Node3D" parent="."]
 transform = Transform3D(0.642788, 0.766044, 0, -0.766044, 0.642788, 0, 0, 0, 1, -4, -2, 0)
 script = ExtResource("1")
 BodyMode = 2
-Children = []
+Active = false
 
 [node name="Collider" type="Node" parent="Floor3"]
 script = ExtResource("4")
@@ -95,10 +95,10 @@ extents = Vector2(3, 0.3)
 mesh = SubResource("1")
 skeleton = NodePath("../..")
 
-[node name="Sphere" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
+[node name="Sphere" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 script = ExtResource("1")
-Children = []
+Active = false
 
 [node name="Collider" type="Node" parent="Sphere"]
 script = ExtResource("6")
@@ -109,11 +109,11 @@ radius = 0.4
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere/Viewer"]
 mesh = SubResource("SphereMesh_qsbbd")
 
-[node name="Polygon" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
+[node name="Polygon" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -2, 0)
 script = ExtResource("1")
 BodyMode = 2
-Children = []
+Active = false
 
 [node name="Collider" type="Node" parent="Polygon"]
 script = ExtResource("8")
@@ -122,11 +122,11 @@ DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Polygon"]
 
-[node name="Polygon2" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
+[node name="Polygon2" type="Node3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 4, 1.7, 0)
 script = ExtResource("1")
 BodyMode = 2
-Children = []
+Active = false
 
 [node name="Collider" type="Node" parent="Polygon2"]
 script = ExtResource("8")
@@ -134,11 +134,11 @@ DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Polygon2"]
 
-[node name="Capsule" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
+[node name="Capsule" type="Node3D" parent="."]
 transform = Transform3D(0.819152, -0.573576, 0, 0.573576, 0.819152, 0, 0, 0, 1, -3, 1, 0)
 script = ExtResource("1")
 BodyMode = 2
-Children = []
+Active = false
 
 [node name="Collider" type="Node" parent="Capsule"]
 script = ExtResource("7")
@@ -152,11 +152,11 @@ rotationOffset = 90.0
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("3")
 
-[node name="AABBTest" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
+[node name="AABBTest" type="Node3D" parent="."]
 transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 1, 1, 0)
 script = ExtResource("1")
 BodyMode = 2
-Children = []
+Active = false
 
 [node name="Collider" type="Node" parent="AABBTest"]
 script = ExtResource("9")
@@ -168,10 +168,10 @@ DrawDebug = true
 mesh = SubResource("12")
 skeleton = NodePath("../..")
 
-[node name="AABBTest2" type="Node3D" parent="." node_paths=PackedStringArray("Children")]
+[node name="AABBTest2" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.5, 0)
 script = ExtResource("1")
-Children = []
+Active = false
 
 [node name="Collider" type="Node" parent="AABBTest2"]
 script = ExtResource("9")

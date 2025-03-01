@@ -13,14 +13,14 @@ namespace SharpCollisions.Sharp3D
 		public FixVector3 UpperPoint;
 		public FixVector3 LowerPoint;
 
-        [Export] protected float radius;
-        [Export] protected float height;
+        [Export] protected int radius;
+        [Export] protected int height;
 
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)radius;
-            Height = (Fix64)height;
+            Radius = (Fix64)radius / SharpNode.convertedScale;
+            Height = (Fix64)height / SharpNode.convertedScale;
             Shape = CollisionType3D.Capsule;
             CreateCapsulePoints();
         }
@@ -72,7 +72,6 @@ namespace SharpCollisions.Sharp3D
             float inflatedRadius = (float)Radius + 0.005f;
 
             Vector3 LineSpacingX = DirX * inflatedRadius;
-            Vector3 LineSpacingY = DirY * inflatedRadius;
             Vector3 LineSpacingZ = DirZ * inflatedRadius;
 
             Vector3 LineSpacing1 = LineSpacingX;

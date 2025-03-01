@@ -4,8 +4,11 @@ using FixMath.NET;
 namespace SharpCollisions
 {
     [Tool]
-    public partial class SharpNode : Node3D
+    public partial class SharpNode : Node
     {
+        [Export] public bool Active = true;
+        public static int nodeScale = 10000;
+        public static Fix64 convertedScale => (Fix64)nodeScale;
         public override void _Ready()
         {
             if (Engine.IsEditorHint()) return;

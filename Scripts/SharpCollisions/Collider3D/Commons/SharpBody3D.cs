@@ -59,8 +59,7 @@ namespace SharpCollisions.Sharp3D
 			if (Collider == null)
 				Collider = GetNode<SharpCollider3D>("Collider");
 
-				Collider.Initialize();
-
+			Collider.Initialize();
 			UpdateCollider();
 			BeginOverlap = OnBeginOverlap;
 			DuringOverlap = OnOverlap;

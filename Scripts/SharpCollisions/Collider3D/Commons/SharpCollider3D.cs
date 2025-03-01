@@ -7,8 +7,8 @@ namespace SharpCollisions.Sharp3D
 	public partial class SharpCollider3D : Node
 	{
 		[Export] public bool Active = true;
-		[Export] protected Vector3 positionOffset;
-		[Export] protected Vector3 rotationOffset;
+		[Export] protected Vector3I positionOffset;
+		[Export] protected Vector3I rotationOffset;
 		[Export] public Color debugColor = new Color(0, 0, 1);
 		[Export] protected bool DrawDebug;
 		public CollisionFlags collisionFlags;
@@ -43,8 +43,19 @@ namespace SharpCollisions.Sharp3D
 
 		public virtual void Initialize()
 		{
-			PositionOffset = (FixVector3)positionOffset;
-			RotationOffset = (FixVector3)rotationOffset;
+			PositionOffset = new FixVector3(
+                (Fix64)positionOffset.X / SharpNode.convertedScale,
+                (Fix64)positionOffset.Y / SharpNode.convertedScale,
+                (Fix64)positionOffset.Z / SharpNode.convertedScale
+            );
+
+            RotationOffset = new FixVector3(
+                (Fix64)rotationOffset.X / SharpNode.convertedScale,
+                (Fix64)rotationOffset.Y / SharpNode.convertedScale,
+                (Fix64)rotationOffset.Z / SharpNode.convertedScale
+            );
+			//PositionOffset = (FixVector3)positionOffset;
+			//RotationOffset = (FixVector3)rotationOffset;
 		}
 
 		public virtual void DebugDrawShapes(SharpBody3D reference)

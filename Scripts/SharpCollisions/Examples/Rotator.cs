@@ -2,6 +2,7 @@ using Godot;
 using FixMath.NET;
 using SharpCollisions.Sharp3D;
 
+[Tool] [GlobalClass]
 public partial class Rotator : SharpBody3D
 {
     private FixVector3 _rotationSpeed => (FixVector3)RotationSpeed;

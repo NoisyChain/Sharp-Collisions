@@ -7,8 +7,10 @@ namespace SharpCollisions.Sharp3D
     [Tool] [GlobalClass]
     public partial class FixedTransform3D : SharpNode
     {
-        [Export] public FixedTransform3D Parent;
-        [Export] public Array<FixedTransform3D> Children;
+        public FixedTransform3D Parent;
+        public Array<FixedTransform3D> Children;
+        [Export] public Vector3I fixedPosition;
+        [Export] public Vector3I fixedRotation;
         public FixVector3 FixedPosition;
         public FixVector3 FixedRotation;
         public FixVector3 LocalFixedPosition;
@@ -25,8 +27,19 @@ namespace SharpCollisions.Sharp3D
         {
             base._Ready();
 
-            FixedPosition = (FixVector3)GlobalPosition;
-            FixedRotation = (FixVector3)GlobalRotation;
+            FixedPosition = new FixVector3(
+                (Fix64)fixedPosition.X / convertedScale,
+                (Fix64)fixedPosition.Y / convertedScale,
+                (Fix64)fixedPosition.Z / convertedScale
+            );
+
+            FixedRotation = new FixVector3(
+                (Fix64)fixedRotation.X / convertedScale,
+                (Fix64)fixedRotation.Y / convertedScale,
+                (Fix64)fixedRotation.Z / convertedScale
+            );
+            //FixedPosition = (FixVector3)GlobalPosition;
+            //FixedRotation = (FixVector3)GlobalRotation;
             //Parent = GetParent<Node3D>() as FixedTransform3D;
             //GD.Print(Parent != null ? Parent.Name : "No parent found.");
         }
@@ -35,8 +48,8 @@ namespace SharpCollisions.Sharp3D
         {
             if (Engine.IsEditorHint()) return;
 
-            GlobalPosition = (Vector3)FixedPosition;
-            GlobalRotation = (Vector3)FixedRotation;
+            //GlobalPosition = (Vector3)FixedPosition;
+            //GlobalRotation = (Vector3)FixedRotation;
         }
 
         /*public override void _FixedPreProcess(Fix64 delta)

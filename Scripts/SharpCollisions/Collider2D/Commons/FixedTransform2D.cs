@@ -8,7 +8,9 @@ namespace SharpCollisions.Sharp2D
     public partial class FixedTransform2D : SharpNode
     {
         public FixedTransform2D Parent;
-        [Export] public Array<FixedTransform2D> Children;
+        public Array<FixedTransform2D> Children;
+        [Export] public Vector2I fixedPosition;
+        [Export] public int fixedRotation;
         public FixVector2 FixedPosition;
         public Fix64 FixedRotation;
         public FixVector2 LocalFixedPosition;
@@ -23,8 +25,14 @@ namespace SharpCollisions.Sharp2D
         {
             base._Ready();
 
-            FixedPosition = (FixVector2)GlobalPosition;
-            FixedRotation = (Fix64)GlobalRotation.Z;
+            FixedPosition = new FixVector2(
+                (Fix64)fixedPosition.X / convertedScale,
+                (Fix64)fixedPosition.Y / convertedScale
+            );
+            FixedRotation = (Fix64)fixedRotation / convertedScale;
+
+            //FixedPosition = (FixVector2)GlobalPosition;
+            //FixedRotation = (Fix64)GlobalRotation.Z;
             //Parent = GetParent<Node3D>() as FixedTransform2D;
             //GD.Print(Parent != null ? Parent.Name : "No parent found.");
         }
@@ -33,8 +41,8 @@ namespace SharpCollisions.Sharp2D
         {
             if (Engine.IsEditorHint()) return;
 
-            GlobalPosition = (Vector3)FixedPosition;
-            GlobalRotation = new Vector3(0, 0, (float)FixedRotation);
+            //GlobalPosition = (Vector3)FixedPosition;
+            //GlobalRotation = new Vector3(0, 0, (float)FixedRotation);
         }
 
         /*public override void _FixedPreProcess(Fix64 delta)

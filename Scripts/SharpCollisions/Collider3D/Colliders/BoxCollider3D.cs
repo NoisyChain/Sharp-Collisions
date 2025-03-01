@@ -9,11 +9,15 @@ namespace SharpCollisions.Sharp3D
     public partial class BoxCollider3D : PolygonCollider3D
     {
         public FixVector3 Extents;
-        [Export] private Vector3 extents = Vector3.One;
+        [Export] private Vector3I extents = Vector3I.One;
 
         public override void Initialize()
         {
-            Extents = (FixVector3)extents;
+            Extents = new FixVector3(
+                (Fix64)extents.X / SharpNode.convertedScale,
+                (Fix64)extents.Y / SharpNode.convertedScale,
+                (Fix64)extents.Z / SharpNode.convertedScale
+            );
             base.Initialize();
         }
 

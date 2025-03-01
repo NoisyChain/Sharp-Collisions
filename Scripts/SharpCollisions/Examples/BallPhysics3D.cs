@@ -2,6 +2,7 @@ using Godot;
 using FixMath.NET;
 using SharpCollisions.Sharp3D;
 
+[Tool] [GlobalClass]
 public partial class BallPhysics3D : SharpBody3D
 {
     private FixVector3 Direction;

@@ -14,7 +14,7 @@ namespace SharpCollisions.Sharp3D
         public FixVector3[] RawPoints;
 		public FixVector3[] Points;
 
-        [Export] private Vector3[] vertices = new Vector3[0];
+        [Export] private Array<Vector3I> vertices;
         [Export] public Array<Vector3I> Faces;
 
         private bool defaultShape = false;
@@ -43,21 +43,27 @@ namespace SharpCollisions.Sharp3D
         {
             //If there is no enough vertices to create a 3D shape,
             //create a simple tetrahedron as the default shape
-            if (vertices.Length < 4)
+            if (vertices.Count < 4)
             {
-                vertices = new Vector3[]
+                vertices = new Array<Vector3I>()
                 {
-                    new Vector3(0, -1, 1),
-                    new Vector3(-1, -1, -1),
-                    new Vector3(1, -1, -1),
-                    new Vector3(0, 1, 0),
+                    new Vector3I(0, -1, 1) * SharpNode.nodeScale,
+                    new Vector3I(-1, -1, -1) * SharpNode.nodeScale,
+                    new Vector3I(1, -1, -1) * SharpNode.nodeScale,
+                    new Vector3I(0, 1, 0) * SharpNode.nodeScale,
                 };
                 defaultShape = true;
             }
 
-            RawPoints = new FixVector3[vertices.Length];
+            RawPoints = new FixVector3[vertices.Count];
             for (int i = 0; i < RawPoints.Length; i++)
-                RawPoints[i] = (FixVector3)vertices[i];
+            {
+                RawPoints[i] = new FixVector3(
+                (Fix64)vertices[i].X / SharpNode.convertedScale,
+                (Fix64)vertices[i].Y / SharpNode.convertedScale,
+                (Fix64)vertices[i].Z / SharpNode.convertedScale
+            );
+            }
             
             Points = new FixVector3[RawPoints.Length];
         }

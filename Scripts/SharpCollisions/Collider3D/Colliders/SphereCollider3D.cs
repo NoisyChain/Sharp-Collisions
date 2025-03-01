@@ -7,12 +7,12 @@ namespace SharpCollisions.Sharp3D
     public partial class SphereCollider3D : SharpCollider3D
     {
         public Fix64 Radius;
-        [Export] protected float radius;
+        [Export] protected int radius;
         
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)radius;
+            Radius = (Fix64)radius / SharpNode.convertedScale;
             Shape = CollisionType3D.Sphere;
         }
 

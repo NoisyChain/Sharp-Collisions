@@ -39,24 +39,10 @@ namespace SharpCollisions.Sharp3D
                 (Fix64)fixedRotation.Z / convertedScale
             );
             FixedRotation *= Fix64.DegToRad;
-            //FixedPosition = (FixVector3)GlobalPosition;
-            //FixedRotation = (FixVector3)GlobalRotation;
+
             //Parent = GetParent<Node3D>() as FixedTransform3D;
             //GD.Print(Parent != null ? Parent.Name : "No parent found.");
         }
-
-        public override void _Process(double delta)
-        {
-            if (Engine.IsEditorHint()) return;
-
-            //GlobalPosition = (Vector3)FixedPosition;
-            //GlobalRotation = (Vector3)FixedRotation;
-        }
-
-        /*public override void _FixedPreProcess(Fix64 delta)
-        {
-            TransformWithParent();
-        }*/
 
         public void SetParent(FixedTransform3D newParent)
         {

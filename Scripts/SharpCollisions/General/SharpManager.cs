@@ -17,6 +17,7 @@ namespace SharpCollisions
 		[Export] private int iterations = 4;
 		[Export] private float debugLineThickness = 0.025f;
 		[Export] private bool UseEngineSettings = false;
+		[Export] private bool RunOnDedicatedThread = false;
 		public Fix64 fixedTPS => (Fix64)TicksPerSecond;
 		public Fix64 fixedIterations => (Fix64)iterations;
 		public Fix64 fixedDelta => Fix64.One / fixedTPS;
@@ -43,23 +44,39 @@ namespace SharpCollisions
 
 			//Start physics simulation on a separate thread
 			//Some weird flickering is happening because of this
-			physicsThread = new Thread(() => Loop());
-			physicsThread.IsBackground = true;
-			started = true;
-			physicsThread.Start();
+			if (RunOnDedicatedThread)
+			{
+				physicsThread = new Thread(() => Loop());
+				physicsThread.IsBackground = true;
+				started = true;
+				physicsThread.Start();
+			}
 		}
 
-        /*public override void _PhysicsProcess(double delta)
+        public override void _Process(double delta)
+        {
+            base._Process(delta);
+
+			foreach(SharpBody2D body in world2D.bodies)
+				body.DebugDraw();
+
+			foreach(SharpBody3D body in world3D.bodies)
+				body.DebugDraw();
+        }
+
+        public override void _PhysicsProcess(double delta)
 		{
+			if (RunOnDedicatedThread) return;
+
 			PhysicsLoop();
-		}*/
+		}
 
         private void Loop()
 		{
 			while(started)
 			{
 				PhysicsLoop();
-				Thread.Sleep(16);
+				Thread.Sleep((int)(1f / TicksPerSecond * 1000));
 			}
 		}
 

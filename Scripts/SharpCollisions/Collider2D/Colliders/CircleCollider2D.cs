@@ -43,7 +43,7 @@ namespace SharpCollisions.Sharp2D
             Vector3 DirX = (Vector3)reference.Right;
             Vector3 DirY = (Vector3)reference.Up;
 
-            DebugDraw3D.DrawSimpleSphere((Vector3)Center, DirX, DirY, Vector3.Zero, (float)Radius + 0.005f, debugColor);
+            //DebugDraw3D.DrawSimpleSphere((Vector3)Center, DirX, DirY, Vector3.Zero, (float)Radius + 0.005f, debugColor);
         }
 
         protected override FixRect GetBoundingBoxPoints()

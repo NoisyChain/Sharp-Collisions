@@ -73,8 +73,8 @@ namespace SharpCollisions.Sharp2D
             Vector3 LineVector = (Vector3)FixVector2.GetNormal(UpperPoint, LowerPoint);
             Vector3 LineSpacing = LineVector * inflatedRadius;
 
-            DebugDraw3D.DrawSimpleSphere((Vector3)UpperPoint, DirX, DirY, Vector3.Zero, inflatedRadius, debugColor);
-            DebugDraw3D.DrawSimpleSphere((Vector3)LowerPoint, DirX, DirY, Vector3.Zero, inflatedRadius, debugColor);
+            //DebugDraw3D.DrawSimpleSphere((Vector3)UpperPoint, DirX, DirY, Vector3.Zero, inflatedRadius, debugColor);
+            //DebugDraw3D.DrawSimpleSphere((Vector3)LowerPoint, DirX, DirY, Vector3.Zero, inflatedRadius, debugColor);
             DebugDraw3D.DrawLine((Vector3)UpperPoint, (Vector3)LowerPoint, debugColor);
             DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing, (Vector3)LowerPoint + LineSpacing, debugColor);
             DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing, (Vector3)LowerPoint - LineSpacing, debugColor);

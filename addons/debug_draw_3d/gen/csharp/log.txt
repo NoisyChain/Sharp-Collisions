@@ -1,4 +1,4 @@
-Generation of bindings started, output file: res://addons/debug_draw_3d/gen/csharp/DebugDrawGeneratedAPI.cs
+Generation of bindings started, output file: res://addons/debug_draw_3d/gen/csharp/DebugDrawGeneratedAPI.generated.cs
 Log file: res://addons/debug_draw_3d/gen/csharp/log.txt
 Hold Shift to print information on the Output panel when manually starting generation via the 'Project - Tools - Debug Draw' menu
   Class: DebugDraw2D

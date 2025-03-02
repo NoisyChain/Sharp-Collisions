@@ -12,7 +12,7 @@ namespace SharpCollisions.Sharp2D
 		public OnOverlapDelegate DuringOverlap;
 		public OnOverlapDelegate EndOverlap;
 
-		protected uint ID; 
+		protected uint ID;
 		public FixVector2 Velocity;
 
 		[Export] public SharpCollider2D Collider;
@@ -70,9 +70,13 @@ namespace SharpCollisions.Sharp2D
 		public override void _Process(double delta)
 		{
 			base._Process(delta);
+		}
 
-			if (!Engine.IsEditorHint() && Collider != null)
-				Collider.DebugDrawShapes(this);
+		public void DebugDraw()
+		{
+			if (Collider == null) return;
+			
+			Collider.DebugDrawShapes(this);
 		}
 
 		public override void _Destroy()

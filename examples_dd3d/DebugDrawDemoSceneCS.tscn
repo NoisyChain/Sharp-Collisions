@@ -6,15 +6,6 @@
 [node name="DebugDrawDemoSceneCS" instance=ExtResource("2")]
 script = ExtResource("2_ipqea")
 
-[node name="MusicPlayer" parent="MusicVisualizer" index="2"]
-bus = &"Master"
-
-[node name="VolumeSlider" parent="MusicVisualizer/VBox/HBoxContainer" index="0"]
-value = 1.0
-
-[node name="MuteMaster" parent="MusicVisualizer/VBox/HBoxContainer" index="1"]
-button_pressed = false
-
 [node name="Settings" parent="." index="22"]
 switch_to_scene = "res://examples_dd3d/DebugDrawDemoScene.tscn"
 

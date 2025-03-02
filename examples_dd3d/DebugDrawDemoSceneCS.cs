@@ -13,6 +13,7 @@ public partial class DebugDrawDemoSceneCS : Node3D
     [Export] bool update_in_physics = false;
     [Export] bool test_text = true;
     [Export] bool test_graphs = false;
+    [Export] bool test_fps_graph = true;
     [Export] bool more_test_cases = true;
     [Export] bool draw_array_of_boxes = false;
     [Export] bool draw_1m_boxes = false;
@@ -94,6 +95,9 @@ public partial class DebugDrawDemoSceneCS : Node3D
     Node3D dCylinder3a;
     Node3D dCylinder3b;
 
+    MeshInstance3D dPlaneOrigin;
+    MeshInstance3D pZDepthTestCube;
+
     MeshInstance3D dOtherWorld;
     SubViewport dOtherWorldViewport;
     Node3D dOtherWorldBox;
@@ -153,6 +157,9 @@ public partial class DebugDrawDemoSceneCS : Node3D
         dCylinder2 = GetNode<Node3D>("Cylinders/Cylinder2");
         dCylinder3a = GetNode<Node3D>("Cylinders/Cylinder3/1");
         dCylinder3b = GetNode<Node3D>("Cylinders/Cylinder3/2");
+
+        dPlaneOrigin = GetNode<MeshInstance3D>("PlaneOrigin");
+        pZDepthTestCube = GetNode<MeshInstance3D>("%ZDepthTestCube");
 
         dOtherWorld = GetNode<MeshInstance3D>("OtherWorld");
         dOtherWorldViewport = GetNode<SubViewport>("OtherWorld/SubViewport");
@@ -295,13 +302,20 @@ public partial class DebugDrawDemoSceneCS : Node3D
             DebugDraw2D.SetText("Frames drawn", Engine.GetFramesDrawn());
             DebugDraw2D.SetText("FPS", Engine.GetFramesPerSecond());
             DebugDraw2D.SetText("delta", delta);
+
             dHitTest.Visible = false;
             dLagTest.Visible = false;
+            dPlaneOrigin.Visible = false;
+            pZDepthTestCube.Visible = false;
+            dOtherWorld.Visible = false;
             return;
         }
 
         dHitTest.Visible = true;
         dLagTest.Visible = true;
+        dPlaneOrigin.Visible = true;
+        pZDepthTestCube.Visible = true;
+        dOtherWorld.Visible = true;
 
         // Testing the rendering layers by showing the image from the second camera inside the 2D panel
         DebugDraw3D.Config.GeometryRenderLayers = !Input.IsKeyPressed(Key.Alt) ? 1 : 0b10010;
@@ -730,7 +744,7 @@ public partial class DebugDrawDemoSceneCS : Node3D
                         var size = Vector3.One;
                         cfg.SetThickness(Random.Shared.NextSingle() * 0.1f);
                         //size = new Vector3(Random.Shared.NextSingle() * 100 + 0.1f, Random.Shared.NextSingle() * 100 + 0.1f, Random.Shared.NextSingle() * 100 + 0.1f);
-                        DebugDraw3D.DrawBox(new Vector3(x * mul, (-4 - z) * mul, y * mul), Quaternion.Identity, size, null, false, cubes_max_time);
+                        DebugDraw3D.DrawBox(new Vector3(x * mul, (-4 - z) * mul, y * mul) + GlobalPosition, Quaternion.Identity, size, null, false, cubes_max_time);
                     }
                 }
             }
@@ -811,6 +825,8 @@ public partial class DebugDrawDemoSceneCS : Node3D
 
     void _remove_graphs()
     {
+        if (!test_fps_graph)
+            DebugDraw2D.RemoveGraph("FPS");
         DebugDraw2D.RemoveGraph("randf");
         DebugDraw2D.RemoveGraph("fps");
         DebugDraw2D.RemoveGraph("fps2");

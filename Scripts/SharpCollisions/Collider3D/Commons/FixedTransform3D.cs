@@ -38,6 +38,7 @@ namespace SharpCollisions.Sharp3D
                 (Fix64)fixedRotation.Y / convertedScale,
                 (Fix64)fixedRotation.Z / convertedScale
             );
+            FixedRotation *= Fix64.DegToRad;
             //FixedPosition = (FixVector3)GlobalPosition;
             //FixedRotation = (FixVector3)GlobalRotation;
             //Parent = GetParent<Node3D>() as FixedTransform3D;

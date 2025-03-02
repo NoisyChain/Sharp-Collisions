@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using FixMath.NET;
 using SharpCollisions.Sharp2D.GJK;
 
@@ -13,7 +14,7 @@ namespace SharpCollisions.Sharp2D
         public FixVector2[] RawPoints;
 		public FixVector2[] Points;
 
-        [Export] private Vector2[] vertices = new Vector2[0];
+        [Export] private Array<Vector2I> vertices;
 
         public override void Initialize()
         {
@@ -38,18 +39,23 @@ namespace SharpCollisions.Sharp2D
         {
             //If there is no enough vertices to create a 2D shape,
             //create a simple triangle as the default shape
-            if (vertices.Length < 3)
+            if (vertices.Count < 3)
             {
-                vertices = new Vector2[]
+                vertices = new Array<Vector2I>
                 {
-                    new Vector2(-1, -1),
-                    new Vector2(0, 1),
-                    new Vector2(1, -1)
+                    new Vector2I(-1, -1) * SharpNode.nodeScale,
+                    new Vector2I(0, 1) * SharpNode.nodeScale,
+                    new Vector2I(1, -1) * SharpNode.nodeScale
                 };
             }
-            RawPoints = new FixVector2[vertices.Length];
+            RawPoints = new FixVector2[vertices.Count];
             for (int i = 0; i < RawPoints.Length; i++)
-                RawPoints[i] = (FixVector2)vertices[i];
+            {
+                RawPoints[i] = new FixVector2(
+                    (Fix64)vertices[i].X / SharpNode.convertedScale,
+                    (Fix64)vertices[i].Y / SharpNode.convertedScale
+                );
+            }
             
             Points = new FixVector2[RawPoints.Length];
         }

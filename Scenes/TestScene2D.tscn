@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://de044kf0kbivf"]
+[gd_scene load_steps=18 format=3 uid="uid://de044kf0kbivf"]
 
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Commons/SharpBody2D.cs" id="1"]
 [ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_ver4r"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/BoxCollider2D.cs" id="4"]
 [ext_resource type="PackedScene" uid="uid://yy8gg16i0mv1" path="res://Scenes/Examples/PreviewBody_Controller.tscn" id="5"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/CircleCollider2D.cs" id="6"]
+[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Commons/SharpRenderer2D3D.cs" id="6_5k8wy"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/CapsuleCollider2D.cs" id="7"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/PolygonCollider2D.cs" id="8"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/AABBCollider2D.cs" id="9"]
@@ -45,139 +46,169 @@ script = ExtResource("2_fb5pd")
 
 [node name="Character" parent="." instance=ExtResource("5")]
 CeilingAngleLimit = 15
-Active = false
 
-[node name="Floor" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
+[node name="Floor" type="Node" parent="."]
 script = ExtResource("1")
 BodyMode = 2
-Active = false
+fixedPosition = Vector2i(0, -30000)
 
 [node name="Collider" type="Node" parent="Floor"]
 script = ExtResource("4")
-extents = Vector2(3, 0.3)
+extents = Vector2i(30000, 3000)
+vertices = []
 
-[node name="Viewer" type="Node3D" parent="Floor"]
+[node name="Viewer" type="Node3D" parent="Floor" node_paths=PackedStringArray("reference")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
+script = ExtResource("6_5k8wy")
+reference = NodePath("..")
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Floor/Viewer"]
 mesh = SubResource("1")
 skeleton = NodePath("../..")
 
-[node name="Floor2" type="Node3D" parent="."]
-transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 4, -2, 0)
+[node name="Floor2" type="Node" parent="."]
 script = ExtResource("1")
 BodyMode = 2
-Active = false
+fixedPosition = Vector2i(40000, -20000)
+fixedRotation = 450000
 
 [node name="Collider" type="Node" parent="Floor2"]
 script = ExtResource("4")
-extents = Vector2(3, 0.3)
+extents = Vector2i(30000, 3000)
+vertices = []
 
-[node name="Viewer" type="Node3D" parent="Floor2"]
+[node name="Viewer" type="Node3D" parent="Floor2" node_paths=PackedStringArray("reference")]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 4, -2, 0)
+script = ExtResource("6_5k8wy")
+reference = NodePath("..")
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Floor2/Viewer"]
 mesh = SubResource("1")
 skeleton = NodePath("../..")
 
-[node name="Floor3" type="Node3D" parent="."]
-transform = Transform3D(0.642788, 0.766044, 0, -0.766044, 0.642788, 0, 0, 0, 1, -4, -2, 0)
+[node name="Floor3" type="Node" parent="."]
 script = ExtResource("1")
 BodyMode = 2
-Active = false
+fixedPosition = Vector2i(-40000, -20000)
+fixedRotation = -500000
 
 [node name="Collider" type="Node" parent="Floor3"]
 script = ExtResource("4")
-extents = Vector2(3, 0.3)
+extents = Vector2i(30000, 3000)
+vertices = []
 
-[node name="Viewer" type="Node3D" parent="Floor3"]
+[node name="Viewer" type="Node3D" parent="Floor3" node_paths=PackedStringArray("reference")]
+transform = Transform3D(0.642783, 0.766039, 0, -0.766039, 0.642783, 0, 0, 0, 1, -4, -2, 0)
+script = ExtResource("6_5k8wy")
+reference = NodePath("..")
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Floor3/Viewer"]
 mesh = SubResource("1")
 skeleton = NodePath("../..")
 
-[node name="Sphere" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+[node name="Sphere" type="Node" parent="."]
 script = ExtResource("1")
-Active = false
+fixedPosition = Vector2i(0, -20000)
 
 [node name="Collider" type="Node" parent="Sphere"]
 script = ExtResource("6")
-radius = 0.4
+radius = 4000
+DrawDebug = true
 
-[node name="Viewer" type="Node3D" parent="Sphere"]
+[node name="Viewer" type="Node3D" parent="Sphere" node_paths=PackedStringArray("reference")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+script = ExtResource("6_5k8wy")
+reference = NodePath("..")
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere/Viewer"]
 mesh = SubResource("SphereMesh_qsbbd")
 
-[node name="Polygon" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -2, 0)
+[node name="Polygon" type="Node" parent="."]
 script = ExtResource("1")
 BodyMode = 2
-Active = false
+fixedPosition = Vector2i(-15000, -17000)
 
 [node name="Collider" type="Node" parent="Polygon"]
 script = ExtResource("8")
-vertices = PackedVector2Array(0, 0.7, 0.7, 0, 0.5, -0.7, -0.5, -0.7, -0.7, 0)
+vertices = [Vector2i(0, 10000), Vector2i(10000, 0), Vector2i(6500, -10000), Vector2i(-6500, -10000), Vector2i(-10000, 0)]
 DrawDebug = true
 
-[node name="Viewer" type="Node3D" parent="Polygon"]
+[node name="Viewer" type="Node3D" parent="Polygon" node_paths=PackedStringArray("reference")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -1.7, 0)
+script = ExtResource("6_5k8wy")
+reference = NodePath("..")
 
-[node name="Polygon2" type="Node3D" parent="."]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 4, 1.7, 0)
+[node name="Polygon2" type="Node" parent="."]
 script = ExtResource("1")
 BodyMode = 2
-Active = false
+fixedPosition = Vector2i(40000, 17000)
+fixedRotation = 900000
 
 [node name="Collider" type="Node" parent="Polygon2"]
 script = ExtResource("8")
+vertices = []
 DrawDebug = true
 
-[node name="Viewer" type="Node3D" parent="Polygon2"]
+[node name="Viewer" type="Node3D" parent="Polygon2" node_paths=PackedStringArray("reference")]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 4, 1.7, 0)
+script = ExtResource("6_5k8wy")
+reference = NodePath("..")
 
-[node name="Capsule" type="Node3D" parent="."]
-transform = Transform3D(0.819152, -0.573576, 0, 0.573576, 0.819152, 0, 0, 0, 1, -3, 1, 0)
+[node name="Capsule" type="Node" parent="."]
 script = ExtResource("1")
 BodyMode = 2
-Active = false
+fixedPosition = Vector2i(-30000, 10000)
+fixedRotation = 350000
 
 [node name="Collider" type="Node" parent="Capsule"]
 script = ExtResource("7")
-radius = 0.8
-height = 2.0
-rotationOffset = 90.0
+radius = 8000
+height = 20000
+rotationOffset = 900000
+DrawDebug = true
 
-[node name="Viewer" type="Node3D" parent="Capsule"]
+[node name="Viewer" type="Node3D" parent="Capsule" node_paths=PackedStringArray("reference")]
+transform = Transform3D(0.819147, -0.573573, 0, 0.573573, 0.819147, 0, 0, 0, 1, -3, 1, 0)
+script = ExtResource("6_5k8wy")
+reference = NodePath("..")
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Capsule/Viewer"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("3")
 
-[node name="AABBTest" type="Node3D" parent="."]
-transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 1, 1, 0)
+[node name="AABBTest" type="Node" parent="."]
 script = ExtResource("1")
 BodyMode = 2
-Active = false
+fixedPosition = Vector2i(10000, 10000)
+fixedRotation = 450000
 
 [node name="Collider" type="Node" parent="AABBTest"]
 script = ExtResource("9")
+extents = Vector2i(10000, 10000)
 DrawDebug = true
 
-[node name="Viewer" type="Node3D" parent="AABBTest"]
+[node name="Viewer" type="Node3D" parent="AABBTest" node_paths=PackedStringArray("reference")]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 1, 1, 0)
+script = ExtResource("6_5k8wy")
+reference = NodePath("..")
 
 [node name="MeshInstance" type="MeshInstance3D" parent="AABBTest/Viewer"]
 mesh = SubResource("12")
 skeleton = NodePath("../..")
 
-[node name="AABBTest2" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.5, 0)
+[node name="AABBTest2" type="Node" parent="."]
 script = ExtResource("1")
-Active = false
+fixedPosition = Vector2i(15000, 15000)
 
 [node name="Collider" type="Node" parent="AABBTest2"]
 script = ExtResource("9")
+extents = Vector2i(10000, 10000)
 DrawDebug = true
 
-[node name="Viewer" type="Node3D" parent="AABBTest2"]
+[node name="Viewer" type="Node3D" parent="AABBTest2" node_paths=PackedStringArray("reference")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.5, 0)
+script = ExtResource("6_5k8wy")
+reference = NodePath("..")
 
 [node name="MeshInstance" type="MeshInstance3D" parent="AABBTest2/Viewer"]
 mesh = SubResource("12")

@@ -30,6 +30,7 @@ namespace SharpCollisions.Sharp2D
                 (Fix64)fixedPosition.Y / convertedScale
             );
             FixedRotation = (Fix64)fixedRotation / convertedScale;
+            FixedRotation *= Fix64.DegToRad;
 
             //FixedPosition = (FixVector2)GlobalPosition;
             //FixedRotation = (Fix64)GlobalRotation.Z;

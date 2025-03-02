@@ -86,13 +86,16 @@ namespace SharpCollisions.Sharp2D
 				{
 					SharpBody2D bodyB = bodies[j];
 					
-					//if (!bodyA.Visible || !bodyB.Visible)
-					//{ ClearCollision(bodyA, bodyB); continue; }
+					if (!bodyA.Active || !bodyB.Active)
+					{ ClearCollision(bodyA, bodyB); continue; }
 					if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2)
 					{ ClearCollision(bodyA, bodyB); continue; }
 					if (bodyA.BodiesToIgnore.Contains(bodyB.GetBodyID()))
 					{ ClearCollision(bodyA, bodyB); continue; }
 					if (!CompareLayers(bodyA, bodyB))
+					{ ClearCollision(bodyA, bodyB); continue; }
+					//TODO: add support for multiple colliders per body
+					if (!bodyA.Collider.Active || !bodyB.Collider.Active)
 					{ ClearCollision(bodyA, bodyB); continue; }
 					if (!bodyA.Collider.BoundingBox.IsOverlapping(bodyB.Collider.BoundingBox))
 					{ ClearCollision(bodyA, bodyB); continue; }

@@ -7,12 +7,12 @@ namespace SharpCollisions.Sharp2D
     public partial class CircleCollider2D : SharpCollider2D
     {
         public Fix64 Radius;
-        [Export] protected float radius;
+        [Export] protected int radius;
         
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)radius;
+            Radius = (Fix64)radius / SharpNode.convertedScale;
             Shape = CollisionType2D.Circle;
         }
 

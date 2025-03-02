@@ -13,14 +13,14 @@ namespace SharpCollisions.Sharp2D
 		public FixVector2 UpperPoint;
 		public FixVector2 LowerPoint;
 
-        [Export] protected float radius;
-        [Export] protected float height;
+        [Export] protected int radius;
+        [Export] protected int height;
 
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)radius;
-            Height = (Fix64)height;
+            Radius = (Fix64)radius / SharpNode.convertedScale;
+            Height = (Fix64)height / SharpNode.convertedScale;
             Shape = CollisionType2D.Capsule;
             CreateCapsulePoints();
         }

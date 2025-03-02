@@ -7,8 +7,8 @@ namespace SharpCollisions.Sharp2D
 	public partial class SharpCollider2D  : Node
 	{
 		[Export] public bool Active = true;
-		[Export] protected Vector2 positionOffset;
-		[Export] protected float rotationOffset;
+		[Export] protected Vector2I positionOffset;
+		[Export] protected int rotationOffset;
 		[Export] public Color debugColor = new Color(0, 0, 1);
 		[Export] protected bool DrawDebug;
 		public CollisionFlags collisionFlags;
@@ -39,8 +39,11 @@ namespace SharpCollisions.Sharp2D
 
 		public virtual void Initialize()
 		{
-			PositionOffset = (FixVector2)positionOffset;
-			RotationOffset = (Fix64)rotationOffset;
+			PositionOffset = new FixVector2(
+				(Fix64)positionOffset.X  / SharpNode.convertedScale,
+				(Fix64)positionOffset.Y  / SharpNode.convertedScale
+			);
+			RotationOffset = (Fix64)rotationOffset / SharpNode.convertedScale;
 		}
 
 		public virtual void DebugDrawShapes(SharpBody2D reference)

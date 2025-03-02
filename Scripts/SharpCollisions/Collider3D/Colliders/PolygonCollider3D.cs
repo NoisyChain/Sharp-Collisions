@@ -59,10 +59,10 @@ namespace SharpCollisions.Sharp3D
             for (int i = 0; i < RawPoints.Length; i++)
             {
                 RawPoints[i] = new FixVector3(
-                (Fix64)vertices[i].X / SharpNode.convertedScale,
-                (Fix64)vertices[i].Y / SharpNode.convertedScale,
-                (Fix64)vertices[i].Z / SharpNode.convertedScale
-            );
+                    (Fix64)vertices[i].X / SharpNode.convertedScale,
+                    (Fix64)vertices[i].Y / SharpNode.convertedScale,
+                    (Fix64)vertices[i].Z / SharpNode.convertedScale
+                );
             }
             
             Points = new FixVector3[RawPoints.Length];

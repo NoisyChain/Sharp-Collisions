@@ -179,7 +179,7 @@ namespace SharpCollisions.Sharp3D
 			}
 			
 			Collider.Position = FixedPosition;
-			Collider.UpdatePoints(this);
+			Collider.UpdatePoints(FixedPosition, FixedRotation);
 			Collider.UpdateBoundingBox();
 		}
 

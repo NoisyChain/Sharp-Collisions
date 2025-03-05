@@ -150,11 +150,6 @@ namespace FixMath.NET
 		{
 			return Dot(a, b) > Fix64.Zero;
 		}
-		
-		public static bool IsExactDirection(FixVector2 a, FixVector2 b)
-		{
-			return Dot(a, b) > (Fix64)9e-1;
-		}
 
 		public static bool Approximate(FixVector2 a, FixVector2 b)
 		{

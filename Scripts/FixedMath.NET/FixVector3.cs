@@ -60,9 +60,6 @@ namespace FixMath.NET
 			Fix64 len = Length(v);
 			if (len == Fix64.Zero) return Zero;
 			FixVector3 nor = new FixVector3(v.x / len, v.y / len, v.z / len);
-			//if (Fix64.Abs(nor.x) < Fix64.Epsilon) nor.x = Fix64.Zero;
-			//if (Fix64.Abs(nor.y) < Fix64.Epsilon) nor.y = Fix64.Zero;
-			//if (Fix64.Abs(nor.z) < Fix64.Epsilon) nor.z = Fix64.Zero;
 			return nor;
 		}
         public static Fix64 Dot(FixVector3 a, FixVector3 b)
@@ -228,10 +225,6 @@ namespace FixMath.NET
 			return Dot(a, b) > Fix64.Zero;
 		}
 		
-		public static bool IsExactDirection(FixVector3 a, FixVector3 b)
-		{
-			return Dot(a, b) > (Fix64)9e-1;
-		}
 		public static bool Approximate(FixVector3 a, FixVector3 b)
 		{
 			return Fix64.Approximate(a.x, b.x) && Fix64.Approximate(a.y, b.y) && Fix64.Approximate(a.z, b.z);

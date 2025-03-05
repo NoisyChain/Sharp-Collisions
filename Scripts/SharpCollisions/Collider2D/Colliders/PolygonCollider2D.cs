@@ -60,12 +60,12 @@ namespace SharpCollisions.Sharp2D
             Points = new FixVector2[RawPoints.Length];
         }
 
-        private void UpdatePolygonPoints(SharpBody2D body)
+        private void UpdatePolygonPoints(FixVector2 position, Fix64 rotation)
         {
             for (int i = 0; i < RawPoints.Length; i++)
             {
-                Points[i] = FixVector2.Rotate(RawPoints[i], RotationOffset * Fix64.DegToRad);
-				Points[i] = FixVector2.Transform(Points[i] + PositionOffset, body);
+                Points[i] = FixVector2.Rotate(RawPoints[i], RotationOffset);
+				Points[i] = FixVector2.Transform(Points[i] + PositionOffset, position, rotation);
             }
         }
 
@@ -86,10 +86,10 @@ namespace SharpCollisions.Sharp2D
             return UpdatePolygonBoundingBox();
         }
 
-        public override void UpdatePoints(SharpBody2D body)
+        public override void UpdatePoints(FixVector2 position, Fix64 rotation)
         {
-            UpdatePolygonPoints(body);
-            base.UpdatePoints(body);
+            UpdatePolygonPoints(position, rotation);
+            base.UpdatePoints(position, rotation);
         }
 
         public override FixVector2 Support(FixVector2 direction)

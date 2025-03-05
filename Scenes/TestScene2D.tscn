@@ -76,6 +76,7 @@ fixedRotation = 450000
 script = ExtResource("4")
 extents = Vector2i(30000, 3000)
 vertices = []
+DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Floor2" node_paths=PackedStringArray("reference")]
 transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 4, -2, 0)

@@ -83,12 +83,12 @@ namespace SharpCollisions.Sharp3D
             }
         }
 
-        private void UpdatePolygonPoints(SharpBody3D body)
+        private void UpdatePolygonPoints(FixVector3 position, FixVector3 rotation)
         {
             for (int i = 0; i < RawPoints.Length; i++)
             {
-                Points[i] = FixVector3.Rotate(RawPoints[i], RotationOffset * Fix64.DegToRad);
-				Points[i] = FixVector3.Transform(Points[i] + PositionOffset, body);
+                Points[i] = FixVector3.Rotate(RawPoints[i], RotationOffset);
+				Points[i] = FixVector3.Transform(Points[i] + PositionOffset, position, rotation);
             }
         }
 
@@ -114,10 +114,10 @@ namespace SharpCollisions.Sharp3D
             return UpdatePolygonBoundingBox();
         }
 
-        public override void UpdatePoints(SharpBody3D body)
+        public override void UpdatePoints(FixVector3 position, FixVector3 rotation)
         {
-            UpdatePolygonPoints(body);
-            base.UpdatePoints(body);
+            UpdatePolygonPoints(position, rotation);
+            base.UpdatePoints(position, rotation);
         }
 
         public override FixVector3 Support(FixVector3 direction)

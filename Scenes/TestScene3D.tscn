@@ -47,6 +47,7 @@ tonemap_mode = 2
 [node name="PhysicsManager" type="Node" parent="."]
 script = ExtResource("2_od8d3")
 debugLineThickness = 0.012
+RunOnDedicatedThread = true
 
 [node name="Character" parent="." instance=ExtResource("2")]
 KeepVelocityOnSlopes = false
@@ -64,6 +65,7 @@ script = ExtResource("4")
 extents = Vector3i(10000, 10000, 10000)
 vertices = []
 Faces = []
+DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Box" node_paths=PackedStringArray("reference")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 3, 0.1)
@@ -84,7 +86,6 @@ script = ExtResource("4")
 extents = Vector3i(10000, 10000, 10000)
 vertices = []
 Faces = []
-DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Box2" node_paths=PackedStringArray("reference")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 2.2, -2.2)
@@ -123,6 +124,7 @@ script = ExtResource("6_3hubp")
 radius = 5000
 height = 10000
 rotationOffset = Vector3i(0, 0, 900000)
+DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Capsule" node_paths=PackedStringArray("reference")]
 transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 2, 1.3, 3)
@@ -328,3 +330,4 @@ environment = SubResource("Environment_bff8o")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.76591, 0.470268, -0.43844, 0, 0.681922, 0.731425, 0.642948, -0.560206, 0.522291, -1.96341, 1.98419, 3.05469)
+shadow_enabled = true

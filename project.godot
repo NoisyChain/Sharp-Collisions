@@ -60,3 +60,11 @@ jump={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+
+[sharp_collisions]
+
+settings/ticks_per_seconds=60
+settings/substeps=4
+settings/run_on_dedicated_thread=false
+settings/gjk_max_iterations=32
+settings/epa_max_iterations=32

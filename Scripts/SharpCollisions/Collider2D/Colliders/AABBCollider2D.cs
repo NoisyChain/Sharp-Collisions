@@ -60,9 +60,9 @@ namespace SharpCollisions.Sharp2D
             return UpdateAABBBoundingBox();
         }
 
-        public override void UpdatePoints(SharpBody2D body)
+        public override void UpdatePoints(FixVector2 position, Fix64 rotation)
         {
-            base.UpdatePoints(body);
+            base.UpdatePoints(position, rotation);
         }
 
         public FixRect UpdateAABBBoundingBox()

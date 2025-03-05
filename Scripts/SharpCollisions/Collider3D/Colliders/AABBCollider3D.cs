@@ -45,9 +45,9 @@ namespace SharpCollisions.Sharp3D
             return UpdateAABBBoundingBox();
         }
 
-        public override void UpdatePoints(SharpBody3D body)
+        public override void UpdatePoints(FixVector3 position, FixVector3 rotation)
         {
-            base.UpdatePoints(body);
+            base.UpdatePoints(position, rotation);
         }
 
         public FixVolume UpdateAABBBoundingBox()

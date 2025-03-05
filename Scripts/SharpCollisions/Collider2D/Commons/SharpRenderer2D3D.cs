@@ -25,8 +25,11 @@ namespace SharpCollisions.Sharp2D
 			}
 			else
 			{
-				GlobalPosition = (Vector3)reference.FixedPosition;
-				GlobalRotation = new Vector3(0, 0, (float)reference.FixedRotation);
+				if (SharpManager.Instance.canRender)
+				{
+					GlobalPosition = (Vector3)reference.FixedPosition;
+					GlobalRotation = new Vector3(0, 0, (float)reference.FixedRotation);
+				}
 			}
 		}
 	}

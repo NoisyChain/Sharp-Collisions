@@ -52,9 +52,9 @@ namespace SharpCollisions.Sharp3D
             return UpdateSphereBoundingBox();
         }
 
-        public override void UpdatePoints(SharpBody3D body)
+        public override void UpdatePoints(FixVector3 position, FixVector3 rotation)
         {
-            base.UpdatePoints(body);
+            base.UpdatePoints(position, rotation);
         }
 
 		public override FixVector3 Support(FixVector3 direction)

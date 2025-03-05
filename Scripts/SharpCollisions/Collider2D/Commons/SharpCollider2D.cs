@@ -44,6 +44,7 @@ namespace SharpCollisions.Sharp2D
 				(Fix64)positionOffset.Y  / SharpNode.convertedScale
 			);
 			RotationOffset = (Fix64)rotationOffset / SharpNode.convertedScale;
+			RotationOffset *= Fix64.DegToRad;
 		}
 
 		public virtual void DebugDrawShapes(SharpBody2D reference)
@@ -131,9 +132,9 @@ namespace SharpCollisions.Sharp2D
 			return new FixRect();
 		}
 
-		public virtual void UpdatePoints(SharpBody2D body)
+		public virtual void UpdatePoints(FixVector2 position, Fix64 rotation)
 		{
-			Center = FixVector2.Transform(PositionOffset, body);
+			Center = FixVector2.Transform(PositionOffset, position, rotation);
 			PositionRequireUpdate = false;
 		}
 

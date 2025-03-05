@@ -7,6 +7,12 @@ using SharpCollisions.Sharp3D;
 
 namespace SharpCollisions
 {
+	/// <summary>
+	/// SharpManager class: 
+	/// This is an example implementation of a basic Sharp Collisions loop
+	/// containing update methods and both 2D and 3D collisions. This is not an ideal
+	/// implementation you should use in a commercial game.
+	/// </summary>
 	public partial class SharpManager : Node
 	{
 		public static SharpManager Instance;
@@ -21,9 +27,9 @@ namespace SharpCollisions
 		public Fix64 fixedTPS => (Fix64)TicksPerSecond;
 		public Fix64 fixedIterations => (Fix64)iterations;
 		public Fix64 fixedDelta => Fix64.One / fixedTPS;
+		public bool canRender;
 
 		private Thread physicsThread;
-		private bool started;
 
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
@@ -48,9 +54,9 @@ namespace SharpCollisions
 			{
 				physicsThread = new Thread(() => Loop());
 				physicsThread.IsBackground = true;
-				started = true;
 				physicsThread.Start();
 			}
+			else canRender = true;
 		}
 
         public override void _Process(double delta)
@@ -67,15 +73,17 @@ namespace SharpCollisions
         public override void _PhysicsProcess(double delta)
 		{
 			if (RunOnDedicatedThread) return;
-
+			
 			PhysicsLoop();
 		}
 
         private void Loop()
 		{
-			while(started)
+			while(true)
 			{
+				canRender = false;
 				PhysicsLoop();
+				canRender = true;
 				Thread.Sleep((int)(1f / TicksPerSecond * 1000));
 			}
 		}

@@ -33,6 +33,8 @@ namespace SharpCollisions
         /// <param name="delta">Fixed point delta time.</param>
         public virtual void _FixedPostProcess(Fix64 delta) { }
 
+        public virtual void RenderNode() {}
+
         public virtual void _Destroy()
         {
             if (SharpManager.Instance.RemoveNode(this))

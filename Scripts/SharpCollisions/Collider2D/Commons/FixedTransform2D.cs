@@ -7,6 +7,7 @@ namespace SharpCollisions.Sharp2D
     [Tool] [GlobalClass]
     public partial class FixedTransform2D : SharpNode
     {
+        private ISharpRenderer Renderer;
         public FixedTransform2D Parent;
         public Array<FixedTransform2D> Children;
         [Export] public Vector2I fixedPosition;
@@ -24,7 +25,7 @@ namespace SharpCollisions.Sharp2D
         public override void _Ready()
         {
             base._Ready();
-
+            //Renderer = this.GetNode("Graphics") as ISharpRenderer;
             FixedPosition = new FixVector2(
                 (Fix64)fixedPosition.X / convertedScale,
                 (Fix64)fixedPosition.Y / convertedScale
@@ -34,6 +35,13 @@ namespace SharpCollisions.Sharp2D
 
             //Parent = GetParent<Node3D>() as FixedTransform2D;
             //GD.Print(Parent != null ? Parent.Name : "No parent found.");
+        }
+
+        public void SetRenderer(ISharpRenderer rend) { Renderer = rend; }
+
+        public override void RenderNode()
+        {
+            if (Renderer != null) Renderer.Render();
         }
 
         public void SetParent(FixedTransform2D newParent)

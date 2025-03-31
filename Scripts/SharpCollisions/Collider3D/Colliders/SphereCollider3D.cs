@@ -44,7 +44,7 @@ namespace SharpCollisions.Sharp3D
             Vector3 DirY = (Vector3)reference.Up;
             Vector3 DirZ = (Vector3)reference.Forward;
 
-            //DebugDraw3D.DrawSimpleSphere((Vector3)Center, DirX, DirY, DirZ, (float)Radius + 0.005f, debugColor);
+            DebugDraw3D.DrawSimpleSphere((Vector3)Center, DirX, DirY, DirZ, (float)Radius + 0.005f, debugColor);
         }
 
         protected override FixVolume GetBoundingBoxPoints()

@@ -122,6 +122,7 @@ script = ExtResource("6_5k8wy")
 reference = NodePath("..")
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere/Viewer"]
+visible = false
 mesh = SubResource("SphereMesh_qsbbd")
 
 [node name="Polygon" type="Node" parent="."]
@@ -175,6 +176,7 @@ reference = NodePath("..")
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Capsule/Viewer"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+visible = false
 mesh = SubResource("3")
 
 [node name="AABBTest" type="Node" parent="."]

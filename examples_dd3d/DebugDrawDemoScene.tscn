@@ -1,11 +1,33 @@
-[gd_scene load_steps=39 format=3 uid="uid://c3sccy6x0ht5j"]
+[gd_scene load_steps=41 format=3 uid="uid://c3sccy6x0ht5j"]
 
 [ext_resource type="Script" path="res://examples_dd3d/DebugDrawDemoScene.gd" id="1"]
 [ext_resource type="FontFile" uid="uid://erdgllynwqkw" path="res://examples_dd3d/Roboto-Bold.ttf" id="2_aedbq"]
 [ext_resource type="Script" path="res://examples_dd3d/demo_camera_movement.gd" id="3_3m1mp"]
+[ext_resource type="FontFile" uid="uid://7am1h57ldd6" path="res://examples_dd3d/PixelatedElegance.ttf" id="3_tkhi8"]
 [ext_resource type="Script" path="res://examples_dd3d/demo_music_visualizer.gd" id="4_eq2lt"]
 [ext_resource type="Script" path="res://examples_dd3d/demo_settings_panel.gd" id="5_31v5h"]
 [ext_resource type="Script" path="res://examples_dd3d/demo_web_docs_version_select.gd" id="6_07f7q"]
+
+[sub_resource type="Animation" id="Animation_ucqh5"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:tests_use_threads")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cq37i"]
+_data = {
+"RESET": SubResource("Animation_ucqh5")
+}
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_87638"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -143,34 +165,17 @@ void fragment() {
 }
 "
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_vpw84"]
+viewport_path = NodePath("OtherWorld/SubViewport")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ho0aq"]
 render_priority = 0
 shader = SubResource("Shader_621vv")
+shader_parameter/albedo_texture = SubResource("ViewportTexture_vpw84")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_c6mie"]
 material = SubResource("ShaderMaterial_ho0aq")
 size = Vector2(4, 4)
-
-[sub_resource type="Animation" id="Animation_ucqh5"]
-resource_name = "RESET"
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:mesh:material:shader_parameter/albedo_texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [null]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_cq37i"]
-_data = {
-"RESET": SubResource("Animation_ucqh5")
-}
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_tigpa"]
 radius = 0.395
@@ -329,7 +334,14 @@ corner_radius_bottom_left = 4
 process_priority = 1
 script = ExtResource("1")
 custom_font = ExtResource("2_aedbq")
+custom_3d_font = ExtResource("3_tkhi8")
 text_groups_position = 2
+
+[node name="RESET" type="AnimationPlayer" parent="."]
+root_node = NodePath("../OtherWorld")
+libraries = {
+"": SubResource("AnimationLibrary_cq37i")
+}
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
@@ -375,35 +387,29 @@ far = 52.5
 
 [node name="Zones" type="Node3D" parent="."]
 
-[node name="Spheres" type="Node3D" parent="Zones"]
+[node name="SpheresBox" type="Node3D" parent="Zones"]
+unique_name_in_owner = true
 transform = Transform3D(8.3761, 0, 0, 0, 4.89771, 0, 0, 0, 9.36556, -11.1864, 0.645876, -7.86506)
 
-[node name="Path" type="Node3D" parent="Zones"]
-transform = Transform3D(5.95153, 0, 0, 0, 7.71864, 0, 0, 0, 6.31617, 0.184938, 1.12881, -7.18731)
-
-[node name="Boxes" type="Node3D" parent="Zones"]
-transform = Transform3D(10.0513, 0, 0, 0, 5.99877, 0, 0, 0, 12.1174, -16.0257, -0.206735, 6.27643)
-
-[node name="Misc" type="Node3D" parent="Zones"]
-transform = Transform3D(4.38886, 0, 0, 0, 2.72083, 0, 0, 0, 7.17107, -5.69728, -0.206735, 4.4244)
-
-[node name="Cylinders" type="Node3D" parent="Zones"]
+[node name="CylindersBox" type="Node3D" parent="Zones"]
+unique_name_in_owner = true
 transform = Transform3D(9.78549, 0, 0, 0, 4.20302, 0, 0, 0, 5.62455, -23.6827, -0.015712, -6.19233)
 
-[node name="Lines" type="Node3D" parent="Zones"]
+[node name="BoxesBox" type="Node3D" parent="Zones"]
+unique_name_in_owner = true
+transform = Transform3D(10.0513, 0, 0, 0, 5.99877, 0, 0, 0, 12.1174, -16.0257, -0.206735, 6.27643)
+
+[node name="LinesBox" type="Node3D" parent="Zones"]
+unique_name_in_owner = true
 transform = Transform3D(10.7186, 0, 0, 0, 3.9777, 0, 0, 0, 7.05487, 10.6302, 1.91174, -7.11416)
 
-[node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(1, -1.93359e-07, -8.48396e-08, -1.17881e-07, 1, 5.96046e-08, 6.22839e-09, 0, 1, 0, 0, 0)
-visible = false
-pixel_size = 0.0025
-billboard = 1
-double_sided = false
-modulate = Color(0, 0, 0, 1)
-outline_modulate = Color(1, 1, 1, 1)
-text = "TestTestTestTest
-TestTestTest"
-font_size = 80
+[node name="PathsBox" type="Node3D" parent="Zones"]
+unique_name_in_owner = true
+transform = Transform3D(5.95153, 0, 0, 0, 7.71864, 0, 0, 0, 6.31617, 0.184938, 1.12881, -7.18731)
+
+[node name="MiscBox" type="Node3D" parent="Zones"]
+unique_name_in_owner = true
+transform = Transform3D(4.38886, 0, 0, 0, 2.72083, 0, 0, 0, 7.17107, -5.69728, -0.206735, 4.4244)
 
 [node name="LinesAnim" type="AnimationPlayer" parent="."]
 root_node = NodePath("../LinePath")
@@ -534,18 +540,32 @@ libraries = {
 
 [node name="SubViewport" type="SubViewport" parent="OtherWorld"]
 own_world_3d = true
+handle_input_locally = false
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="OtherWorld/SubViewport"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="OtherWorld/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="OtherWorld/SubViewport/SubViewportContainer"]
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="OtherWorld/SubViewport/SubViewportContainer/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.57063, 0.6, 7.25557)
 current = true
 far = 5.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="OtherWorld/SubViewport"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OtherWorld/SubViewport/SubViewportContainer/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.57063, 0.6, 5.72253)
 mesh = SubResource("CapsuleMesh_tigpa")
+skeleton = NodePath("../../..")
 
-[node name="OtherWorldBox" type="Node3D" parent="OtherWorld/SubViewport"]
+[node name="OtherWorldBox" type="Node3D" parent="OtherWorld/SubViewport/SubViewportContainer/SubViewport"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.57063, 0.6, 5.72253)
 
@@ -583,7 +603,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.724359, -1.03227, 7.85404)
 [node name="CollisionShape" type="CollisionShape3D" parent="HitTest/StaticBody"]
 shape = SubResource("4")
 
-[node name="CSGSphere" type="CSGSphere3D" parent="HitTest/StaticBody"]
+[node name="HitTestSphere" type="CSGSphere3D" parent="HitTest/StaticBody"]
+unique_name_in_owner = true
 radius = 1.0
 radial_segments = 16
 rings = 10
@@ -640,7 +661,7 @@ rotation_edit_mode = 2
 transform = Transform3D(1, -6.03961e-14, -2.68221e-07, 3.55271e-13, 1, 1.42109e-14, -1.19209e-07, 1.1724e-13, 1, -0.2, 4.76837e-07, 0.4)
 
 [node name="Grid" type="Node3D" parent="Grids"]
-transform = Transform3D(5, 0, 2.38419e-07, 0, 1, 0, -2.38419e-07, 0, 5, 0, 0, 0)
+transform = Transform3D(5, 0, 4.76837e-07, 0, 1, 0, -4.76837e-07, 0, 5, 0, 0, 0)
 
 [node name="Subdivision" type="Node3D" parent="Grids/Grid"]
 transform = Transform3D(1, 0, -2.98023e-08, 0, 0.999999, 1.90735e-05, 0, 4.65661e-10, 0.999999, 1, 0, 1)
@@ -883,65 +904,40 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Update in physics (15 Ticks) *"
 
-[node name="Label2" type="Label" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
+[node name="Label4" type="Label" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.792157, 0.792157, 0.792157, 1)
-text = "FPS Graph:"
+text = "Text:"
 
-[node name="FPSEnabled" type="CheckBox" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
+[node name="ShowText" type="CheckBox" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-button_pressed = true
-text = "FPS Graph enabled"
+text = "Show text"
 
-[node name="FPSMS" type="CheckBox" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
+[node name="ShowExamples" type="CheckBox" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-button_pressed = true
-text = "FPS Graph ms or FPS"
-
-[node name="HBox" type="HBoxContainer" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Settings/HBox/VBox/SettingsPanel/VBox/HBox"]
-layout_mode = 2
-text = "Width       "
-
-[node name="WidthSlider" type="HSlider" parent="Settings/HBox/VBox/SettingsPanel/VBox/HBox"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-min_value = 50.0
-max_value = 1000.0
-value = 200.0
-
-[node name="HBox2" type="HBoxContainer" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Settings/HBox/VBox/SettingsPanel/VBox/HBox2"]
-layout_mode = 2
-text = "BufferSize"
-
-[node name="BufferSlider" type="HSlider" parent="Settings/HBox/VBox/SettingsPanel/VBox/HBox2"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-min_value = 50.0
-max_value = 1000.0
-value = 128.0
-
-[node name="Label3" type="Label" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.792157, 0.792157, 0.792157, 1)
-text = "Misc:"
+text = "Examples"
 
 [node name="ShowStats" type="CheckBox" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Show debug stats"
+text = "Debug stats"
+
+[node name="ShowHints" type="CheckBox" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Hints"
+
+[node name="Draw3DText" type="CheckBox" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "3D Text"
+
+[node name="Label3" type="Label" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.792157, 0.792157, 0.792157, 1)
+text = "Boxes:"
 
 [node name="HBox4" type="HBoxContainer" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
 layout_mode = 2
@@ -957,6 +953,11 @@ layout_mode = 2
 tooltip_text = "Draw 1 Million boxes, otherwise 7500pcs."
 text = "1M"
 
+[node name="DrawBoxesAddText" type="CheckBox" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add text to boxes"
+
 [node name="SwitchLang" type="Button" parent="Settings/HBox/VBox/SettingsPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -969,11 +970,12 @@ text = "Switch to C#"
 [connection signal="value_changed" from="Settings/HBox/VBox/SettingsPanel/VBox/HBox3/ThicknessSlider" to="Settings" method="_on_thickness_slider_value_changed"]
 [connection signal="value_changed" from="Settings/HBox/VBox/SettingsPanel/VBox/HBox5/FrustumScaleSlider" to="Settings" method="_on_frustum_scale_slider_value_changed"]
 [connection signal="toggled" from="Settings/HBox/VBox/SettingsPanel/VBox/UpdateInPhysics" to="Settings" method="_on_update_in_physics_toggled"]
-[connection signal="toggled" from="Settings/HBox/VBox/SettingsPanel/VBox/FPSEnabled" to="Settings" method="_on_CheckBox_toggled"]
-[connection signal="toggled" from="Settings/HBox/VBox/SettingsPanel/VBox/FPSMS" to="Settings" method="_on_FPSMS_toggled"]
-[connection signal="value_changed" from="Settings/HBox/VBox/SettingsPanel/VBox/HBox/WidthSlider" to="Settings" method="_on_width_slider_value_changed"]
-[connection signal="value_changed" from="Settings/HBox/VBox/SettingsPanel/VBox/HBox2/BufferSlider" to="Settings" method="_on_buffer_slider_value_changed"]
+[connection signal="toggled" from="Settings/HBox/VBox/SettingsPanel/VBox/ShowText" to="Settings" method="_on_show_text_toggled"]
+[connection signal="toggled" from="Settings/HBox/VBox/SettingsPanel/VBox/ShowExamples" to="Settings" method="_on_show_examples_toggled"]
 [connection signal="toggled" from="Settings/HBox/VBox/SettingsPanel/VBox/ShowStats" to="Settings" method="_on_show_stats_toggled"]
+[connection signal="toggled" from="Settings/HBox/VBox/SettingsPanel/VBox/ShowHints" to="Settings" method="_on_show_hints_toggled"]
+[connection signal="toggled" from="Settings/HBox/VBox/SettingsPanel/VBox/Draw3DText" to="Settings" method="_on_draw_3d_text_toggled"]
 [connection signal="toggled" from="Settings/HBox/VBox/SettingsPanel/VBox/HBox4/DrawBoxes" to="Settings" method="_on_draw_boxes_toggled"]
 [connection signal="toggled" from="Settings/HBox/VBox/SettingsPanel/VBox/HBox4/Draw1MBoxes" to="Settings" method="_on_draw_1m_boxes_toggled"]
+[connection signal="toggled" from="Settings/HBox/VBox/SettingsPanel/VBox/DrawBoxesAddText" to="Settings" method="_on_add_text_to_boxes_toggled"]
 [connection signal="pressed" from="Settings/HBox/VBox/SettingsPanel/VBox/SwitchLang" to="Settings" method="_on_Button_pressed"]

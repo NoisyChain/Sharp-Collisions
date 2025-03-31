@@ -71,7 +71,13 @@ namespace SharpCollisions.Sharp3D
 			base._Process(delta);
 		}
 
-		public void DebugDraw()
+		public override void RenderNode()
+        {
+			base.RenderNode();
+            DrawColliders();
+        }
+
+		public void DrawColliders()
 		{
 			if (Collider == null) return;
 			

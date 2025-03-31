@@ -38,10 +38,12 @@ reference = NodePath("..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Graphics"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+visible = false
 mesh = SubResource("CapsuleMesh_oe6u2")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Graphics"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
 mesh = SubResource("SphereMesh_03unl")
 
 [node name="Debug" type="Control" parent="."]

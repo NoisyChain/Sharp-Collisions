@@ -30,6 +30,7 @@ namespace SharpCollisions
 		public bool canRender;
 
 		private Thread physicsThread;
+		private System.Threading.Mutex physicsMutex = new System.Threading.Mutex();
 
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
@@ -63,11 +64,14 @@ namespace SharpCollisions
         {
             base._Process(delta);
 
-			foreach(SharpBody2D body in world2D.bodies)
-				body.DebugDraw();
+			physicsMutex.WaitOne();
 
+			foreach(SharpBody2D body in world2D.bodies)
+				body.RenderNode();
 			foreach(SharpBody3D body in world3D.bodies)
-				body.DebugDraw();
+				body.RenderNode();
+			
+			physicsMutex.ReleaseMutex();
         }
 
         public override void _PhysicsProcess(double delta)
@@ -81,9 +85,9 @@ namespace SharpCollisions
 		{
 			while(true)
 			{
-				canRender = false;
+				physicsMutex.WaitOne();
 				PhysicsLoop();
-				canRender = true;
+				physicsMutex.ReleaseMutex();
 				Thread.Sleep((int)(1f / TicksPerSecond * 1000));
 			}
 		}

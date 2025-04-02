@@ -74,12 +74,16 @@ namespace SharpCollisions
     {
         public int BodyA;
         public int BodyB;
+        public int ColliderA;
+        public int ColliderB;
         public Fix64 distance;
 
-        public PossibleCollision(int newA, int newB, Fix64 newDist)
+        public PossibleCollision(int newA, int newB, int colA, int colB, Fix64 newDist)
         {
             BodyA = newA;
             BodyB = newB;
+            ColliderA = colA;
+            ColliderB = colB;
             distance = newDist;
         }
     };

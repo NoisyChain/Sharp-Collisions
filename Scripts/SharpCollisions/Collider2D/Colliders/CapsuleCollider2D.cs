@@ -13,16 +13,14 @@ namespace SharpCollisions.Sharp2D
 		public FixVector2 UpperPoint;
 		public FixVector2 LowerPoint;
 
-        [Export] protected float radius;
-        [Export] protected float height;
-        [Export(PropertyHint.Enum, "X-Axis,Y-Axis")]
-		private int AxisDirection = 0;
+        [Export] protected int radius;
+        [Export] protected int height;
 
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)radius;
-            Height = (Fix64)height;
+            Radius = (Fix64)radius / SharpNode.NodeScale;
+            Height = (Fix64)height / SharpNode.NodeScale;
             Shape = CollisionType2D.Capsule;
             CreateCapsulePoints();
         }
@@ -49,36 +47,33 @@ namespace SharpCollisions.Sharp2D
 
         private void CreateCapsulePoints()
         {
-            bool isYAxis = AxisDirection != 0;
+			FixVector2 CapsuleDirection = new FixVector2(Fix64.Zero, Height - Radius);
 
-			FixVector2 CapsuleDirection = isYAxis ? 
-				new FixVector2(Fix64.Zero, Height - Radius) : 
-				new FixVector2(Height - Radius, Fix64.Zero);
-
-			RawUpperPoint = Offset + CapsuleDirection;
-			RawLowerPoint = Offset - CapsuleDirection;
+			RawUpperPoint = CapsuleDirection;
+			RawLowerPoint = -CapsuleDirection;
         }
 
-        private void UpdateCapsulePoints(SharpBody2D body)
+        private void UpdateCapsulePoints(FixVector2 position, Fix64 rotation)
         {
-            UpperPoint = FixVector2.Transform(RawUpperPoint, body);
-			LowerPoint = FixVector2.Transform(RawLowerPoint, body);
+            UpperPoint = FixVector2.Rotate(RawUpperPoint, RotationOffset);
+			LowerPoint = FixVector2.Rotate(RawLowerPoint, RotationOffset);
+            UpperPoint = FixVector2.Transform(UpperPoint + PositionOffset, position, rotation);
+			LowerPoint = FixVector2.Transform(LowerPoint + PositionOffset, position, rotation);
         }
 
         public override void DebugDrawShapes(SharpBody2D reference)
         {
             if (!DrawDebug) return;
 
-            Vector3 DirX = (Vector3)reference.Right;
-            Vector3 DirY = (Vector3)reference.Up;
+            Vector3 Dir = (Vector3)FixVector2.Normalize(UpperPoint - LowerPoint);
 
             float inflatedRadius = (float)Radius + 0.005f;
 
-            Vector3 LineVector = (Vector3)FixVector2.GetNormal(UpperPoint, LowerPoint);
-            Vector3 LineSpacing = LineVector * inflatedRadius;
+            Vector3 LineNormal = (Vector3)FixVector2.GetNormal(UpperPoint, LowerPoint);
+            Vector3 LineSpacing = LineNormal * inflatedRadius;
 
-            DebugDraw3D.DrawSimpleSphere((Vector3)UpperPoint, DirX, DirY, Vector3.Zero, inflatedRadius, debugColor);
-            DebugDraw3D.DrawSimpleSphere((Vector3)LowerPoint, DirX, DirY, Vector3.Zero, inflatedRadius, debugColor);
+            DebugDraw3D.DrawHalfSphereY((Vector3)UpperPoint, LineNormal, Dir, Vector3.Zero, false, inflatedRadius, debugColor);
+            DebugDraw3D.DrawHalfSphereY((Vector3)LowerPoint, LineNormal, Dir, Vector3.Zero, true, inflatedRadius, debugColor);
             DebugDraw3D.DrawLine((Vector3)UpperPoint, (Vector3)LowerPoint, debugColor);
             DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing, (Vector3)LowerPoint + LineSpacing, debugColor);
             DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing, (Vector3)LowerPoint - LineSpacing, debugColor);
@@ -89,10 +84,10 @@ namespace SharpCollisions.Sharp2D
             return UpdateCapsuleBoundingBox();
         }
 
-        public override void UpdatePoints(SharpBody2D body)
+        public override void UpdatePoints(FixVector2 position, Fix64 rotation)
         {
-            UpdateCapsulePoints(body);
-            base.UpdatePoints(body);
+            UpdateCapsulePoints(position, rotation);
+            base.UpdatePoints(position, rotation);
         }
 
 		public override FixVector2 Support(FixVector2 direction)

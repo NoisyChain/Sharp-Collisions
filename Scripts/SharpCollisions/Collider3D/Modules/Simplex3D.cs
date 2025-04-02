@@ -24,15 +24,12 @@ namespace SharpCollisions.Sharp3D.GJK
 
         public void MoveForward(SupportPoint3D newPoint)
         {
-            //List<FixVector3> TempPoints = new List<FixVector3>()
-            //{ newPoint, Points[0], Points[1] , Points[2]};
-            //Points = TempPoints;
             Points[3] = Points[2];
             Points[2] = Points[1];
             Points[1] = Points[0];
             Points[0] = newPoint;
-            Size++;
-            if (Size > 4) Size = 4;
+
+            if (Size < 4) Size++;
         }
 
         public void Reset(List<SupportPoint3D> newPoints)

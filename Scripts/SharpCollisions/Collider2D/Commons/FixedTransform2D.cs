@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using FixMath.NET;
 
 namespace SharpCollisions.Sharp2D
@@ -6,9 +7,16 @@ namespace SharpCollisions.Sharp2D
     [Tool] [GlobalClass]
     public partial class FixedTransform2D : SharpNode
     {
+        [Export] private Node3D Renderer;
+        //private Node2D Renderer2D;
         public FixedTransform2D Parent;
+        public Array<FixedTransform2D> Children;
+        [Export] public Vector2I fixedPosition;
+        [Export] public int fixedRotation;
         public FixVector2 FixedPosition;
         public Fix64 FixedRotation;
+        public FixVector2 LocalFixedPosition;
+        public Fix64 LocalFixedRotation;
 
         public FixVector2 Right => FixVector2.Rotate(FixVector2.Right, FixedRotation);
         public FixVector2 Up => FixVector2.Rotate(FixVector2.Up, FixedRotation);
@@ -19,24 +27,46 @@ namespace SharpCollisions.Sharp2D
         {
             base._Ready();
 
-            FixedPosition = (FixVector2)GlobalPosition;
-            FixedRotation = (Fix64)GlobalRotation.Z;
-            Parent = GetParent<Node3D>() as FixedTransform2D;
-            GD.Print(Parent != null ? Parent.Name : "No parent found.");
+            FixedPosition = new FixVector2(
+                (Fix64)fixedPosition.X / NodeScale,
+                (Fix64)fixedPosition.Y / NodeScale
+            );
+            FixedRotation = (Fix64)fixedRotation / NodeRotation;
+            FixedRotation *= Fix64.DegToRad;
+
+            //Parent = GetParent<Node3D>() as FixedTransform2D;
+            //GD.Print(Parent != null ? Parent.Name : "No parent found.");
         }
 
         public override void _Process(double delta)
         {
-            if (Engine.IsEditorHint()) return;
-
-            GlobalPosition = (Vector3)FixedPosition;
-            GlobalRotation = new Vector3(0, 0, (float)FixedRotation);
+            base._Process(delta);
+            if (Engine.IsEditorHint()) PreviewNode();
         }
 
-        /*public override void _FixedPreProcess(Fix64 delta)
+        public override void RenderNode()
         {
-            TransformWithParent();
-        }*/
+            if (Renderer == null) return;
+
+            Renderer.Visible = Active;
+			
+			Renderer.GlobalPosition = (Vector3)FixedPosition;
+			Renderer.GlobalRotation = new Vector3(0, 0, (float)FixedRotation);
+        }
+
+        public override void PreviewNode()
+        {
+            if (Renderer == null) return;
+
+            Renderer.Visible = Active;
+
+			Renderer.GlobalPosition = new Vector3(
+				fixedPosition.X / (float)nodeScale,
+				fixedPosition.Y / (float)nodeScale,
+				0
+			);
+			Renderer.GlobalRotationDegrees = new Vector3(0,	0,	fixedRotation / (float)NodeRotation);
+        }
 
         public void SetParent(FixedTransform2D newParent)
         {

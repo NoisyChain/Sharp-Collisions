@@ -79,14 +79,13 @@ namespace SharpCollisions.Sharp3D
 			for (int i = 0; i < bodies.Count; i++)
 			{
 				SharpBody3D bodyA = bodies[i];
-				bodyA.Collider.collisionFlags.Clear();
-				bodyA.Collider.globalCollisionFlags.Clear();
+				bodyA.ClearFlags();
 
 				for (int j = i + 1; j < bodies.Count; j++)
 				{
 					SharpBody3D bodyB = bodies[j];
 					
-					if (!bodyA.Visible || !bodyB.Visible)
+					if (!bodyA.Active || !bodyB.Active)
 					{ ClearCollision(bodyA, bodyB); continue; }
 					if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2)
 					{ ClearCollision(bodyA, bodyB); continue; }
@@ -94,14 +93,8 @@ namespace SharpCollisions.Sharp3D
 					{ ClearCollision(bodyA, bodyB); continue; }
 					if (!CompareLayers(bodyA, bodyB))
 					{ ClearCollision(bodyA, bodyB); continue; }
-
-					if (!bodyA.Collider.BoundingBox.IsOverlapping(bodyB.Collider.BoundingBox))
-					{ ClearCollision(bodyA, bodyB); continue; }
-
-					PossibleCollisions.Add(new PossibleCollision(
-						i, j,
-						GetCollisionDistance(bodyA.Collider, bodyB.Collider)
-					));
+					//Check every collider in each body
+					CheckColliders(bodyA, bodyB, i, j);
 
 					bodyA.Collisions.Clear();
 					bodyB.Collisions.Clear();
@@ -114,14 +107,37 @@ namespace SharpCollisions.Sharp3D
 			PossibleCollisions.Sort((a, b) => a.BodyA.CompareTo(b.BodyA));
 		}
 
+		private void CheckColliders(SharpBody3D bodyA, SharpBody3D bodyB, int indA, int indB)
+		{
+			if (!bodyA.HasColliders() || !bodyB.HasColliders()) return;
+
+			for (int i = 0; i < bodyA.Colliders.Length; i++)
+			{
+				for (int j = 0; j < bodyB.Colliders.Length; j++)
+				{
+					if (!bodyA.Colliders[i].Active || !bodyB.Colliders[j].Active)
+					{ ClearCollision(bodyA, bodyB); continue; }
+					if (!bodyA.Colliders[i].BoundingBox.IsOverlapping(bodyB.Colliders[j].BoundingBox))
+					{ ClearCollision(bodyA, bodyB); continue; }
+
+					PossibleCollisions.Add(new PossibleCollision(
+						indA, indB, i, j,
+						GetCollisionDistance(bodyA.Colliders[i], bodyB.Colliders[j])
+					));
+				}
+			}
+		}
+
 		private void NarrowPhase()
 		{
 			for(int i = 0; i < PossibleCollisions.Count; i ++)
 			{
 				SharpBody3D bodyA = bodies[PossibleCollisions[i].BodyA];
 				SharpBody3D bodyB = bodies[PossibleCollisions[i].BodyB];
+				int colIndA = PossibleCollisions[i].ColliderA;
+				int colIndB = PossibleCollisions[i].ColliderB;
 
-				if (bodyA.Collider.IsOverlapping(bodyB.Collider, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint))
+				if (bodyA.Colliders[colIndA].IsOverlapping(bodyB.Colliders[colIndB], out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint))
 				{
 					if (!bodyA.isTrigger && !bodyB.isTrigger)
 					{
@@ -144,23 +160,16 @@ namespace SharpCollisions.Sharp3D
 
 						//ResolvePhysics(bodyA, bodyB, Normal);
 					}
-					CollisionManifold3D collisionA = new CollisionManifold3D
-					(
-						bodyB, -Normal, Depth, ContactPoint
-					);
-					CollisionManifold3D collisionB = new CollisionManifold3D
-					(
-						bodyA, Normal, Depth, ContactPoint
-					);
-					bodyA.Collisions.Add(collisionA);
-					bodyB.Collisions.Add(collisionB);
+
+					bodyA.Collisions.Add(new CollisionManifold3D(bodyB, -Normal, Depth, ContactPoint));
+					bodyB.Collisions.Add(new CollisionManifold3D(bodyA, Normal, Depth, ContactPoint));
 
 					if (!bodyA.isTrigger && !bodyB.isTrigger)
 					{
-						bodyA.Collider.collisionFlags = bodyA.Collider.GetCollisionFlags(collisionA, bodyA);
-						bodyB.Collider.collisionFlags = bodyB.Collider.GetCollisionFlags(collisionB, bodyB);
-						bodyA.Collider.globalCollisionFlags = bodyA.Collider.GetGlobalCollisionFlags(collisionA);
-						bodyB.Collider.globalCollisionFlags = bodyB.Collider.GetGlobalCollisionFlags(collisionB);
+						bodyA.Colliders[colIndA].GetCollisionFlags(-Normal, bodyA);
+						bodyB.Colliders[colIndB].GetCollisionFlags(Normal, bodyB);
+						bodyA.Colliders[colIndA].GetGlobalCollisionFlags(-Normal);
+						bodyB.Colliders[colIndB].GetGlobalCollisionFlags(Normal);
 					}
 					
 					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].BodyA, PossibleCollisions[i].BodyB, true)))
@@ -205,7 +214,6 @@ namespace SharpCollisions.Sharp3D
 			bodyA.Collisions.Clear();
 			//bodyB.Collisions.Clear();
 		}
-
 
 		private void MoveBodies(int steps, int iterations)
 		{

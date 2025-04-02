@@ -7,18 +7,21 @@ namespace SharpCollisions.Sharp2D
 	public partial class SharpCollider2D  : Node
 	{
 		[Export] public bool Active = true;
-		[Export] protected Vector2 offset;
+		[Export] protected Vector2I positionOffset;
+		[Export] protected int rotationOffset;
 		[Export] public Color debugColor = new Color(0, 0, 1);
 		[Export] protected bool DrawDebug;
 		public CollisionFlags collisionFlags;
 		public CollisionFlags globalCollisionFlags;
 		public CollisionType2D Shape = CollisionType2D.Null;
 		public FixVector2 Position;
-		public FixVector2 Offset;
+		public FixVector2 PositionOffset;
+		public Fix64 RotationOffset;
 		public FixVector2 Center;
 		public FixRect BoundingBox;
 
-		protected bool CollisionRequireUpdate = true;
+		protected bool PositionRequireUpdate = true;
+		protected bool RotationRequireUpdate = true;
 		protected bool BoundingBoxRequireUpdate = true;
 
 		/*public SharpCollider2D(){}
@@ -36,10 +39,20 @@ namespace SharpCollisions.Sharp2D
 
 		public virtual void Initialize()
 		{
-			Offset = (FixVector2)offset;
+			PositionOffset = new FixVector2(
+				(Fix64)positionOffset.X  / SharpNode.NodeScale,
+				(Fix64)positionOffset.Y  / SharpNode.NodeScale
+			);
+			RotationOffset = (Fix64)rotationOffset / SharpNode.NodeRotation;
+			RotationOffset *= Fix64.DegToRad;
 		}
 
 		public virtual void DebugDrawShapes(SharpBody2D reference)
+		{
+
+		}
+
+		public virtual void DebugDrawShapesEditor(SharpBody2D reference)
 		{
 
 		}
@@ -82,36 +95,28 @@ namespace SharpCollisions.Sharp2D
 			return false;
 		}
 
-		public CollisionFlags GetCollisionFlags(CollisionManifold2D collisiondData, SharpBody2D body)
+		public void GetCollisionFlags(FixVector2 normal, SharpBody2D body)
 		{
-			CollisionFlags flag = collisionFlags;
-
-			if (FixVector2.Dot(collisiondData.Normal, body.Up) > Fix64.Epsilon)
-				flag.Below = true;
-			if (FixVector2.Dot(collisiondData.Normal, body.Down) > Fix64.Epsilon)
-				flag.Above = true;
-			if (FixVector2.Dot(collisiondData.Normal, body.Left) > Fix64.Epsilon)
-				flag.Right = true;
-			if (FixVector2.Dot(collisiondData.Normal, body.Right) > Fix64.Epsilon)
-				flag.Left = true;
-			
-			return flag;
+			if (FixVector2.Dot(normal, body.Up) > Fix64.Epsilon)
+				collisionFlags.Below = true;
+			if (FixVector2.Dot(normal, body.Down) > Fix64.Epsilon)
+				collisionFlags.Above = true;
+			if (FixVector2.Dot(normal, body.Left) > Fix64.Epsilon)
+				collisionFlags.Right = true;
+			if (FixVector2.Dot(normal, body.Right) > Fix64.Epsilon)
+				collisionFlags.Left = true;
 		}
 
-		public CollisionFlags GetGlobalCollisionFlags(CollisionManifold2D collisiondData)
+		public void GetGlobalCollisionFlags(FixVector2 normal)
 		{
-			CollisionFlags flag = collisionFlags;
-
-			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Up) > Fix64.Epsilon)
-				flag.Below = true;
-			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Down) > Fix64.Epsilon)
-				flag.Above = true;
-			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Left) > Fix64.Epsilon)
-				flag.Right = true;
-			if (FixVector2.Dot(collisiondData.Normal, FixVector2.Right) > Fix64.Epsilon)
-				flag.Left = true;
-			
-			return flag;
+			if (FixVector2.Dot(normal, FixVector2.Up) > Fix64.Epsilon)
+				globalCollisionFlags.Below = true;
+			if (FixVector2.Dot(normal, FixVector2.Down) > Fix64.Epsilon)
+				globalCollisionFlags.Above = true;
+			if (FixVector2.Dot(normal, FixVector2.Left) > Fix64.Epsilon)
+				globalCollisionFlags.Right = true;
+			if (FixVector2.Dot(normal, FixVector2.Right) > Fix64.Epsilon)
+				globalCollisionFlags.Left = true;
 		}
 
 		public virtual FixVector2 Support(FixVector2 direction)
@@ -121,6 +126,8 @@ namespace SharpCollisions.Sharp2D
 		
 		public void UpdateBoundingBox()
 		{
+			//if (!BoundingBoxRequireUpdate) return;
+
 			BoundingBox = GetBoundingBoxPoints();
 			BoundingBoxRequireUpdate = false;
 		}
@@ -130,10 +137,10 @@ namespace SharpCollisions.Sharp2D
 			return new FixRect();
 		}
 
-		public virtual void UpdatePoints(SharpBody2D body)
+		public virtual void UpdatePoints(FixVector2 position, Fix64 rotation)
 		{
-			Center = FixVector2.Transform(Offset, body);
-			CollisionRequireUpdate = false;
+			Center = FixVector2.Transform(PositionOffset, position, rotation);
+			PositionRequireUpdate = false;
 		}
 
 		public static void LineToLineDistance(FixVector2 p1, FixVector2 p2, FixVector2 p3, FixVector2 p4, out FixVector2 r1, out FixVector2 r2)

@@ -19,26 +19,38 @@ height = 0.6
 radial_segments = 16
 rings = 6
 
-[node name="Body" type="Node3D" node_paths=PackedStringArray("Collider")]
+[node name="Body" type="Node" node_paths=PackedStringArray("debug", "Colliders", "Renderer")]
 script = ExtResource("3")
-Collider = NodePath("Collider")
+debug = NodePath("Debug/DebugText")
+Colliders = [NodePath("Collider")]
+Renderer = NodePath("Graphics")
 
 [node name="Collider" type="Node" parent="."]
 script = ExtResource("2_bk3aq")
-radius = 0.3
-height = 0.6
-AxisDirection = 1
-offset = Vector3(0, 0.6, 0)
+radius = 300
+height = 600
+positionOffset = Vector3i(0, 600, 0)
 DrawDebug = true
 
 [node name="Graphics" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
-visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Graphics"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
 mesh = SubResource("CapsuleMesh_oe6u2")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Graphics"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.620119, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("SphereMesh_03unl")
+
+[node name="Debug" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DebugText" type="Label" parent="Debug"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

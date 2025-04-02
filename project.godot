@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Sharp Collisions 4"
 config/tags=PackedStringArray("experiment", "high_priority", "library")
-run/main_scene="res://Scenes/TestScene3D.tscn"
+run/main_scene="res://Scenes/Menu.tscn"
 config/features=PackedStringArray("4.3", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -60,3 +60,11 @@ jump={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+
+[sharp_collisions]
+
+settings/ticks_per_seconds=60
+settings/substeps=4
+settings/run_on_dedicated_thread=false
+settings/gjk_max_iterations=32
+settings/epa_max_iterations=32

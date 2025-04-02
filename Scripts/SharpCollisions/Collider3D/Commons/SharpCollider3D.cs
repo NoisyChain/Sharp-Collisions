@@ -7,14 +7,16 @@ namespace SharpCollisions.Sharp3D
 	public partial class SharpCollider3D : Node
 	{
 		[Export] public bool Active = true;
-		[Export] protected Vector3 offset;
+		[Export] protected Vector3I positionOffset;
+		[Export] protected Vector3I rotationOffset;
 		[Export] public Color debugColor = new Color(0, 0, 1);
 		[Export] protected bool DrawDebug;
 		public CollisionFlags collisionFlags;
 		public CollisionFlags globalCollisionFlags;
 		public CollisionType3D Shape = CollisionType3D.Null;
 		public FixVector3 Position;
-		public FixVector3 Offset;
+		public FixVector3 PositionOffset;
+		public FixVector3 RotationOffset;
 		public FixVector3 Center;
 		public FixVolume BoundingBox;
 
@@ -41,13 +43,26 @@ namespace SharpCollisions.Sharp3D
 
 		public virtual void Initialize()
 		{
-			Offset = (FixVector3)offset;
+			PositionOffset = new FixVector3(
+                (Fix64)positionOffset.X / SharpNode.NodeScale,
+                (Fix64)positionOffset.Y / SharpNode.NodeScale,
+                (Fix64)positionOffset.Z / SharpNode.NodeScale
+            );
+
+            RotationOffset = new FixVector3(
+                (Fix64)rotationOffset.X / SharpNode.NodeRotation,
+                (Fix64)rotationOffset.Y / SharpNode.NodeRotation,
+                (Fix64)rotationOffset.Z / SharpNode.NodeRotation
+            );
+
+			RotationOffset *= Fix64.DegToRad;
+			//PositionOffset = (FixVector3)positionOffset;
+			//RotationOffset = (FixVector3)rotationOffset;
 		}
 
-		public virtual void DebugDrawShapes(SharpBody3D reference)
-		{
+		public virtual void DebugDrawShapesEditor(SharpBody3D reference) {}
 
-		}
+		public virtual void DebugDrawShapes(SharpBody3D reference) {}
 
 		public bool IsOverlapping(SharpCollider3D other, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint)
 		{
@@ -70,44 +85,36 @@ namespace SharpCollisions.Sharp3D
 			return false;
 		}
 
-		public CollisionFlags GetCollisionFlags(CollisionManifold3D collisiondData, SharpBody3D body)
+		public void GetCollisionFlags(FixVector3 normal, SharpBody3D body)
 		{
-			CollisionFlags flag = collisionFlags;
-
-			if (FixVector3.Dot(collisiondData.Normal, body.Up) > Fix64.Epsilon)
-				flag.Below = true;
-			if (FixVector3.Dot(collisiondData.Normal, body.Down) > Fix64.Epsilon)
-				flag.Above = true;
-			if (FixVector3.Dot(collisiondData.Normal, body.Left) > Fix64.Epsilon)
-				flag.Right = true;
-			if (FixVector3.Dot(collisiondData.Normal, body.Right) > Fix64.Epsilon)
-				flag.Left = true;
-            if (FixVector3.Dot(collisiondData.Normal, body.Back) > Fix64.Epsilon)
-				flag.Forward = true;
-			if (FixVector3.Dot(collisiondData.Normal, body.Forward) > Fix64.Epsilon)
-				flag.Back = true;
-			
-			return flag;
+			if (FixVector3.Dot(normal, body.Up) > Fix64.Epsilon)
+				collisionFlags.Below = true;
+			if (FixVector3.Dot(normal, body.Down) > Fix64.Epsilon)
+				collisionFlags.Above = true;
+			if (FixVector3.Dot(normal, body.Left) > Fix64.Epsilon)
+				collisionFlags.Right = true;
+			if (FixVector3.Dot(normal, body.Right) > Fix64.Epsilon)
+				collisionFlags.Left = true;
+            if (FixVector3.Dot(normal, body.Back) > Fix64.Epsilon)
+				collisionFlags.Forward = true;
+			if (FixVector3.Dot(normal, body.Forward) > Fix64.Epsilon)
+				collisionFlags.Back = true;
 		}
 
-		public CollisionFlags GetGlobalCollisionFlags(CollisionManifold3D collisiondData)
+		public void GetGlobalCollisionFlags(FixVector3 normal)
 		{
-			CollisionFlags flag = collisionFlags;
-
-			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Up) > Fix64.Epsilon)
-				flag.Below = true;
-			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Down) > Fix64.Epsilon)
-				flag.Above = true;
-			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Left) > Fix64.Epsilon)
-				flag.Right = true;
-			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Right) > Fix64.Epsilon)
-				flag.Left = true;
-            if (FixVector3.Dot(collisiondData.Normal, FixVector3.Back) > Fix64.Epsilon)
-				flag.Forward = true;
-			if (FixVector3.Dot(collisiondData.Normal, FixVector3.Forward) > Fix64.Epsilon)
-				flag.Back = true;
-			
-			return flag;
+			if (FixVector3.Dot(normal, FixVector3.Up) > Fix64.Epsilon)
+				globalCollisionFlags.Below = true;
+			if (FixVector3.Dot(normal, FixVector3.Down) > Fix64.Epsilon)
+				globalCollisionFlags.Above = true;
+			if (FixVector3.Dot(normal, FixVector3.Left) > Fix64.Epsilon)
+				globalCollisionFlags.Right = true;
+			if (FixVector3.Dot(normal, FixVector3.Right) > Fix64.Epsilon)
+				globalCollisionFlags.Left = true;
+            if (FixVector3.Dot(normal, FixVector3.Back) > Fix64.Epsilon)
+				globalCollisionFlags.Forward = true;
+			if (FixVector3.Dot(normal, FixVector3.Forward) > Fix64.Epsilon)
+				globalCollisionFlags.Back = true;
 		}
 
 		public virtual FixVector3 Support(FixVector3 direction)
@@ -126,9 +133,15 @@ namespace SharpCollisions.Sharp3D
 			return new FixVolume();
 		}
 
-		public virtual void UpdatePoints(SharpBody3D body)
+		/*public virtual void UpdatePoints(SharpBody3D body)
 		{
-			Center = FixVector3.Transform(Offset, body);
+			Center = FixVector3.Transform(PositionOffset, body);
+			CollisionRequireUpdate = false;
+		}*/
+
+		public virtual void UpdatePoints(FixVector3 position, FixVector3 rotation)
+		{
+			Center = FixVector3.Transform(PositionOffset, position, rotation);
 			CollisionRequireUpdate = false;
 		}
 

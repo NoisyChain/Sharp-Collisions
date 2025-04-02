@@ -6,6 +6,7 @@ extends Node3D
 @export var update_in_physics := false
 @export var test_text := true
 @export var test_graphs := false
+@export var test_fps_graph := true
 @export var more_test_cases := true
 @export var draw_array_of_boxes := false
 @export var draw_1m_boxes := false
@@ -111,12 +112,19 @@ func main_update(delta: float) -> void:
 		DebugDraw2D.set_text("Frames drawn", Engine.get_frames_drawn())
 		DebugDraw2D.set_text("FPS", Engine.get_frames_per_second())
 		DebugDraw2D.set_text("delta", delta)
+		
 		$HitTest.visible = false
 		$LagTest.visible = false
+		$PlaneOrigin.visible = false
+		$OtherWorld.visible = false
+		%ZDepthTestCube.visible = false
 		return
 	
 	$HitTest.visible = true
 	$LagTest.visible = true
+	$PlaneOrigin.visible = true
+	$OtherWorld.visible = true
+	%ZDepthTestCube.visible = true
 	
 	# Testing the rendering layers by showing the image from the second camera inside the 2D panel
 	DebugDraw3D.config.geometry_render_layers = 1 if !Input.is_key_pressed(KEY_ALT) else 0b10010
@@ -453,7 +461,7 @@ func _draw_array_of_boxes():
 					var size = Vector3.ONE
 					cfg.set_thickness(randf_range(0, 0.1))
 					#var size = Vector3(randf_range(0.1, 100),randf_range(0.1, 100),randf_range(0.1, 100))
-					DebugDraw3D.draw_box(Vector3(x * mul, (-4-z) * mul, y * mul), Quaternion.IDENTITY, size, DebugDraw3D.empty_color, false, cubes_max_time)
+					DebugDraw3D.draw_box(Vector3(x * mul, (-4-z) * mul, y * mul) + global_position, Quaternion.IDENTITY, size, DebugDraw3D.empty_color, false, cubes_max_time)
 		#print("Draw Cubes: %fms" % ((Time.get_ticks_usec() - _start_time) / 1000.0))
 		timer_cubes = cubes_max_time
 
@@ -533,6 +541,8 @@ func _get_sin_wave_for_graph() -> float:
 
 
 func _remove_graphs():
+	if not test_fps_graph:
+		DebugDraw2D.remove_graph(&"FPS")
 	DebugDraw2D.remove_graph(&"randf")
 	DebugDraw2D.remove_graph(&"fps")
 	DebugDraw2D.remove_graph(&"fps2")

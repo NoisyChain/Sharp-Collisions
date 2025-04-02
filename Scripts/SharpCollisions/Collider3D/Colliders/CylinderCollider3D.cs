@@ -13,44 +13,32 @@ namespace SharpCollisions.Sharp3D
 		public FixVector3 UpperPoint;
 		public FixVector3 LowerPoint;
 
-        [Export] protected float radius;
-        [Export] protected float height;
-        [Export(PropertyHint.Enum, "X-Axis,Y-Axis,Z-Axix")]
-		private int AxisDirection = 0;
+        [Export] protected int radius;
+        [Export] protected int height;
 
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)radius;
-            Height = (Fix64)height;
+            Radius = (Fix64)radius / SharpNode.NodeScale;
+            Height = (Fix64)height / SharpNode.NodeScale;
             Shape = CollisionType3D.Cylinder;
             CreateCylinderPoints();
         }
 
         private void CreateCylinderPoints()
         {
-            FixVector3 CapsuleDirection = FixVector3.Zero;
+            FixVector3 CapsuleDirection = new FixVector3(Fix64.Zero, Fix64.Zero, Height);
 
-            switch (AxisDirection)
-            {
-                case 0:
-                    CapsuleDirection = new FixVector3(Height, Fix64.Zero, Fix64.Zero);
-                    break;
-                case 1:
-                    CapsuleDirection = new FixVector3(Fix64.Zero, Height, Fix64.Zero);
-                    break;
-                case 2:
-                    CapsuleDirection = new FixVector3(Fix64.Zero, Fix64.Zero, Height);
-                    break;
-            }
-			RawUpperPoint = Offset + CapsuleDirection;
-			RawLowerPoint = Offset - CapsuleDirection;
+			RawUpperPoint = CapsuleDirection;
+			RawLowerPoint = -CapsuleDirection;
         }
 
-        private void UpdateCylinderPoints(SharpBody3D body)
+        private void UpdateCylinderPoints(FixVector3 position, FixVector3 rotation)
         {
-            UpperPoint = FixVector3.Transform(RawUpperPoint, body);
-			LowerPoint = FixVector3.Transform(RawLowerPoint, body);
+            UpperPoint = FixVector3.Rotate(RawUpperPoint, RotationOffset);
+			LowerPoint = FixVector3.Rotate(RawLowerPoint, RotationOffset);
+            UpperPoint = FixVector3.Transform(UpperPoint + PositionOffset, position, rotation);
+			LowerPoint = FixVector3.Transform(LowerPoint + PositionOffset, position, rotation);
         }
 
         public override void DebugDrawShapes(SharpBody3D reference)
@@ -66,10 +54,10 @@ namespace SharpCollisions.Sharp3D
             return UpdateCylinderBoundingBox();
         }
 
-        public override void UpdatePoints(SharpBody3D body)
+        public override void UpdatePoints(FixVector3 position, FixVector3 rotation)
         {
-            UpdateCylinderPoints(body);
-            base.UpdatePoints(body);
+            UpdateCylinderPoints(position, rotation);
+            base.UpdatePoints(position, rotation);
         }
 
 		public override FixVector3 Support(FixVector3 direction)

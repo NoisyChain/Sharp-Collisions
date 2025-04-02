@@ -8,12 +8,15 @@ namespace SharpCollisions.Sharp2D
     {
         public FixVector2 Extents;
 
-        [Export] private Vector2 extents = Vector2.One;
+        [Export] private Vector2I extents = Vector2I.One;
 
         public override void Initialize()
         {
             base.Initialize();
-            Extents = (FixVector2)extents;
+            Extents = new FixVector2(
+                (Fix64)extents.X / SharpNode.NodeScale,
+                (Fix64)extents.Y / SharpNode.NodeScale
+            );
             Shape = CollisionType2D.AABB;
         }
 
@@ -57,9 +60,9 @@ namespace SharpCollisions.Sharp2D
             return UpdateAABBBoundingBox();
         }
 
-        public override void UpdatePoints(SharpBody2D body)
+        public override void UpdatePoints(FixVector2 position, Fix64 rotation)
         {
-            base.UpdatePoints(body);
+            base.UpdatePoints(position, rotation);
         }
 
         public FixRect UpdateAABBBoundingBox()

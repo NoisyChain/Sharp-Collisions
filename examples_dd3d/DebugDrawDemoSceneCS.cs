@@ -9,17 +9,20 @@ public partial class DebugDrawDemoSceneCS : Node3D
     Random random = new Random();
 
     [Export] Font custom_font;
+    [Export] Font custom_3d_font;
     [Export] bool zylann_example = false;
     [Export] bool update_in_physics = false;
     [Export] bool test_text = true;
-    [Export] bool test_graphs = false;
     [Export] bool more_test_cases = true;
+    [Export] bool draw_3d_text = true;
     [Export] bool draw_array_of_boxes = false;
+    [Export] bool draw_text_with_boxes = false;
     [Export] bool draw_1m_boxes = false;
     [Export(PropertyHint.Range, "0, 5, 0.001")] float debug_thickness = 0.1f;
     [Export(PropertyHint.Range, "0, 1")] float camera_frustum_scale = 0.9f;
 
     [ExportGroup("Text groups", "text_groups")]
+    [Export] bool text_groups_show_examples = true;
     [Export] bool text_groups_show_hints = true;
     [Export] bool text_groups_show_stats = true;
     [Export] bool text_groups_show_stats_2d = true;
@@ -29,17 +32,6 @@ public partial class DebugDrawDemoSceneCS : Node3D
     [Export(PropertyHint.Range, "1, 100")] int text_groups_default_font_size = 15;
     [Export(PropertyHint.Range, "1, 100")] int text_groups_title_font_size = 20;
     [Export(PropertyHint.Range, "1, 100")] int text_groups_text_font_size = 17;
-
-    [ExportGroup("Graphs", "graph")]
-    [Export] Vector2I graph_offset = new Vector2I(8, 8);
-    [Export] Vector2I graph_size = new Vector2I(200, 80);
-    [Export(PropertyHint.Range, "1, 100")] int graph_title_font_size = 14;
-    [Export(PropertyHint.Range, "1, 100")] int graph_text_font_size = 12;
-    [Export(PropertyHint.Range, "0, 64")] int graph_text_precision = 1;
-    [Export(PropertyHint.Range, "1, 32")] float graph_line_width = 1.0f;
-    [Export(PropertyHint.Range, "1, 512")] int graph_buffer_size = 128;
-    [Export] bool graph_frame_time_mode = true;
-    [Export] bool graph_is_enabled = true;
 
     Dictionary<Key, int> button_presses = new Dictionary<Key, int>() {
         { Key.Left, 0 },
@@ -56,127 +48,9 @@ public partial class DebugDrawDemoSceneCS : Node3D
     double timer_3 = 0.0;
     double timer_text = 0.0;
 
-    // TODO remove after moving to 4.2
-    bool is_4_2_and_higher = ((int)Engine.GetVersionInfo()["major"]) >= 4 && ((int)Engine.GetVersionInfo()["minor"]) >= 2;
-
-    Node3D dHitTest;
-    CsgBox3D dLagTest;
-    PanelContainer dPanel;
-    Node3D dZones;
-    Node3D dSpherePosition;
-    Node3D dSphereTransform;
-    Node3D dSphereHDTransform;
-    Node3D dAABB;
-    Node3D dAABB_fixed;
-    Node3D dBox1;
-    Node3D dBox2;
-    Node3D dBox3;
-    Node3D dBoxAB;
-    Node3D dBoxABa;
-    Node3D dBoxABb;
-    Node3D dBoxABup;
-    Node3D dBoxABEdge;
-    Node3D dBoxABEdgea;
-    Node3D dBoxABEdgeb;
-    Node3D dBoxABEdgeup;
-    Node3D dLines_1;
-    Node3D dLines_2;
-    Node3D dLines_3;
-    Node3D dLines_4;
-    Node3D dLines_5;
-    Node3D dLines_6;
-    Node3D dLines_7;
-    Node3D dLines_8;
-    Node3D dLines_Target;
-    Node3D dLinePath;
-    Node3D dCylinder1;
-    Node3D dCylinder2;
-    Node3D dCylinder3a;
-    Node3D dCylinder3b;
-
-    MeshInstance3D dOtherWorld;
-    SubViewport dOtherWorldViewport;
-    Node3D dOtherWorldBox;
-
-    Control dCustomCanvas;
-    Node3D dMisc_Arrow;
-    Camera3D dCamera;
-    Node3D dMisc_Billboard;
-    Node3D dMisc_Position;
-    Node3D dMisc_GizmoTransform;
-    Node3D dMisc_GizmoNormal;
-    Node3D dMisc_GizmoOneColor;
-
-    Node3D dMisc_Grids_Grid;
-    Node3D dMisc_Grids_Grid_Subdivision;
-    Node3D dMisc_Grids_GridCentered_Subdivision;
-    Node3D dMisc_Grids_GridCentered;
-
-    MeshInstance3D dPostProcess;
-    AnimationPlayer dLagTest_RESET;
-    Node3D dHitTest_RayEmitter;
-
-
     public override async void _Ready()
     {
-        dHitTest = GetNode<Node3D>("HitTest");
-        dLagTest = GetNode<CsgBox3D>("LagTest");
-        dPanel = GetNode<PanelContainer>("Panel");
-        dZones = GetNode<Node3D>("Zones");
-        dSpherePosition = GetNode<Node3D>("Spheres/SpherePosition");
-        dSphereTransform = GetNode<Node3D>("Spheres/SphereTransform");
-        dSphereHDTransform = GetNode<Node3D>("Spheres/SphereHDTransform");
-        dAABB = GetNode<Node3D>("Boxes/AABB");
-        dAABB_fixed = GetNode<Node3D>("Boxes/AABB_fixed");
-        dBox1 = GetNode<Node3D>("Boxes/Box1");
-        dBox2 = GetNode<Node3D>("Boxes/Box2");
-        dBox3 = GetNode<Node3D>("Boxes/Box3");
-        dBoxAB = GetNode<Node3D>("Boxes/BoxAB");
-        dBoxABa = GetNode<Node3D>("Boxes/BoxAB/a");
-        dBoxABb = GetNode<Node3D>("Boxes/BoxAB/b");
-        dBoxABup = GetNode<Node3D>("Boxes/BoxAB/o/up");
-        dBoxABEdge = GetNode<Node3D>("Boxes/BoxABEdge");
-        dBoxABEdgea = GetNode<Node3D>("Boxes/BoxABEdge/a");
-        dBoxABEdgeb = GetNode<Node3D>("Boxes/BoxABEdge/b");
-        dBoxABEdgeup = GetNode<Node3D>("Boxes/BoxABEdge/o/up");
-        dLines_1 = GetNode<Node3D>("Lines/1");
-        dLines_2 = GetNode<Node3D>("Lines/2");
-        dLines_3 = GetNode<Node3D>("Lines/3");
-        dLines_4 = GetNode<Node3D>("Lines/4");
-        dLines_5 = GetNode<Node3D>("Lines/5");
-        dLines_6 = GetNode<Node3D>("Lines/6");
-        dLines_7 = GetNode<Node3D>("Lines/7");
-        dLines_8 = GetNode<Node3D>("Lines/8");
-        dLines_Target = GetNode<Node3D>("Lines/Target");
-        dLinePath = GetNode<Node3D>("LinePath");
-        dCylinder1 = GetNode<Node3D>("Cylinders/Cylinder1");
-        dCylinder2 = GetNode<Node3D>("Cylinders/Cylinder2");
-        dCylinder3a = GetNode<Node3D>("Cylinders/Cylinder3/1");
-        dCylinder3b = GetNode<Node3D>("Cylinders/Cylinder3/2");
-
-        dOtherWorld = GetNode<MeshInstance3D>("OtherWorld");
-        dOtherWorldViewport = GetNode<SubViewport>("OtherWorld/SubViewport");
-        dOtherWorldBox = GetNode<Node3D>("OtherWorld/SubViewport/OtherWorldBox");
-
-        dCustomCanvas = GetNode<Control>("CustomCanvas");
-        dMisc_Arrow = GetNode<Node3D>("Misc/Arrow");
-        dCamera = GetNode<Camera3D>("Camera");
-        dMisc_Billboard = GetNode<Node3D>("Misc/Billboard");
-        dMisc_Position = GetNode<Node3D>("Misc/Position");
-        dMisc_GizmoTransform = GetNode<Node3D>("Misc/GizmoTransform");
-        dMisc_GizmoNormal = GetNode<Node3D>("Misc/GizmoNormal");
-        dMisc_GizmoOneColor = GetNode<Node3D>("Misc/GizmoOneColor");
-
-        dMisc_Grids_Grid = GetNode<Node3D>("Grids/Grid");
-        dMisc_Grids_Grid_Subdivision = GetNode<Node3D>("Grids/Grid/Subdivision");
-        dMisc_Grids_GridCentered_Subdivision = GetNode<Node3D>("Grids/GridCentered/Subdivision");
-        dMisc_Grids_GridCentered = GetNode<Node3D>("Grids/GridCentered");
-
-        dPostProcess = GetNode<MeshInstance3D>("PostProcess");
-
-        dLagTest_RESET = GetNode<AnimationPlayer>("LagTest/RESET");
-        dHitTest_RayEmitter = GetNode<Node3D>("HitTest/RayEmitter");
-
+        _get_nodes();
         _update_keys_just_press();
 
         await new SignalAwaiter(GetTree(), "process_frame", this);
@@ -186,6 +60,7 @@ public partial class DebugDrawDemoSceneCS : Node3D
         if (!IsInsideTree())
             return;
 
+        DebugDraw2D.Config.TextBackgroundColor = new Color(0.3f, 0.3f, 0.3f, 0.8f);
     }
 
     bool _is_key_just_pressed(Key key)
@@ -267,14 +142,6 @@ public partial class DebugDrawDemoSceneCS : Node3D
     void MainUpdate(double delta)
     {
         DebugDraw3D.ScopedConfig().SetThickness(debug_thickness);
-#pragma warning disable CS0162 // Unreachable code detected
-        if (false) // #test
-        {
-            using var s11 = DebugDraw3D.NewScopedConfig().SetThickness(1);
-            using var s13 = DebugDraw3D.NewScopedConfig();
-            s13.SetThickness(3);
-        }
-#pragma warning restore CS0162 // Unreachable code detected
 
         _update_keys_just_press();
 
@@ -284,7 +151,6 @@ public partial class DebugDrawDemoSceneCS : Node3D
         // Zylann's example :D
         if (zylann_example)
         {
-            DebugDraw2D.ClearGraphs();
             var _time = Time.GetTicksMsec() / 1000.0f;
             var box_pos = new Vector3(0, Mathf.Sin(_time * 4f), 0);
             var line_begin = new Vector3(-1, Mathf.Sin(_time * 4f), 0);
@@ -295,13 +161,20 @@ public partial class DebugDrawDemoSceneCS : Node3D
             DebugDraw2D.SetText("Frames drawn", Engine.GetFramesDrawn());
             DebugDraw2D.SetText("FPS", Engine.GetFramesPerSecond());
             DebugDraw2D.SetText("delta", delta);
+
             dHitTest.Visible = false;
             dLagTest.Visible = false;
+            dPlaneOrigin.Visible = false;
+            pZDepthTestCube.Visible = false;
+            dOtherWorld.Visible = false;
             return;
         }
 
         dHitTest.Visible = true;
         dLagTest.Visible = true;
+        dPlaneOrigin.Visible = true;
+        pZDepthTestCube.Visible = true;
+        dOtherWorld.Visible = true;
 
         // Testing the rendering layers by showing the image from the second camera inside the 2D panel
         DebugDraw3D.Config.GeometryRenderLayers = !Input.IsKeyPressed(Key.Alt) ? 1 : 0b10010;
@@ -350,11 +223,13 @@ public partial class DebugDrawDemoSceneCS : Node3D
         }
 
         // Spheres
+        _draw_zone_title(pSpheresBox, "Spheres");
+
         DebugDraw3D.DrawSphereXf(dSphereTransform.GlobalTransform, Colors.Crimson);
         using (var _s1 = DebugDraw3D.NewScopedConfig().SetHdSphere(true))
             DebugDraw3D.DrawSphereXf(dSphereHDTransform.GlobalTransform, Colors.OrangeRed);
 
-        // Delayed spheres
+        /// Delayed spheres
         if (timer_1 <= 0)
         {
             DebugDraw3D.DrawSphere(dSpherePosition.GlobalPosition, 2.0f, Colors.BlueViolet, 2.0f);
@@ -366,11 +241,15 @@ public partial class DebugDrawDemoSceneCS : Node3D
         timer_1 -= delta;
 
         // Cylinders
+        _draw_zone_title(pCylindersBox, "Cylinders");
+
         DebugDraw3D.DrawCylinder(dCylinder1.GlobalTransform, Colors.Crimson);
         DebugDraw3D.DrawCylinder(new Transform3D(Basis.Identity.Scaled(new Vector3(1, 2, 1)), dCylinder2.GlobalPosition), Colors.Red);
         DebugDraw3D.DrawCylinderAb(dCylinder3a.GlobalPosition, dCylinder3b.GlobalPosition, 0.7f);
 
         // Boxes
+        _draw_zone_title(pBoxesBox, "Boxes");
+
         DebugDraw3D.DrawBoxXf(dBox1.GlobalTransform, Colors.MediumPurple);
         DebugDraw3D.DrawBox(dBox2.GlobalPosition, Quaternion.FromEuler(new Vector3(0, Mathf.DegToRad(45), Mathf.DegToRad(45))), Vector3.One, Colors.RebeccaPurple);
         DebugDraw3D.DrawBoxXf(new Transform3D(new Basis(Vector3.Up, Mathf.Pi * 0.25f).Scaled(Vector3.One * 2), dBox3.GlobalPosition), Colors.RosyBrown);
@@ -387,6 +266,8 @@ public partial class DebugDrawDemoSceneCS : Node3D
         DebugDraw3D.DrawBoxAb(dBoxABEdgea.GlobalPosition, dBoxABEdgeb.GlobalPosition, dBoxABEdgeup.GlobalPosition - dBoxABEdge.GlobalPosition, Colors.DarkOliveGreen, false);
 
         // Lines
+        _draw_zone_title(pLinesBox, "Lines");
+
         DebugDraw3D.DrawSquare(dLines_Target.GlobalPosition, 0.5f, Colors.Red);
 
         DebugDraw3D.DrawLine(dLines_1.GlobalPosition, dLines_Target.GlobalPosition, Colors.Fuchsia);
@@ -410,9 +291,10 @@ public partial class DebugDrawDemoSceneCS : Node3D
 
         DebugDraw3D.DrawLineHitOffset(dLines_5.GlobalPosition, dLines_Target.GlobalPosition, true, Mathf.Abs(Mathf.Sin(Time.GetTicksMsec() / 1000.0f)), 0.25f, Colors.Aqua);
 
-        // Path
+        // Paths
+        _draw_zone_title(pPathsBox, "Paths");
 
-        // preparing data
+        /// preparing data
         List<Vector3> points = new List<Vector3>();
         List<Vector3> points_below = new List<Vector3>();
         List<Vector3> points_below2 = new List<Vector3>();
@@ -438,7 +320,7 @@ public partial class DebugDrawDemoSceneCS : Node3D
             lines_above.Add(points[x + 1] + Vector3.Up);
         }
 
-        // drawing lines
+        /// drawing lines
         DebugDraw3D.DrawLines(lines_above.ToArray());
         DebugDraw3D.DrawLinePath(points.ToArray(), Colors.Beige);
         DebugDraw3D.DrawPoints(points_below.ToArray(), DebugDraw3D.PointType.TypeSquare, 0.2f, Colors.DarkGreen);
@@ -447,15 +329,9 @@ public partial class DebugDrawDemoSceneCS : Node3D
         using (var _sl = DebugDraw3D.NewScopedConfig().SetThickness(0.05f))
             DebugDraw3D.DrawPointPath(points_below4.ToArray(), DebugDraw3D.PointType.TypeSphere, 0.25f, Colors.MediumSeaGreen, Colors.MediumVioletRed);
 
-        // Other world
-
-        using (var s = DebugDraw3D.NewScopedConfig().SetViewport(dOtherWorldBox.GetViewport()))
-        {
-            DebugDraw3D.DrawBoxXf(dOtherWorldBox.GlobalTransform.RotatedLocal(new Vector3(1, 1, -1).Normalized(), Mathf.Wrap(Time.GetTicksMsec() / 1000.0f, 0f, Mathf.Tau)), Colors.SandyBrown);
-            DebugDraw3D.DrawBoxXf(dOtherWorldBox.GlobalTransform.RotatedLocal(new Vector3(-1, 1, -1).Normalized(), Mathf.Wrap(Time.GetTicksMsec() / 1000.0f, 0f, Mathf.Tau) - Mathf.Pi / 4), Colors.SandyBrown);
-        }
-
         // Misc
+        _draw_zone_title(pMiscBox, "Misc");
+
         if (Engine.IsEditorHint())
         {
             using var s = DebugDraw3D.NewScopedConfig().SetThickness(0);
@@ -478,12 +354,15 @@ public partial class DebugDrawDemoSceneCS : Node3D
             DebugDraw3D.DrawGizmo(dMisc_GizmoNormal.GlobalTransform.Orthonormalized(), null, false);
         }
 
-        Transform3D tg = dMisc_Grids_Grid.GlobalTransform;
-        Vector3 tn = dMisc_Grids_Grid_Subdivision.Transform.Origin;
+        // Grids
+        _draw_zone_title_pos(dGrids_GridCentered.GlobalPosition + new Vector3(0, 1.5f, 0), "Grids", 96, 36);
+
+        Transform3D tg = dGrids_Grid.GlobalTransform;
+        Vector3 tn = dGrids_Grid_Subdivision.Transform.Origin;
         DebugDraw3D.DrawGrid(tg.Origin, tg.Basis.X, tg.Basis.Z, new Vector2I((int)tn.X * 10, (int)tn.Z * 10), Colors.LightCoral, false);
 
-        var tn1 = dMisc_Grids_GridCentered_Subdivision.Transform.Origin;
-        DebugDraw3D.DrawGridXf(dMisc_Grids_GridCentered.GlobalTransform, new Vector2I((int)(tn1.X * 10), (int)(tn1.Z * 10)));
+        var tn1 = dGrids_GridCentered_Subdivision.Transform.Origin;
+        DebugDraw3D.DrawGridXf(dGrids_GridCentered.GlobalTransform, new Vector2I((int)(tn1.X * 10), (int)(tn1.Z * 10)));
 
         using (var s = DebugDraw3D.NewScopedConfig().SetThickness(0.05f))
         {
@@ -501,34 +380,14 @@ public partial class DebugDrawDemoSceneCS : Node3D
 
         if (test_text)
         {
-            timer_text -= delta;
             _text_tests();
         }
 
-        // Graphs
-        // Enable FPSGraph if not exists
-        _create_graph("FPS", true, false, DebugDraw2DGraph.TextFlags.Current | DebugDraw2DGraph.TextFlags.Avg | DebugDraw2DGraph.TextFlags.Max | DebugDraw2DGraph.TextFlags.Min, "", DebugDraw2DGraph.GraphSide.Bottom, Engine.IsEditorHint() ? DebugDraw2DGraph.GraphPosition.LeftTop : DebugDraw2DGraph.GraphPosition.RightTop, new Vector2I(200, 80), custom_font);
-        if (Engine.IsEditorHint())
-        {
-            if (DebugDraw2D.GetGraph("FPS") != null)
-            {
-                DebugDraw2D.GetGraph("FPS").Offset = new Vector2I(0, 64);
-            }
-        }
-
-        // Adding more graphs
-        if (test_graphs)
-        {
-            _graph_test();
-        }
-        else
-        {
-            _remove_graphs();
-        }
-        _upd_graph_params();
-
         // Lag Test
-        dLagTest.Position = ((Vector3)dLagTest_RESET.GetAnimation("RESET").TrackGetKeyValue(0, 0)) + new Vector3(Mathf.Sin(Time.GetTicksMsec() / 100.0f) * 2.5f, 0, 0);
+        var lag_test_pos = (Vector3)dLagTest_RESET.GetAnimation("RESET").TrackGetKeyValue(0, 0);
+        _draw_zone_title_pos(lag_test_pos, "Lag test");
+
+        dLagTest.Position = lag_test_pos + new Vector3(Mathf.Sin(Time.GetTicksMsec() / 100.0f) * 2.5f, 0, 0);
         DebugDraw3D.DrawBox(dLagTest.GlobalPosition, Quaternion.Identity, Vector3.One * 2.01f, Colors.Chocolate, true);
 
         if (more_test_cases)
@@ -550,6 +409,8 @@ public partial class DebugDrawDemoSceneCS : Node3D
             }
         }
 
+        _draw_other_world();
+
         if (draw_array_of_boxes)
         {
             _draw_array_of_boxes();
@@ -559,21 +420,24 @@ public partial class DebugDrawDemoSceneCS : Node3D
 
     void _text_tests()
     {
-
-        if (timer_text < 0)
-        {
-            DebugDraw2D.SetText("Some delayed text", "for 2.5s", -1, Colors.Black, 2.5f); // it's supposed to show text for 2.5 seconds
-            timer_text += 5;
-        }
-
         DebugDraw2D.SetText("FPS", $"{Engine.GetFramesPerSecond():F2}", 0, Colors.Gold);
-        DebugDraw2D.BeginTextGroup("-- First Group --", 2, Colors.LimeGreen, true, text_groups_title_font_size, text_groups_text_font_size);
-        DebugDraw2D.SetText("Simple text");
-        DebugDraw2D.SetText("Text", "Value", 0, Colors.Aquamarine);
-        DebugDraw2D.SetText("Text out of order", null, -1, Colors.Silver);
-        DebugDraw2D.BeginTextGroup("-- Second Group --", 1, Colors.Beige);
-        DebugDraw2D.SetText("Rendered frames", Engine.GetFramesDrawn());
-        DebugDraw2D.EndTextGroup();
+
+        if (text_groups_show_examples)
+        {
+            if (timer_text < 0)
+            {
+                DebugDraw2D.SetText("Some delayed text", "for 2.5s", -1, Colors.Black, 2.5f); // it's supposed to show text for 2.5 seconds
+                timer_text += 5;
+            }
+
+            DebugDraw2D.BeginTextGroup("-- First Group --", 2, Colors.LimeGreen, true, text_groups_title_font_size, text_groups_text_font_size);
+            DebugDraw2D.SetText("Simple text");
+            DebugDraw2D.SetText("Text", "Value", 0, Colors.Aquamarine);
+            DebugDraw2D.SetText("Text out of order", null, -1, Colors.Silver);
+            DebugDraw2D.BeginTextGroup("-- Second Group --", 1, Colors.Beige);
+            DebugDraw2D.SetText("Rendered frames", Engine.GetFramesDrawn());
+            DebugDraw2D.EndTextGroup();
+        }
 
         if (text_groups_show_stats)
         {
@@ -589,31 +453,34 @@ public partial class DebugDrawDemoSceneCS : Node3D
                 DebugDraw2D.SetText("Visible Instances", render_stats.VisibleInstances, 4);
                 DebugDraw2D.SetText("Visible Lines", render_stats.VisibleLines, 5);
 
-                DebugDraw2D.SetText("---", "", 6);
+                DebugDraw2D.SetText("---", "", 12);
 
-                DebugDraw2D.SetText("Culling time", $"{(render_stats.TotalTimeCullingUsec / 1000.0):F2} ms", 7);
-                DebugDraw2D.SetText("Filling instances buffer", $"{(render_stats.TimeFillingBuffersInstancesUsec / 1000.0):F2} ms", 8);
-                DebugDraw2D.SetText("Filling lines buffer", $"{(render_stats.TimeFillingBuffersLinesUsec / 1000.0):F2} ms", 9);
-                DebugDraw2D.SetText("Filling time", $"{(render_stats.TotalTimeFillingBuffersUsec / 1000.0):F2} ms", 10);
-                DebugDraw2D.SetText("Total time", $"{(render_stats.TotalTimeSpentUsec / 1000.0):F2} ms", 11);
+                DebugDraw2D.SetText("Culling time", $"{(render_stats.TotalTimeCullingUsec / 1000.0):F2} ms", 13);
+                DebugDraw2D.SetText("Filling instances buffer", $"{(render_stats.TimeFillingBuffersInstancesUsec / 1000.0):F2} ms", 14);
+                DebugDraw2D.SetText("Filling lines buffer", $"{(render_stats.TimeFillingBuffersLinesUsec / 1000.0):F2} ms", 15);
+                DebugDraw2D.SetText("Filling time", $"{(render_stats.TotalTimeFillingBuffersUsec / 1000.0):F2} ms", 16);
+                DebugDraw2D.SetText("Total time", $"{(render_stats.TotalTimeSpentUsec / 1000.0):F2} ms", 17);
 
-                DebugDraw2D.SetText("---", null, 14);
+                DebugDraw2D.SetText("----", null, 32);
 
-                DebugDraw2D.SetText("Created scoped configs", $"{render_stats.CreatedScopedConfigs}", 15);
+                DebugDraw2D.SetText("Total Label3D", render_stats.NodesLabel3dExistsTotal, 33);
+                DebugDraw2D.SetText("Visible Label3D", render_stats.NodesLabel3dVisible + render_stats.NodesLabel3dVisiblePhysics, 34);
+
+                DebugDraw2D.SetText("-----", null, 48);
+
+                DebugDraw2D.SetText("Created scoped configs", $"{render_stats.CreatedScopedConfigs}", 49);
             }
 
             if (text_groups_show_stats && text_groups_show_stats_2d)
             {
-                DebugDraw2D.SetText("----", null, 19);
+                DebugDraw2D.SetText("------", null, 64);
             }
 
             var render_stats_2d = DebugDraw2D.GetRenderStats();
             if (render_stats_2d != null && text_groups_show_stats_2d)
             {
-                DebugDraw2D.SetText("Text groups", render_stats_2d.OverlayTextGroups, 20);
-                DebugDraw2D.SetText("Text lines", render_stats_2d.OverlayTextLines, 21);
-                DebugDraw2D.SetText("Graphs total", render_stats_2d.OverlayGraphsTotal, 22);
-                DebugDraw2D.SetText("Graphs enabled", render_stats_2d.OverlayGraphsEnabled, 23);
+                DebugDraw2D.SetText("Text groups", render_stats_2d.OverlayTextGroups, 96);
+                DebugDraw2D.SetText("Text lines", render_stats_2d.OverlayTextLines, 97);
             }
             DebugDraw2D.EndTextGroup();
         }
@@ -641,9 +508,50 @@ public partial class DebugDrawDemoSceneCS : Node3D
         }
     }
 
+    void _draw_zone_title(Node3D node, string title)
+    {
+        if (draw_3d_text)
+        {
+            using var _s1 = DebugDraw3D.NewScopedConfig().SetTextOutlineSize(72);
+            DebugDraw3D.DrawText(node.GlobalPosition + node.GlobalBasis.Y * 0.85f, title, 128);
+        }
+    }
+
+    void _draw_zone_title_pos(Vector3 pos, string title, int font_size = 128, int outline = 72)
+    {
+        if (draw_3d_text)
+        {
+            using var _s1 = DebugDraw3D.NewScopedConfig().SetTextOutlineSize(outline);
+            DebugDraw3D.DrawText(pos, title, font_size);
+        }
+    }
+
+    void _draw_other_world()
+    {
+        using var s = DebugDraw3D.NewScopedConfig().SetViewport(dOtherWorldBox.GetViewport());
+        DebugDraw3D.DrawBoxXf(dOtherWorldBox.GlobalTransform.RotatedLocal(new Vector3(1, 1, -1).Normalized(), Mathf.Wrap(Time.GetTicksMsec() / 1000.0f, 0f, Mathf.Tau)), Colors.SandyBrown);
+        DebugDraw3D.DrawBoxXf(dOtherWorldBox.GlobalTransform.RotatedLocal(new Vector3(-1, 1, -1).Normalized(), Mathf.Wrap(Time.GetTicksMsec() / 1000.0f, 0f, Mathf.Tau) - Mathf.Pi / 4), Colors.SandyBrown);
+
+        if (draw_3d_text)
+        {
+            var angle = Mathf.Wrap(Time.GetTicksMsec() / 1000.0f, 0, Mathf.Tau);
+            using (var _w2 = DebugDraw3D.NewScopedConfig().SetTextFont(custom_3d_font))
+            {
+                DebugDraw3D.DrawText(dOtherWorldBox.GlobalPosition + new Vector3(Mathf.Cos(angle), -0.25f, Mathf.Sin(angle)), "Hello world!", 32, Colors.Crimson, 0);
+            }
+
+            using (var _w3 = DebugDraw3D.NewScopedConfig().SetNoDepthTest(true).SetTextOutlineColor(Colors.IndianRed).SetTextOutlineSize(6))
+            {
+                DebugDraw3D.DrawText(dOtherWorldBox.GlobalPosition + new Vector3(Mathf.Cos(angle), +0.25f, Mathf.Sin(-angle)), "World without depth", 20, Colors.Pink, 0);
+            }
+        }
+    }
+
     void _draw_rays_casts()
     {
         // Line hits render
+        _draw_zone_title_pos(pHitTestSphere.GlobalPosition, "Line hits", 96, 36);
+
         foreach (var node in dHitTest_RayEmitter.GetChildren())
         {
             if (node is RayCast3D ray)
@@ -659,7 +567,12 @@ public partial class DebugDrawDemoSceneCS : Node3D
         // Delayed line render
         using (var s = DebugDraw3D.NewScopedConfig().SetThickness(0.035f))
         {
-            DebugDraw3D.DrawLine(dLagTest.GlobalPosition + Vector3.Up, dLagTest.GlobalPosition + new Vector3(0, 3, Mathf.Sin(Time.GetTicksMsec() / 50.0f)), null, 0.5f);
+            DebugDraw3D.DrawLine(dLagTest.GlobalPosition + Vector3.Up, dLagTest.GlobalPosition + new Vector3(0, 3, Mathf.Sin(Time.GetTicksMsec() / 50.0f)), null, 0.35f);
+
+            if (draw_3d_text)
+            {
+                DebugDraw3D.DrawText(dLagTest.GlobalPosition + new Vector3(0, 3, Mathf.Sin(Time.GetTicksMsec() / 50.0f)), $"{Mathf.Sin(Time.GetTicksMsec() / 50.0f):F1}", 16, null, 0.35f);
+            }
         }
 
         // Draw plane
@@ -671,12 +584,9 @@ public partial class DebugDrawDemoSceneCS : Node3D
             var plane = new Plane(normal, xf.Origin.Dot(normal));
 
             var vp = GetViewport();
-            if (is_4_2_and_higher)
+            if (Engine.IsEditorHint() && (Viewport)Engine.GetSingleton("EditorInterface").Call("get_editor_viewport_3d", 0) != null)
             {
-                if (Engine.IsEditorHint() && (Viewport)Engine.GetSingleton("EditorInterface").Call("get_editor_viewport_3d", 0) != null)
-                {
-                    vp = (Viewport)Engine.GetSingleton("EditorInterface").Call("get_editor_viewport_3d", 0);
-                }
+                vp = (Viewport)Engine.GetSingleton("EditorInterface").Call("get_editor_viewport_3d", 0);
             }
 
             var cam = vp.GetCamera3D();
@@ -686,14 +596,11 @@ public partial class DebugDrawDemoSceneCS : Node3D
                 Vector3? intersect = plane.IntersectsRay(cam.GlobalPosition, dir);
 
                 DebugDraw3D.DrawPlane(plane, Colors.Coral * new Color(1, 1, 1, 0.4f), pl_node.GlobalPosition);
-                if (is_4_2_and_higher)
+                if (intersect.HasValue && intersect.Value.DistanceTo(pl_node.GlobalPosition) < _s11.GetPlaneSize() * 0.5f)
                 {
-                    if (intersect.HasValue && intersect.Value.DistanceTo(pl_node.GlobalPosition) < _s11.GetPlaneSize() * 0.5f)
-                    {
-                        // Need to test different colors on both sides of the plane
-                        var col = plane.IsPointOver(cam.GlobalPosition) ? Colors.Firebrick : Colors.Aquamarine;
-                        DebugDraw3D.DrawSphere(intersect.Value, 0.3f, col);
-                    }
+                    // Need to test different colors on both sides of the plane
+                    var col = plane.IsPointOver(cam.GlobalPosition) ? Colors.Firebrick : Colors.Aquamarine;
+                    DebugDraw3D.DrawSphere(intersect.Value, 0.3f, col);
                 }
             }
         }
@@ -707,6 +614,7 @@ public partial class DebugDrawDemoSceneCS : Node3D
         var z_size = 3;
         var mul = 1.0f;
         var cubes_max_time = 1.25f;
+        var show_text = draw_text_with_boxes;
         using var cfg = DebugDraw3D.NewScopedConfig();
 
         if (draw_1m_boxes)
@@ -716,7 +624,11 @@ public partial class DebugDrawDemoSceneCS : Node3D
             z_size = 100;
             mul = 4.0f;
             cubes_max_time = 60f;
+            draw_text_with_boxes = false;
         }
+
+        var size = Vector3.One;
+        var half_size = size * 0.5f;
 
         if (timer_cubes <= 0)
         {
@@ -727,129 +639,159 @@ public partial class DebugDrawDemoSceneCS : Node3D
                 {
                     for (int z = 0; z < z_size; z++)
                     {
-                        var size = Vector3.One;
                         cfg.SetThickness(Random.Shared.NextSingle() * 0.1f);
-                        //size = new Vector3(Random.Shared.NextSingle() * 100 + 0.1f, Random.Shared.NextSingle() * 100 + 0.1f, Random.Shared.NextSingle() * 100 + 0.1f);
-                        DebugDraw3D.DrawBox(new Vector3(x * mul, (-4 - z) * mul, y * mul), Quaternion.Identity, size, null, false, cubes_max_time);
+                        var pos = new Vector3(x * mul, (-4 - z) * mul, y * mul) + GlobalPosition;
+                        DebugDraw3D.DrawBox(pos, Quaternion.Identity, size, null, false, cubes_max_time);
+
+                        if (show_text && z == 0)
+                        {
+                            DebugDraw3D.DrawText(pos + half_size, pos.ToString(), 32, null, cubes_max_time);
+                        }
                     }
                 }
             }
-            //GD.Print($"Draw Cubes: {((Time.GetTicksUsec() - start_time) / 1000.0):F2}ms");
+            //GD.Print($"Draw Cubes: {((Time.GetTicksUsec() - start_time) / 1000.0):F3}ms");
             timer_cubes = cubes_max_time;
         }
     }
 
-    void _graph_test()
+    Node3D dHitTest;
+    CsgBox3D dLagTest;
+    PanelContainer dPanel;
+    Node3D dZones;
+    Node3D dSpherePosition;
+    Node3D dSphereTransform;
+    Node3D dSphereHDTransform;
+    Node3D dAABB;
+    Node3D dAABB_fixed;
+    Node3D dBox1;
+    Node3D dBox2;
+    Node3D dBox3;
+    Node3D dBoxAB;
+    Node3D dBoxABa;
+    Node3D dBoxABb;
+    Node3D dBoxABup;
+    Node3D dBoxABEdge;
+    Node3D dBoxABEdgea;
+    Node3D dBoxABEdgeb;
+    Node3D dBoxABEdgeup;
+    Node3D dLines_1;
+    Node3D dLines_2;
+    Node3D dLines_3;
+    Node3D dLines_4;
+    Node3D dLines_5;
+    Node3D dLines_6;
+    Node3D dLines_7;
+    Node3D dLines_8;
+    Node3D dLines_Target;
+    Node3D dLinePath;
+    Node3D dCylinder1;
+    Node3D dCylinder2;
+    Node3D dCylinder3a;
+    Node3D dCylinder3b;
+
+    Node3D pSpheresBox;
+    Node3D pCylindersBox;
+    Node3D pBoxesBox;
+    Node3D pLinesBox;
+    Node3D pPathsBox;
+    Node3D pMiscBox;
+
+    MeshInstance3D dPlaneOrigin;
+    MeshInstance3D pZDepthTestCube;
+
+    MeshInstance3D dOtherWorld;
+    SubViewport dOtherWorldViewport;
+    Node3D dOtherWorldBox;
+
+    Control dCustomCanvas;
+    Node3D dMisc_Arrow;
+    Camera3D dCamera;
+    Node3D dMisc_Billboard;
+    Node3D dMisc_Position;
+    Node3D dMisc_GizmoTransform;
+    Node3D dMisc_GizmoNormal;
+    Node3D dMisc_GizmoOneColor;
+
+    Node3D dGrids_Grid;
+    Node3D dGrids_Grid_Subdivision;
+    Node3D dGrids_GridCentered_Subdivision;
+    Node3D dGrids_GridCentered;
+
+    MeshInstance3D dPostProcess;
+    AnimationPlayer dLagTest_RESET;
+    Node3D dHitTest_RayEmitter;
+    Node3D pHitTestSphere;
+
+    void _get_nodes()
     {
-        _create_graph("fps", true, true, DebugDraw2DGraph.TextFlags.Current, "", DebugDraw2DGraph.GraphSide.Left, DebugDraw2DGraph.GraphPosition.RightTop);
-        _create_graph("fps2", true, false, DebugDraw2DGraph.TextFlags.Current, "fps", DebugDraw2DGraph.GraphSide.Bottom, 0, new Vector2I(200, 100));
+        dHitTest = GetNode<Node3D>("HitTest");
+        dLagTest = GetNode<CsgBox3D>("LagTest");
+        dPanel = GetNode<PanelContainer>("Panel");
+        dZones = GetNode<Node3D>("Zones");
+        dSpherePosition = GetNode<Node3D>("Spheres/SpherePosition");
+        dSphereTransform = GetNode<Node3D>("Spheres/SphereTransform");
+        dSphereHDTransform = GetNode<Node3D>("Spheres/SphereHDTransform");
+        dAABB = GetNode<Node3D>("Boxes/AABB");
+        dAABB_fixed = GetNode<Node3D>("Boxes/AABB_fixed");
+        dBox1 = GetNode<Node3D>("Boxes/Box1");
+        dBox2 = GetNode<Node3D>("Boxes/Box2");
+        dBox3 = GetNode<Node3D>("Boxes/Box3");
+        dBoxAB = GetNode<Node3D>("Boxes/BoxAB");
+        dBoxABa = GetNode<Node3D>("Boxes/BoxAB/a");
+        dBoxABb = GetNode<Node3D>("Boxes/BoxAB/b");
+        dBoxABup = GetNode<Node3D>("Boxes/BoxAB/o/up");
+        dBoxABEdge = GetNode<Node3D>("Boxes/BoxABEdge");
+        dBoxABEdgea = GetNode<Node3D>("Boxes/BoxABEdge/a");
+        dBoxABEdgeb = GetNode<Node3D>("Boxes/BoxABEdge/b");
+        dBoxABEdgeup = GetNode<Node3D>("Boxes/BoxABEdge/o/up");
+        dLines_1 = GetNode<Node3D>("Lines/1");
+        dLines_2 = GetNode<Node3D>("Lines/2");
+        dLines_3 = GetNode<Node3D>("Lines/3");
+        dLines_4 = GetNode<Node3D>("Lines/4");
+        dLines_5 = GetNode<Node3D>("Lines/5");
+        dLines_6 = GetNode<Node3D>("Lines/6");
+        dLines_7 = GetNode<Node3D>("Lines/7");
+        dLines_8 = GetNode<Node3D>("Lines/8");
+        dLines_Target = GetNode<Node3D>("Lines/Target");
+        dLinePath = GetNode<Node3D>("LinePath");
+        dCylinder1 = GetNode<Node3D>("Cylinders/Cylinder1");
+        dCylinder2 = GetNode<Node3D>("Cylinders/Cylinder2");
+        dCylinder3a = GetNode<Node3D>("Cylinders/Cylinder3/1");
+        dCylinder3b = GetNode<Node3D>("Cylinders/Cylinder3/2");
 
-        _create_graph("Sin Wave!", false, true, DebugDraw2DGraph.TextFlags.Current, "fps2", DebugDraw2DGraph.GraphSide.Bottom);
+        pSpheresBox = GetNode<Node3D>("%SpheresBox");
+        pCylindersBox = GetNode<Node3D>("%CylindersBox");
+        pBoxesBox = GetNode<Node3D>("%BoxesBox");
+        pLinesBox = GetNode<Node3D>("%LinesBox");
+        pPathsBox = GetNode<Node3D>("%PathsBox");
+        pMiscBox = GetNode<Node3D>("%MiscBox");
 
-        _create_graph("randf", false, true, DebugDraw2DGraph.TextFlags.Avg, "", DebugDraw2DGraph.GraphSide.Left, DebugDraw2DGraph.GraphPosition.RightBottom, new Vector2I(256, 60), custom_font);
+        dPlaneOrigin = GetNode<MeshInstance3D>("PlaneOrigin");
+        pZDepthTestCube = GetNode<MeshInstance3D>("%ZDepthTestCube");
 
-        _create_graph("fps5", true, true, DebugDraw2DGraph.TextFlags.All, "randf", DebugDraw2DGraph.GraphSide.Top);
-        _create_graph("fps6", true, true, DebugDraw2DGraph.TextFlags.All, "fps5", DebugDraw2DGraph.GraphSide.Top);
-        _create_graph("fps12", true, true, DebugDraw2DGraph.TextFlags.All, "fps5", DebugDraw2DGraph.GraphSide.Left);
+        dOtherWorld = GetNode<MeshInstance3D>("OtherWorld");
+        dOtherWorldViewport = GetNode<SubViewport>("OtherWorld/SubViewport");
+        dOtherWorldBox = GetNode<Node3D>("OtherWorld/SubViewport/SubViewportContainer/SubViewport/OtherWorldBox");
 
-        _create_graph("fps7", true, false, DebugDraw2DGraph.TextFlags.All, "FPS", DebugDraw2DGraph.GraphSide.Bottom);
-        _create_graph("fps8", true, true, DebugDraw2DGraph.TextFlags.All, "", DebugDraw2DGraph.GraphSide.Top, DebugDraw2DGraph.GraphPosition.LeftBottom);
-        _create_graph("fps9", true, false, DebugDraw2DGraph.TextFlags.All, "fps8", DebugDraw2DGraph.GraphSide.Right);
-        _create_graph("fps10", true, false, DebugDraw2DGraph.TextFlags.All, "fps8", DebugDraw2DGraph.GraphSide.Top);
-        _create_graph("fps11", true, true, DebugDraw2DGraph.TextFlags.All, "fps9", DebugDraw2DGraph.GraphSide.Right);
+        dCustomCanvas = GetNode<Control>("CustomCanvas");
+        dMisc_Arrow = GetNode<Node3D>("Misc/Arrow");
+        dCamera = GetNode<Camera3D>("Camera");
+        dMisc_Billboard = GetNode<Node3D>("Misc/Billboard");
+        dMisc_Position = GetNode<Node3D>("Misc/Position");
+        dMisc_GizmoTransform = GetNode<Node3D>("Misc/GizmoTransform");
+        dMisc_GizmoNormal = GetNode<Node3D>("Misc/GizmoNormal");
+        dMisc_GizmoOneColor = GetNode<Node3D>("Misc/GizmoOneColor");
 
-        // If graphs exists, then more tests are done
-        DebugDraw2D.GetGraph("Sin Wave!").DataGetter = new Callable(this, "_get_sin_wave_for_graph");
-        DebugDraw2D.GetGraph("Sin Wave!").UpsideDown = false;
+        dGrids_Grid = GetNode<Node3D>("Grids/Grid");
+        dGrids_Grid_Subdivision = GetNode<Node3D>("Grids/Grid/Subdivision");
+        dGrids_GridCentered_Subdivision = GetNode<Node3D>("Grids/GridCentered/Subdivision");
+        dGrids_GridCentered = GetNode<Node3D>("Grids/GridCentered");
 
-        DebugDraw2D.GetGraph("randf").TextSuffix = "utf8 ноль zéro";
-        //DebugDraw2D.GetGraph("fps9").line_position = DebugDraw2DGraph.LINE_TOP
-        DebugDraw2D.GetGraph("fps9").Offset = new Vector2I(0, 0);
-        //DebugDraw2D.GetGraph("fps11").LlinePosition = DebugDraw2DGraph.LINE_BOTTOM
-        DebugDraw2D.GetGraph("fps11").Offset = new Vector2I(16, 0);
-        DebugDraw2D.GetGraph("fps6").Offset = new Vector2I(0, 32);
-        DebugDraw2D.GetGraph("fps").Offset = new Vector2I(16, 72);
-        DebugDraw2D.GetGraph("fps9").Enabled = graph_is_enabled;
+        dPostProcess = GetNode<MeshInstance3D>("PostProcess");
 
-        if (!Engine.IsEditorHint())
-        {
-            DebugDraw2D.GetGraph("fps").Corner = DebugDraw2DGraph.GraphPosition.LeftTop;
-        }
-
-        // Just sending random data to the graph
-        DebugDraw2D.GraphUpdateData("randf", (float)random.NextDouble());
-    }
-
-    void _upd_graph_params()
-    {
-        DebugDraw2D.Config.GraphsBaseOffset = graph_offset;
-        foreach (var g in new string[] { "FPS", "fps5", "fps8" })
-        {
-            var graph = DebugDraw2D.GetGraph(g) as DebugDraw2DFPSGraph;
-            if (graph != null)
-            {
-
-                graph.Size = graph_size;
-                graph.TitleSize = graph_title_font_size;
-                graph.TextSize = graph_text_font_size;
-                graph.LineWidth = graph_line_width;
-                graph.TextPrecision = graph_text_precision;
-                graph.BufferSize = graph_buffer_size;
-                if (Engine.IsEditorHint() || g != "FPS")
-                {
-                    graph.FrameTimeMode = graph_frame_time_mode;
-                }
-            }
-        }
-    }
-
-    float _get_sin_wave_for_graph()
-    {
-        var mul = Input.IsKeyPressed(Key.End) ? 4 : 2;
-        return (float)Mathf.Sin(Engine.GetFramesDrawn() * 0.5) * mul;
-    }
-
-    void _remove_graphs()
-    {
-        DebugDraw2D.RemoveGraph("randf");
-        DebugDraw2D.RemoveGraph("fps");
-        DebugDraw2D.RemoveGraph("fps2");
-        DebugDraw2D.RemoveGraph("Sin Wave!");
-        DebugDraw2D.RemoveGraph("fps5");
-        DebugDraw2D.RemoveGraph("fps6");
-        DebugDraw2D.RemoveGraph("fps7");
-        DebugDraw2D.RemoveGraph("fps8");
-        DebugDraw2D.RemoveGraph("fps9");
-        DebugDraw2D.RemoveGraph("fps10");
-        DebugDraw2D.RemoveGraph("fps11");
-        DebugDraw2D.RemoveGraph("fps12");
-    }
-
-    DebugDraw2DGraph _create_graph(string title, bool is_fps, bool show_title, DebugDraw2DGraph.TextFlags flags, string parent = "", DebugDraw2DGraph.GraphSide parent_side = DebugDraw2DGraph.GraphSide.Bottom, DebugDraw2DGraph.GraphPosition pos = DebugDraw2DGraph.GraphPosition.LeftBottom, Vector2I? size = null, Font font = null)
-    {
-        var graph = DebugDraw2D.GetGraph(title);
-        if (graph == null)
-        {
-            if (is_fps)
-            {
-                graph = DebugDraw2D.CreateFpsGraph(title);
-            }
-            else
-            {
-                graph = DebugDraw2D.CreateGraph(title);
-            }
-
-            if (graph != null)
-            {
-                graph.Size = size ?? new Vector2I(256, 60);
-                graph.BufferSize = 50;
-                graph.Corner = pos;
-                graph.ShowTitle = show_title;
-                graph.ShowTextFlags = flags;
-                graph.CustomFont = font;
-                graph.SetParent(parent, parent_side);
-            }
-        }
-        return graph;
+        dLagTest_RESET = GetNode<AnimationPlayer>("LagTest/RESET");
+        dHitTest_RayEmitter = GetNode<Node3D>("HitTest/RayEmitter");
+        pHitTestSphere = GetNode<Node3D>("%HitTestSphere");
     }
 }

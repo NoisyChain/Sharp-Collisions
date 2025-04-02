@@ -7,12 +7,12 @@ namespace SharpCollisions.Sharp3D
     public partial class SphereCollider3D : SharpCollider3D
     {
         public Fix64 Radius;
-        [Export] protected float radius;
+        [Export] protected int radius;
         
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)radius;
+            Radius = (Fix64)radius / SharpNode.NodeScale;
             Shape = CollisionType3D.Sphere;
         }
 
@@ -52,9 +52,9 @@ namespace SharpCollisions.Sharp3D
             return UpdateSphereBoundingBox();
         }
 
-        public override void UpdatePoints(SharpBody3D body)
+        public override void UpdatePoints(FixVector3 position, FixVector3 rotation)
         {
-            base.UpdatePoints(body);
+            base.UpdatePoints(position, rotation);
         }
 
 		public override FixVector3 Support(FixVector3 direction)

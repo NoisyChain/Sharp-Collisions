@@ -1,4 +1,4 @@
-Generation of bindings started, output file: res://addons/debug_draw_3d/gen/csharp/DebugDrawGeneratedAPI.cs
+Generation of bindings started, output file: res://addons/debug_draw_3d/gen/csharp/DebugDrawGeneratedAPI.generated.cs
 Log file: res://addons/debug_draw_3d/gen/csharp/log.txt
 Hold Shift to print information on the Output panel when manually starting generation via the 'Project - Tools - Debug Draw' menu
   Class: DebugDraw2D
@@ -11,13 +11,6 @@ Hold Shift to print information on the Output panel when manually starting gener
       end_text_group
       set_text
       clear_texts
-      create_graph
-      create_fps_graph
-      graph_update_data
-      remove_graph
-      clear_graphs
-      get_graph
-      get_graph_names
       get_render_stats
     Properties...
       empty_color
@@ -32,8 +25,6 @@ Hold Shift to print information on the Output panel when manually starting gener
     Properties...
       overlay_text_groups
       overlay_text_lines
-      overlay_graphs_enabled
-      overlay_graphs_total
   Class: DebugDraw2DConfig
     Wrapper...
     Constants...
@@ -41,7 +32,6 @@ Hold Shift to print information on the Output panel when manually starting gener
       BlockPosition
     Methods...
     Properties...
-      graphs_base_offset
       text_block_position
       text_block_offset
       text_padding
@@ -50,46 +40,6 @@ Hold Shift to print information on the Output panel when manually starting gener
       text_foreground_color
       text_background_color
       text_custom_font
-  Class: DebugDraw2DGraph
-    Wrapper...
-    Constants...
-    Enums...
-      GraphPosition
-      GraphSide
-      TextFlags
-    Methods...
-      get_title
-      set_parent
-    Properties...
-      enabled
-      upside_down
-      show_title
-      show_text_flags
-      size
-      buffer_size
-      offset
-      corner
-      line_width
-      line_color
-      background_color
-      border_color
-      text_suffix
-      custom_font
-      title_size
-      text_size
-      title_color
-      text_color
-      text_precision
-      parent_graph
-      parent_graph_side
-      data_getter
-  Class: DebugDraw2DFPSGraph
-    Wrapper...
-    Constants...
-    Enums...
-    Methods...
-    Properties...
-      frame_time_mode
   Class: DebugDraw3D
     Wrapper...
     Constants...
@@ -159,6 +109,8 @@ Hold Shift to print information on the Output panel when manually starting gener
         color will be remapped to arg_2
       draw_grid_xf
         color will be remapped to arg_2
+      draw_text
+        color will be remapped to arg_2
       get_render_stats
       get_render_stats_for_world
       new_scoped_config
@@ -192,6 +144,11 @@ Hold Shift to print information on the Output panel when manually starting gener
       total_time_spent_usec
       created_scoped_configs
       orphan_scoped_configs
+      nodes_label3d_visible
+      nodes_label3d_visible_physics
+      nodes_label3d_exists
+      nodes_label3d_exists_physics
+      nodes_label3d_exists_total
   Class: DebugDraw3DConfig
     Wrapper...
     Constants...
@@ -223,6 +180,12 @@ Hold Shift to print information on the Output panel when manually starting gener
       get_viewport
       set_no_depth_test
       is_no_depth_test
+      set_text_outline_color
+      get_text_outline_color
+      set_text_outline_size
+      get_text_outline_size
+      set_text_font
+      get_text_font
     Properties...
   Class: DebugDrawManager
     Wrapper...

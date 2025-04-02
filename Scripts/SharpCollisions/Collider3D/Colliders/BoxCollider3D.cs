@@ -9,11 +9,15 @@ namespace SharpCollisions.Sharp3D
     public partial class BoxCollider3D : PolygonCollider3D
     {
         public FixVector3 Extents;
-        [Export] private Vector3 extents = Vector3.One;
+        [Export] private Vector3I extents = Vector3I.One;
 
         public override void Initialize()
         {
-            Extents = (FixVector3)extents;
+            Extents = new FixVector3(
+                (Fix64)extents.X / SharpNode.NodeScale,
+                (Fix64)extents.Y / SharpNode.NodeScale,
+                (Fix64)extents.Z / SharpNode.NodeScale
+            );
             base.Initialize();
         }
 
@@ -52,14 +56,14 @@ namespace SharpCollisions.Sharp3D
         {
             RawPoints = new FixVector3[]
             {
-                new FixVector3(Offset.x - Extents.x, Offset.y - Extents.y, Offset.z + Extents.z),
-                new FixVector3(Offset.x - Extents.x, Offset.y - Extents.y, Offset.z - Extents.z),
-                new FixVector3(Offset.x + Extents.x, Offset.y - Extents.y, Offset.z - Extents.z),
-                new FixVector3(Offset.x + Extents.x, Offset.y - Extents.y, Offset.z + Extents.z),
-                new FixVector3(Offset.x - Extents.x, Offset.y + Extents.y, Offset.z + Extents.z),
-                new FixVector3(Offset.x - Extents.x, Offset.y + Extents.y, Offset.z - Extents.z),
-                new FixVector3(Offset.x + Extents.x, Offset.y + Extents.y, Offset.z - Extents.z),
-                new FixVector3(Offset.x + Extents.x, Offset.y + Extents.y, Offset.z + Extents.z)
+                new FixVector3(-Extents.x, -Extents.y, Extents.z),
+                new FixVector3(-Extents.x, -Extents.y, -Extents.z),
+                new FixVector3(Extents.x, -Extents.y, -Extents.z),
+                new FixVector3(Extents.x, -Extents.y, Extents.z),
+                new FixVector3(-Extents.x, Extents.y, Extents.z),
+                new FixVector3(-Extents.x, Extents.y, -Extents.z),
+                new FixVector3(Extents.x, Extents.y, -Extents.z),
+                new FixVector3(Extents.x, Extents.y, Extents.z)
             };
             
             Points = new FixVector3[RawPoints.Length];

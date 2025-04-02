@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using FixMath.NET;
 using SharpCollisions.Sharp2D.GJK;
 
@@ -13,7 +14,7 @@ namespace SharpCollisions.Sharp2D
         public FixVector2[] RawPoints;
 		public FixVector2[] Points;
 
-        [Export] private Vector2[] vertices = new Vector2[0];
+        [Export] private Array<Vector2I> vertices;
 
         public override void Initialize()
         {
@@ -36,17 +37,36 @@ namespace SharpCollisions.Sharp2D
 
         private void CreatePolygonPoints()
         {
-            RawPoints = new FixVector2[vertices.Length];
+            //If there is no enough vertices to create a 2D shape,
+            //create a simple triangle as the default shape
+            if (vertices.Count < 3)
+            {
+                vertices = new Array<Vector2I>
+                {
+                    new Vector2I(-1, -1) * SharpNode.nodeScale,
+                    new Vector2I(0, 1) * SharpNode.nodeScale,
+                    new Vector2I(1, -1) * SharpNode.nodeScale
+                };
+            }
+            RawPoints = new FixVector2[vertices.Count];
             for (int i = 0; i < RawPoints.Length; i++)
-                RawPoints[i] = (FixVector2)vertices[i] + Offset;
+            {
+                RawPoints[i] = new FixVector2(
+                    (Fix64)vertices[i].X / SharpNode.NodeScale,
+                    (Fix64)vertices[i].Y / SharpNode.NodeScale
+                );
+            }
             
             Points = new FixVector2[RawPoints.Length];
         }
 
-        private void UpdatePolygonPoints(SharpBody2D body)
+        private void UpdatePolygonPoints(FixVector2 position, Fix64 rotation)
         {
             for (int i = 0; i < RawPoints.Length; i++)
-				Points[i] = FixVector2.Transform(RawPoints[i], body);
+            {
+                Points[i] = FixVector2.Rotate(RawPoints[i], RotationOffset);
+				Points[i] = FixVector2.Transform(Points[i] + PositionOffset, position, rotation);
+            }
         }
 
         public override void DebugDrawShapes(SharpBody2D reference)
@@ -66,10 +86,10 @@ namespace SharpCollisions.Sharp2D
             return UpdatePolygonBoundingBox();
         }
 
-        public override void UpdatePoints(SharpBody2D body)
+        public override void UpdatePoints(FixVector2 position, Fix64 rotation)
         {
-            UpdatePolygonPoints(body);
-            base.UpdatePoints(body);
+            UpdatePolygonPoints(position, rotation);
+            base.UpdatePoints(position, rotation);
         }
 
         public override FixVector2 Support(FixVector2 direction)

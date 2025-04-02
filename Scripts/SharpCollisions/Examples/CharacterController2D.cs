@@ -15,9 +15,6 @@ namespace SharpCollisions.Sharp2D
         [Export] private bool StopAirVelocityOnCeiling = true;
         [Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
 		public int FloorLayers = 1;
-        public bool IsOnGround => Collider.collisionFlags.Below;
-        public bool IsOnCeiling => Collider.collisionFlags.Above;
-        public bool IsOnWalls => Collider.collisionFlags.Walls;
 
         public FixVector2 GroundNormal => GetGround().Normal;
         public Fix64 GroundAngle => FixVector2.AngleDegrees(GroundNormal, Up);
@@ -34,17 +31,33 @@ namespace SharpCollisions.Sharp2D
         private Fix64 ceilingUnstickForce = (Fix64)1.25f;
         private Fix64 worldBounds = (Fix64)10;
 
-        private Label debug;
+        [Export] private Label debug;
+        private string debugText;
+
+        public bool IsOnGround() 
+        {
+            if (!HasColliders()) return false;
+            return Colliders[0].collisionFlags.Below;
+        }
+        public bool IsOnCeiling()
+        {
+            if (!HasColliders()) return false;
+            return Colliders[0].collisionFlags.Above;
+        }
+        public bool IsOnWalls()
+        {
+            if (!HasColliders()) return false;
+            return Colliders[0].collisionFlags.Walls;
+        }
 
         public override void _Ready()
         {
             base._Ready();
-            debug = GetNode<Label>("../Debug/DebugText");
         }
 
         public override void _FixedProcess(Fix64 delta)
         {
-            if (IsOnGround && IsValidFloor() && IsWalkableSlope(GroundAngle))
+            if (IsOnGround() && IsValidFloor() && IsWalkableSlope(GroundAngle))
             {
                 UpVector = GroundNormal;
                 VerticalVelocity = -UpVector;
@@ -103,9 +116,9 @@ namespace SharpCollisions.Sharp2D
 
             SetVelocity(finalVelocity);
 
-            string groundAngle = IsOnGround ? GroundAngle.ToString() : "No Ground";
-            if (debug != null) debug.Text = "Normal: " + UpVector.ToString() + 
-                "\nFlags: " + Collider.collisionFlags.ToString() + 
+            string groundAngle = IsOnGround() ? GroundAngle.ToString() : "No Ground";
+            if (debug != null && HasColliders()) debugText = "Normal: " + UpVector.ToString() + 
+                "\nFlags: " + Colliders[0].collisionFlags.ToString() + 
                 "\nCollisions:" + Collisions.Count + 
                 "\nFloor angle: " + groundAngle;
 
@@ -151,8 +164,9 @@ namespace SharpCollisions.Sharp2D
         public override void _Process(double delta)
         {
             base._Process(delta);
-            foreach(CollisionManifold2D col in Collisions)
-                DebugDraw3D.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, new Color(0f, 1f, 1f));
+            debug.Text = debugText;
+            //foreach(CollisionManifold2D col in Collisions)
+                //DebugDraw3D.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, new Color(0f, 1f, 1f));
         }
         public CollisionManifold2D GetGround()
         { 
@@ -180,7 +194,7 @@ namespace SharpCollisions.Sharp2D
         { 
             CollisionManifold2D Ceiling = null;
 
-            if (IsOnCeiling && Collisions.Count > 0)
+            if (IsOnCeiling() && Collisions.Count > 0)
             {
                 Ceiling = Collisions[0];
 

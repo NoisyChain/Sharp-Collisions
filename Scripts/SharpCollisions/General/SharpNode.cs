@@ -4,14 +4,17 @@ using FixMath.NET;
 namespace SharpCollisions
 {
     [Tool]
-    public partial class SharpNode : Node3D
+    public partial class SharpNode : Node
     {
-        protected PhysicsManager Manager;
+        [Export] public bool Active = true;
+        public static int nodeScale = 1000;
+        public static int nodeRotation = 10;
+        public static Fix64 NodeScale => (Fix64)nodeScale;
+        public static Fix64 NodeRotation => (Fix64)nodeRotation;
         public override void _Ready()
         {
             if (Engine.IsEditorHint()) return;
-            Manager = GetTree().Root.GetNode<PhysicsManager>("Main/PhysicsManager");
-            Manager.AddNode(this);
+            SharpManager.Instance.AddNode(this);
         }
 
         /// <summary>
@@ -32,9 +35,13 @@ namespace SharpCollisions
         /// <param name="delta">Fixed point delta time.</param>
         public virtual void _FixedPostProcess(Fix64 delta) { }
 
+        public virtual void RenderNode() {}
+
+        public virtual void PreviewNode() {}
+
         public virtual void _Destroy()
         {
-            if (Manager.RemoveNode(this))
+            if (SharpManager.Instance.RemoveNode(this))
                 QueueFree();
         }
     }

@@ -1,4 +1,4 @@
-/// 1.4.2
+/// 1.5.0
 /// ////////////////////////////////////////////////
 /// THIS FILE HAS BEEN GENERATED.
 /// THE CHANGES IN THIS FILE WILL BE OVERWRITTEN
@@ -29,13 +29,6 @@ static internal class DebugDraw2D
     private static readonly StringName __end_text_group = "end_text_group";
     private static readonly StringName __set_text = "set_text";
     private static readonly StringName __clear_texts = "clear_texts";
-    private static readonly StringName __create_graph = "create_graph";
-    private static readonly StringName __create_fps_graph = "create_fps_graph";
-    private static readonly StringName __graph_update_data = "graph_update_data";
-    private static readonly StringName __remove_graph = "remove_graph";
-    private static readonly StringName __clear_graphs = "clear_graphs";
-    private static readonly StringName __get_graph = "get_graph";
-    private static readonly StringName __get_graph_names = "get_graph_names";
     private static readonly StringName __get_render_stats = "get_render_stats";
     
     public static void ClearAll()
@@ -94,122 +87,6 @@ static internal class DebugDraw2D
         {
 #if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
             Instance?.Call(__clear_texts);
-#endif
-        }
-    }
-    
-    public static DebugDraw2DGraph CreateGraph(StringName title)
-    {
-#if !DEBUG && !FORCED_DD3D
-        if (_DebugDrawUtils_.IsCallEnabled)
-#endif
-        {
-#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
-            return (DebugDraw2DGraph)_DebugDrawUtils_.CreateWrapperFromObject((GodotObject)Instance?.Call(__create_graph, title));
-#endif
-        }
-#if !DEBUG && !FORCED_DD3D
-        else
-#endif
-        {
-#if !DEBUG && !FORCED_DD3D
-            return default;
-#endif
-        }
-    }
-    
-    public static DebugDraw2DGraph CreateFpsGraph(StringName title)
-    {
-#if !DEBUG && !FORCED_DD3D
-        if (_DebugDrawUtils_.IsCallEnabled)
-#endif
-        {
-#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
-            return (DebugDraw2DGraph)_DebugDrawUtils_.CreateWrapperFromObject((GodotObject)Instance?.Call(__create_fps_graph, title));
-#endif
-        }
-#if !DEBUG && !FORCED_DD3D
-        else
-#endif
-        {
-#if !DEBUG && !FORCED_DD3D
-            return default;
-#endif
-        }
-    }
-    
-    public static void GraphUpdateData(StringName title, float data)
-    {
-#if !DEBUG && !FORCED_DD3D
-        if (_DebugDrawUtils_.IsCallEnabled)
-#endif
-        {
-#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
-            Instance?.Call(__graph_update_data, title, data);
-#endif
-        }
-    }
-    
-    public static void RemoveGraph(StringName title)
-    {
-#if !DEBUG && !FORCED_DD3D
-        if (_DebugDrawUtils_.IsCallEnabled)
-#endif
-        {
-#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
-            Instance?.Call(__remove_graph, title);
-#endif
-        }
-    }
-    
-    public static void ClearGraphs()
-    {
-#if !DEBUG && !FORCED_DD3D
-        if (_DebugDrawUtils_.IsCallEnabled)
-#endif
-        {
-#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
-            Instance?.Call(__clear_graphs);
-#endif
-        }
-    }
-    
-    public static DebugDraw2DGraph GetGraph(StringName title)
-    {
-#if !DEBUG && !FORCED_DD3D
-        if (_DebugDrawUtils_.IsCallEnabled)
-#endif
-        {
-#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
-            return (DebugDraw2DGraph)_DebugDrawUtils_.CreateWrapperFromObject((GodotObject)Instance?.Call(__get_graph, title));
-#endif
-        }
-#if !DEBUG && !FORCED_DD3D
-        else
-#endif
-        {
-#if !DEBUG && !FORCED_DD3D
-            return default;
-#endif
-        }
-    }
-    
-    public static string[] GetGraphNames()
-    {
-#if !DEBUG && !FORCED_DD3D
-        if (_DebugDrawUtils_.IsCallEnabled)
-#endif
-        {
-#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
-            return (string[])(Instance?.Call(__get_graph_names));
-#endif
-        }
-#if !DEBUG && !FORCED_DD3D
-        else
-#endif
-        {
-#if !DEBUG && !FORCED_DD3D
-            return default;
 #endif
         }
     }
@@ -273,8 +150,6 @@ internal class DebugDraw2DStats : _DebugDrawInstanceWrapper_
     
     private static readonly StringName __prop_overlay_text_groups = "overlay_text_groups";
     private static readonly StringName __prop_overlay_text_lines = "overlay_text_lines";
-    private static readonly StringName __prop_overlay_graphs_enabled = "overlay_graphs_enabled";
-    private static readonly StringName __prop_overlay_graphs_total = "overlay_graphs_total";
     
     public int OverlayTextGroups
     {
@@ -286,18 +161,6 @@ internal class DebugDraw2DStats : _DebugDrawInstanceWrapper_
     {
         get => (int)ClassDB.ClassGetProperty(Instance, __prop_overlay_text_lines);
         set => ClassDB.ClassSetProperty(Instance, __prop_overlay_text_lines, value);
-    }
-    
-    public int OverlayGraphsEnabled
-    {
-        get => (int)ClassDB.ClassGetProperty(Instance, __prop_overlay_graphs_enabled);
-        set => ClassDB.ClassSetProperty(Instance, __prop_overlay_graphs_enabled, value);
-    }
-    
-    public int OverlayGraphsTotal
-    {
-        get => (int)ClassDB.ClassGetProperty(Instance, __prop_overlay_graphs_total);
-        set => ClassDB.ClassSetProperty(Instance, __prop_overlay_graphs_total, value);
     }
     
 }
@@ -316,7 +179,6 @@ internal class DebugDraw2DConfig : _DebugDrawInstanceWrapper_
         RightBottom = 3,
     }
     
-    private static readonly StringName __prop_graphs_base_offset = "graphs_base_offset";
     private static readonly StringName __prop_text_block_position = "text_block_position";
     private static readonly StringName __prop_text_block_offset = "text_block_offset";
     private static readonly StringName __prop_text_padding = "text_padding";
@@ -325,12 +187,6 @@ internal class DebugDraw2DConfig : _DebugDrawInstanceWrapper_
     private static readonly StringName __prop_text_foreground_color = "text_foreground_color";
     private static readonly StringName __prop_text_background_color = "text_background_color";
     private static readonly StringName __prop_text_custom_font = "text_custom_font";
-    
-    public Vector2I GraphsBaseOffset
-    {
-        get => (Vector2I)ClassDB.ClassGetProperty(Instance, __prop_graphs_base_offset);
-        set => ClassDB.ClassSetProperty(Instance, __prop_graphs_base_offset, value);
-    }
     
     public DebugDraw2DConfig.BlockPosition TextBlockPosition
     {
@@ -378,245 +234,6 @@ internal class DebugDraw2DConfig : _DebugDrawInstanceWrapper_
     {
         get => (Font)ClassDB.ClassGetProperty(Instance, __prop_text_custom_font);
         set => ClassDB.ClassSetProperty(Instance, __prop_text_custom_font, value);
-    }
-    
-}
-
-internal class DebugDraw2DGraph : _DebugDrawInstanceWrapper_
-{
-    public DebugDraw2DGraph(GodotObject _instance) : base (_instance) {}
-    
-    public DebugDraw2DGraph() : this((GodotObject)ClassDB.Instantiate("DebugDraw2DGraph")) { }
-    
-    public enum GraphPosition : long
-    {
-        LeftTop = 0,
-        RightTop = 1,
-        LeftBottom = 2,
-        RightBottom = 3,
-    }
-    
-    public enum GraphSide : long
-    {
-        Left = 0,
-        Top = 1,
-        Right = 2,
-        Bottom = 3,
-    }
-    
-    public enum TextFlags : long
-    {
-        Current = 1,
-        Avg = 2,
-        Max = 4,
-        Min = 8,
-        All = 15,
-    }
-    
-    private static readonly StringName __get_title = "get_title";
-    private static readonly StringName __set_parent = "set_parent";
-    
-    public StringName GetTitle()
-    {
-#if !DEBUG && !FORCED_DD3D
-        if (_DebugDrawUtils_.IsCallEnabled)
-#endif
-        {
-#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
-            return (StringName)(Instance?.Call(__get_title));
-#endif
-        }
-#if !DEBUG && !FORCED_DD3D
-        else
-#endif
-        {
-#if !DEBUG && !FORCED_DD3D
-            return default;
-#endif
-        }
-    }
-    
-    public void SetParent(StringName parent, DebugDraw2DGraph.GraphSide side = (DebugDraw2DGraph.GraphSide)3)
-    {
-#if !DEBUG && !FORCED_DD3D
-        if (_DebugDrawUtils_.IsCallEnabled)
-#endif
-        {
-#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
-            Instance?.Call(__set_parent, parent, (long)side);
-#endif
-        }
-    }
-    
-    private static readonly StringName __prop_enabled = "enabled";
-    private static readonly StringName __prop_upside_down = "upside_down";
-    private static readonly StringName __prop_show_title = "show_title";
-    private static readonly StringName __prop_show_text_flags = "show_text_flags";
-    private static readonly StringName __prop_size = "size";
-    private static readonly StringName __prop_buffer_size = "buffer_size";
-    private static readonly StringName __prop_offset = "offset";
-    private static readonly StringName __prop_corner = "corner";
-    private static readonly StringName __prop_line_width = "line_width";
-    private static readonly StringName __prop_line_color = "line_color";
-    private static readonly StringName __prop_background_color = "background_color";
-    private static readonly StringName __prop_border_color = "border_color";
-    private static readonly StringName __prop_text_suffix = "text_suffix";
-    private static readonly StringName __prop_custom_font = "custom_font";
-    private static readonly StringName __prop_title_size = "title_size";
-    private static readonly StringName __prop_text_size = "text_size";
-    private static readonly StringName __prop_title_color = "title_color";
-    private static readonly StringName __prop_text_color = "text_color";
-    private static readonly StringName __prop_text_precision = "text_precision";
-    private static readonly StringName __prop_parent_graph = "parent_graph";
-    private static readonly StringName __prop_parent_graph_side = "parent_graph_side";
-    private static readonly StringName __prop_data_getter = "data_getter";
-    
-    public bool Enabled
-    {
-        get => (bool)ClassDB.ClassGetProperty(Instance, __prop_enabled);
-        set => ClassDB.ClassSetProperty(Instance, __prop_enabled, value);
-    }
-    
-    public bool UpsideDown
-    {
-        get => (bool)ClassDB.ClassGetProperty(Instance, __prop_upside_down);
-        set => ClassDB.ClassSetProperty(Instance, __prop_upside_down, value);
-    }
-    
-    public bool ShowTitle
-    {
-        get => (bool)ClassDB.ClassGetProperty(Instance, __prop_show_title);
-        set => ClassDB.ClassSetProperty(Instance, __prop_show_title, value);
-    }
-    
-    public DebugDraw2DGraph.TextFlags ShowTextFlags
-    {
-        get => (DebugDraw2DGraph.TextFlags)(long)ClassDB.ClassGetProperty(Instance, __prop_show_text_flags);
-        set => ClassDB.ClassSetProperty(Instance, __prop_show_text_flags, (long)value);
-    }
-    
-    public Vector2I Size
-    {
-        get => (Vector2I)ClassDB.ClassGetProperty(Instance, __prop_size);
-        set => ClassDB.ClassSetProperty(Instance, __prop_size, value);
-    }
-    
-    public int BufferSize
-    {
-        get => (int)ClassDB.ClassGetProperty(Instance, __prop_buffer_size);
-        set => ClassDB.ClassSetProperty(Instance, __prop_buffer_size, value);
-    }
-    
-    public Vector2I Offset
-    {
-        get => (Vector2I)ClassDB.ClassGetProperty(Instance, __prop_offset);
-        set => ClassDB.ClassSetProperty(Instance, __prop_offset, value);
-    }
-    
-    public DebugDraw2DGraph.GraphPosition Corner
-    {
-        get => (DebugDraw2DGraph.GraphPosition)(long)ClassDB.ClassGetProperty(Instance, __prop_corner);
-        set => ClassDB.ClassSetProperty(Instance, __prop_corner, (long)value);
-    }
-    
-    public float LineWidth
-    {
-        get => (float)ClassDB.ClassGetProperty(Instance, __prop_line_width);
-        set => ClassDB.ClassSetProperty(Instance, __prop_line_width, value);
-    }
-    
-    public Color LineColor
-    {
-        get => (Color)ClassDB.ClassGetProperty(Instance, __prop_line_color);
-        set => ClassDB.ClassSetProperty(Instance, __prop_line_color, value);
-    }
-    
-    public Color BackgroundColor
-    {
-        get => (Color)ClassDB.ClassGetProperty(Instance, __prop_background_color);
-        set => ClassDB.ClassSetProperty(Instance, __prop_background_color, value);
-    }
-    
-    public Color BorderColor
-    {
-        get => (Color)ClassDB.ClassGetProperty(Instance, __prop_border_color);
-        set => ClassDB.ClassSetProperty(Instance, __prop_border_color, value);
-    }
-    
-    public string TextSuffix
-    {
-        get => (string)ClassDB.ClassGetProperty(Instance, __prop_text_suffix);
-        set => ClassDB.ClassSetProperty(Instance, __prop_text_suffix, value);
-    }
-    
-    public Font CustomFont
-    {
-        get => (Font)ClassDB.ClassGetProperty(Instance, __prop_custom_font);
-        set => ClassDB.ClassSetProperty(Instance, __prop_custom_font, value);
-    }
-    
-    public int TitleSize
-    {
-        get => (int)ClassDB.ClassGetProperty(Instance, __prop_title_size);
-        set => ClassDB.ClassSetProperty(Instance, __prop_title_size, value);
-    }
-    
-    public int TextSize
-    {
-        get => (int)ClassDB.ClassGetProperty(Instance, __prop_text_size);
-        set => ClassDB.ClassSetProperty(Instance, __prop_text_size, value);
-    }
-    
-    public Color TitleColor
-    {
-        get => (Color)ClassDB.ClassGetProperty(Instance, __prop_title_color);
-        set => ClassDB.ClassSetProperty(Instance, __prop_title_color, value);
-    }
-    
-    public Color TextColor
-    {
-        get => (Color)ClassDB.ClassGetProperty(Instance, __prop_text_color);
-        set => ClassDB.ClassSetProperty(Instance, __prop_text_color, value);
-    }
-    
-    public int TextPrecision
-    {
-        get => (int)ClassDB.ClassGetProperty(Instance, __prop_text_precision);
-        set => ClassDB.ClassSetProperty(Instance, __prop_text_precision, value);
-    }
-    
-    public StringName ParentGraph
-    {
-        get => (StringName)ClassDB.ClassGetProperty(Instance, __prop_parent_graph);
-        set => ClassDB.ClassSetProperty(Instance, __prop_parent_graph, value);
-    }
-    
-    public DebugDraw2DGraph.GraphSide ParentGraphSide
-    {
-        get => (DebugDraw2DGraph.GraphSide)(long)ClassDB.ClassGetProperty(Instance, __prop_parent_graph_side);
-        set => ClassDB.ClassSetProperty(Instance, __prop_parent_graph_side, (long)value);
-    }
-    
-    public Callable DataGetter
-    {
-        get => (Callable)ClassDB.ClassGetProperty(Instance, __prop_data_getter);
-        set => ClassDB.ClassSetProperty(Instance, __prop_data_getter, value);
-    }
-    
-}
-
-internal class DebugDraw2DFPSGraph : DebugDraw2DGraph
-{
-    public DebugDraw2DFPSGraph(GodotObject _instance) : base (_instance) {}
-    
-    public DebugDraw2DFPSGraph() : this((GodotObject)ClassDB.Instantiate("DebugDraw2DFPSGraph")) { }
-    
-    private static readonly StringName __prop_frame_time_mode = "frame_time_mode";
-    
-    public bool FrameTimeMode
-    {
-        get => (bool)ClassDB.ClassGetProperty(Instance, __prop_frame_time_mode);
-        set => ClassDB.ClassSetProperty(Instance, __prop_frame_time_mode, value);
     }
     
 }
@@ -673,6 +290,7 @@ static internal class DebugDraw3D
     private static readonly StringName __draw_gizmo = "draw_gizmo";
     private static readonly StringName __draw_grid = "draw_grid";
     private static readonly StringName __draw_grid_xf = "draw_grid_xf";
+    private static readonly StringName __draw_text = "draw_text";
     private static readonly StringName __get_render_stats = "get_render_stats";
     private static readonly StringName __get_render_stats_for_world = "get_render_stats_for_world";
     private static readonly StringName __new_scoped_config = "new_scoped_config";
@@ -856,35 +474,6 @@ static internal class DebugDraw3D
             Instance?.Call(__draw_lines, lines, color ?? _DebugDrawUtils_.DefaultArgumentsData.arg_2, duration);
 #endif
         }
-    }
-
-    public static void DrawSemiArc(Vector3 position, Vector3 startDirection, Vector3 endDirection, float radius = 0.5f, Color? color = null, float duration = 0f)
-    {
-        Vector3 pointAB = (startDirection + endDirection).Normalized();
-        Vector3 pointAAB = (startDirection + pointAB).Normalized();
-        Vector3 pointABB = (pointAB + endDirection).Normalized();
-
-        DrawLine(position + startDirection * radius, position + pointAAB * radius, color, duration);
-        DrawLine(position + pointAAB * radius, position + pointAB * radius, color, duration);
-        DrawLine(position + pointAB * radius, position + pointABB * radius, color, duration);
-        DrawLine(position + pointABB * radius, position + endDirection * radius, color, duration);
-    }
-
-    public static void DrawSimpleSphere(Vector3 position, Vector3 x, Vector3 y, Vector3 z, 
-        float radius = 0.5f, Color? color = null, float duration = 0f)
-    {
-        DrawSemiArc(position, y, x, radius, color, duration);
-        DrawSemiArc(position, y, -x, radius, color, duration);
-        DrawSemiArc(position, -y, -x, radius, color, duration);
-        DrawSemiArc(position, -y, x, radius, color, duration);
-        DrawSemiArc(position, y, z, radius, color, duration);
-        DrawSemiArc(position, y, -z, radius, color, duration);
-        DrawSemiArc(position, -y, -z, radius, color, duration);
-        DrawSemiArc(position, -y, z, radius, color, duration);
-        DrawSemiArc(position, x, z, radius, color, duration);
-        DrawSemiArc(position, x, -z, radius, color, duration);
-        DrawSemiArc(position, -x, -z, radius, color, duration);
-        DrawSemiArc(position, -x, z, radius, color, duration);
     }
     
     public static void DrawRay(Vector3 origin, Vector3 direction, float length, Color? color = null, float duration = 0f)
@@ -1079,6 +668,121 @@ static internal class DebugDraw3D
         }
     }
     
+    public static void DrawText(Vector3 position, string text, int size = 32, Color? color = null, float duration = 0f)
+    {
+#if !DEBUG && !FORCED_DD3D
+        if (_DebugDrawUtils_.IsCallEnabled)
+#endif
+        {
+#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
+            Instance?.Call(__draw_text, position, text, size, color ?? _DebugDrawUtils_.DefaultArgumentsData.arg_2, duration);
+#endif
+        }
+    }
+
+    public static void DrawSimpleSphere(Vector3 origin, Vector3 X, Vector3 Y, Vector3 Z, 
+                                        float radius = 0.5f, Color? color = null, float duration = 0f)
+    {
+        DrawArc(origin, X, Y, radius, color, duration);
+        DrawArc(origin, X, Z, radius, color, duration);
+        DrawArc(origin, Y, Z, radius, color, duration);
+        DrawArc(origin, X, -Y, radius, color, duration);
+        DrawArc(origin, -X, Z, radius, color, duration);
+        DrawArc(origin, Y, -Z, radius, color, duration);
+        DrawArc(origin, -X, -Y, radius, color, duration);
+        DrawArc(origin, -X, -Z, radius, color, duration);
+        DrawArc(origin, -Y, -Z, radius, color, duration);
+        DrawArc(origin, -X, Y, radius, color, duration);
+        DrawArc(origin, X, -Z, radius, color, duration);
+        DrawArc(origin, -Y, Z, radius, color, duration);
+    }
+
+    public static void DrawHalfSphereX(Vector3 origin, Vector3 X, Vector3 Y, Vector3 Z, bool inverse = false,  
+                                        float radius = 0.5f, Color? color = null, float duration = 0f)
+    {
+        DrawArc(origin, Y, Z, radius, color, duration);
+        DrawArc(origin, Y, -Z, radius, color, duration);
+        DrawArc(origin, -Y, Z, radius, color, duration);
+        DrawArc(origin, -Y, -Z, radius, color, duration);
+
+        if (inverse)
+        {
+                DrawArc(origin, -X, Y, radius, color, duration);
+                DrawArc(origin, -X, Z, radius, color, duration);
+                DrawArc(origin, -X, -Y, radius, color, duration);
+                DrawArc(origin, -X, -Z, radius, color, duration);
+        }
+        else
+        {
+                DrawArc(origin, X, Y, radius, color, duration);
+                DrawArc(origin, X, Z, radius, color, duration);
+                DrawArc(origin, X, -Y, radius, color, duration);
+                DrawArc(origin, X, -Z, radius, color, duration);
+        }
+    }
+
+    public static void DrawHalfSphereY(Vector3 origin, Vector3 X, Vector3 Y, Vector3 Z, bool inverse = false,  
+                                        float radius = 0.5f, Color? color = null, float duration = 0f)
+    {
+        DrawArc(origin, X, Z, radius, color, duration);
+        DrawArc(origin, -X, Z, radius, color, duration);
+        DrawArc(origin, X, -Z, radius, color, duration);
+        DrawArc(origin, -X, -Z, radius, color, duration);
+
+        if (inverse)
+        {
+                DrawArc(origin, X, -Y, radius, color, duration);
+                DrawArc(origin, -Y, Z, radius, color, duration);
+                DrawArc(origin, -X, -Y, radius, color, duration);
+                DrawArc(origin, -Y, -Z, radius, color, duration);
+        }
+        else
+        {
+                DrawArc(origin, X, Y, radius, color, duration);
+                DrawArc(origin, Y, Z, radius, color, duration);
+                DrawArc(origin, -X, Y, radius, color, duration);
+                DrawArc(origin, Y, -Z, radius, color, duration);
+        }
+    }
+
+    public static void DrawHalfSphereZ(Vector3 origin, Vector3 X, Vector3 Y, Vector3 Z, bool inverse = false,  
+                                        float radius = 0.5f, Color? color = null, float duration = 0f)
+    {
+        DrawArc(origin, X, Y, radius, color, duration);
+        DrawArc(origin, X, -Y, radius, color, duration);
+        DrawArc(origin, -X, Y, radius, color, duration);
+        DrawArc(origin, -X, -Y, radius, color, duration);
+        
+        if (inverse)
+        {
+                DrawArc(origin, X, Z, radius, color, duration);
+                DrawArc(origin, Y, Z, radius, color, duration);
+                DrawArc(origin, -X, Z, radius, color, duration);
+                DrawArc(origin, -Y, Z, radius, color, duration);
+        }
+        else
+        {
+                DrawArc(origin, Y, -Z, radius, color, duration);
+                DrawArc(origin, -X, -Z, radius, color, duration);
+                DrawArc(origin, -Y, -Z, radius, color, duration);
+                DrawArc(origin, X, -Z, radius, color, duration);
+        }
+    }
+
+    public static void DrawArc(Vector3 origin, Vector3 dirA, Vector3 dirB, float radius = 0.5f, Color? color = null, float duration = 0f)
+    {
+        Vector3 pointA = origin + (dirA * radius);
+        Vector3 pointB = origin + (dirB * radius);
+        Vector3 pointAB = origin + ((dirA + dirB).Normalized() * radius);
+        Vector3 pointAAB = origin + ((dirA + (dirA + dirB).Normalized()).Normalized() * radius);
+        Vector3 pointABB = origin + (((dirA + dirB).Normalized() + dirB).Normalized() * radius);
+        DrawLine(pointA, pointAAB, color, duration);
+        DrawLine(pointAAB, pointAB, color, duration);
+        DrawLine(pointAB, pointABB, color, duration);
+        DrawLine(pointABB, pointB, color, duration);
+        //DrawLine(pointAAB, pointAB, color, duration);
+    }
+    
     public static DebugDraw3DStats GetRenderStats()
     {
 #if !DEBUG && !FORCED_DD3D
@@ -1208,6 +912,11 @@ internal class DebugDraw3DStats : _DebugDrawInstanceWrapper_
     private static readonly StringName __prop_total_time_spent_usec = "total_time_spent_usec";
     private static readonly StringName __prop_created_scoped_configs = "created_scoped_configs";
     private static readonly StringName __prop_orphan_scoped_configs = "orphan_scoped_configs";
+    private static readonly StringName __prop_nodes_label3d_visible = "nodes_label3d_visible";
+    private static readonly StringName __prop_nodes_label3d_visible_physics = "nodes_label3d_visible_physics";
+    private static readonly StringName __prop_nodes_label3d_exists = "nodes_label3d_exists";
+    private static readonly StringName __prop_nodes_label3d_exists_physics = "nodes_label3d_exists_physics";
+    private static readonly StringName __prop_nodes_label3d_exists_total = "nodes_label3d_exists_total";
     
     public int Instances
     {
@@ -1323,6 +1032,36 @@ internal class DebugDraw3DStats : _DebugDrawInstanceWrapper_
         set => ClassDB.ClassSetProperty(Instance, __prop_orphan_scoped_configs, value);
     }
     
+    public int NodesLabel3dVisible
+    {
+        get => (int)ClassDB.ClassGetProperty(Instance, __prop_nodes_label3d_visible);
+        set => ClassDB.ClassSetProperty(Instance, __prop_nodes_label3d_visible, value);
+    }
+    
+    public int NodesLabel3dVisiblePhysics
+    {
+        get => (int)ClassDB.ClassGetProperty(Instance, __prop_nodes_label3d_visible_physics);
+        set => ClassDB.ClassSetProperty(Instance, __prop_nodes_label3d_visible_physics, value);
+    }
+    
+    public int NodesLabel3dExists
+    {
+        get => (int)ClassDB.ClassGetProperty(Instance, __prop_nodes_label3d_exists);
+        set => ClassDB.ClassSetProperty(Instance, __prop_nodes_label3d_exists, value);
+    }
+    
+    public int NodesLabel3dExistsPhysics
+    {
+        get => (int)ClassDB.ClassGetProperty(Instance, __prop_nodes_label3d_exists_physics);
+        set => ClassDB.ClassSetProperty(Instance, __prop_nodes_label3d_exists_physics, value);
+    }
+    
+    public int NodesLabel3dExistsTotal
+    {
+        get => (int)ClassDB.ClassGetProperty(Instance, __prop_nodes_label3d_exists_total);
+        set => ClassDB.ClassSetProperty(Instance, __prop_nodes_label3d_exists_total, value);
+    }
+    
 }
 
 internal class DebugDraw3DConfig : _DebugDrawInstanceWrapper_
@@ -1408,6 +1147,12 @@ internal class DebugDraw3DScopeConfig : _DebugDrawInstanceWrapper_, IDisposable
     private static readonly StringName __get_viewport = "get_viewport";
     private static readonly StringName __set_no_depth_test = "set_no_depth_test";
     private static readonly StringName __is_no_depth_test = "is_no_depth_test";
+    private static readonly StringName __set_text_outline_color = "set_text_outline_color";
+    private static readonly StringName __get_text_outline_color = "get_text_outline_color";
+    private static readonly StringName __set_text_outline_size = "set_text_outline_size";
+    private static readonly StringName __get_text_outline_size = "get_text_outline_size";
+    private static readonly StringName __set_text_font = "set_text_font";
+    private static readonly StringName __get_text_font = "get_text_font";
     // Additional custom statics
     private static readonly StringName ___manual_unregister = "_manual_unregister";
     
@@ -1657,6 +1402,126 @@ internal class DebugDraw3DScopeConfig : _DebugDrawInstanceWrapper_, IDisposable
         }
     }
     
+    public DebugDraw3DScopeConfig SetTextOutlineColor(Color value)
+    {
+#if !DEBUG && !FORCED_DD3D
+        if (_DebugDrawUtils_.IsCallEnabled)
+#endif
+        {
+#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
+            return (DebugDraw3DScopeConfig)_DebugDrawUtils_.CreateWrapperFromObject((GodotObject)Instance?.Call(__set_text_outline_color, value));
+#endif
+        }
+#if !DEBUG && !FORCED_DD3D
+        else
+#endif
+        {
+#if !DEBUG && !FORCED_DD3D
+            return default;
+#endif
+        }
+    }
+    
+    public Color GetTextOutlineColor()
+    {
+#if !DEBUG && !FORCED_DD3D
+        if (_DebugDrawUtils_.IsCallEnabled)
+#endif
+        {
+#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
+            return (Color)(Instance?.Call(__get_text_outline_color));
+#endif
+        }
+#if !DEBUG && !FORCED_DD3D
+        else
+#endif
+        {
+#if !DEBUG && !FORCED_DD3D
+            return default;
+#endif
+        }
+    }
+    
+    public DebugDraw3DScopeConfig SetTextOutlineSize(int value)
+    {
+#if !DEBUG && !FORCED_DD3D
+        if (_DebugDrawUtils_.IsCallEnabled)
+#endif
+        {
+#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
+            return (DebugDraw3DScopeConfig)_DebugDrawUtils_.CreateWrapperFromObject((GodotObject)Instance?.Call(__set_text_outline_size, value));
+#endif
+        }
+#if !DEBUG && !FORCED_DD3D
+        else
+#endif
+        {
+#if !DEBUG && !FORCED_DD3D
+            return default;
+#endif
+        }
+    }
+    
+    public int GetTextOutlineSize()
+    {
+#if !DEBUG && !FORCED_DD3D
+        if (_DebugDrawUtils_.IsCallEnabled)
+#endif
+        {
+#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
+            return (int)(Instance?.Call(__get_text_outline_size));
+#endif
+        }
+#if !DEBUG && !FORCED_DD3D
+        else
+#endif
+        {
+#if !DEBUG && !FORCED_DD3D
+            return default;
+#endif
+        }
+    }
+    
+    public DebugDraw3DScopeConfig SetTextFont(Font value)
+    {
+#if !DEBUG && !FORCED_DD3D
+        if (_DebugDrawUtils_.IsCallEnabled)
+#endif
+        {
+#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
+            return (DebugDraw3DScopeConfig)_DebugDrawUtils_.CreateWrapperFromObject((GodotObject)Instance?.Call(__set_text_font, value));
+#endif
+        }
+#if !DEBUG && !FORCED_DD3D
+        else
+#endif
+        {
+#if !DEBUG && !FORCED_DD3D
+            return default;
+#endif
+        }
+    }
+    
+    public Font GetTextFont()
+    {
+#if !DEBUG && !FORCED_DD3D
+        if (_DebugDrawUtils_.IsCallEnabled)
+#endif
+        {
+#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
+            return (Font)(Instance?.Call(__get_text_font));
+#endif
+        }
+#if !DEBUG && !FORCED_DD3D
+        else
+#endif
+        {
+#if !DEBUG && !FORCED_DD3D
+            return default;
+#endif
+        }
+    }
+    
     
 }
 
@@ -1780,18 +1645,6 @@ internal static class _DebugDrawUtils_
             case "DebugDraw2DConfig":
             {
                 _DebugDrawInstanceWrapper_ new_instance = new DebugDraw2DConfig(_instance);
-                cached_instances[id] = new_instance;
-                return new_instance;
-            }
-            case "DebugDraw2DGraph":
-            {
-                _DebugDrawInstanceWrapper_ new_instance = new DebugDraw2DGraph(_instance);
-                cached_instances[id] = new_instance;
-                return new_instance;
-            }
-            case "DebugDraw2DFPSGraph":
-            {
-                _DebugDrawInstanceWrapper_ new_instance = new DebugDraw2DFPSGraph(_instance);
                 cached_instances[id] = new_instance;
                 return new_instance;
             }

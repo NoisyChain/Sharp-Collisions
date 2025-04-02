@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using FixMath.NET;
 
 namespace SharpCollisions.Sharp3D
@@ -6,9 +7,15 @@ namespace SharpCollisions.Sharp3D
     [Tool] [GlobalClass]
     public partial class FixedTransform3D : SharpNode
     {
-        [Export] public FixedTransform3D Parent;
+        [Export] private Node3D Renderer;
+        public FixedTransform3D Parent;
+        public Array<FixedTransform3D> Children;
+        [Export] public Vector3I fixedPosition;
+        [Export] public Vector3I fixedRotation;
         public FixVector3 FixedPosition;
         public FixVector3 FixedRotation;
+        public FixVector3 LocalFixedPosition;
+        public FixVector3 LocalFixedRotation;
 
         public FixVector3 Right => FixVector3.Rotate(FixVector3.Right, FixedRotation);
         public FixVector3 Up => FixVector3.Rotate(FixVector3.Up, FixedRotation);
@@ -21,24 +28,56 @@ namespace SharpCollisions.Sharp3D
         {
             base._Ready();
 
-            FixedPosition = (FixVector3)GlobalPosition;
-            FixedRotation = (FixVector3)GlobalRotation;
+            FixedPosition = new FixVector3(
+                (Fix64)fixedPosition.X / NodeScale,
+                (Fix64)fixedPosition.Y / NodeScale,
+                (Fix64)fixedPosition.Z / NodeScale
+            );
+
+            FixedRotation = new FixVector3(
+                (Fix64)fixedRotation.X / NodeRotation,
+                (Fix64)fixedRotation.Y / NodeRotation,
+                (Fix64)fixedRotation.Z / NodeRotation
+            );
+            FixedRotation *= Fix64.DegToRad;
+
             //Parent = GetParent<Node3D>() as FixedTransform3D;
-            GD.Print(Parent != null ? Parent.Name : "No parent found.");
+            //GD.Print(Parent != null ? Parent.Name : "No parent found.");
         }
 
         public override void _Process(double delta)
         {
-            if (Engine.IsEditorHint()) return;
-
-            GlobalPosition = (Vector3)FixedPosition;
-            GlobalRotation = (Vector3)FixedRotation;
+            base._Process(delta);
+            if (Engine.IsEditorHint()) PreviewNode();
         }
 
-        /*public override void _FixedPreProcess(Fix64 delta)
+        public override void RenderNode()
         {
-            TransformWithParent();
-        }*/
+            if (Renderer == null) return;
+
+            Renderer.Visible = Active;
+			
+			Renderer.GlobalPosition = (Vector3)FixedPosition;
+			Renderer.GlobalRotation = (Vector3)FixedRotation;
+        }
+
+        public override void PreviewNode()
+        {
+            if (Renderer == null) return;
+
+            Renderer.Visible = Active;
+
+			Renderer.GlobalPosition = new Vector3(
+				fixedPosition.X / (float)nodeScale,
+				fixedPosition.Y / (float)nodeScale,
+				fixedPosition.Z / (float)nodeScale
+			);
+			Renderer.GlobalRotationDegrees = new Vector3(
+				fixedRotation.X / (float)NodeRotation,
+				fixedRotation.Y / (float)NodeRotation,
+				fixedRotation.Z / (float)NodeRotation
+			);
+        }
 
         public void SetParent(FixedTransform3D newParent)
         {

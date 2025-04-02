@@ -8,12 +8,16 @@ namespace SharpCollisions.Sharp3D
     {
         public FixVector3 Extents;
 
-        [Export] private Vector3 extents = Vector3.One;
+        [Export] private Vector3I extents = Vector3I.One;
 
         public override void Initialize()
         {
             base.Initialize();
-            Extents = (FixVector3)extents;
+            Extents = new FixVector3(
+                (Fix64)extents.X / SharpNode.NodeScale,
+                (Fix64)extents.Y / SharpNode.NodeScale,
+                (Fix64)extents.Z / SharpNode.NodeScale
+            );
             Shape = CollisionType3D.AABB;
         }
 
@@ -41,9 +45,9 @@ namespace SharpCollisions.Sharp3D
             return UpdateAABBBoundingBox();
         }
 
-        public override void UpdatePoints(SharpBody3D body)
+        public override void UpdatePoints(FixVector3 position, FixVector3 rotation)
         {
-            base.UpdatePoints(body);
+            base.UpdatePoints(position, rotation);
         }
 
         public FixVolume UpdateAABBBoundingBox()

@@ -12,7 +12,7 @@ namespace SharpCollisions.Sharp3D
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)radius / SharpNode.convertedScale;
+            Radius = (Fix64)radius / SharpNode.NodeScale;
             Shape = CollisionType3D.Sphere;
         }
 

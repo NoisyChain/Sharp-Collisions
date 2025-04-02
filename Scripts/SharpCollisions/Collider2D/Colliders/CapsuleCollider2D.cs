@@ -19,8 +19,8 @@ namespace SharpCollisions.Sharp2D
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)radius / SharpNode.convertedScale;
-            Height = (Fix64)height / SharpNode.convertedScale;
+            Radius = (Fix64)radius / SharpNode.NodeScale;
+            Height = (Fix64)height / SharpNode.NodeScale;
             Shape = CollisionType2D.Capsule;
             CreateCapsulePoints();
         }
@@ -65,16 +65,15 @@ namespace SharpCollisions.Sharp2D
         {
             if (!DrawDebug) return;
 
-            Vector3 DirX = (Vector3)reference.Right;
-            Vector3 DirY = (Vector3)reference.Up;
+            Vector3 Dir = (Vector3)FixVector2.Normalize(UpperPoint - LowerPoint);
 
             float inflatedRadius = (float)Radius + 0.005f;
 
-            Vector3 LineVector = (Vector3)FixVector2.GetNormal(UpperPoint, LowerPoint);
-            Vector3 LineSpacing = LineVector * inflatedRadius;
+            Vector3 LineNormal = (Vector3)FixVector2.GetNormal(UpperPoint, LowerPoint);
+            Vector3 LineSpacing = LineNormal * inflatedRadius;
 
-            DebugDraw3D.DrawHalfSphereY((Vector3)UpperPoint, DirX, DirY, Vector3.Zero, false, inflatedRadius, debugColor);
-            DebugDraw3D.DrawHalfSphereY((Vector3)LowerPoint, DirX, DirY, Vector3.Zero, true, inflatedRadius, debugColor);
+            DebugDraw3D.DrawHalfSphereY((Vector3)UpperPoint, LineNormal, Dir, Vector3.Zero, false, inflatedRadius, debugColor);
+            DebugDraw3D.DrawHalfSphereY((Vector3)LowerPoint, LineNormal, Dir, Vector3.Zero, true, inflatedRadius, debugColor);
             DebugDraw3D.DrawLine((Vector3)UpperPoint, (Vector3)LowerPoint, debugColor);
             DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing, (Vector3)LowerPoint + LineSpacing, debugColor);
             DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing, (Vector3)LowerPoint - LineSpacing, debugColor);

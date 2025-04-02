@@ -7,7 +7,8 @@ namespace SharpCollisions.Sharp2D
     [Tool] [GlobalClass]
     public partial class FixedTransform2D : SharpNode
     {
-        private ISharpRenderer Renderer;
+        [Export] private Node3D Renderer;
+        //private Node2D Renderer2D;
         public FixedTransform2D Parent;
         public Array<FixedTransform2D> Children;
         [Export] public Vector2I fixedPosition;
@@ -25,23 +26,46 @@ namespace SharpCollisions.Sharp2D
         public override void _Ready()
         {
             base._Ready();
-            //Renderer = this.GetNode("Graphics") as ISharpRenderer;
+
             FixedPosition = new FixVector2(
-                (Fix64)fixedPosition.X / convertedScale,
-                (Fix64)fixedPosition.Y / convertedScale
+                (Fix64)fixedPosition.X / NodeScale,
+                (Fix64)fixedPosition.Y / NodeScale
             );
-            FixedRotation = (Fix64)fixedRotation / convertedScale;
+            FixedRotation = (Fix64)fixedRotation / NodeRotation;
             FixedRotation *= Fix64.DegToRad;
 
             //Parent = GetParent<Node3D>() as FixedTransform2D;
             //GD.Print(Parent != null ? Parent.Name : "No parent found.");
         }
 
-        public void SetRenderer(ISharpRenderer rend) { Renderer = rend; }
+        public override void _Process(double delta)
+        {
+            base._Process(delta);
+            if (Engine.IsEditorHint()) PreviewNode();
+        }
 
         public override void RenderNode()
         {
-            if (Renderer != null) Renderer.Render();
+            if (Renderer == null) return;
+
+            Renderer.Visible = Active;
+			
+			Renderer.GlobalPosition = (Vector3)FixedPosition;
+			Renderer.GlobalRotation = new Vector3(0, 0, (float)FixedRotation);
+        }
+
+        public override void PreviewNode()
+        {
+            if (Renderer == null) return;
+
+            Renderer.Visible = Active;
+
+			Renderer.GlobalPosition = new Vector3(
+				fixedPosition.X / (float)nodeScale,
+				fixedPosition.Y / (float)nodeScale,
+				0
+			);
+			Renderer.GlobalRotationDegrees = new Vector3(0,	0,	fixedRotation / (float)NodeRotation);
         }
 
         public void SetParent(FixedTransform2D newParent)

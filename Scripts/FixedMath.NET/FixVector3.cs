@@ -80,22 +80,11 @@ namespace FixMath.NET
 			return Cross(Cross(a, b), c);
 		}
 
-		public static FixVector3 GetNormal(FixVector3 a, FixVector3 b, int direction)
+		public static FixVector3 GetNormal(FixVector3 a, FixVector3 b)
 		{
 			FixVector3 edge = b - a;
-			FixVector3 axis = Zero;
-			switch (direction)
-			{
-				case 0:
-					axis = new FixVector3(edge.z, -edge.y, edge.x);
-					break;
-				case 1:
-					axis = new FixVector3(-edge.y, edge.z, edge.x);
-					break;
-				case 2:
-					axis = new FixVector3(-edge.y, edge.x, edge.z);
-					break;
-			}
+			FixVector3 direction = Normalize(edge);
+			FixVector3 axis = new FixVector3(-direction.y, direction.x, direction.z);
 			return Normalize(axis);
 		}
 

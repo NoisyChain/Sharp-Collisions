@@ -79,8 +79,7 @@ namespace SharpCollisions.Sharp2D
 			for (int i = 0; i < bodies.Count; i++)
 			{
 				SharpBody2D bodyA = bodies[i];
-				bodyA.Collider.collisionFlags.Clear();
-				bodyA.Collider.globalCollisionFlags.Clear();
+				bodyA.ClearFlags();
 
 				for (int j = i + 1; j < bodies.Count; j++)
 				{
@@ -94,15 +93,8 @@ namespace SharpCollisions.Sharp2D
 					{ ClearCollision(bodyA, bodyB); continue; }
 					if (!CompareLayers(bodyA, bodyB))
 					{ ClearCollision(bodyA, bodyB); continue; }
-					//TODO: add support for multiple colliders per body
-					if (!bodyA.Collider.Active || !bodyB.Collider.Active)
-					{ ClearCollision(bodyA, bodyB); continue; }
-					if (!bodyA.Collider.BoundingBox.IsOverlapping(bodyB.Collider.BoundingBox))
-					{ ClearCollision(bodyA, bodyB); continue; }
-
-					PossibleCollisions.Add(new PossibleCollision(
-						i, j, GetCollisionDistance(bodyA.Collider, bodyB.Collider)
-					));
+					//Check every collider in each body
+					CheckColliders(bodyA, bodyB, i, j);
 
 					bodyA.Collisions.Clear();
 					bodyB.Collisions.Clear();
@@ -115,14 +107,37 @@ namespace SharpCollisions.Sharp2D
 			PossibleCollisions.Sort((a, b) => a.BodyA.CompareTo(b.BodyA));
 		}
 
+		private void CheckColliders(SharpBody2D bodyA, SharpBody2D bodyB, int indA, int indB)
+		{
+			if (!bodyA.HasColliders() || !bodyB.HasColliders()) return;
+
+			for (int i = 0; i < bodyA.Colliders.Length; i++)
+			{
+				for (int j = 0; j < bodyB.Colliders.Length; j++)
+				{
+					if (!bodyA.Colliders[i].Active || !bodyB.Colliders[j].Active)
+					{ ClearCollision(bodyA, bodyB); continue; }
+					if (!bodyA.Colliders[i].BoundingBox.IsOverlapping(bodyB.Colliders[j].BoundingBox))
+					{ ClearCollision(bodyA, bodyB); continue; }
+
+					PossibleCollisions.Add(new PossibleCollision(
+						indA, indB, i, j,
+						GetCollisionDistance(bodyA.Colliders[i], bodyB.Colliders[j])
+					));
+				}
+			}
+		}
+
 		private void NarrowPhase()
 		{
 			for(int i = 0; i < PossibleCollisions.Count; i ++)
 			{
 				SharpBody2D bodyA = bodies[PossibleCollisions[i].BodyA];
 				SharpBody2D bodyB = bodies[PossibleCollisions[i].BodyB];
+				int colIndA = PossibleCollisions[i].ColliderA;
+				int colIndB = PossibleCollisions[i].ColliderB;
 
-				if (bodyA.Collider.IsOverlapping(bodyB.Collider, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint))
+				if (bodyA.Colliders[colIndA].IsOverlapping(bodyB.Colliders[colIndB], out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint))
 				{
 					if (!bodyA.isTrigger && !bodyB.isTrigger)
 					{
@@ -151,10 +166,10 @@ namespace SharpCollisions.Sharp2D
 
 					if (!bodyA.isTrigger && !bodyB.isTrigger)
 					{
-						bodyA.Collider.GetCollisionFlags(-Normal, bodyA);
-						bodyB.Collider.GetCollisionFlags(Normal, bodyB);
-						bodyA.Collider.GetGlobalCollisionFlags(-Normal);
-						bodyB.Collider.GetGlobalCollisionFlags(Normal);
+						bodyA.Colliders[colIndA].GetCollisionFlags(-Normal, bodyA);
+						bodyB.Colliders[colIndB].GetCollisionFlags(Normal, bodyB);
+						bodyA.Colliders[colIndA].GetGlobalCollisionFlags(-Normal);
+						bodyB.Colliders[colIndB].GetGlobalCollisionFlags(Normal);
 					}
 					
 					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].BodyA, PossibleCollisions[i].BodyB, true)))

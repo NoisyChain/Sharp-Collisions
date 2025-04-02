@@ -40,14 +40,19 @@ namespace SharpCollisions.Sharp2D
 		public virtual void Initialize()
 		{
 			PositionOffset = new FixVector2(
-				(Fix64)positionOffset.X  / SharpNode.convertedScale,
-				(Fix64)positionOffset.Y  / SharpNode.convertedScale
+				(Fix64)positionOffset.X  / SharpNode.NodeScale,
+				(Fix64)positionOffset.Y  / SharpNode.NodeScale
 			);
-			RotationOffset = (Fix64)rotationOffset / SharpNode.convertedScale;
+			RotationOffset = (Fix64)rotationOffset / SharpNode.NodeRotation;
 			RotationOffset *= Fix64.DegToRad;
 		}
 
 		public virtual void DebugDrawShapes(SharpBody2D reference)
+		{
+
+		}
+
+		public virtual void DebugDrawShapesEditor(SharpBody2D reference)
 		{
 
 		}

@@ -1,6 +1,7 @@
 using Godot;
 using FixMath.NET;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpCollisions.Sharp3D
 {
@@ -15,7 +16,7 @@ namespace SharpCollisions.Sharp3D
 		protected uint ID; 
 		public FixVector3 Velocity;
 
-		[Export] public SharpCollider3D Collider;
+		[Export] public SharpCollider3D[] Colliders;
 		public List<CollisionManifold3D> Collisions = new List<CollisionManifold3D>();
 		public List<uint> CollidedWith = new List<uint>();
 		public List<uint> BodiesToIgnore = new List<uint>();
@@ -56,11 +57,12 @@ namespace SharpCollisions.Sharp3D
 
 			base._Ready();
 			SharpManager.Instance.AddBody(this);
-			if (Collider == null)
-				Collider = GetNode<SharpCollider3D>("Collider");
-
-			Collider.Initialize();
-			UpdateCollider();
+			
+			if (HasColliders())
+				foreach(SharpCollider3D col in Colliders)
+					col.Initialize();
+			
+			UpdateColliders();
 			BeginOverlap = OnBeginOverlap;
 			DuringOverlap = OnOverlap;
 			EndOverlap = OnEndOverlap;
@@ -69,6 +71,7 @@ namespace SharpCollisions.Sharp3D
 		public override void _Process(double delta)
 		{
 			base._Process(delta);
+			PreviewColliders();
 		}
 
 		public override void RenderNode()
@@ -77,11 +80,20 @@ namespace SharpCollisions.Sharp3D
             DrawColliders();
         }
 
+		public void PreviewColliders()
+		{
+			if (!HasColliders()) return;
+			
+			foreach(SharpCollider3D col in Colliders)
+				col.DebugDrawShapesEditor(this);
+		}
+
 		public void DrawColliders()
 		{
-			if (Collider == null) return;
+			if (!HasColliders()) return;
 			
-			Collider.DebugDrawShapes(this);
+			foreach(SharpCollider3D col in Colliders)
+				col.DebugDrawShapes(this);
 		}
 
 		public override void _Destroy()
@@ -98,6 +110,11 @@ namespace SharpCollisions.Sharp3D
 		public uint GetBodyID()
 		{
 			return ID;
+		}
+
+		public bool HasColliders()
+		{
+			return Colliders != null && Colliders.Length > 0;
 		}
 
 		public void IgnoreBody(SharpBody3D bodyToIgnore, bool ignore)
@@ -139,7 +156,7 @@ namespace SharpCollisions.Sharp3D
 			FixedPosition.x += Velocity.x * finalDelta;
 			FixedPosition.y += Velocity.y * finalDelta;
 			FixedPosition.z += Velocity.z * finalDelta;
-			UpdateCollider();
+			UpdateColliders();
 		}
 
 		public void Rotate(FixVector3 angle)
@@ -147,7 +164,7 @@ namespace SharpCollisions.Sharp3D
 			if (BodyMode == 2) return;
 
 			FixedRotation += angle;
-			UpdateCollider();
+			UpdateColliders();
 		}
 
 		public void RotateDegrees(FixVector3 angle)
@@ -155,38 +172,52 @@ namespace SharpCollisions.Sharp3D
 			if (BodyMode == 2) return;
 
 			FixedRotation += angle * Fix64.DegToRad;
-			UpdateCollider();
+			UpdateColliders();
 		}
 
 		public void SetRotation(FixVector3 angle)
 		{
 			FixedRotation = angle;
-			UpdateCollider();
+			UpdateColliders();
 		}
 
 		public void PushAway(FixVector3 direction)
 		{
 			FixedPosition += direction;
-			UpdateCollider();
+			UpdateColliders();
 		}
 		
 		public void MoveTo(FixVector3 destination)
 		{
 			FixedPosition = destination;
-			UpdateCollider();
+			UpdateColliders();
 		}
 		
-		public void UpdateCollider()
+		public void UpdateColliders()
 		{
-			if (Collider == null)
+			if (!HasColliders())
 			{
 				GD.Print("There is no collider attached to this body. No collision will happen.");
 				return;
 			}
 			
-			Collider.Position = FixedPosition;
-			Collider.UpdatePoints(FixedPosition, FixedRotation);
-			Collider.UpdateBoundingBox();
+			foreach(SharpCollider3D col in Colliders)
+			{
+				col.Position = FixedPosition;
+				col.UpdatePoints(FixedPosition, FixedRotation);
+				col.UpdateBoundingBox();
+			}
+		}
+
+		public void ClearFlags()
+		{
+			if (!HasColliders()) return;
+			
+			foreach(SharpCollider3D col in Colliders)
+			{
+				col.collisionFlags.Clear();
+				col.globalCollisionFlags.Clear();
+			}
 		}
 
 		public virtual void OnBeginOverlap(SharpBody3D other)

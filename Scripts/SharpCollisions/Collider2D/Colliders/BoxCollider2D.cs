@@ -14,8 +14,8 @@ namespace SharpCollisions.Sharp2D
         {
             base.Initialize();
             Extents = new FixVector2(
-                (Fix64)extents.X / SharpNode.convertedScale,
-                (Fix64)extents.Y / SharpNode.convertedScale
+                (Fix64)extents.X / SharpNode.NodeScale,
+                (Fix64)extents.Y / SharpNode.NodeScale
             );
             CreateBoxPoints();
         }

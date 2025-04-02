@@ -19,8 +19,8 @@ namespace SharpCollisions.Sharp3D
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)radius / SharpNode.convertedScale;
-            Height = (Fix64)height / SharpNode.convertedScale;
+            Radius = (Fix64)radius / SharpNode.NodeScale;
+            Height = (Fix64)height / SharpNode.NodeScale;
             Shape = CollisionType3D.Capsule;
             CreateCapsulePoints();
         }
@@ -65,17 +65,14 @@ namespace SharpCollisions.Sharp3D
         {
             if (!DrawDebug) return;
 
-            Vector3 DirX = (Vector3)reference.Right;
-            Vector3 DirY = (Vector3)reference.Up;
-            Vector3 DirZ = (Vector3)reference.Forward;
+            Vector3 DirY = (Vector3)FixVector3.Normalize(UpperPoint - LowerPoint);
+            Vector3 DirX = (Vector3)FixVector3.GetNormal(LowerPoint, UpperPoint);
+            Vector3 DirZ = DirX.Cross(DirY);
 
             float inflatedRadius = (float)Radius + 0.005f;
 
-            Vector3 LineSpacingX = DirX * inflatedRadius;
-            Vector3 LineSpacingZ = DirZ * inflatedRadius;
-
-            Vector3 LineSpacing1 = LineSpacingX;
-            Vector3 LineSpacing2 = LineSpacingZ;
+            Vector3 LineSpacing1 = DirX * inflatedRadius;
+            Vector3 LineSpacing2 = DirZ * inflatedRadius;
 
             DebugDraw3D.DrawHalfSphereY((Vector3)UpperPoint, DirX, DirY, DirZ, false, inflatedRadius, debugColor);
             DebugDraw3D.DrawHalfSphereY((Vector3)LowerPoint, DirX, DirY, DirZ, true, inflatedRadius, debugColor);

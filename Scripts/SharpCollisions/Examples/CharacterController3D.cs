@@ -15,9 +15,6 @@ namespace SharpCollisions.Sharp3D
         [Export] private bool StopAirVelocityOnCeiling = true;
         [Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
 		public int FloorLayers = 1;
-        public bool IsOnGround => Collider.collisionFlags.Below;
-        public bool IsOnCeiling => Collider.collisionFlags.Above;
-        public bool IsOnWalls => Collider.collisionFlags.Walls;
 
         public FixVector3 GroundNormal => GetGround().Normal;
         public Fix64 GroundAngle => FixVector3.AngleDegrees(GroundNormal, Up);
@@ -36,6 +33,22 @@ namespace SharpCollisions.Sharp3D
 
         [Export] private Label debug;
         private string debugText;
+
+        public bool IsOnGround() 
+        {
+            if (!HasColliders()) return false;
+            return Colliders[0].collisionFlags.Below;
+        }
+        public bool IsOnCeiling()
+        {
+            if (!HasColliders()) return false;
+            return Colliders[0].collisionFlags.Above;
+        }
+        public bool IsOnWalls()
+        {
+            if (!HasColliders()) return false;
+            return Colliders[0].collisionFlags.Walls;
+        }
 
         public override void _Ready()
         {
@@ -61,7 +74,7 @@ namespace SharpCollisions.Sharp3D
                 Input3D.y = Fix64.NegativeOne;
             */
 
-            if (IsOnGround && IsValidFloor() && IsWalkableSlope(GroundAngle))
+            if (IsOnGround() && IsValidFloor() && IsWalkableSlope(GroundAngle))
             {
                 UpVector = GroundNormal;
                 VerticalVelocity = -UpVector;
@@ -126,9 +139,9 @@ namespace SharpCollisions.Sharp3D
 
             //SetRotation(correctedRotation);
             SetVelocity(finalVelocity);
-            string groundAngle = IsOnGround ? GroundAngle.ToString() : "No Ground";
-            if (debug != null) debugText = "Normal: " + UpVector.ToString() + 
-                "\nFlags: " + Collider.collisionFlags.ToString() + 
+            string groundAngle = IsOnGround() ? GroundAngle.ToString() : "No Ground";
+            if (debug != null && HasColliders()) debugText = "Normal: " + UpVector.ToString() + 
+                "\nFlags: " + Colliders[0].collisionFlags.ToString() + 
                 "\nCollisions: " + Collisions.Count + 
                 "\nContact Point: " + (Collisions.Count > 0 ? Collisions[0].ContactPoint : 0) + 
                 "\nFloor angle: " + groundAngle;
@@ -168,7 +181,7 @@ namespace SharpCollisions.Sharp3D
         { 
             CollisionManifold3D Ceiling = null;
 
-            if (IsOnCeiling && Collisions.Count > 0)
+            if (IsOnCeiling() && Collisions.Count > 0)
             {
                 Ceiling = Collisions[0];
 

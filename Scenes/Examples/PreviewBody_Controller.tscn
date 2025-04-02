@@ -1,24 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://yy8gg16i0mv1"]
+[gd_scene load_steps=5 format=3 uid="uid://yy8gg16i0mv1"]
 
 [ext_resource type="Texture2D" uid="uid://bx6bfwnydn8wd" path="res://icon_circle.png" id="1"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Examples/CharacterController2D.cs" id="2"]
 [ext_resource type="Texture2D" uid="uid://bysbpvck7hqj3" path="res://icon.png" id="3"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Commons/SharpRenderer2D3D.cs" id="3_4exrw"]
 [ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/CapsuleCollider2D.cs" id="4"]
 
-[node name="Body" type="Node" node_paths=PackedStringArray("debug")]
+[node name="Body" type="Node" node_paths=PackedStringArray("debug", "Colliders", "Renderer")]
 script = ExtResource("2")
 debug = NodePath("Debug/DebugText")
+Colliders = [NodePath("Collider")]
+Renderer = NodePath("Graphics")
 
 [node name="Collider" type="Node" parent="."]
 script = ExtResource("4")
-radius = 3000
-height = 6000
-positionOffset = Vector2i(0, 6000)
+radius = 300
+height = 600
+positionOffset = Vector2i(0, 600)
+DrawDebug = true
 
-[node name="Graphics" type="Node3D" parent="." node_paths=PackedStringArray("reference")]
-script = ExtResource("3_4exrw")
-reference = NodePath("..")
+[node name="Graphics" type="Node3D" parent="."]
 
 [node name="Sprite3D" type="Sprite3D" parent="Graphics"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)

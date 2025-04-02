@@ -19,8 +19,8 @@ namespace SharpCollisions.Sharp3D
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)radius / SharpNode.convertedScale;
-            Height = (Fix64)height / SharpNode.convertedScale;
+            Radius = (Fix64)radius / SharpNode.NodeScale;
+            Height = (Fix64)height / SharpNode.NodeScale;
             Shape = CollisionType3D.Cylinder;
             CreateCylinderPoints();
         }

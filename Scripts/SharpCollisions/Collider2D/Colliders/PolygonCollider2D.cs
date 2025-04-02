@@ -52,8 +52,8 @@ namespace SharpCollisions.Sharp2D
             for (int i = 0; i < RawPoints.Length; i++)
             {
                 RawPoints[i] = new FixVector2(
-                    (Fix64)vertices[i].X / SharpNode.convertedScale,
-                    (Fix64)vertices[i].Y / SharpNode.convertedScale
+                    (Fix64)vertices[i].X / SharpNode.NodeScale,
+                    (Fix64)vertices[i].Y / SharpNode.NodeScale
                 );
             }
             

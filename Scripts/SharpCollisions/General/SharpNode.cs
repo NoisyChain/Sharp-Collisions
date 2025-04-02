@@ -7,8 +7,10 @@ namespace SharpCollisions
     public partial class SharpNode : Node
     {
         [Export] public bool Active = true;
-        public static int nodeScale = 10000;
-        public static Fix64 convertedScale => (Fix64)nodeScale;
+        public static int nodeScale = 1000;
+        public static int nodeRotation = 10;
+        public static Fix64 NodeScale => (Fix64)nodeScale;
+        public static Fix64 NodeRotation => (Fix64)nodeRotation;
         public override void _Ready()
         {
             if (Engine.IsEditorHint()) return;
@@ -34,6 +36,8 @@ namespace SharpCollisions
         public virtual void _FixedPostProcess(Fix64 delta) { }
 
         public virtual void RenderNode() {}
+
+        public virtual void PreviewNode() {}
 
         public virtual void _Destroy()
         {

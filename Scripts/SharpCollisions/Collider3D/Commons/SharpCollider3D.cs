@@ -44,15 +44,15 @@ namespace SharpCollisions.Sharp3D
 		public virtual void Initialize()
 		{
 			PositionOffset = new FixVector3(
-                (Fix64)positionOffset.X / SharpNode.convertedScale,
-                (Fix64)positionOffset.Y / SharpNode.convertedScale,
-                (Fix64)positionOffset.Z / SharpNode.convertedScale
+                (Fix64)positionOffset.X / SharpNode.NodeScale,
+                (Fix64)positionOffset.Y / SharpNode.NodeScale,
+                (Fix64)positionOffset.Z / SharpNode.NodeScale
             );
 
             RotationOffset = new FixVector3(
-                (Fix64)rotationOffset.X / SharpNode.convertedScale,
-                (Fix64)rotationOffset.Y / SharpNode.convertedScale,
-                (Fix64)rotationOffset.Z / SharpNode.convertedScale
+                (Fix64)rotationOffset.X / SharpNode.NodeRotation,
+                (Fix64)rotationOffset.Y / SharpNode.NodeRotation,
+                (Fix64)rotationOffset.Z / SharpNode.NodeRotation
             );
 
 			RotationOffset *= Fix64.DegToRad;
@@ -60,10 +60,9 @@ namespace SharpCollisions.Sharp3D
 			//RotationOffset = (FixVector3)rotationOffset;
 		}
 
-		public virtual void DebugDrawShapes(SharpBody3D reference)
-		{
+		public virtual void DebugDrawShapesEditor(SharpBody3D reference) {}
 
-		}
+		public virtual void DebugDrawShapes(SharpBody3D reference) {}
 
 		public bool IsOverlapping(SharpCollider3D other, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint)
 		{

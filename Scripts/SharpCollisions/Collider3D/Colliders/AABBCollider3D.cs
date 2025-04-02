@@ -14,9 +14,9 @@ namespace SharpCollisions.Sharp3D
         {
             base.Initialize();
             Extents = new FixVector3(
-                (Fix64)extents.X / SharpNode.convertedScale,
-                (Fix64)extents.Y / SharpNode.convertedScale,
-                (Fix64)extents.Z / SharpNode.convertedScale
+                (Fix64)extents.X / SharpNode.NodeScale,
+                (Fix64)extents.Y / SharpNode.NodeScale,
+                (Fix64)extents.Z / SharpNode.NodeScale
             );
             Shape = CollisionType3D.AABB;
         }

@@ -12,6 +12,7 @@ Deterministic collision system written in C#
 - Collision layers / Ignore collisions
 - Triggers
 - Rotation support
+- Suport for multiple colliders
 - Collider offset
 - Collision flags
 - Collision events

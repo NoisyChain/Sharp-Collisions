@@ -8,24 +8,21 @@ namespace SharpCollisions.Sharp2D
     public partial class FixedTransform2D : SharpNode
     {
         [Export] private Node3D Renderer;
-        //private Node2D Renderer2D;
-        public FixedTransform2D Parent;
-        public Array<FixedTransform2D> Children;
+        //[Export] private Node2D Renderer2D;
+        
         [Export] public Vector2I fixedPosition;
         [Export] public int fixedRotation;
         public FixVector2 FixedPosition;
         public Fix64 FixedRotation;
-        public FixVector2 LocalFixedPosition;
-        public Fix64 LocalFixedRotation;
 
         public FixVector2 Right => FixVector2.Rotate(FixVector2.Right, FixedRotation);
         public FixVector2 Up => FixVector2.Rotate(FixVector2.Up, FixedRotation);
         public FixVector2 Left => -Right;
         public FixVector2 Down => -Up;
 
-        public override void _Ready()
+        public override void _Instance()
         {
-            base._Ready();
+            base._Instance();
 
             FixedPosition = new FixVector2(
                 (Fix64)fixedPosition.X / NodeScale,
@@ -33,9 +30,6 @@ namespace SharpCollisions.Sharp2D
             );
             FixedRotation = (Fix64)fixedRotation / NodeRotation;
             FixedRotation *= Fix64.DegToRad;
-
-            //Parent = GetParent<Node3D>() as FixedTransform2D;
-            //GD.Print(Parent != null ? Parent.Name : "No parent found.");
         }
 
         public override void _Process(double delta)
@@ -66,30 +60,6 @@ namespace SharpCollisions.Sharp2D
 				0
 			);
 			Renderer.GlobalRotationDegrees = new Vector3(0,	0,	fixedRotation / (float)NodeRotation);
-        }
-
-        public void SetParent(FixedTransform2D newParent)
-        {
-            if (newParent == null)
-            {
-                GetParent<Node3D>().RemoveChild(this);
-                Parent = null;
-            }
-            else
-            {
-                GetParent<Node3D>().RemoveChild(this);
-                newParent.AddChild(this);
-                Parent = newParent;
-            }
-        }
-
-        public void TransformWithParent() //This is broken lol
-        {
-            if (Parent == null) return;
-
-            //Fix64 localRotation = FixedRotation - Parent.FixedRotation;
-            //FixedRotation = Parent.FixedRotation + localRotation;
-            //FixedPosition = FixVector2.Transform(FixedPosition, Parent.FixedPosition, Parent.FixedRotation);
         }
 
         public static FixVector2 LocalToWorld(FixVector2 v)

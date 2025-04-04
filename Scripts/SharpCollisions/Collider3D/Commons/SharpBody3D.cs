@@ -21,15 +21,9 @@ namespace SharpCollisions.Sharp3D
 		public List<uint> CollidedWith = new List<uint>();
 		public List<uint> BodiesToIgnore = new List<uint>();
 
-		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
-		public int CollisionLayers = 1;
-		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
-		public int CollisionMask = 1;
 
 		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
 		public int BodyMode = 0;
-		
-		[Export] public bool isTrigger = false;
 		
 		/*public SharpBody3D() {}
 		
@@ -51,11 +45,9 @@ namespace SharpCollisions.Sharp3D
 			BodiesToIgnore = new List<int>();
 		}*/
 
-		public override void _Ready()
+		public override void _Instance()
 		{
-			if (Engine.IsEditorHint()) return;
-
-			base._Ready();
+			base._Instance();
 			SharpManager.Instance.AddBody(this);
 			
 			if (HasColliders())
@@ -153,9 +145,7 @@ namespace SharpCollisions.Sharp3D
 
 			Fix64 finalDelta = Fix64.One / (fDelta * fIterations);
 
-			FixedPosition.x += Velocity.x * finalDelta;
-			FixedPosition.y += Velocity.y * finalDelta;
-			FixedPosition.z += Velocity.z * finalDelta;
+			FixedPosition += Velocity * finalDelta;
 			UpdateColliders();
 		}
 
@@ -169,10 +159,7 @@ namespace SharpCollisions.Sharp3D
 
 		public void RotateDegrees(FixVector3 angle)
 		{
-			if (BodyMode == 2) return;
-
-			FixedRotation += angle * Fix64.DegToRad;
-			UpdateColliders();
+			Rotate(angle * Fix64.DegToRad);
 		}
 
 		public void SetRotation(FixVector3 angle)
@@ -195,6 +182,8 @@ namespace SharpCollisions.Sharp3D
 		
 		public void UpdateColliders()
 		{
+			//UpdateParenting();
+
 			if (!HasColliders())
 			{
 				GD.Print("There is no collider attached to this body. No collision will happen.");

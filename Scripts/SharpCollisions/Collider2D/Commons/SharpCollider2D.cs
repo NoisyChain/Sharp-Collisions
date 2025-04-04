@@ -7,10 +7,16 @@ namespace SharpCollisions.Sharp2D
 	public partial class SharpCollider2D  : Node
 	{
 		[Export] public bool Active = true;
+		[Export] public bool isTrigger = false;
 		[Export] protected Vector2I positionOffset;
 		[Export] protected int rotationOffset;
-		[Export] public Color debugColor = new Color(0, 0, 1);
 		[Export] protected bool DrawDebug;
+		[Export] public Color debugColor = new Color(0, 0, 1);
+		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
+		public int CollisionLayers = 1;
+		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
+		public int CollisionMask = 1;
+		
 		public CollisionFlags collisionFlags;
 		public CollisionFlags globalCollisionFlags;
 		public CollisionType2D Shape = CollisionType2D.Null;

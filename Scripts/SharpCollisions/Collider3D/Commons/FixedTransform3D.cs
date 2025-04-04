@@ -28,9 +28,9 @@ namespace SharpCollisions.Sharp3D
         public FixVector3 Down => -Up;
         public FixVector3 Back => -Forward;
 
-        public override void _Ready()
+        public override void _Instance()
         {
-            base._Ready();
+            base._Instance();
 
             FixedPosition = new FixVector3(
                 (Fix64)fixedPosition.X / NodeScale,

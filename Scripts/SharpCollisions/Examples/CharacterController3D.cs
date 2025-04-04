@@ -50,9 +50,9 @@ namespace SharpCollisions.Sharp3D
             return Colliders[0].collisionFlags.Walls;
         }
 
-        public override void _Ready()
+        public override void _Instance()
         {
-            base._Ready();
+            base._Instance();
         }
 
         public override void _FixedProcess(Fix64 delta)
@@ -202,7 +202,7 @@ namespace SharpCollisions.Sharp3D
 
         public bool IsValidFloor()
         {
-            return ((FloorLayers & GetGround().CollidedWith.CollisionLayers) & SharpWorld3D.mask) != 0;
+            return ((FloorLayers & GetGround().CollidedWith.Colliders[0].CollisionLayers) & SharpWorld3D.mask) != 0;
         }
 
         public bool IsWalkableSlope(Fix64 angle)

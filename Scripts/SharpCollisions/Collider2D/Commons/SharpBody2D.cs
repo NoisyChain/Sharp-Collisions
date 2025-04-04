@@ -20,15 +20,10 @@ namespace SharpCollisions.Sharp2D
 		public List<uint> CollidedWith = new List<uint>();
 		public List<uint> BodiesToIgnore = new List<uint>();
 
-		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
-		public int CollisionLayers = 1;
-		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
-		public int CollisionMask = 1;
-
 		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
 		public int BodyMode = 0;
 		
-		[Export] public bool isTrigger = false;
+		
 		
 		/*public SharpBody2D() {}
 		
@@ -50,11 +45,9 @@ namespace SharpCollisions.Sharp2D
 			BodiesToIgnore = new List<SharpBody2D>();
 		}*/
 
-		public override void _Ready()
+		public override void _Instance()
 		{
-			if (Engine.IsEditorHint()) return;
-
-			base._Ready();
+			base._Instance();
 			SharpManager.Instance.AddBody(this);
 
 			if (HasColliders())

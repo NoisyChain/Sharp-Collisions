@@ -20,9 +20,9 @@ namespace SharpCollisions.Sharp2D
         public FixVector2 Left => -Right;
         public FixVector2 Down => -Up;
 
-        public override void _Ready()
+        public override void _Instance()
         {
-            base._Ready();
+            base._Instance();
 
             FixedPosition = new FixVector2(
                 (Fix64)fixedPosition.X / NodeScale,

@@ -58,7 +58,7 @@ namespace SharpCollisions.Sharp2D
 				body.ResetIgnoreBodies();
 		}
 
-		private bool CompareLayers(SharpBody2D bodyA, SharpBody2D bodyB)
+		private bool CompareLayers(SharpCollider2D colliderA, SharpCollider2D colliderB)
 		{
 			/*for (int i = 0; i < 8; i++)
 			{
@@ -69,7 +69,7 @@ namespace SharpCollisions.Sharp2D
 			return false;*/
 			
 			//DON'T ASK ME WHAT'S HAPPENING HERE
-			return ((bodyA.CollisionMask & bodyB.CollisionLayers) & mask) != 0;
+			return ((colliderA.CollisionMask & colliderB.CollisionLayers) & mask) != 0;
 		}
 
 		private void BroadPhase()
@@ -90,8 +90,6 @@ namespace SharpCollisions.Sharp2D
 					if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2)
 					{ ClearCollision(bodyA, bodyB); continue; }
 					if (bodyA.BodiesToIgnore.Contains(bodyB.GetBodyID()))
-					{ ClearCollision(bodyA, bodyB); continue; }
-					if (!CompareLayers(bodyA, bodyB))
 					{ ClearCollision(bodyA, bodyB); continue; }
 					//Check every collider in each body
 					CheckColliders(bodyA, bodyB, i, j);
@@ -117,6 +115,8 @@ namespace SharpCollisions.Sharp2D
 				{
 					if (!bodyA.Colliders[i].Active || !bodyB.Colliders[j].Active)
 					{ ClearCollision(bodyA, bodyB); continue; }
+					if (!CompareLayers(bodyA.Colliders[i], bodyB.Colliders[j]))
+					{ ClearCollision(bodyA, bodyB); continue; }
 					if (!bodyA.Colliders[i].BoundingBox.IsOverlapping(bodyB.Colliders[j].BoundingBox))
 					{ ClearCollision(bodyA, bodyB); continue; }
 
@@ -139,7 +139,7 @@ namespace SharpCollisions.Sharp2D
 
 				if (bodyA.Colliders[colIndA].IsOverlapping(bodyB.Colliders[colIndB], out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint))
 				{
-					if (!bodyA.isTrigger && !bodyB.isTrigger)
+					if (!bodyA.Colliders[colIndA].isTrigger && !bodyB.Colliders[colIndB].isTrigger)
 					{
 						if (bodyA.BodyMode == 1 || bodyB.BodyMode == 1)
 						{
@@ -161,10 +161,10 @@ namespace SharpCollisions.Sharp2D
 						//ResolvePhysics(bodyA, bodyB, Normal);
 					}
 
-					bodyA.Collisions.Add(new CollisionManifold2D(bodyB, -Normal, Depth, ContactPoint));
-					bodyB.Collisions.Add(new CollisionManifold2D(bodyA, Normal, Depth, ContactPoint));
+					bodyA.Collisions.Add(new CollisionManifold2D(bodyB, colIndB, -Normal, Depth, ContactPoint));
+					bodyB.Collisions.Add(new CollisionManifold2D(bodyA, colIndA, Normal, Depth, ContactPoint));
 
-					if (!bodyA.isTrigger && !bodyB.isTrigger)
+					if (!bodyA.Colliders[colIndA].isTrigger && !bodyB.Colliders[colIndB].isTrigger)
 					{
 						bodyA.Colliders[colIndA].GetCollisionFlags(-Normal, bodyA);
 						bodyB.Colliders[colIndB].GetCollisionFlags(Normal, bodyB);

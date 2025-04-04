@@ -133,12 +133,6 @@ namespace SharpCollisions.Sharp3D
 			return new FixVolume();
 		}
 
-		/*public virtual void UpdatePoints(SharpBody3D body)
-		{
-			Center = FixVector3.Transform(PositionOffset, body);
-			CollisionRequireUpdate = false;
-		}*/
-
 		public virtual void UpdatePoints(FixVector3 position, FixVector3 rotation)
 		{
 			Center = FixVector3.Transform(PositionOffset, position, rotation);

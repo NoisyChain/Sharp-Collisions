@@ -151,8 +151,7 @@ namespace SharpCollisions.Sharp2D
 
 			Fix64 finalDelta = Fix64.One / (fDelta * fIterations);
 
-			FixedPosition.x += Velocity.x * finalDelta;
-			FixedPosition.y += Velocity.y * finalDelta;
+			FixedPosition += Velocity * finalDelta;
 			UpdateColliders();
 		}
 
@@ -166,10 +165,7 @@ namespace SharpCollisions.Sharp2D
 
 		public void RotateDegrees(Fix64 angle)
 		{
-			if (BodyMode == 2) return;
-
-			FixedRotation += angle * Fix64.DegToRad;
-			UpdateColliders();
+			Rotate(angle * Fix64.DegToRad);
 		}
 
 		public void SetRotation(Fix64 angle)

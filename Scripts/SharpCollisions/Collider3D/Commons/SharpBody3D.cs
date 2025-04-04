@@ -153,9 +153,7 @@ namespace SharpCollisions.Sharp3D
 
 			Fix64 finalDelta = Fix64.One / (fDelta * fIterations);
 
-			FixedPosition.x += Velocity.x * finalDelta;
-			FixedPosition.y += Velocity.y * finalDelta;
-			FixedPosition.z += Velocity.z * finalDelta;
+			FixedPosition += Velocity * finalDelta;
 			UpdateColliders();
 		}
 
@@ -169,10 +167,7 @@ namespace SharpCollisions.Sharp3D
 
 		public void RotateDegrees(FixVector3 angle)
 		{
-			if (BodyMode == 2) return;
-
-			FixedRotation += angle * Fix64.DegToRad;
-			UpdateColliders();
+			Rotate(angle * Fix64.DegToRad);
 		}
 
 		public void SetRotation(FixVector3 angle)
@@ -195,6 +190,8 @@ namespace SharpCollisions.Sharp3D
 		
 		public void UpdateColliders()
 		{
+			//UpdateParenting();
+
 			if (!HasColliders())
 			{
 				GD.Print("There is no collider attached to this body. No collision will happen.");

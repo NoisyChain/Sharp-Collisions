@@ -1,21 +1,25 @@
 using Godot;
-using Godot.Collections;
 using FixMath.NET;
 
+/// NOTE: Parenting support is cancelled
+/// It might be too complicated for me to do it properly right now
+/// Feel free to finish my work if you want lol
 namespace SharpCollisions.Sharp3D
 {
     [Tool] [GlobalClass]
     public partial class FixedTransform3D : SharpNode
     {
         [Export] private Node3D Renderer;
-        public FixedTransform3D Parent;
-        public Array<FixedTransform3D> Children;
+        //public FixedTransform3D Parent;
+        //[Export] public FixedTransform3D[] Children;
         [Export] public Vector3I fixedPosition;
         [Export] public Vector3I fixedRotation;
+        //[Export] public Vector3I localFixedPosition;
+        //[Export] public Vector3I localFixedRotation;
         public FixVector3 FixedPosition;
         public FixVector3 FixedRotation;
-        public FixVector3 LocalFixedPosition;
-        public FixVector3 LocalFixedRotation;
+        //public FixVector3 LocalFixedPosition;
+        //public FixVector3 LocalFixedRotation;
 
         public FixVector3 Right => FixVector3.Rotate(FixVector3.Right, FixedRotation);
         public FixVector3 Up => FixVector3.Rotate(FixVector3.Up, FixedRotation);
@@ -40,9 +44,26 @@ namespace SharpCollisions.Sharp3D
                 (Fix64)fixedRotation.Z / NodeRotation
             );
             FixedRotation *= Fix64.DegToRad;
+            /*LocalFixedPosition = new FixVector3(
+                (Fix64)localFixedPosition.X / NodeScale,
+                (Fix64)localFixedPosition.Y / NodeScale,
+                (Fix64)localFixedPosition.Z / NodeScale
+            );
 
-            //Parent = GetParent<Node3D>() as FixedTransform3D;
-            //GD.Print(Parent != null ? Parent.Name : "No parent found.");
+            LocalFixedRotation = new FixVector3(
+                (Fix64)localFixedRotation.X / NodeRotation,
+                (Fix64)localFixedRotation.Y / NodeRotation,
+                (Fix64)localFixedRotation.Z / NodeRotation
+            );
+            LocalFixedRotation *= Fix64.DegToRad;
+
+            if (HasChildren())
+            {
+                foreach(FixedTransform3D child in Children)
+                {
+                    child.SetParent(this);
+                }
+            }*/
         }
 
         public override void _Process(double delta)
@@ -50,6 +71,16 @@ namespace SharpCollisions.Sharp3D
             base._Process(delta);
             if (Engine.IsEditorHint()) PreviewNode();
         }
+
+        /*public bool HasChildren()
+        {
+            return Children != null && Children.Length >= 0;
+        }
+
+        public bool HasParent()
+        {
+            return Parent != null;
+        }*/
 
         public override void RenderNode()
         {
@@ -67,41 +98,49 @@ namespace SharpCollisions.Sharp3D
 
             Renderer.Visible = Active;
 
-			Renderer.GlobalPosition = new Vector3(
-				fixedPosition.X / (float)nodeScale,
-				fixedPosition.Y / (float)nodeScale,
-				fixedPosition.Z / (float)nodeScale
-			);
-			Renderer.GlobalRotationDegrees = new Vector3(
-				fixedRotation.X / (float)NodeRotation,
-				fixedRotation.Y / (float)NodeRotation,
-				fixedRotation.Z / (float)NodeRotation
-			);
+			Renderer.GlobalPosition = (Vector3)fixedPosition / nodeScale;
+			Renderer.GlobalRotationDegrees = (Vector3)fixedRotation / nodeRotation;
         }
 
-        public void SetParent(FixedTransform3D newParent)
+        /*public void SetParent(FixedTransform3D newParent)
         {
             if (newParent == null)
             {
-                GetParent<Node3D>().RemoveChild(this);
+                //GetParent<Node>().RemoveChild(this);
                 Parent = null;
+
+                FixedPosition = LocalFixedPosition;
+                LocalFixedPosition = FixVector3.Zero;
+                FixedRotation = LocalFixedRotation;
+                LocalFixedRotation = FixVector3.Zero;
             }
             else
             {
-                GetParent<Node3D>().RemoveChild(this);
-                newParent.AddChild(this);
+                //GetParent<Node>().RemoveChild(this);
+                //newParent.AddChild(this);
                 Parent = newParent;
+
+                LocalFixedPosition += FixedPosition;
+                FixedPosition = Parent.FixedPosition;
+                LocalFixedRotation += FixedRotation;
+                FixedRotation = Parent.FixedRotation;
             }
         }
 
-        public void TransformWithParent() //This is broken lol
+        public void UpdateParenting()
         {
-            if (Parent == null) return;
+            if (!HasChildren()) return;
 
-            //FixVector3 localRotation = FixedRotation - Parent.FixedRotation;
-            //FixedRotation = Parent.FixedRotation + localRotation;
-            //FixedPosition = FixVector3.Transform(FixedPosition, Parent.FixedPosition, Parent.FixedRotation);
-        }
+            foreach(FixedTransform3D child in Children)
+            {
+                child.FixedRotation = FixedRotation;
+                //FixVector3 vec = FixVector3.Transform(child.FixedPosition, FixedPosition + child.LocalFixedPosition, FixedRotation);
+                child.FixedPosition = FixedPosition;
+            }
+        }*/
+
+        //public FixVector3 TotalFixedRotation => FixedRotation + LocalFixedRotation;
+        //public FixVector3 TotalFixedPosition => FixVector3.Transform(LocalFixedPosition, FixedPosition, FixedRotation);
 
         public static FixVector3 LocalToWorld(FixVector3 v)
         {

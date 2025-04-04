@@ -20,7 +20,8 @@ func _on_button_bm_1_pressed() -> void:
 	pass # Replace with function body.
 
 func _on_button_bm_2_pressed() -> void:
-	# Go to Benchmark scene 2 (not existent yet)
+	load_scene("res://Scenes/Benchmark2.tscn")
+	# Go to Benchmark scene 2
 	pass # Replace with function body.
 
 func _on_button_bm_3_pressed() -> void:

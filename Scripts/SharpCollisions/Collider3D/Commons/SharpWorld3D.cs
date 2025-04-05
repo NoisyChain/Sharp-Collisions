@@ -91,13 +91,15 @@ namespace SharpCollisions.Sharp3D
 					{ ClearCollision(bodyA, bodyB); continue; }
 					if (bodyA.BodiesToIgnore.Contains(bodyB.GetBodyID()))
 					{ ClearCollision(bodyA, bodyB); continue; }
+					if (!bodyA.BoundingBox.IsOverlapping(bodyB.BoundingBox))
+					{ ClearCollision(bodyA, bodyB); continue; }
 					//Check every collider in each body
 					CheckColliders(bodyA, bodyB, i, j);
-
-					bodyA.Collisions.Clear();
-					bodyB.Collisions.Clear();
 				}
 			}
+
+			foreach(SharpBody3D body in bodies)
+				body.Collisions.Clear();
 
 			//Sort the colliders so the nearest colliders are checked first
 			PossibleCollisions.Sort((a, b) => b.distance.CompareTo(a.distance));
@@ -211,7 +213,7 @@ namespace SharpCollisions.Sharp3D
 		{
 			SetCollidedWith(bodyA, bodyB, false);
 			SetCollidedWith(bodyB, bodyA, false);
-			bodyA.Collisions.Clear();
+			//bodyA.Collisions.Clear();
 			//bodyB.Collisions.Clear();
 		}
 

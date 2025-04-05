@@ -19,6 +19,7 @@ namespace SharpCollisions.Sharp2D
 		public List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
 		public List<uint> CollidedWith = new List<uint>();
 		public List<uint> BodiesToIgnore = new List<uint>();
+		public FixRect BoundingBox = new FixRect();
 
 		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
 		public int BodyMode = 0;
@@ -126,6 +127,29 @@ namespace SharpCollisions.Sharp2D
 		{
 			BodiesToIgnore.Clear();
 		}
+
+		private void UpdateBoundingBox()
+		{
+			Fix64 minX = Fix64.MaxValue;
+            Fix64 minY = Fix64.MaxValue;
+            Fix64 maxX = Fix64.MinValue;
+            Fix64 maxY = Fix64.MinValue;
+
+			for (int i = 0; i < Colliders.Length; i++)
+			{
+				if (Colliders[i].BoundingBox.x < minX)
+					minX = Colliders[i].BoundingBox.x;
+				if (Colliders[i].BoundingBox.w > maxX)
+					maxX = Colliders[i].BoundingBox.w;
+				if (Colliders[i].BoundingBox.y < minY)
+					minY = Colliders[i].BoundingBox.y;
+				if (Colliders[i].BoundingBox.h > maxY)
+					maxY = Colliders[i].BoundingBox.h;
+
+			}
+            
+            BoundingBox = new FixRect(minX, minY, maxX, maxY);
+		}
 		
 		public void SetVelocity(FixVector2 newVelocity)
 		{
@@ -192,13 +216,15 @@ namespace SharpCollisions.Sharp2D
 				GD.Print("There is no collider attached to this body. No collision will happen.");
 				return;
 			}
-			
+
 			foreach(SharpCollider2D col in Colliders)
 			{
 				col.Position = FixedPosition;
 				col.UpdatePoints(FixedPosition, FixedRotation);
 				col.UpdateBoundingBox();
 			}
+
+			UpdateBoundingBox();
 		}
 
 		public void ClearFlags()

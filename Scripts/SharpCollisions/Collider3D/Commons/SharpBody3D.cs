@@ -77,7 +77,7 @@ namespace SharpCollisions.Sharp3D
 			if (!HasColliders()) return;
 			
 			foreach(SharpCollider3D col in Colliders)
-				col.DebugDrawShapesEditor(this);
+				if (col != null) col.DebugDrawShapesEditor(this);
 		}
 
 		public void DrawColliders()
@@ -85,7 +85,7 @@ namespace SharpCollisions.Sharp3D
 			if (!HasColliders()) return;
 			
 			foreach(SharpCollider3D col in Colliders)
-				col.DebugDrawShapes(this);
+				if (col != null) col.DebugDrawShapes(this);
 		}
 
 		public override void _Destroy()
@@ -209,18 +209,45 @@ namespace SharpCollisions.Sharp3D
 			}
 		}
 
+		protected CollisionManifold3D GetCollision(SharpBody3D otherBody)
+		{
+			CollisionManifold3D ret = null;
+			for (int i = 0; i < Collisions.Count; i++)
+			{
+				if (Collisions[i].CollidedWith == otherBody)
+					ret = Collisions[i];
+			}
+
+			return ret;
+		}
+
 		public virtual void OnBeginOverlap(SharpBody3D other)
 		{
+			//CollisionManifold3D collision = GetCollision(other);
+            //if (collision != null)
+            //{
+                //Execute action here
+            //}
 			//GD.Print("Entered Collision!");
 		}
 
 		public virtual void OnOverlap(SharpBody3D other)
 		{
+			//CollisionManifold3D collision = GetCollision(other);
+            //if (collision != null)
+            //{
+                //Execute action here
+            //}
 			//GD.Print("Still colliding...");
 		}
 
 		public virtual void OnEndOverlap(SharpBody3D other)
 		{
+			//CollisionManifold3D collision = GetCollision(other);
+            //if (collision != null)
+            //{
+                //Execute action here
+            //}
 			//GD.Print("Exited Collision!");
 		}
 	}

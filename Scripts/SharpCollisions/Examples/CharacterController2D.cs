@@ -232,17 +232,32 @@ namespace SharpCollisions.Sharp2D
 
         public override void OnBeginOverlap(SharpBody2D other)
         {
-            //GD.Print("Entered Collision!");
+            base.OnBeginOverlap(other);
+            //CollisionManifold2D collision = GetCollision(other);
+            //if (collision != null)
+            //{
+                //Execute action here
+            //}
         }
 
         public override void OnOverlap(SharpBody2D other)
         {
-            //GD.Print("Still colliding...");
+            base.OnOverlap(other);
+            //CollisionManifold2D collision = GetCollision(other);
+            //if (collision != null)
+            //{
+                //Execute action here
+            //}
         }
 
         public override void OnEndOverlap(SharpBody2D other)
         {
-            //GD.Print("Exited Collision!");
+            base.OnEndOverlap(other);
+           //CollisionManifold2D collision = GetCollision(other);
+            //if (collision != null)
+            //{
+                //Execute action here
+            //}
         }
     }
 }

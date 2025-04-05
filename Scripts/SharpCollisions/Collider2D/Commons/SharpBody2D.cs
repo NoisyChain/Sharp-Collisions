@@ -17,7 +17,7 @@ namespace SharpCollisions.Sharp2D
 
 		[Export] public SharpCollider2D[] Colliders;
 		public List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
-		public List<uint> CollidedWith = new List<uint>();
+		public List<(uint, int)> CollidedWith = new List<(uint, int)>();
 		public List<uint> BodiesToIgnore = new List<uint>();
 		public FixRect BoundingBox = new FixRect();
 

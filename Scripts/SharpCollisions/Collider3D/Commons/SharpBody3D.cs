@@ -18,7 +18,7 @@ namespace SharpCollisions.Sharp3D
 
 		[Export] public SharpCollider3D[] Colliders;
 		public List<CollisionManifold3D> Collisions = new List<CollisionManifold3D>();
-		public List<uint> CollidedWith = new List<uint>();
+		public List<(uint, int)> CollidedWith = new List<(uint, int)>();
 		public List<uint> BodiesToIgnore = new List<uint>();
 		public FixVolume BoundingBox = new FixVolume();
 

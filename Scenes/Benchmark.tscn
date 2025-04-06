@@ -1,11 +1,11 @@
 [gd_scene load_steps=13 format=3 uid="uid://ejbnkmlu25ea"]
 
 [ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_xusqx"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/General/SharpManager.cs" id="2_jxjwd"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Commons/SharpBody3D.cs" id="4_ctdg3"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/BoxCollider3D.cs" id="5_l2ale"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Examples/BallPhysics3D.cs" id="5_rpyv1"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/SphereCollider3D.cs" id="6_x5v8s"]
+[ext_resource type="Script" uid="uid://dswu8dcd4cdwi" path="res://Scripts/SharpCollisions/General/SharpManager.cs" id="2_jxjwd"]
+[ext_resource type="Script" uid="uid://vanf8ydlw1ew" path="res://Scripts/SharpCollisions/Collider3D/Commons/SharpBody3D.cs" id="4_ctdg3"]
+[ext_resource type="Script" uid="uid://s1sf13a5bmwf" path="res://Scripts/SharpCollisions/Collider3D/Colliders/BoxCollider3D.cs" id="5_l2ale"]
+[ext_resource type="Script" uid="uid://d3lb45ae2s8uk" path="res://Scripts/SharpCollisions/Examples/BallPhysics3D.cs" id="5_rpyv1"]
+[ext_resource type="Script" uid="uid://44pibwortjvd" path="res://Scripts/SharpCollisions/Collider3D/Colliders/SphereCollider3D.cs" id="6_x5v8s"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_n3xw3"]
 radius = 0.3

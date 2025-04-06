@@ -21,4 +21,4 @@ Deterministic collision system written in C#
 
 Sharp Collisions is in preview state. There's some things to polish at the moment.
 
-Using Godot 4.3. Unity/Monogame versions are being planned.
+Using Godot 4.4.1 .NET. Unity/Monogame versions are being planned.

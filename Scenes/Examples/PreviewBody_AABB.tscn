@@ -1,17 +1,17 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://dg4xgsry3208b"]
 
-[ext_resource type="Texture" uid="uid://bysbpvck7hqj3" path="res://icon.png" id="1"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Commons/SharpBody2D.cs" id="2"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Commons/SharpCollider2D.cs" id="4"]
+[ext_resource type="Texture2D" uid="uid://bysbpvck7hqj3" path="res://icon.png" id="1"]
+[ext_resource type="Script" uid="uid://c2pd4i5gql5t8" path="res://Scripts/SharpCollisions/Collider2D/Commons/SharpBody2D.cs" id="2"]
+[ext_resource type="Script" uid="uid://brpn27cxrweg8" path="res://Scripts/SharpCollisions/Collider2D/Commons/SharpCollider2D.cs" id="4"]
 
 [node name="Body" type="Spatial"]
-script = ExtResource( 2 )
+script = ExtResource("2")
 
 [node name="Collider" type="Node" parent="."]
-script = ExtResource( 4 )
-size = Vector2( 1, 1 )
+script = ExtResource("4")
+size = Vector2(1, 1)
 
 [node name="Viewer" type="Spatial" parent="."]
 
 [node name="Sprite3D" type="Sprite3D" parent="Viewer"]
-texture = ExtResource( 1 )
+texture = ExtResource("1")

@@ -1,13 +1,13 @@
 [gd_scene load_steps=16 format=3 uid="uid://cn0dkgrkwdpkv"]
 
 [ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_2qokf"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/General/SharpManager.cs" id="2_l005j"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Examples/Rotator.cs" id="4_802oi"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/BoxCollider3D.cs" id="5_vg68d"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Commons/SharpBody3D.cs" id="6_ibdrf"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/SphereCollider3D.cs" id="7_f426n"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/CapsuleCollider3D.cs" id="8_0kenx"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider3D/Colliders/PolygonCollider3D.cs" id="9_6n06b"]
+[ext_resource type="Script" uid="uid://dswu8dcd4cdwi" path="res://Scripts/SharpCollisions/General/SharpManager.cs" id="2_l005j"]
+[ext_resource type="Script" uid="uid://bibw4tjrys580" path="res://Scripts/SharpCollisions/Examples/Rotator.cs" id="4_802oi"]
+[ext_resource type="Script" uid="uid://s1sf13a5bmwf" path="res://Scripts/SharpCollisions/Collider3D/Colliders/BoxCollider3D.cs" id="5_vg68d"]
+[ext_resource type="Script" uid="uid://vanf8ydlw1ew" path="res://Scripts/SharpCollisions/Collider3D/Commons/SharpBody3D.cs" id="6_ibdrf"]
+[ext_resource type="Script" uid="uid://44pibwortjvd" path="res://Scripts/SharpCollisions/Collider3D/Colliders/SphereCollider3D.cs" id="7_f426n"]
+[ext_resource type="Script" uid="uid://cg5dxxak4nmpf" path="res://Scripts/SharpCollisions/Collider3D/Colliders/CapsuleCollider3D.cs" id="8_0kenx"]
+[ext_resource type="Script" uid="uid://c5oybgm7k4u0b" path="res://Scripts/SharpCollisions/Collider3D/Colliders/PolygonCollider3D.cs" id="9_6n06b"]
 
 [sub_resource type="SphereMesh" id="15"]
 radius = 1.0

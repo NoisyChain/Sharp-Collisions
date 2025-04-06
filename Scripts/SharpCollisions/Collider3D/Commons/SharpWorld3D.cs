@@ -15,7 +15,7 @@ namespace SharpCollisions.Sharp3D
 		private int MinIterations = 1;
 		private int MaxIterations = 64;
 		private List<PossibleCollision> PossibleCollisions;
-		private List<(int, int, bool)> ConfirmedCollisions;
+		private List<(int, int, int, int, bool)> ConfirmedCollisions;
 
 		public const int mask = 0b_1111_1111;
 		
@@ -23,7 +23,7 @@ namespace SharpCollisions.Sharp3D
 		{
 			bodies = new List<SharpBody3D>();
 			PossibleCollisions = new List<PossibleCollision>();
-			ConfirmedCollisions = new List<(int, int, bool)>();
+			ConfirmedCollisions = new List<(int, int, int, int, bool)>();
 		}
 		
 		public void AddBody(SharpBody3D newBody)
@@ -75,27 +75,18 @@ namespace SharpCollisions.Sharp3D
 		private void BroadPhase()
 		{
 			PossibleCollisions.Clear();
+			foreach(SharpBody3D body in bodies)
+			{
+				body.ClearFlags();
+				body.Collisions.Clear();
+			}
 
 			for (int i = 0; i < bodies.Count; i++)
 			{
-				SharpBody3D bodyA = bodies[i];
-				bodyA.ClearFlags();
-
 				for (int j = i + 1; j < bodies.Count; j++)
-				{
-					SharpBody3D bodyB = bodies[j];
-					
-					if (!bodyA.Active || !bodyB.Active)
-					{ ClearCollision(bodyA, bodyB); continue; }
-					if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2)
-					{ ClearCollision(bodyA, bodyB); continue; }
-					if (bodyA.BodiesToIgnore.Contains(bodyB.GetBodyID()))
-					{ ClearCollision(bodyA, bodyB); continue; }
+				{					
 					//Check every collider in each body
-					CheckColliders(bodyA, bodyB, i, j);
-
-					bodyA.Collisions.Clear();
-					bodyB.Collisions.Clear();
+					CheckColliders(i, j);
 				}
 			}
 
@@ -105,20 +96,31 @@ namespace SharpCollisions.Sharp3D
 			PossibleCollisions.Sort((a, b) => a.BodyA.CompareTo(b.BodyA));
 		}
 
-		private void CheckColliders(SharpBody3D bodyA, SharpBody3D bodyB, int indA, int indB)
+		private void CheckColliders(int indA, int indB)
 		{
+			SharpBody3D bodyA = bodies[indA];
+			SharpBody3D bodyB = bodies[indB];
+			
 			if (!bodyA.HasColliders() || !bodyB.HasColliders()) return;
 
 			for (int i = 0; i < bodyA.Colliders.Length; i++)
 			{
 				for (int j = 0; j < bodyB.Colliders.Length; j++)
 				{
+					if (!bodyA.Active || !bodyB.Active)
+					{ ClearCollision(indA, i, indB, j); continue; }
+					if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2)
+					{ ClearCollision(indA, i, indB, j);  continue; }
+					if (bodyA.BodiesToIgnore.Contains(bodyB.GetBodyID()))
+					{ ClearCollision(indA, i, indB, j);  continue; }
+					if (!bodyA.BoundingBox.IsOverlapping(bodyB.BoundingBox))
+					{ ClearCollision(indA, i, indB, j);  continue; }
 					if (!bodyA.Colliders[i].Active || !bodyB.Colliders[j].Active)
-					{ ClearCollision(bodyA, bodyB); continue; }
+					{ ClearCollision(indA, i, indB, j);  continue; }
 					if (!CompareLayers(bodyA.Colliders[i], bodyB.Colliders[j]))
-					{ ClearCollision(bodyA, bodyB); continue; }
+					{ ClearCollision(indA, i, indB, j);  continue; }
 					if (!bodyA.Colliders[i].BoundingBox.IsOverlapping(bodyB.Colliders[j].BoundingBox))
-					{ ClearCollision(bodyA, bodyB); continue; }
+					{ ClearCollision(indA, i, indB, j);  continue; }
 
 					PossibleCollisions.Add(new PossibleCollision(
 						indA, indB, i, j,
@@ -172,46 +174,49 @@ namespace SharpCollisions.Sharp3D
 						bodyB.Colliders[colIndB].GetGlobalCollisionFlags(Normal);
 					}
 					
-					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].BodyA, PossibleCollisions[i].BodyB, true)))
-						ConfirmedCollisions.Add((PossibleCollisions[i].BodyA, PossibleCollisions[i].BodyB, true));
-					
+					AddConfirmedCollision((PossibleCollisions[i].BodyA, colIndA, PossibleCollisions[i].BodyB, colIndB, true));					
 					//GD.Print($"Body {PossibleCollisions[i].Item1} collided with body {PossibleCollisions[i].Item2}.");
 				}
 				else
 				{
-					if (!ConfirmedCollisions.Contains((PossibleCollisions[i].BodyA, PossibleCollisions[i].BodyB, false)))
-						ConfirmedCollisions.Add((PossibleCollisions[i].BodyA, PossibleCollisions[i].BodyB, false));
+					AddConfirmedCollision((PossibleCollisions[i].BodyA, colIndA, PossibleCollisions[i].BodyB, colIndB, false));
 				}
 			}
 		}
 
-		private void SetCollidedWith(SharpBody3D bodyA, SharpBody3D bodyB, bool hasCollided)
+		private void AddConfirmedCollision((int, int, int, int, bool) col)
+		{
+			if (!ConfirmedCollisions.Contains(col))
+				ConfirmedCollisions.Add(col);
+		}
+
+		private void SetCollidedWith(SharpBody3D bodyA, SharpBody3D bodyB, int colB, bool hasCollided)
 		{
 			if (hasCollided)
 			{
-				if (!bodyA.CollidedWith.Contains(bodyB.GetBodyID()))
+				if (!bodyA.CollidedWith.Contains((bodyB.GetBodyID(), colB)))
 				{
 					bodyA.BeginOverlap(bodyB);
-					bodyA.CollidedWith.Add(bodyB.GetBodyID());
+					bodyA.CollidedWith.Add((bodyB.GetBodyID(), colB));
 				}
 				else
 					bodyA.DuringOverlap(bodyB);
 			}
 			else
 			{
-				if (bodyA.CollidedWith.Contains(bodyB.GetBodyID()))
+				if (bodyA.CollidedWith.Contains((bodyB.GetBodyID(), colB)))
 				{
 					bodyA.EndOverlap(bodyB);
-					bodyA.CollidedWith.Remove(bodyB.GetBodyID());
+					bodyA.CollidedWith.Remove((bodyB.GetBodyID(), colB));
 				}
 			}
 		}
 
-		private void ClearCollision(SharpBody3D bodyA, SharpBody3D bodyB)
+		private void ClearCollision(int bodyA, int colA, int bodyB, int colB)
 		{
-			SetCollidedWith(bodyA, bodyB, false);
-			SetCollidedWith(bodyB, bodyA, false);
-			bodyA.Collisions.Clear();
+			AddConfirmedCollision((bodyA, colA, bodyB, colB, false));
+			AddConfirmedCollision((bodyB, colB, bodyA, colA, false));
+			//bodyA.Collisions.Clear();
 			//bodyB.Collisions.Clear();
 		}
 
@@ -225,9 +230,9 @@ namespace SharpCollisions.Sharp3D
 		{
 			for (int i = 0; i < ConfirmedCollisions.Count; i++)
 			{
-				(int, int, bool) cur = ConfirmedCollisions[i];
-				SetCollidedWith(bodies[cur.Item1], bodies[cur.Item2], cur.Item3);
-				SetCollidedWith(bodies[cur.Item2], bodies[cur.Item1], cur.Item3);
+				(int, int, int, int, bool) cur = ConfirmedCollisions[i];
+				SetCollidedWith(bodies[cur.Item1], bodies[cur.Item3], cur.Item4, cur.Item5);
+				SetCollidedWith(bodies[cur.Item3], bodies[cur.Item1], cur.Item2, cur.Item5);
 			}
 			ConfirmedCollisions.Clear();
 		}

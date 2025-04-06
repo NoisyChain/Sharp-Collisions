@@ -17,8 +17,9 @@ namespace SharpCollisions.Sharp2D
 
 		[Export] public SharpCollider2D[] Colliders;
 		public List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
-		public List<uint> CollidedWith = new List<uint>();
+		public List<(uint, int)> CollidedWith = new List<(uint, int)>();
 		public List<uint> BodiesToIgnore = new List<uint>();
+		public FixRect BoundingBox = new FixRect();
 
 		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
 		public int BodyMode = 0;
@@ -71,20 +72,20 @@ namespace SharpCollisions.Sharp2D
             DrawColliders();
         }
 
-		public void DrawColliders()
-		{
-			if (!HasColliders()) return;
-			
-			foreach(SharpCollider2D col in Colliders)
-				col.DebugDrawShapes(this);
-		}
-
 		public void PreviewColliders()
 		{
 			if (!HasColliders()) return;
 			
 			foreach(SharpCollider2D col in Colliders)
-				col.DebugDrawShapesEditor(this);
+				if (col != null) col.DebugDrawShapesEditor(this);
+		}
+
+		public void DrawColliders()
+		{
+			if (!HasColliders()) return;
+			
+			foreach(SharpCollider2D col in Colliders)
+				if (col != null) col.DebugDrawShapes(this);
 		}
 
 		public override void _Destroy()
@@ -125,6 +126,29 @@ namespace SharpCollisions.Sharp2D
 		public void ResetIgnoreBodies()
 		{
 			BodiesToIgnore.Clear();
+		}
+
+		private void UpdateBoundingBox()
+		{
+			Fix64 minX = Fix64.MaxValue;
+            Fix64 minY = Fix64.MaxValue;
+            Fix64 maxX = Fix64.MinValue;
+            Fix64 maxY = Fix64.MinValue;
+
+			for (int i = 0; i < Colliders.Length; i++)
+			{
+				if (Colliders[i].BoundingBox.x < minX)
+					minX = Colliders[i].BoundingBox.x;
+				if (Colliders[i].BoundingBox.w > maxX)
+					maxX = Colliders[i].BoundingBox.w;
+				if (Colliders[i].BoundingBox.y < minY)
+					minY = Colliders[i].BoundingBox.y;
+				if (Colliders[i].BoundingBox.h > maxY)
+					maxY = Colliders[i].BoundingBox.h;
+
+			}
+            
+            BoundingBox = new FixRect(minX, minY, maxX, maxY);
 		}
 		
 		public void SetVelocity(FixVector2 newVelocity)
@@ -192,13 +216,15 @@ namespace SharpCollisions.Sharp2D
 				GD.Print("There is no collider attached to this body. No collision will happen.");
 				return;
 			}
-			
+
 			foreach(SharpCollider2D col in Colliders)
 			{
 				col.Position = FixedPosition;
 				col.UpdatePoints(FixedPosition, FixedRotation);
 				col.UpdateBoundingBox();
 			}
+
+			UpdateBoundingBox();
 		}
 
 		public void ClearFlags()
@@ -212,23 +238,45 @@ namespace SharpCollisions.Sharp2D
 			}
 		}
 
-		/*public override void _FixedProcess(Fix64 delta)
+		protected CollisionManifold2D GetCollision(SharpBody2D otherBody)
 		{
-			SetVelocity(FixVector2.Zero);
-		}*/
+			CollisionManifold2D ret = null;
+			for (int i = 0; i < Collisions.Count; i++)
+			{
+				if (Collisions[i].CollidedWith == otherBody)
+					ret = Collisions[i];
+			}
+
+			return ret;
+		}
 
 		public virtual void OnBeginOverlap(SharpBody2D other)
 		{
+			//CollisionManifold2D collision = GetCollision(other);
+            //if (collision != null)
+            //{
+                //Execute action here
+            //}
 			//GD.Print("Entered Collision!");
 		}
 
 		public virtual void OnOverlap(SharpBody2D other)
 		{
+			//CollisionManifold2D collision = GetCollision(other);
+            //if (collision != null)
+            //{
+                //Execute action here
+            //}
 			//GD.Print("Still colliding...");
 		}
 
 		public virtual void OnEndOverlap(SharpBody2D other)
 		{
+			//CollisionManifold2D collision = GetCollision(other);
+            //if (collision != null)
+            //{
+                //Execute action here
+            //}
 			//GD.Print("Exited Collision!");
 		}
 	}

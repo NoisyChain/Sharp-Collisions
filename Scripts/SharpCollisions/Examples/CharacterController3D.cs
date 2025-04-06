@@ -151,9 +151,15 @@ namespace SharpCollisions.Sharp3D
         {
             base._Process(delta);
             debug.Text = debugText;
-            //foreach(CollisionManifold3D col in Collisions)
-                //DebugDraw3D.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, new Color(0f, 1f, 1f));
         }
+
+        public override void RenderNode()
+        {
+            base.RenderNode();
+            foreach(CollisionManifold3D col in Collisions)
+                DebugDraw3D.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, new Color(0f, 1f, 1f));
+        }
+
 
         public CollisionManifold3D GetGround()
         { 
@@ -219,17 +225,33 @@ namespace SharpCollisions.Sharp3D
 
         public override void OnBeginOverlap(SharpBody3D other)
         {
-            //GD.Print("Entered Collision!");
+            base.OnBeginOverlap(other);
+            //CollisionManifold3D collision = GetCollision(other);
+            //if (collision != null)
+            //{
+                //Execute action here
+                //GD.Print(collision.CollidedWith.GetBodyID());
+            //}
         }
 
         public override void OnOverlap(SharpBody3D other)
         {
-            //GD.Print("Still colliding...");
+            base.OnOverlap(other);
+            //CollisionManifold3D collision = GetCollision(other);
+            //if (collision != null)
+            //{
+                //Execute action here
+            //}
         }
 
         public override void OnEndOverlap(SharpBody3D other)
         {
-            //GD.Print("Exited Collision!");
+            base.OnEndOverlap(other);
+            //CollisionManifold3D collision = GetCollision(other);
+            //if (collision != null)
+            //{
+                //Execute action here
+            //}
         }
     }
 }

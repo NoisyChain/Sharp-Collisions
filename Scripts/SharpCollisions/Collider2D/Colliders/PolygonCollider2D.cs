@@ -116,11 +116,9 @@ namespace SharpCollisions.Sharp2D
 			Fix64 maxX = Fix64.MinValue;
 			Fix64 maxY = Fix64.MinValue;
 
-            FixVector2[] points = Points;
-
-            for (int p = 0; p < points.Length; p++)
+            for (int p = 0; p < Points.Length; p++)
             {
-                FixVector2 v = points[p];
+                FixVector2 v = Points[p];
 
                 if (v.x < minX) minX = v.x;
                 if (v.x > maxX) maxX = v.x;

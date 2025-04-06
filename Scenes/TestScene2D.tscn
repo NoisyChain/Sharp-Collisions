@@ -1,14 +1,14 @@
 [gd_scene load_steps=17 format=3 uid="uid://de044kf0kbivf"]
 
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Commons/SharpBody2D.cs" id="1"]
+[ext_resource type="Script" uid="uid://c2pd4i5gql5t8" path="res://Scripts/SharpCollisions/Collider2D/Commons/SharpBody2D.cs" id="1"]
 [ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_ver4r"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/General/SharpManager.cs" id="2_fb5pd"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/BoxCollider2D.cs" id="4"]
+[ext_resource type="Script" uid="uid://dswu8dcd4cdwi" path="res://Scripts/SharpCollisions/General/SharpManager.cs" id="2_fb5pd"]
+[ext_resource type="Script" uid="uid://d4idavsok0wfs" path="res://Scripts/SharpCollisions/Collider2D/Colliders/BoxCollider2D.cs" id="4"]
 [ext_resource type="PackedScene" uid="uid://yy8gg16i0mv1" path="res://Scenes/Examples/PreviewBody_Controller.tscn" id="5"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/CircleCollider2D.cs" id="6"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/CapsuleCollider2D.cs" id="7"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/PolygonCollider2D.cs" id="8"]
-[ext_resource type="Script" path="res://Scripts/SharpCollisions/Collider2D/Colliders/AABBCollider2D.cs" id="9"]
+[ext_resource type="Script" uid="uid://b4o377chp53rf" path="res://Scripts/SharpCollisions/Collider2D/Colliders/CircleCollider2D.cs" id="6"]
+[ext_resource type="Script" uid="uid://b3noxcpjbrexh" path="res://Scripts/SharpCollisions/Collider2D/Colliders/CapsuleCollider2D.cs" id="7"]
+[ext_resource type="Script" uid="uid://dt55cp5j25344" path="res://Scripts/SharpCollisions/Collider2D/Colliders/PolygonCollider2D.cs" id="8"]
+[ext_resource type="Script" uid="uid://lescpeqkvsdt" path="res://Scripts/SharpCollisions/Collider2D/Colliders/AABBCollider2D.cs" id="9"]
 
 [sub_resource type="BoxMesh" id="1"]
 size = Vector3(6, 0.6, 0.2)

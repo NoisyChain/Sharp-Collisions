@@ -66,10 +66,10 @@ namespace SharpCollisions.Sharp3D
 			PreviewColliders();
 		}
 
-		public override void RenderNode()
+		public override void RenderNode(bool debug)
         {
-			base.RenderNode();
-            DrawColliders();
+			base.RenderNode(debug);
+            if (debug) DrawColliders();
         }
 
 		public void PreviewColliders()

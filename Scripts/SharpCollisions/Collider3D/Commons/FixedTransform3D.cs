@@ -69,7 +69,7 @@ namespace SharpCollisions.Sharp3D
         public override void _Process(double delta)
         {
             base._Process(delta);
-            if (Engine.IsEditorHint()) PreviewNode();
+            if (Engine.IsEditorHint()) PreviewNode(true);
         }
 
         /*public bool HasChildren()
@@ -82,7 +82,7 @@ namespace SharpCollisions.Sharp3D
             return Parent != null;
         }*/
 
-        public override void RenderNode()
+        public override void RenderNode(bool debug)
         {
             if (Renderer == null) return;
 
@@ -92,7 +92,7 @@ namespace SharpCollisions.Sharp3D
 			Renderer.GlobalRotation = (Vector3)FixedRotation;
         }
 
-        public override void PreviewNode()
+        public override void PreviewNode(bool debug)
         {
             if (Renderer == null) return;
 

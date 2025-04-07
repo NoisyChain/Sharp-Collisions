@@ -165,9 +165,18 @@ namespace SharpCollisions.Sharp2D
         {
             base._Process(delta);
             debug.Text = debugText;
-            //foreach(CollisionManifold2D col in Collisions)
-                //DebugDraw3D.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, new Color(0f, 1f, 1f));
         }
+        
+        public override void RenderNode(bool debug)
+        {
+            base.RenderNode(debug);
+
+            if (!debug) return;
+            
+            foreach(CollisionManifold2D col in Collisions)
+                DebugDraw3D.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, new Color(0f, 1f, 1f));
+        }
+
         public CollisionManifold2D GetGround()
         { 
             CollisionManifold2D Ground = null;

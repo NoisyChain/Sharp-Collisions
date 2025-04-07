@@ -24,6 +24,7 @@ namespace SharpCollisions
 		[Export] private float debugLineThickness = 0.025f;
 		[Export] private bool UseEngineSettings = false;
 		[Export] private bool RunOnDedicatedThread = false;
+		[Export] private bool ShowDebugShapes = false;
 		public Fix64 fixedTPS => (Fix64)TicksPerSecond;
 		public Fix64 fixedIterations => (Fix64)iterations;
 		public Fix64 fixedDelta => Fix64.One / fixedTPS;
@@ -67,9 +68,9 @@ namespace SharpCollisions
 			physicsMutex.WaitOne();
 
 			foreach(SharpBody2D body in world2D.bodies)
-				body.RenderNode();
+				body.RenderNode(ShowDebugShapes);
 			foreach(SharpBody3D body in world3D.bodies)
-				body.RenderNode();
+				body.RenderNode(ShowDebugShapes);
 			
 			physicsMutex.ReleaseMutex();
         }

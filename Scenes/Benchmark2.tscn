@@ -40,6 +40,7 @@ tonemap_mode = 2
 script = ExtResource("2_l005j")
 debugLineThickness = 0.012
 RunOnDedicatedThread = true
+ShowDebugShapes = true
 
 [node name="Sphere" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Renderer")]
 script = ExtResource("4_802oi")
@@ -81,6 +82,7 @@ skeleton = NodePath("../..")
 script = ExtResource("6_ibdrf")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
+fixedPosition = Vector3i(6000, 0, 0)
 
 [node name="Collider" type="Node" parent="Box"]
 script = ExtResource("5_vg68d")
@@ -90,6 +92,7 @@ Faces = []
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Box"]
+transform = Transform3D(0.999808, 0, 0, 0, 0.99982, 0, 0, 0, 0.999997, 6, 0, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Box/Viewer"]
 mesh = SubResource("12")
@@ -99,6 +102,8 @@ skeleton = NodePath("../..")
 script = ExtResource("6_ibdrf")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
+fixedPosition = Vector3i(2500, 0, 3600)
+fixedRotation = Vector3i(0, 0, 450)
 
 [node name="Collider" type="Node" parent="Capsule"]
 script = ExtResource("8_0kenx")
@@ -108,7 +113,7 @@ rotationOffset = Vector3i(0, 0, 900)
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Capsule"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 2.5, 0, 3.6)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Capsule/Viewer"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
@@ -120,6 +125,7 @@ script = ExtResource("6_ibdrf")
 Colliders = [NodePath("Collider")]
 BodyMode = 2
 Renderer = NodePath("Viewer")
+fixedPosition = Vector3i(-4000, 0, 500)
 
 [node name="Collider" type="Node" parent="Polygon"]
 script = ExtResource("9_6n06b")
@@ -128,6 +134,7 @@ Faces = []
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Polygon"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0.5)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Polygon/Viewer"]
 visible = false

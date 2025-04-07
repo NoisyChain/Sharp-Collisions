@@ -103,18 +103,19 @@ namespace SharpCollisions.Sharp3D
 			
 			if (!bodyA.HasColliders() || !bodyB.HasColliders()) return;
 
+			if (!bodyA.Active || !bodyB.Active)
+			{ ClearCollision(indA, 0, indB, 0); return; }
+			if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2)
+			{ ClearCollision(indA, 0, indB, 0); return; }
+			if (bodyA.BodiesToIgnore.Contains(bodyB.GetBodyID()))
+			{ ClearCollision(indA, 0, indB, 0); return; }
+			if (!bodyA.BoundingBox.IsOverlapping(bodyB.BoundingBox))
+			{ ClearCollision(indA, 0, indB, 0); return; }
+
 			for (int i = 0; i < bodyA.Colliders.Length; i++)
 			{
 				for (int j = 0; j < bodyB.Colliders.Length; j++)
 				{
-					if (!bodyA.Active || !bodyB.Active)
-					{ ClearCollision(indA, i, indB, j); continue; }
-					if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2)
-					{ ClearCollision(indA, i, indB, j);  continue; }
-					if (bodyA.BodiesToIgnore.Contains(bodyB.GetBodyID()))
-					{ ClearCollision(indA, i, indB, j);  continue; }
-					if (!bodyA.BoundingBox.IsOverlapping(bodyB.BoundingBox))
-					{ ClearCollision(indA, i, indB, j);  continue; }
 					if (!bodyA.Colliders[i].Active || !bodyB.Colliders[j].Active)
 					{ ClearCollision(indA, i, indB, j);  continue; }
 					if (!CompareLayers(bodyA.Colliders[i], bodyB.Colliders[j]))
@@ -214,8 +215,8 @@ namespace SharpCollisions.Sharp3D
 
 		private void ClearCollision(int bodyA, int colA, int bodyB, int colB)
 		{
-			AddConfirmedCollision((bodyA, colA, bodyB, colB, false));
-			AddConfirmedCollision((bodyB, colB, bodyA, colA, false));
+			//AddConfirmedCollision((bodyA, colA, bodyB, colB, false));
+			//AddConfirmedCollision((bodyB, colB, bodyA, colA, false));
 			//bodyA.Collisions.Clear();
 			//bodyB.Collisions.Clear();
 		}
@@ -234,7 +235,6 @@ namespace SharpCollisions.Sharp3D
 				SetCollidedWith(bodies[cur.Item1], bodies[cur.Item3], cur.Item4, cur.Item5);
 				SetCollidedWith(bodies[cur.Item3], bodies[cur.Item1], cur.Item2, cur.Item5);
 			}
-			ConfirmedCollisions.Clear();
 		}
 
 		/*void ResolvePhysics(SharpBody3D bodyA, SharpBody3D bodyB, FixVector3 normal)
@@ -264,6 +264,7 @@ namespace SharpCollisions.Sharp3D
 			if (BodyCount == 0) return;
 			iterations = Mathf.Clamp(iterations, MinIterations, MaxIterations);
 			
+			ConfirmedCollisions.Clear();
 			for (int it = 0; it < iterations; it++)
 			{
 				MoveBodies(steps, iterations);

@@ -220,10 +220,8 @@ namespace SharpCollisions.Sharp2D
 
 		private void ClearCollision(int bodyA, int colA, int bodyB, int colB)
 		{
-			//AddConfirmedCollision((bodyA, colA, bodyB, colB, false));
-			//AddConfirmedCollision((bodyB, colB, bodyA, colA, false));
-			//bodyA.Collisions.Clear();
-			//bodyB.Collisions.Clear();
+			SetCollidedWith(bodies[bodyA], bodies[bodyB], colB, false);
+			SetCollidedWith(bodies[bodyB], bodies[bodyA], colA, false);
 		}
 
 		private void MoveBodies(int steps, int iterations)

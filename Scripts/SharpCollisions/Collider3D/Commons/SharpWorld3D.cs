@@ -221,10 +221,6 @@ namespace SharpCollisions.Sharp3D
 		{
 			SetCollidedWith(bodies[bodyA], bodies[bodyB], colB, false);
 			SetCollidedWith(bodies[bodyB], bodies[bodyA], colA, false);
-			//AddConfirmedCollision((bodyA, colA, bodyB, colB, false));
-			//AddConfirmedCollision((bodyB, colB, bodyA, colA, false));
-			//bodyA.Collisions.Clear();
-			//bodyB.Collisions.Clear();
 		}
 
 		private void MoveBodies(int steps, int iterations)

@@ -12,6 +12,8 @@ namespace SharpCollisions.Sharp2D
         public FixVector2 Depth;
         public FixVector2 ContactPoint;
 
+        public SharpCollider2D Collider => CollidedWith.GetCollider(ColliderIndex);
+
         public CollisionManifold2D() {}
 
         public CollisionManifold2D(SharpBody2D body, int index, FixVector2 normal, FixVector2 depth, FixVector2 contact)

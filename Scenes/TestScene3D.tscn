@@ -47,6 +47,7 @@ tonemap_mode = 2
 script = ExtResource("2_od8d3")
 debugLineThickness = 0.012
 RunOnDedicatedThread = true
+ShowDebugShapes = true
 
 [node name="Character" parent="." instance=ExtResource("2")]
 KeepVelocityOnSlopes = false

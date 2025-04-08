@@ -43,6 +43,7 @@ tonemap_mode = 2
 [node name="PhysicsManager" type="Node" parent="."]
 script = ExtResource("2_fb5pd")
 RunOnDedicatedThread = true
+ShowDebugShapes = true
 
 [node name="Character" parent="." instance=ExtResource("5")]
 CeilingAngleLimit = 15

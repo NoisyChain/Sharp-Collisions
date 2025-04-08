@@ -8,22 +8,25 @@ namespace SharpCollisions.Sharp3D
 	[Tool] [GlobalClass]
 	public partial class SharpBody3D : FixedTransform3D
 	{
-		public delegate void OnOverlapDelegate(SharpBody3D other);
-		public OnOverlapDelegate BeginOverlap;
-		public OnOverlapDelegate DuringOverlap;
-		public OnOverlapDelegate EndOverlap;
+		//public delegate void OnOverlapDelegate(SharpBody3D other);
+		//public OnOverlapDelegate BeginOverlap;
+		//public OnOverlapDelegate DuringOverlap;
+		//public OnOverlapDelegate EndOverlap;
 
 		protected uint ID; 
 		public FixVector3 Velocity;
 
-		[Export] public SharpCollider3D[] Colliders;
-		public List<CollisionManifold3D> Collisions = new List<CollisionManifold3D>();
+		[Export] private SharpCollider3D[] Colliders;
+		private List<CollisionManifold3D> Collisions = new List<CollisionManifold3D>();
 		public List<(uint, int)> CollidedWith = new List<(uint, int)>();
 		public List<uint> BodiesToIgnore = new List<uint>();
 		public FixVolume BoundingBox = new FixVolume();
 
 		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
 		public int BodyMode = 0;
+
+		public SharpCollider3D[] GetColliders() => Colliders;
+		public SharpCollider3D GetCollider(int index) => Colliders[index];
 		
 		/*public SharpBody3D() {}
 		
@@ -55,9 +58,9 @@ namespace SharpCollisions.Sharp3D
 					col.Initialize();
 			
 			UpdateColliders();
-			BeginOverlap = OnBeginOverlap;
-			DuringOverlap = OnOverlap;
-			EndOverlap = OnEndOverlap;
+			//BeginOverlap = OnBeginOverlap;
+			//DuringOverlap = OnOverlap;
+			//EndOverlap = OnEndOverlap;
 		}
 
 		public override void _Process(double delta)
@@ -239,8 +242,9 @@ namespace SharpCollisions.Sharp3D
 				col.globalCollisionFlags.Clear();
 			}
 		}
-
-		protected CollisionManifold3D GetCollision(SharpBody3D otherBody)
+		public List<CollisionManifold3D> GetCollisions() => Collisions;
+		public CollisionManifold3D GetCollision(int index) => Collisions[index];
+		public CollisionManifold3D GetCollision(SharpBody3D otherBody)
 		{
 			CollisionManifold3D ret = null;
 			for (int i = 0; i < Collisions.Count; i++)
@@ -251,34 +255,33 @@ namespace SharpCollisions.Sharp3D
 
 			return ret;
 		}
-
-		public virtual void OnBeginOverlap(SharpBody3D other)
+		public CollisionManifold3D GetCollision(SharpBody3D otherBody, int otherCollider)
 		{
-			//CollisionManifold3D collision = GetCollision(other);
-            //if (collision != null)
-            //{
-                //Execute action here
-            //}
+			CollisionManifold3D ret = null;
+			for (int i = 0; i < Collisions.Count; i++)
+			{
+				if (Collisions[i].Collider != otherBody.GetCollider(otherCollider)) continue;
+				
+				ret = Collisions[i];
+			}
+
+			return ret;
+		}
+		public void AddCollision(CollisionManifold3D col) => Collisions.Add(col);
+		public void ClearCollisions() => Collisions.Clear();
+
+		public virtual void OnBeginOverlap(CollisionManifold3D collision)
+		{
 			//GD.Print("Entered Collision!");
 		}
 
-		public virtual void OnOverlap(SharpBody3D other)
+		public virtual void OnOverlap(CollisionManifold3D collision)
 		{
-			//CollisionManifold3D collision = GetCollision(other);
-            //if (collision != null)
-            //{
-                //Execute action here
-            //}
 			//GD.Print("Still colliding...");
 		}
 
-		public virtual void OnEndOverlap(SharpBody3D other)
+		public virtual void OnEndOverlap(CollisionManifold3D collision)
 		{
-			//CollisionManifold3D collision = GetCollision(other);
-            //if (collision != null)
-            //{
-                //Execute action here
-            //}
 			//GD.Print("Exited Collision!");
 		}
 	}

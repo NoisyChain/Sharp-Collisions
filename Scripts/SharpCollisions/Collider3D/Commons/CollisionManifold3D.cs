@@ -12,7 +12,7 @@ namespace SharpCollisions.Sharp3D
         public FixVector3 Depth;
         public FixVector3 ContactPoint;
 
-        public SharpCollider3D Collider => CollidedWith.Colliders[CollidedIndex];
+        public SharpCollider3D Collider => CollidedWith.GetCollider(CollidedIndex);
 
         public CollisionManifold3D() {}
 

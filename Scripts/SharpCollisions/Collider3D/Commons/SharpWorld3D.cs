@@ -164,8 +164,8 @@ namespace SharpCollisions.Sharp3D
 						//ResolvePhysics(bodyA, bodyB, Normal);
 					}
 
-					bodyA.AddCollision(new CollisionManifold3D(bodyB, colIndB, -Normal, Depth, ContactPoint));
-					bodyB.AddCollision(new CollisionManifold3D(bodyA, colIndA, Normal, Depth, ContactPoint));
+					bodyA.AddCollision(new CollisionManifold3D(bodyB, colIndA, colIndB, -Normal, Depth, ContactPoint));
+					bodyB.AddCollision(new CollisionManifold3D(bodyA, colIndB, colIndA, Normal, Depth, ContactPoint));
 
 					if (!bodyA.GetCollider(colIndA).isTrigger && !bodyB.GetCollider(colIndB).isTrigger)
 					{
@@ -191,7 +191,7 @@ namespace SharpCollisions.Sharp3D
 				ConfirmedCollisions.Add(col);
 		}
 
-		private void SetCollidedWith(SharpBody3D bodyA, SharpBody3D bodyB, int colB, bool hasCollided)
+		private void SetCollidedWith(SharpBody3D bodyA, SharpBody3D bodyB, int colA, int colB, bool hasCollided)
 		{
 			if (hasCollided)
 			{
@@ -210,7 +210,7 @@ namespace SharpCollisions.Sharp3D
 			{
 				if (bodyA.CollidedWith.Contains((bodyB.GetBodyID(), colB)))
 				{
-					CollisionManifold3D col = new CollisionManifold3D(bodyB, colB, FixVector3.Zero, FixVector3.Zero, FixVector3.Zero);
+					CollisionManifold3D col = new CollisionManifold3D(bodyB, colA, colB, FixVector3.Zero, FixVector3.Zero, FixVector3.Zero);
 					bodyA.OnEndOverlap(col);
 					bodyA.CollidedWith.Remove((bodyB.GetBodyID(), colB));
 				}
@@ -219,8 +219,8 @@ namespace SharpCollisions.Sharp3D
 
 		private void ClearCollision(int bodyA, int colA, int bodyB, int colB)
 		{
-			SetCollidedWith(bodies[bodyA], bodies[bodyB], colB, false);
-			SetCollidedWith(bodies[bodyB], bodies[bodyA], colA, false);
+			SetCollidedWith(bodies[bodyA], bodies[bodyB], colA, colB, false);
+			SetCollidedWith(bodies[bodyB], bodies[bodyA], colB, colA, false);
 		}
 
 		private void MoveBodies(int steps, int iterations)
@@ -234,8 +234,8 @@ namespace SharpCollisions.Sharp3D
 			for (int i = 0; i < ConfirmedCollisions.Count; i++)
 			{
 				(int, int, int, int, bool) cur = ConfirmedCollisions[i];
-				SetCollidedWith(bodies[cur.Item1], bodies[cur.Item3], cur.Item4, cur.Item5);
-				SetCollidedWith(bodies[cur.Item3], bodies[cur.Item1], cur.Item2, cur.Item5);
+				SetCollidedWith(bodies[cur.Item1], bodies[cur.Item3], cur.Item2, cur.Item4, cur.Item5);
+				SetCollidedWith(bodies[cur.Item3], bodies[cur.Item1], cur.Item4, cur.Item2, cur.Item5);
 			}
 		}
 

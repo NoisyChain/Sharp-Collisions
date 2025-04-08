@@ -7,19 +7,21 @@ namespace SharpCollisions.Sharp2D
     public partial class CollisionManifold2D : GodotObject
     {
         public SharpBody2D CollidedWith;
-        public int ColliderIndex;
+        public int ColliderA;
+        public int ColliderB;
         public FixVector2 Normal;
         public FixVector2 Depth;
         public FixVector2 ContactPoint;
 
-        public SharpCollider2D Collider => CollidedWith.GetCollider(ColliderIndex);
+        public SharpCollider2D Collider => CollidedWith.GetCollider(ColliderB);
 
         public CollisionManifold2D() {}
 
-        public CollisionManifold2D(SharpBody2D body, int index, FixVector2 normal, FixVector2 depth, FixVector2 contact)
+        public CollisionManifold2D(SharpBody2D body, int colA, int colB, FixVector2 normal, FixVector2 depth, FixVector2 contact)
         {
             CollidedWith = body;
-            ColliderIndex = index;
+            ColliderA = colA;
+            ColliderB = colB;
             Normal = normal;
             Depth = depth;
             ContactPoint = contact;

@@ -23,6 +23,8 @@ namespace SharpCollisions.Sharp3D
 
 		public SharpCollider3D[] GetColliders() => Colliders;
 		public SharpCollider3D GetCollider(int index) => Colliders[index];
+
+		private bool collidersRequireUpdate;
 		
 		/*public SharpBody3D() {}
 		
@@ -53,6 +55,7 @@ namespace SharpCollisions.Sharp3D
 				foreach(SharpCollider3D col in Colliders)
 					col.Initialize();
 			
+			collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 
@@ -176,26 +179,37 @@ namespace SharpCollisions.Sharp3D
 		
 		public void Move()
 		{
-			if (BodyMode == 2) return;
+			//if (BodyMode == 2) return;
 			if (FixVector3.Length(LinearVelocity) == Fix64.Zero) return;
 
 			FixedPosition += LinearVelocity * SharpTime.TimeScale * SharpTime.SubDelta;
-			UpdateColliders();
+			collidersRequireUpdate = true;
+			//UpdateColliders();
 		}
 
 		public void Rotate()
 		{
-			if (BodyMode == 2) return;
-
+			//if (BodyMode == 2) return;
 			if (FixVector3.Length(AngularVelocity) == Fix64.Zero) return;
 
 			FixedRotation += AngularVelocity * SharpTime.TimeScale * SharpTime.SubDelta;
+			collidersRequireUpdate = true;
+			//UpdateColliders();
+		}
+
+		public void UpdateBody()
+		{
+			if (BodyMode == 2) return;
+
+			Rotate();
+			Move();
 			UpdateColliders();
 		}
 
 		public void SetRotation(FixVector3 angle)
 		{
 			FixedRotation = angle;
+			collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 
@@ -207,24 +221,26 @@ namespace SharpCollisions.Sharp3D
 		public void PushAway(FixVector3 direction)
 		{
 			FixedPosition += direction;
+			collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 		
 		public void MoveTo(FixVector3 destination)
 		{
 			FixedPosition = destination;
+			collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 		
 		public void UpdateColliders()
 		{
-			//UpdateParenting();
-
 			if (!HasColliders())
 			{
 				GD.Print("There is no collider attached to this body. No collision will happen.");
 				return;
 			}
+
+			if (!collidersRequireUpdate) return;
 
 			foreach(SharpCollider3D col in Colliders)
 			{
@@ -234,6 +250,7 @@ namespace SharpCollisions.Sharp3D
 			}
 
 			UpdateBoundingBox();
+			collidersRequireUpdate = false;
 		}
 
 		public void ClearFlags()

@@ -22,6 +22,8 @@ namespace SharpCollisions.Sharp2D
 		
 		public SharpCollider2D[] GetColliders() => Colliders;
 		public SharpCollider2D GetCollider(int index) => Colliders[index];
+
+		private bool collidersRequireUpdate;
 		
 		/*public SharpBody2D() {}
 		
@@ -52,6 +54,7 @@ namespace SharpCollisions.Sharp2D
 				foreach(SharpCollider2D col in Colliders)
 					col.Initialize();
 			
+			collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 
@@ -168,19 +171,30 @@ namespace SharpCollisions.Sharp2D
 		
 		public void Move()
 		{
-			if (BodyMode == 2) return;
+			//if (BodyMode == 2) return;
 			if (FixVector2.Length(LinearVelocity) == Fix64.Zero) return;
 
 			FixedPosition += LinearVelocity * SharpTime.TimeScale * SharpTime.SubDelta;
-			UpdateColliders();
+			collidersRequireUpdate = true;
+			//UpdateColliders();
 		}
 
 		public void Rotate()
 		{
-			if (BodyMode == 2) return;
+			//if (BodyMode == 2) return;
 			if (AngularVelocity == Fix64.Zero) return;
 
 			FixedRotation += AngularVelocity * SharpTime.TimeScale * SharpTime.SubDelta;
+			collidersRequireUpdate = true;
+			//UpdateColliders();
+		}
+
+		public void UpdateBody()
+		{
+			if (BodyMode == 2) return;
+
+			Rotate();
+			Move();
 			UpdateColliders();
 		}
 
@@ -189,6 +203,7 @@ namespace SharpCollisions.Sharp2D
 			if (BodyMode == 2) return;
 
 			FixedRotation = angle;
+			collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 
@@ -202,6 +217,7 @@ namespace SharpCollisions.Sharp2D
 			if (BodyMode == 2) return;
 
 			FixedPosition += direction;
+			collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 		
@@ -210,6 +226,7 @@ namespace SharpCollisions.Sharp2D
 			if (BodyMode == 2) return;
 			
 			FixedPosition = destination;
+			collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 		
@@ -221,6 +238,8 @@ namespace SharpCollisions.Sharp2D
 				return;
 			}
 
+			if (!collidersRequireUpdate) return;
+
 			foreach(SharpCollider2D col in Colliders)
 			{
 				col.Position = FixedPosition;
@@ -229,6 +248,7 @@ namespace SharpCollisions.Sharp2D
 			}
 
 			UpdateBoundingBox();
+			collidersRequireUpdate = false;
 		}
 
 		public void ClearFlags()

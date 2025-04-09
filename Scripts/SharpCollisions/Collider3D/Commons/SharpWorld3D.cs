@@ -226,10 +226,7 @@ namespace SharpCollisions.Sharp3D
 		private void MoveBodies()
 		{
 			for (int i = 0; i < bodies.Count; i++)
-			{
-				bodies[i].Rotate();
-				bodies[i].Move();
-			}
+				bodies[i].UpdateBody();
 		}
 
 		private void CallCollisionEvents()

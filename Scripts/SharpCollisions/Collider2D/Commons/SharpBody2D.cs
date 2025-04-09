@@ -8,7 +8,8 @@ namespace SharpCollisions.Sharp2D
 	public partial class SharpBody2D : FixedTransform2D
 	{
 		protected uint ID;
-		public FixVector2 Velocity;
+		public FixVector2 LinearVelocity;
+		public Fix64 AngularVelocity;
 
 		[Export] private SharpCollider2D[] Colliders;
 		private List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
@@ -144,33 +145,43 @@ namespace SharpCollisions.Sharp2D
             BoundingBox = new FixRect(minX, minY, maxX, maxY);
 		}
 		
-		public void SetVelocity(FixVector2 newVelocity)
+		public void SetLinearVelocity(FixVector2 newVelocity)
 		{
 			if (BodyMode == 2) return;
 			
-			Velocity = newVelocity;
+			LinearVelocity = newVelocity;
+		}
+
+		public void SetAngularVelocity(Fix64 newVelocity)
+		{
+			if (BodyMode == 2) return;
+			
+			AngularVelocity = newVelocity;
+		}
+
+		public void SetAngularVelocityDegrees(Fix64 newVelocity)
+		{
+			if (BodyMode == 2) return;
+			
+			AngularVelocity = newVelocity * Fix64.DegToRad;
 		}
 		
 		public void Move()
 		{
 			if (BodyMode == 2) return;
-			if (FixVector2.Length(Velocity) == Fix64.Zero) return;
+			if (FixVector2.Length(LinearVelocity) == Fix64.Zero) return;
 
-			FixedPosition += Velocity * SharpTime.SubDelta;
+			FixedPosition += LinearVelocity * SharpTime.TimeScale * SharpTime.SubDelta;
 			UpdateColliders();
 		}
 
-		public void Rotate(Fix64 angle)
+		public void Rotate()
 		{
 			if (BodyMode == 2) return;
+			if (AngularVelocity == Fix64.Zero) return;
 
-			FixedRotation += angle;
+			FixedRotation += AngularVelocity * SharpTime.TimeScale * SharpTime.SubDelta;
 			UpdateColliders();
-		}
-
-		public void RotateDegrees(Fix64 angle)
-		{
-			Rotate(angle * Fix64.DegToRad);
 		}
 
 		public void SetRotation(Fix64 angle)
@@ -179,6 +190,11 @@ namespace SharpCollisions.Sharp2D
 
 			FixedRotation = angle;
 			UpdateColliders();
+		}
+
+		public void SetRotationDegrees(Fix64 angle)
+		{
+			SetRotation(angle * Fix64.DegToRad);
 		}
 
 		public void PushAway(FixVector2 direction)

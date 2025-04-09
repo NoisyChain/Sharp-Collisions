@@ -24,6 +24,6 @@ public partial class BallPhysics3D : SharpBody3D
         if (GetCollider(0).collisionFlags.Below) Direction.y = Fix64.Abs(Direction.y) * (Fix64)0.95;
         else Direction.y -= (Fix64)9.81 * delta;
 
-        SetVelocity(Direction * Fix64.Two);
+        SetLinearVelocity(Direction * Fix64.Two);
     }
 }

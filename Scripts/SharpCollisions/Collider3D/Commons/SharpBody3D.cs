@@ -9,7 +9,8 @@ namespace SharpCollisions.Sharp3D
 	public partial class SharpBody3D : FixedTransform3D
 	{
 		protected uint ID; 
-		public FixVector3 Velocity;
+		public FixVector3 LinearVelocity;
+		public FixVector3 AngularVelocity;
 
 		[Export] private SharpCollider3D[] Colliders;
 		private List<CollisionManifold3D> Collisions = new List<CollisionManifold3D>();
@@ -152,39 +153,55 @@ namespace SharpCollisions.Sharp3D
             BoundingBox = new FixVolume(minX, minY, minZ, maxX, maxY, maxZ);
 		}
 		
-		public void SetVelocity(FixVector3 newVelocity)
+		public void SetLinearVelocity(FixVector3 newVelocity)
 		{
 			if (BodyMode == 2) return;
 			
-			Velocity = newVelocity;
+			LinearVelocity = newVelocity;
+		}
+
+		public void SetAngularVelocity(FixVector3 newVelocity)
+		{
+			if (BodyMode == 2) return;
+			
+			AngularVelocity = newVelocity;
+		}
+
+		public void SetAngularVelocityDegrees(FixVector3 newVelocity)
+		{
+			if (BodyMode == 2) return;
+			
+			AngularVelocity = newVelocity * Fix64.DegToRad;
 		}
 		
 		public void Move()
 		{
 			if (BodyMode == 2) return;
-			if (FixVector3.Length(Velocity) == Fix64.Zero) return;
+			if (FixVector3.Length(LinearVelocity) == Fix64.Zero) return;
 
-			FixedPosition += Velocity * SharpTime.SubDelta;
+			FixedPosition += LinearVelocity * SharpTime.TimeScale * SharpTime.SubDelta;
 			UpdateColliders();
 		}
 
-		public void Rotate(FixVector3 angle)
+		public void Rotate()
 		{
 			if (BodyMode == 2) return;
 
-			FixedRotation += angle;
-			UpdateColliders();
-		}
+			if (FixVector3.Length(AngularVelocity) == Fix64.Zero) return;
 
-		public void RotateDegrees(FixVector3 angle)
-		{
-			Rotate(angle * Fix64.DegToRad);
+			FixedRotation += AngularVelocity * SharpTime.TimeScale * SharpTime.SubDelta;
+			UpdateColliders();
 		}
 
 		public void SetRotation(FixVector3 angle)
 		{
 			FixedRotation = angle;
 			UpdateColliders();
+		}
+
+		public void SetRotationDegrees(FixVector3 angle)
+		{
+			SetRotation(angle * Fix64.DegToRad);
 		}
 
 		public void PushAway(FixVector3 direction)

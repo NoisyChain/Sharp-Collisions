@@ -114,7 +114,7 @@ namespace SharpCollisions.Sharp2D
                 MoveTo(FixVector2.Zero);
             }
 
-            SetVelocity(finalVelocity);
+            SetLinearVelocity(finalVelocity);
 
             string groundAngle = IsOnGround() ? GroundAngle.ToString() : "No Ground";
             if (debug != null && HasColliders()) debugText = "Normal: " + UpVector.ToString() + 

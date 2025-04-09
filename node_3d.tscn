@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bctrxumw3pgr2"]
-
-[ext_resource type="Script" uid="uid://bgfndquhq31uk" path="res://RayCastingTest.cs" id="1_tww6t"]
-
-[node name="Node3D" type="Node3D"]
-script = ExtResource("1_tww6t")
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.787817, 0.312134, -0.530958, 0, 0.862072, 0.506786, 0.615909, -0.399255, 0.679155, -5.83053, 2.86665, 8.31885)

@@ -7,11 +7,6 @@ namespace SharpCollisions.Sharp2D
 	[Tool] [GlobalClass]
 	public partial class SharpBody2D : FixedTransform2D
 	{
-		//public delegate void OnOverlapDelegate(SharpBody2D other);
-		//public OnOverlapDelegate BeginOverlap;
-		//public OnOverlapDelegate DuringOverlap;
-		//public OnOverlapDelegate EndOverlap;
-
 		protected uint ID;
 		public FixVector2 Velocity;
 
@@ -57,9 +52,6 @@ namespace SharpCollisions.Sharp2D
 					col.Initialize();
 			
 			UpdateColliders();
-			//BeginOverlap = OnBeginOverlap;
-			//DuringOverlap = OnOverlap;
-			//EndOverlap = OnEndOverlap;
 		}
 
 		public override void _Process(double delta)
@@ -159,17 +151,12 @@ namespace SharpCollisions.Sharp2D
 			Velocity = newVelocity;
 		}
 		
-		public void Move(int delta, int iterations)
+		public void Move()
 		{
 			if (BodyMode == 2) return;
 			if (FixVector2.Length(Velocity) == Fix64.Zero) return;
-			
-			Fix64 fDelta = (Fix64)delta;
-			Fix64 fIterations = (Fix64)iterations;
 
-			Fix64 finalDelta = Fix64.One / (fDelta * fIterations);
-
-			FixedPosition += Velocity * finalDelta;
+			FixedPosition += Velocity * SharpTime.SubDelta;
 			UpdateColliders();
 		}
 

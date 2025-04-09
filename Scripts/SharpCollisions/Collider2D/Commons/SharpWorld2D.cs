@@ -224,10 +224,10 @@ namespace SharpCollisions.Sharp2D
 			SetCollidedWith(bodies[bodyB], bodies[bodyA], colB, colA, false);
 		}
 
-		private void MoveBodies(int steps, int iterations)
+		private void MoveBodies()
 		{
 			for (int i = 0; i < bodies.Count; i++)
-				bodies[i].Move(steps, iterations);
+				bodies[i].Move();
 		}
 
 		private void CallCollisionEvents()
@@ -262,16 +262,16 @@ namespace SharpCollisions.Sharp2D
 			if (bodyB.BodyMode == 0) bodyB.Velocity += impulse;
 		}*/
 		
-		public void Simulate(int steps, int iterations)
+		public void Simulate()
 		{
 			if (BodyCount == 0) return;
 			
-			iterations = Mathf.Clamp(iterations, MinIterations, MaxIterations);
+			int iterations = Mathf.Clamp(SharpTime.Substeps, MinIterations, MaxIterations);
 
 			ConfirmedCollisions.Clear();
 			for (int it = 0; it < iterations; it++)
 			{
-				MoveBodies(steps, iterations);
+				MoveBodies();
 				BroadPhase();
 				NarrowPhase();
 			}

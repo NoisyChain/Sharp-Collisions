@@ -8,11 +8,6 @@ namespace SharpCollisions.Sharp3D
 	[Tool] [GlobalClass]
 	public partial class SharpBody3D : FixedTransform3D
 	{
-		//public delegate void OnOverlapDelegate(SharpBody3D other);
-		//public OnOverlapDelegate BeginOverlap;
-		//public OnOverlapDelegate DuringOverlap;
-		//public OnOverlapDelegate EndOverlap;
-
 		protected uint ID; 
 		public FixVector3 Velocity;
 
@@ -58,9 +53,6 @@ namespace SharpCollisions.Sharp3D
 					col.Initialize();
 			
 			UpdateColliders();
-			//BeginOverlap = OnBeginOverlap;
-			//DuringOverlap = OnOverlap;
-			//EndOverlap = OnEndOverlap;
 		}
 
 		public override void _Process(double delta)
@@ -167,17 +159,12 @@ namespace SharpCollisions.Sharp3D
 			Velocity = newVelocity;
 		}
 		
-		public void Move(int delta, int iterations)
+		public void Move()
 		{
 			if (BodyMode == 2) return;
 			if (FixVector3.Length(Velocity) == Fix64.Zero) return;
-			
-			Fix64 fDelta = (Fix64)delta;
-			Fix64 fIterations = (Fix64)iterations;
 
-			Fix64 finalDelta = Fix64.One / (fDelta * fIterations);
-
-			FixedPosition += Velocity * finalDelta;
+			FixedPosition += Velocity * SharpTime.SubDelta;
 			UpdateColliders();
 		}
 

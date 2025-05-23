@@ -1,21 +1,20 @@
 using Godot;
 using FixMath.NET;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SharpCollisions.Sharp3D
 {
 	[Tool] [GlobalClass]
 	public partial class SharpBody3D : FixedTransform3D
 	{
-		protected uint ID; 
+		private uint ID; 
 		public FixVector3 LinearVelocity;
 		public FixVector3 AngularVelocity;
 
 		[Export] private SharpCollider3D[] Colliders;
 		private List<CollisionManifold3D> Collisions = new List<CollisionManifold3D>();
-		public List<(uint, int)> CollidedWith = new List<(uint, int)>();
-		public List<uint> BodiesToIgnore = new List<uint>();
+		private List<(uint, int)> CollidedWith = new List<(uint, int)>();
+		private List<uint> BodiesToIgnore = new List<uint>();
 		public FixVolume BoundingBox = new FixVolume();
 
 		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
@@ -112,19 +111,49 @@ namespace SharpCollisions.Sharp3D
 		{
 			if (ignore)
 			{
-				BodiesToIgnore.Add(bodyToIgnore.ID);
-				bodyToIgnore.BodiesToIgnore.Add(ID);
+				if (!IsIgnoringBody(bodyToIgnore))  AddBodyToIgnore(bodyToIgnore.ID);
+				if (!bodyToIgnore.IsIgnoringBody(this))	bodyToIgnore.AddBodyToIgnore(ID);
 			}
 			else
 			{
-				if (BodiesToIgnore.Contains(bodyToIgnore.ID))	BodiesToIgnore.Remove(bodyToIgnore.ID);
-				if (bodyToIgnore.BodiesToIgnore.Contains(ID))	bodyToIgnore.BodiesToIgnore.Remove(ID);
+				if (IsIgnoringBody(bodyToIgnore))	RemoveBodyToIgnore(bodyToIgnore.ID);
+				if (bodyToIgnore.IsIgnoringBody(this))	bodyToIgnore.RemoveBodyToIgnore(ID);
 			}
+		}
+
+		public bool IsIgnoringBody(SharpBody3D body)
+		{
+			return BodiesToIgnore.Contains(body.ID);
+		}
+
+		public void AddBodyToIgnore(uint bodyID)
+		{
+			BodiesToIgnore.Add(bodyID);
+		}
+
+		public void RemoveBodyToIgnore(uint bodyID)
+		{
+			BodiesToIgnore.Remove(bodyID);
 		}
 
 		public void ResetIgnoreBodies()
 		{
 			BodiesToIgnore.Clear();
+		}
+
+		public bool HasCollidedWith((uint, int) col)
+		{
+			return CollidedWith.Contains(col);
+		}
+
+		public void ConfirmCollision((uint, int) col)
+		{
+			CollidedWith.Add(col);
+		}
+
+		public void RemoveCollision((uint, int) col)
+		{
+			CollidedWith.Remove(col);
 		}
 
 		private void UpdateBoundingBox()
@@ -182,7 +211,7 @@ namespace SharpCollisions.Sharp3D
 			//if (BodyMode == 2) return;
 			if (FixVector3.Length(LinearVelocity) == Fix64.Zero) return;
 
-			FixedPosition += LinearVelocity * SharpTime.TimeScale * SharpTime.SubDelta;
+			FixedPosition += LinearVelocity * SharpTime.SubDelta;
 			collidersRequireUpdate = true;
 			//UpdateColliders();
 		}
@@ -192,7 +221,7 @@ namespace SharpCollisions.Sharp3D
 			//if (BodyMode == 2) return;
 			if (FixVector3.Length(AngularVelocity) == Fix64.Zero) return;
 
-			FixedRotation += AngularVelocity * SharpTime.TimeScale * SharpTime.SubDelta;
+			FixedRotation += AngularVelocity * SharpTime.SubDelta;
 			collidersRequireUpdate = true;
 			//UpdateColliders();
 		}

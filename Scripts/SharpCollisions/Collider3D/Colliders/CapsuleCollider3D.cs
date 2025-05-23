@@ -3,15 +3,16 @@ using FixMath.NET;
 
 namespace SharpCollisions.Sharp3D
 {
-    [Tool] [GlobalClass]
+    [Tool]
+    [GlobalClass]
     public partial class CapsuleCollider3D : SharpCollider3D
     {
         public Fix64 Radius;
         public Fix64 Height;
         public FixVector3 RawUpperPoint;
-		public FixVector3 RawLowerPoint;
-		public FixVector3 UpperPoint;
-		public FixVector3 LowerPoint;
+        public FixVector3 RawLowerPoint;
+        public FixVector3 UpperPoint;
+        public FixVector3 LowerPoint;
 
         [Export] protected int radius;
         [Export] protected int height;
@@ -26,39 +27,39 @@ namespace SharpCollisions.Sharp3D
         }
 
         public override bool CollisionDetection(SharpCollider3D other, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint)
-		{
-			Normal = FixVector3.Zero;
-			Depth = FixVector3.Zero;
-			ContactPoint = FixVector3.Zero;
+        {
+            Normal = FixVector3.Zero;
+            Depth = FixVector3.Zero;
+            ContactPoint = FixVector3.Zero;
 
             if (other.Shape == CollisionType3D.AABB) return false;
 
-			if (other.Shape == CollisionType3D.Sphere)
+            if (other.Shape == CollisionType3D.Sphere)
                 return CapsuleToSphereCollision(this, other as SphereCollider3D, out Normal, out Depth, out ContactPoint);
             else if (other.Shape == CollisionType3D.Capsule)
-				return CapsuleToCapsuleCollision(this, other as CapsuleCollider3D, out Normal, out Depth, out ContactPoint);
-			else if (other.Shape == CollisionType3D.Polygon)
+                return CapsuleToCapsuleCollision(this, other as CapsuleCollider3D, out Normal, out Depth, out ContactPoint);
+            else if (other.Shape == CollisionType3D.Polygon)
             {
                 PolygonCollider3D pol = other as PolygonCollider3D;
                 return pol.GJK.PolygonCollision(this, other, out Normal, out Depth, out ContactPoint);
             }
             return false;
-		}
+        }
 
         private void CreateCapsulePoints()
         {
             FixVector3 CapsuleDirection = new FixVector3(Fix64.Zero, Height - Radius, Fix64.Zero);
 
-			RawUpperPoint = CapsuleDirection;
-			RawLowerPoint = -CapsuleDirection;
+            RawUpperPoint = CapsuleDirection;
+            RawLowerPoint = -CapsuleDirection;
         }
 
         private void UpdateCapsulePoints(FixVector3 position, FixVector3 rotation)
         {
             UpperPoint = FixVector3.Rotate(RawUpperPoint, RotationOffset);
-			LowerPoint = FixVector3.Rotate(RawLowerPoint, RotationOffset);
+            LowerPoint = FixVector3.Rotate(RawLowerPoint, RotationOffset);
             UpperPoint = FixVector3.Transform(UpperPoint + PositionOffset, position, rotation);
-			LowerPoint = FixVector3.Transform(LowerPoint + PositionOffset, position, rotation);
+            LowerPoint = FixVector3.Transform(LowerPoint + PositionOffset, position, rotation);
         }
 
         public override void DebugDrawShapes(SharpBody3D reference)
@@ -93,14 +94,14 @@ namespace SharpCollisions.Sharp3D
             base.UpdatePoints(position, rotation);
         }
 
-		public override FixVector3 Support(FixVector3 direction)
-		{
-			FixVector3 NormalizedDirection = FixVector3.Normalize(direction);
-			Fix64 Dy = FixVector3.Dot(NormalizedDirection, UpperPoint - LowerPoint);
+        public override FixVector3 Support(FixVector3 direction)
+        {
+            FixVector3 NormalizedDirection = FixVector3.Normalize(direction);
+            Fix64 Dy = FixVector3.Dot(NormalizedDirection, UpperPoint - LowerPoint);
 
-			if (Dy == Fix64.Zero) return Center + Radius * NormalizedDirection;
-			else return (Dy < Fix64.Zero ? LowerPoint : UpperPoint) + Radius * NormalizedDirection;
-		}
+            if (Dy == Fix64.Zero) return Center + Radius * NormalizedDirection;
+            else return (Dy < Fix64.Zero ? LowerPoint : UpperPoint) + Radius * NormalizedDirection;
+        }
 
         public FixVolume UpdateCapsuleBoundingBox()
         {
@@ -128,56 +129,102 @@ namespace SharpCollisions.Sharp3D
         }
 
         public bool CapsuleToCapsuleCollision(CapsuleCollider3D colliderA, CapsuleCollider3D colliderB, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint)
-		{
-			Normal = FixVector3.Zero;
-			Depth = FixVector3.Zero;
-			ContactPoint = FixVector3.Zero;
+        {
+            Normal = FixVector3.Zero;
+            Depth = FixVector3.Zero;
+            ContactPoint = FixVector3.Zero;
 
-			LineToLineDistance(colliderA.UpperPoint, colliderA.LowerPoint, colliderB.UpperPoint, colliderB.LowerPoint, out FixVector3 r1, out FixVector3 r2);
+            LineToLineDistance(colliderA.UpperPoint, colliderA.LowerPoint, colliderB.UpperPoint, colliderB.LowerPoint, out FixVector3 r1, out FixVector3 r2);
 
-			Fix64 radii = colliderA.Radius + colliderB.Radius;
-			Fix64 distance = FixVector3.Distance(r1, r2);
-			
-			bool collision = distance <= radii;
-			
-			if (collision)
-			{
-				Normal = FixVector3.Normalize(r2 - r1);
-				Depth = Normal * Fix64.Abs(radii - distance);
-				ContactPoint = CapsuleContactPoint(r1, colliderA.Radius, r2, colliderB.Radius, Normal);
-			}
-			
-			return collision;
-		}
+            Fix64 radii = colliderA.Radius + colliderB.Radius;
+            Fix64 distance = FixVector3.Distance(r1, r2);
 
-		public bool CapsuleToSphereCollision(CapsuleCollider3D colliderA, SphereCollider3D colliderB, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint)
-		{
-			Normal = FixVector3.Zero;
-			Depth = FixVector3.Zero;
-			ContactPoint = FixVector3.Zero;
+            bool collision = distance <= radii;
 
-			LineToPointDistance(colliderA.UpperPoint, colliderA.LowerPoint, colliderB.Center, out FixVector3 CapsulePoint);
+            if (collision)
+            {
+                Normal = FixVector3.Normalize(r2 - r1);
+                Depth = Normal * Fix64.Abs(radii - distance);
+                ContactPoint = CapsuleContactPoint
+                (
+                    colliderA.UpperPoint, colliderA.LowerPoint,
+                    colliderB.UpperPoint, colliderB.LowerPoint,
+                    colliderA.Radius, colliderB.Radius, Normal
+                );
+            }
 
-			Fix64 radii = colliderA.Radius + colliderB.Radius;
-			Fix64 distance = FixVector3.Distance(CapsulePoint, colliderB.Center);
-			
-			bool collision = distance <= radii;
-			
-			if (collision)
-			{
-				Normal = FixVector3.Normalize(colliderB.Center - CapsulePoint);
-				Depth = Normal * Fix64.Abs(radii - distance);
-				ContactPoint = CapsuleContactPoint(CapsulePoint, colliderA.Radius, colliderB.Center, colliderB.Radius, Normal);
-			}
-			
-			return collision;
-		}
+            return collision;
+        }
 
-		public FixVector3 CapsuleContactPoint(FixVector3 centerA, Fix64 radiusA, FixVector3 centerB, Fix64 radiusB, FixVector3 direction)
-		{
-			FixVector3 ContactA = centerA + (direction * radiusA);
+        public bool CapsuleToSphereCollision(CapsuleCollider3D colliderA, SphereCollider3D colliderB, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint)
+        {
+            Normal = FixVector3.Zero;
+            Depth = FixVector3.Zero;
+            ContactPoint = FixVector3.Zero;
+
+            LineToPointDistance(colliderA.UpperPoint, colliderA.LowerPoint, colliderB.Center, out FixVector3 CapsulePoint);
+
+            Fix64 radii = colliderA.Radius + colliderB.Radius;
+            Fix64 distance = FixVector3.Distance(CapsulePoint, colliderB.Center);
+
+            bool collision = distance <= radii;
+
+            if (collision)
+            {
+                Normal = FixVector3.Normalize(colliderB.Center - CapsulePoint);
+                Depth = Normal * Fix64.Abs(radii - distance);
+                ContactPoint = SphereContactPoint(CapsulePoint, colliderA.Radius, colliderB.Center, colliderB.Radius, Normal);
+            }
+
+            return collision;
+        }
+
+        public FixVector3 SphereContactPoint(FixVector3 centerA, Fix64 radiusA, FixVector3 centerB, Fix64 radiusB, FixVector3 direction)
+        {
+            FixVector3 ContactA = centerA + (direction * radiusA);
             FixVector3 ContactB = centerB - (direction * radiusB);
-			return (ContactA + ContactB) / Fix64.Two;
-		}
+            return (ContactA + ContactB) / Fix64.Two;
+        }
+        
+        public FixVector3 CapsuleContactPoint(FixVector3 upperA, FixVector3 lowerA, FixVector3 upperB, FixVector3 lowerB, Fix64 radiusA, Fix64 radiusB, FixVector3 direction)
+        {
+            FixVector3 contact1 = FixVector3.Zero;
+            FixVector3 contact2 = FixVector3.Zero;
+
+            Fix64 minDistSq = Fix64.MaxValue;
+
+            LineToLineDistance(upperA, lowerA, upperB, lowerB, out FixVector3 r1, out FixVector3 r2);
+            Fix64 distSq = FixVector3.DistanceSq(r2, r1);
+
+            if (Fix64.Approximate(distSq, minDistSq))
+            {
+                if (!FixVector3.Approximate(r1, contact1))
+                {
+                    contact2 = r1;
+                }
+            }
+            else if (distSq < minDistSq)
+            {
+                minDistSq = distSq;
+                contact1 = r1;
+            }
+
+            LineToLineDistance(lowerB, upperB, lowerA, upperA, out r1, out r2);
+            distSq = FixVector3.DistanceSq(r2, r1);
+
+            if (Fix64.Approximate(distSq, minDistSq))
+            {
+                if (!FixVector3.Approximate(r1, contact1))
+                {
+                    contact2 = r1;
+                }
+            }
+            else if (distSq < minDistSq)
+            {
+                contact1 = r1;
+            }
+
+            return SphereContactPoint(contact1, radiusA, contact2, radiusB, direction);
+        }
     }
 }

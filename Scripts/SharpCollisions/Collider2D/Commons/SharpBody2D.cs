@@ -7,14 +7,14 @@ namespace SharpCollisions.Sharp2D
 	[Tool] [GlobalClass]
 	public partial class SharpBody2D : FixedTransform2D
 	{
-		protected uint ID;
+		private uint ID;
 		public FixVector2 LinearVelocity;
 		public Fix64 AngularVelocity;
 
 		[Export] private SharpCollider2D[] Colliders;
 		private List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
-		public List<(uint, int)> CollidedWith = new List<(uint, int)>();
-		public List<uint> BodiesToIgnore = new List<uint>();
+		private List<(uint, int)> CollidedWith = new List<(uint, int)>();
+		private List<uint> BodiesToIgnore = new List<uint>();
 		public FixRect BoundingBox = new FixRect();
 
 		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
@@ -110,19 +110,49 @@ namespace SharpCollisions.Sharp2D
 		{
 			if (ignore)
 			{
-				BodiesToIgnore.Add(bodyToIgnore.ID);
-				bodyToIgnore.BodiesToIgnore.Add(ID);
+				if (!IsIgnoringBody(bodyToIgnore))  AddBodyToIgnore(bodyToIgnore.ID);
+				if (!bodyToIgnore.IsIgnoringBody(this))	bodyToIgnore.AddBodyToIgnore(ID);
 			}
 			else
 			{
-				if (BodiesToIgnore.Contains(bodyToIgnore.ID))	BodiesToIgnore.Remove(bodyToIgnore.ID);
-				if (bodyToIgnore.BodiesToIgnore.Contains(ID))	bodyToIgnore.BodiesToIgnore.Remove(ID);
+				if (IsIgnoringBody(bodyToIgnore))	RemoveBodyToIgnore(bodyToIgnore.ID);
+				if (bodyToIgnore.IsIgnoringBody(this))	bodyToIgnore.RemoveBodyToIgnore(ID);
 			}
+		}
+
+		public bool IsIgnoringBody(SharpBody2D body)
+		{
+			return BodiesToIgnore.Contains(body.ID);
+		}
+
+		public void AddBodyToIgnore(uint bodyID)
+		{
+			BodiesToIgnore.Add(bodyID);
+		}
+
+		public void RemoveBodyToIgnore(uint bodyID)
+		{
+			BodiesToIgnore.Remove(bodyID);
 		}
 
 		public void ResetIgnoreBodies()
 		{
 			BodiesToIgnore.Clear();
+		}
+
+		public bool HasCollidedWith((uint, int) col)
+		{
+			return CollidedWith.Contains(col);
+		}
+
+		public void ConfirmCollision((uint, int) col)
+		{
+			CollidedWith.Add(col);
+		}
+
+		public void RemoveCollision((uint, int) col)
+		{
+			CollidedWith.Remove(col);
 		}
 
 		private void UpdateBoundingBox()
@@ -174,7 +204,7 @@ namespace SharpCollisions.Sharp2D
 			//if (BodyMode == 2) return;
 			if (FixVector2.Length(LinearVelocity) == Fix64.Zero) return;
 
-			FixedPosition += LinearVelocity * SharpTime.TimeScale * SharpTime.SubDelta;
+			FixedPosition += LinearVelocity * SharpTime.SubDelta;
 			collidersRequireUpdate = true;
 			//UpdateColliders();
 		}
@@ -184,7 +214,7 @@ namespace SharpCollisions.Sharp2D
 			//if (BodyMode == 2) return;
 			if (AngularVelocity == Fix64.Zero) return;
 
-			FixedRotation += AngularVelocity * SharpTime.TimeScale * SharpTime.SubDelta;
+			FixedRotation += AngularVelocity * SharpTime.SubDelta;
 			collidersRequireUpdate = true;
 			//UpdateColliders();
 		}

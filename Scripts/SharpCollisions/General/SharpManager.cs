@@ -94,6 +94,8 @@ namespace SharpCollisions
 
 		private void PhysicsLoop()
 		{
+			SharpTime.AdvanceFrame();
+			
 			for (int i = 0; i < nodes.Count; i++)
 				nodes[i]._FixedPreProcess(SharpTime.DeltaTime);
 			

@@ -205,26 +205,53 @@ namespace SharpCollisions.Sharp2D.GJK
 
 		public FixVector2 CapsulePolygonContact(CapsuleCollider2D colliderA, PolygonCollider2D colliderB)
 		{
-			FixVector2 contact = FixVector2.Zero;
+			FixVector2 contact1 = FixVector2.Zero;
+            FixVector2 contact2 = FixVector2.Zero;
 
             Fix64 minDistSq = Fix64.MaxValue;
 
-            for(int i = 0; i < colliderB.Points.Length; i++)
-            {
-                FixVector2 va = colliderB.Points[i];
-                FixVector2 vb = colliderB.Points[(i + 1) % colliderB.Points.Length];
+			for (int i = 0; i < colliderB.Points.Length; i++)
+			{
+				FixVector2 va = colliderB.Points[i];
+				FixVector2 vb = colliderB.Points[(i + 1) % colliderB.Points.Length];
 
-                SharpCollider2D.LineToLineDistance(va, vb, colliderA.UpperPoint, colliderA.LowerPoint, out FixVector2 r1, out FixVector2 r2);
+				SharpCollider2D.LineToLineDistance(va, vb, colliderA.UpperPoint, colliderA.LowerPoint, out FixVector2 r1, out FixVector2 r2);
 				Fix64 distSq = FixVector2.DistanceSq(r2, r1);
-				
-				if(distSq < minDistSq)
+
+				if (Fix64.Approximate(distSq, minDistSq))
+				{
+					if (!FixVector2.Approximate(r1, contact1))
+					{
+						contact2 = r1;
+					}
+				}
+				else if (distSq < minDistSq)
 				{
 					minDistSq = distSq;
-					contact = r1;
+					contact1 = r1;
+				}
+				
+				SharpCollider2D.LineToLineDistance(va, vb, colliderA.LowerPoint, colliderA.UpperPoint, out r1, out r2);
+				distSq = FixVector2.DistanceSq(r2, r1);
+				
+				if(Fix64.Approximate(distSq, minDistSq))
+				{
+					if (!FixVector2.Approximate(r1, contact1))
+					{
+						contact2 = r1;
+					}
+				}
+				else if(distSq < minDistSq)
+				{
+					minDistSq = distSq;
+					contact1 = r1;
 				}
             }
 
-			return contact;
+			if (contact2 == FixVector2.Zero)
+				return contact1;
+			else
+				return (contact1 + contact2) / Fix64.Two;
 		}
 
 		public FixVector2 PolygonContact(PolygonCollider2D colliderA, PolygonCollider2D colliderB)

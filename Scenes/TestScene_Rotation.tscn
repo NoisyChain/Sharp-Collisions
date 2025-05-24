@@ -12,11 +12,11 @@
 script = ExtResource("2")
 
 [node name="Character" parent="." instance=ExtResource("5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
-[node name="Sphere" type="Node3D" parent="."]
+[node name="Sphere" type="Node3D" parent="." node_paths=PackedStringArray("Colliders")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0)
 script = ExtResource("1")
+Colliders = []
 
 [node name="Collider" type="Node" parent="Sphere"]
 script = ExtResource("3")

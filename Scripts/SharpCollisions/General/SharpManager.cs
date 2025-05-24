@@ -1,7 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 using System.Threading;
-using FixMath.NET;
+using Godot.Collections;
 using SharpCollisions.Sharp2D;
 using SharpCollisions.Sharp3D;
 
@@ -18,7 +18,7 @@ namespace SharpCollisions
 		public static SharpManager Instance;
 		private SharpWorld2D world2D;
 		private SharpWorld3D world3D;
-		private List<SharpNode> nodes;
+		[Export] private Array<SharpNode> nodes;
 		[Export] private int TicksPerSecond = 60;
 		[Export] private int Substeps = 4;
 		[Export] private float debugLineThickness = 0.025f;
@@ -45,7 +45,12 @@ namespace SharpCollisions
 
 			world2D = new SharpWorld2D();
 			world3D = new SharpWorld3D();
-			nodes = new List<SharpNode>();
+			//nodes = new List<SharpNode>();
+
+			foreach (SharpNode node in nodes)
+			{
+				node._Instance();
+			}
 
 			DebugDraw3D.ScopedConfig().SetThickness(debugLineThickness);
 
@@ -111,7 +116,7 @@ namespace SharpCollisions
 
 		public void AddNode(SharpNode newNode)
 		{
-			nodes.Add(newNode);
+			//nodes.Add(newNode);
 		}
 
 		public void AddBody(SharpBody2D newBody)

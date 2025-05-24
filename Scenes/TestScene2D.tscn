@@ -40,13 +40,15 @@ tonemap_mode = 2
 
 [node name="FPS_HUD" parent="." instance=ExtResource("1_ver4r")]
 
-[node name="PhysicsManager" type="Node" parent="."]
+[node name="PhysicsManager" type="Node" parent="." node_paths=PackedStringArray("nodes")]
 script = ExtResource("2_fb5pd")
+nodes = [NodePath("../Character"), NodePath("../Floor"), NodePath("../Floor2"), NodePath("../Floor3"), NodePath("../Sphere"), NodePath("../Polygon"), NodePath("../Polygon2"), NodePath("../Capsule"), NodePath("../AABBTest"), NodePath("../AABBTest2")]
 RunOnDedicatedThread = true
 ShowDebugShapes = true
 
 [node name="Character" parent="." instance=ExtResource("5")]
 CeilingAngleLimit = 15
+AutoStart = false
 
 [node name="Floor" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Renderer")]
 script = ExtResource("1")
@@ -54,6 +56,7 @@ Colliders = [NodePath("Collider")]
 BodyMode = 2
 Renderer = NodePath("Viewer")
 fixedPosition = Vector2i(0, -3000)
+AutoStart = false
 
 [node name="Collider" type="Node" parent="Floor"]
 script = ExtResource("4")
@@ -75,6 +78,7 @@ BodyMode = 2
 Renderer = NodePath("Viewer")
 fixedPosition = Vector2i(4000, -2000)
 fixedRotation = 450
+AutoStart = false
 
 [node name="Collider" type="Node" parent="Floor2"]
 script = ExtResource("4")
@@ -96,6 +100,7 @@ BodyMode = 2
 Renderer = NodePath("Viewer")
 fixedPosition = Vector2i(-4000, -2000)
 fixedRotation = -500
+AutoStart = false
 
 [node name="Collider" type="Node" parent="Floor3"]
 script = ExtResource("4")
@@ -115,6 +120,7 @@ script = ExtResource("1")
 Colliders = [NodePath("Collider"), NodePath("Collider2")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector2i(0, -2000)
+AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere"]
 script = ExtResource("6")
@@ -139,6 +145,7 @@ Colliders = [NodePath("Collider")]
 BodyMode = 2
 Renderer = NodePath("Viewer")
 fixedPosition = Vector2i(-1500, -1700)
+AutoStart = false
 
 [node name="Collider" type="Node" parent="Polygon"]
 script = ExtResource("8")
@@ -155,6 +162,7 @@ BodyMode = 2
 Renderer = NodePath("Viewer")
 fixedPosition = Vector2i(4000, 1700)
 fixedRotation = 900
+AutoStart = false
 
 [node name="Collider" type="Node" parent="Polygon2"]
 script = ExtResource("8")
@@ -171,6 +179,7 @@ BodyMode = 2
 Renderer = NodePath("Viewer")
 fixedPosition = Vector2i(-3000, 1000)
 fixedRotation = 350
+AutoStart = false
 
 [node name="Collider" type="Node" parent="Capsule"]
 script = ExtResource("7")
@@ -193,6 +202,7 @@ BodyMode = 2
 Renderer = NodePath("Viewer")
 fixedPosition = Vector2i(1000, 1000)
 fixedRotation = 450
+AutoStart = false
 
 [node name="Collider" type="Node" parent="AABBTest"]
 script = ExtResource("9")
@@ -211,6 +221,7 @@ script = ExtResource("1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector2i(1500, 1500)
+AutoStart = false
 
 [node name="Collider" type="Node" parent="AABBTest2"]
 script = ExtResource("9")

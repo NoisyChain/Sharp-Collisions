@@ -114,6 +114,7 @@ namespace SharpCollisions.Sharp3D
         public override void DebugDrawShapesEditor(Node3D reference)
         {
             if (!DrawDebug) return;
+            if (vertices == null || vertices.Count <= 0) return;
             if (Faces == null || Faces.Count <= 0) return;
 
             Vector3 scaledPosOffset = (Vector3)positionOffset / SharpNode.nodeScale;
@@ -124,11 +125,11 @@ namespace SharpCollisions.Sharp3D
 
             for (int i = 0; i < Faces.Count; i++)
             {
-                Vector3 rotPointA = SharpHelpers.RotateDeg3D(vertices[Faces[i].X] / SharpNode.nodeScale, scaledRotOffset);
+                Vector3 rotPointA = SharpHelpers.RotateDeg3D((Vector3)vertices[Faces[i].X] / SharpNode.nodeScale, scaledRotOffset);
                 Vector3 pointA = SharpHelpers.Transform3D(rotPointA + scaledPosOffset, position, rotation);
-                Vector3 rotPointB = SharpHelpers.RotateDeg3D(vertices[Faces[i].Y] / SharpNode.nodeScale, scaledRotOffset);
+                Vector3 rotPointB = SharpHelpers.RotateDeg3D((Vector3)vertices[Faces[i].Y] / SharpNode.nodeScale, scaledRotOffset);
                 Vector3 pointB = SharpHelpers.Transform3D(rotPointB + scaledPosOffset, position, rotation);
-                Vector3 rotPointC = SharpHelpers.RotateDeg3D(vertices[Faces[i].Z] / SharpNode.nodeScale, scaledRotOffset);
+                Vector3 rotPointC = SharpHelpers.RotateDeg3D((Vector3)vertices[Faces[i].Z] / SharpNode.nodeScale, scaledRotOffset);
                 Vector3 pointC = SharpHelpers.Transform3D(rotPointC + scaledPosOffset, position, rotation);
 
                 DebugDraw3D.DrawLine(pointA, pointB, debugColor);

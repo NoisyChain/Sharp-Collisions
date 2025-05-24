@@ -4,6 +4,50 @@ namespace SharpCollisions
 {
     public static class SharpHelpers
     {
+        public static Vector2 GetNormal2D(Vector2 a, Vector2 b)
+		{
+			Vector2 edge = b - a;
+			Vector2 axis = new Vector2(-edge.Y, edge.X);
+			return axis.Normalized();
+		}
+        
+        public static Vector2 Transform2D(Vector2 v, Vector2 refPosition, float refRotation)
+		{
+			Vector2 r = Rotate2D(v, refRotation);
+
+			float tx = r.X + refPosition.X;
+			float ty = r.Y + refPosition.Y;
+
+			return new Vector2(tx, ty);
+		}
+
+        public static Vector2 Transform2D(Vector2 v, Vector3 refPosition, float refRotation)
+		{
+			Vector2 r = Rotate2D(v, refRotation);
+
+			float tx = r.X + refPosition.X;
+			float ty = r.Y + refPosition.Y;
+
+			return new Vector2(tx, ty);
+		}
+
+        public static Vector3 Transform2D3D(Vector2 v, Vector3 refPosition, float refRotation)
+        {
+            Vector2 r = Rotate2D(v, refRotation);
+
+            float tx = r.X + refPosition.X;
+            float ty = r.Y + refPosition.Y;
+
+            return new Vector3(tx, ty, 0);
+        }
+
+        public static Vector2 Rotate2D(Vector2 v, float angle)
+		{
+			float rx = Mathf.Cos(angle) * v.X - Mathf.Sin(angle) * v.Y;
+			float ry = Mathf.Sin(angle) * v.X + Mathf.Cos(angle) * v.Y;
+			return new Vector2(rx, ry);
+		}
+
         public static Vector3 GetNormal3D(Vector3 a, Vector3 b)
         {
             Vector3 edge = b - a;

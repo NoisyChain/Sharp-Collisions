@@ -94,7 +94,7 @@ namespace SharpCollisions.Sharp3D
             Vector3 scaledRotOffset = (Vector3)rotationOffset / SharpNode.nodeRotation;
 
             Vector3 upPoint =  scaledPosOffset + (Vector3.Up * (scaledHeight - scaledRadius));
-            Vector3 lowPoint = scaledPosOffset - Vector3.Up * (Vector3.Up * (scaledHeight - scaledRadius));
+            Vector3 lowPoint = scaledPosOffset - (Vector3.Up * (scaledHeight - scaledRadius));
 
             Vector3 upperPoint0 = SharpHelpers.RotateDeg3D(upPoint, scaledRotOffset);
             Vector3 lowerPoint0 = SharpHelpers.RotateDeg3D(lowPoint, scaledRotOffset);

@@ -61,6 +61,7 @@ namespace SharpCollisions.Sharp2D
 		public override void _Process(double delta)
 		{
 			base._Process(delta);
+			PreviewColliders();
 		}
 
 		public override void RenderNode(bool debug)
@@ -71,10 +72,11 @@ namespace SharpCollisions.Sharp2D
 
 		public void PreviewColliders()
 		{
+			if (!Engine.IsEditorHint()) return;
 			if (!HasColliders()) return;
 			
 			foreach(SharpCollider2D col in Colliders)
-				if (col != null) col.DebugDrawShapesEditor(this);
+				if (col != null) col.DebugDrawShapesEditor(Renderer);
 		}
 
 		public void DrawColliders()

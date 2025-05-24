@@ -81,6 +81,32 @@ namespace SharpCollisions.Sharp2D
             }
         }
 
+        public override void DebugDrawShapesEditor(Node3D reference)
+        {
+            if (!DrawDebug) return;
+            if (vertices == null || vertices.Count <= 0) return;
+
+            Vector2 scaledPosOffset = (Vector2)positionOffset / SharpNode.nodeScale;
+            float scaledRotOffset = (float)rotationOffset / SharpNode.nodeRotation;
+
+            Vector3 position = reference.GlobalPosition;
+            float rotation = reference.GlobalRotation.Z;
+
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                Vector2 start = (Vector2)vertices[i];
+                Vector2 end =  (Vector2)vertices[(i + 1) % vertices.Count];
+
+                Vector2 rotPointA = SharpHelpers.Rotate2D(start / SharpNode.nodeScale, Mathf.DegToRad(scaledRotOffset));
+                Vector3 pointA = SharpHelpers.Transform2D3D(rotPointA + scaledPosOffset, position, rotation);
+                Vector2 rotPointB = SharpHelpers.Rotate2D(end / SharpNode.nodeScale, Mathf.DegToRad(scaledRotOffset));
+                Vector3 pointB = SharpHelpers.Transform2D3D(rotPointB + scaledPosOffset, position, rotation);
+                
+                DebugDraw3D.DrawLine(pointA, pointB, debugColor);
+            }
+        }
+
+
         protected override FixRect GetBoundingBoxPoints()
         {
             return UpdatePolygonBoundingBox();

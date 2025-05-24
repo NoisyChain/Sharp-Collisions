@@ -7,7 +7,7 @@ namespace SharpCollisions.Sharp2D
     [Tool] [GlobalClass]
     public partial class FixedTransform2D : SharpNode
     {
-        [Export] private Node3D Renderer;
+        [Export] protected Node3D Renderer;
         //[Export] private Node2D Renderer2D;
         
         [Export] public Vector2I fixedPosition;

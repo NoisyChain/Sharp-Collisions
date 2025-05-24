@@ -54,7 +54,7 @@ namespace SharpCollisions.Sharp2D
 
 		}
 
-		public virtual void DebugDrawShapesEditor(SharpBody2D reference)
+		public virtual void DebugDrawShapesEditor(Node3D reference)
 		{
 
 		}

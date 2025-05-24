@@ -154,8 +154,8 @@ fixedPosition = Vector3i(0, 500, 2000)
 
 [node name="Collider" type="Node" parent="Polygon"]
 script = ExtResource("9_0bdky")
-vertices = [Vector3i(0, -1000, 1000), Vector3i(-1000, -1000, -1000), Vector3i(1000, -1000, -1000), Vector3i(0, 1000, 0)]
-Faces = [Vector3i(0, 1, 2), Vector3i(3, 1, 0), Vector3i(0, 2, 3), Vector3i(3, 2, 1)]
+vertices = []
+Faces = []
 positionOffset = Vector3i(0, 500, 0)
 DrawDebug = true
 

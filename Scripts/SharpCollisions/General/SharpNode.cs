@@ -43,9 +43,9 @@ namespace SharpCollisions
         /// <param name="delta">Fixed point delta time.</param>
         public virtual void _FixedPostProcess(Fix64 delta) {}
 
-        public virtual void RenderNode() {}
+        public virtual void RenderNode(bool debug) {}
 
-        public virtual void PreviewNode() {}
+        public virtual void PreviewNode(bool debug) {}
 
         public virtual void _Destroy()
         {

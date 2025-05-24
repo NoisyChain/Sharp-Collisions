@@ -26,10 +26,6 @@ namespace SharpCollisions.Sharp2D
 		public FixVector2 Center;
 		public FixRect BoundingBox;
 
-		protected bool PositionRequireUpdate = true;
-		protected bool RotationRequireUpdate = true;
-		protected bool BoundingBoxRequireUpdate = true;
-
 		/*public SharpCollider2D(){}
 		
 		public SharpCollider2D(FixVector2 center, FixVector2 offset, FixVector2 size, FixVector2[] points, CollisionType shape)
@@ -58,7 +54,7 @@ namespace SharpCollisions.Sharp2D
 
 		}
 
-		public virtual void DebugDrawShapesEditor(SharpBody2D reference)
+		public virtual void DebugDrawShapesEditor(Node3D reference)
 		{
 
 		}
@@ -132,10 +128,7 @@ namespace SharpCollisions.Sharp2D
 		
 		public void UpdateBoundingBox()
 		{
-			//if (!BoundingBoxRequireUpdate) return;
-
 			BoundingBox = GetBoundingBoxPoints();
-			BoundingBoxRequireUpdate = false;
 		}
 
 		protected virtual FixRect GetBoundingBoxPoints()
@@ -146,7 +139,6 @@ namespace SharpCollisions.Sharp2D
 		public virtual void UpdatePoints(FixVector2 position, Fix64 rotation)
 		{
 			Center = FixVector2.Transform(PositionOffset, position, rotation);
-			PositionRequireUpdate = false;
 		}
 
 		public static void LineToLineDistance(FixVector2 p1, FixVector2 p2, FixVector2 p3, FixVector2 p4, out FixVector2 r1, out FixVector2 r2)

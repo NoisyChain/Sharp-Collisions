@@ -9,6 +9,6 @@ public partial class Rotator : SharpBody3D
     [Export] private Vector3 RotationSpeed;
     public override void _FixedProcess(Fix64 delta)
     {
-        RotateDegrees(_rotationSpeed * delta);
+        SetAngularVelocity(_rotationSpeed * delta);
     }
 }

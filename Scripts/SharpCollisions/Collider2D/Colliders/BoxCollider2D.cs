@@ -3,7 +3,8 @@ using FixMath.NET;
 
 namespace SharpCollisions.Sharp2D
 {
-    [Tool] [GlobalClass]
+    [Tool]
+    [GlobalClass]
     public partial class BoxCollider2D : PolygonCollider2D
     {
         public FixVector2 Extents;
@@ -29,8 +30,22 @@ namespace SharpCollisions.Sharp2D
                 new FixVector2(Extents.x, -Extents.y),
                 new FixVector2(Extents.x, Extents.y)
             };
-            
+
             Points = new FixVector2[RawPoints.Length];
+        }
+        
+        public override void DebugDrawShapesEditor(Node3D reference)
+        {
+            if (!DrawDebug) return;
+
+            Vector3 scaledPosOffset = new Vector3(positionOffset.X, positionOffset.Y, 0) / SharpNode.nodeScale;
+            Vector3 scaledRotOffset = new Vector3(0, 0, rotationOffset) / SharpNode.nodeRotation;
+            Vector3 scaledExtents = new Vector3(extents.X * 2, extents.Y * 2, 0.1f) / SharpNode.nodeScale;
+
+            Vector3 rotPos = SharpHelpers.RotateDeg3D(scaledPosOffset, scaledRotOffset);
+            Vector3 newPos = SharpHelpers.Transform3D(rotPos, reference.GlobalPosition, reference.GlobalRotation);
+            
+            DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler(reference.GlobalRotation + SharpHelpers.VectorDegToRad(scaledRotOffset)), scaledExtents, debugColor, true);
         }
     }
 }

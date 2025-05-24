@@ -46,10 +46,24 @@ namespace SharpCollisions.Sharp2D
             DebugDraw3D.DrawSimpleSphere((Vector3)Center, DirX, DirY, Vector3.Zero, (float)Radius + 0.005f, debugColor);
         }
 
+		public override void DebugDrawShapesEditor(Node3D reference)
+		{
+			if (!DrawDebug) return;
+
+			Vector3 DirX = reference.Basis.X;
+            Vector3 DirY = reference.Basis.Y;
+            Vector3 DirZ = reference.Basis.Z;
+            Vector3 pos = new Vector3(positionOffset.X, positionOffset.Y, 0) / SharpNode.nodeScale;
+            Vector3 newPos = SharpHelpers.Transform3D(pos, reference.GlobalPosition, reference.GlobalRotation);
+
+            DebugDraw3D.DrawSimpleSphere(newPos, DirX, DirY, DirZ,
+                                            ((float)radius / SharpNode.nodeScale) + 0.005f, debugColor);
+		}
+
         protected override FixRect GetBoundingBoxPoints()
-        {
-            return UpdateCircleBoundingBox();
-        }
+		{
+			return UpdateCircleBoundingBox();
+		}
 
         public override void UpdatePoints(FixVector2 position, Fix64 rotation)
         {

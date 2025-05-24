@@ -9,7 +9,7 @@ namespace SharpCollisions.Sharp3D
     [Tool] [GlobalClass]
     public partial class FixedTransform3D : SharpNode
     {
-        [Export] private Node3D Renderer;
+        [Export] protected Node3D Renderer;
         //public FixedTransform3D Parent;
         //[Export] public FixedTransform3D[] Children;
         [Export] public Vector3I fixedPosition;
@@ -69,7 +69,7 @@ namespace SharpCollisions.Sharp3D
         public override void _Process(double delta)
         {
             base._Process(delta);
-            if (Engine.IsEditorHint()) PreviewNode();
+            if (Engine.IsEditorHint()) PreviewNode(true);
         }
 
         /*public bool HasChildren()
@@ -82,7 +82,7 @@ namespace SharpCollisions.Sharp3D
             return Parent != null;
         }*/
 
-        public override void RenderNode()
+        public override void RenderNode(bool debug)
         {
             if (Renderer == null) return;
 
@@ -92,7 +92,7 @@ namespace SharpCollisions.Sharp3D
 			Renderer.GlobalRotation = (Vector3)FixedRotation;
         }
 
-        public override void PreviewNode()
+        public override void PreviewNode(bool debug)
         {
             if (Renderer == null) return;
 

@@ -15,7 +15,7 @@ func _on_button_3d_pressed() -> void:
 	pass # Replace with function body.
 
 func _on_button_bm_1_pressed() -> void:
-	load_scene("res://Scenes/Benchmark.tscn")
+	load_scene("res://Scenes/Benchmark1.tscn")
 	# Go to Benchmark scene 1
 	pass # Replace with function body.
 

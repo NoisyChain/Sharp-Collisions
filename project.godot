@@ -16,6 +16,11 @@ run/main_scene="res://Scenes/Menu.tscn"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[debug_draw_3d]
+
+settings/3d/volumetric_defaults/thickness=0.012
+settings/3d/rendering/render_priority=1
+
 [display]
 
 window/vsync/vsync_mode=0

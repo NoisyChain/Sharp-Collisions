@@ -41,15 +41,26 @@ namespace SharpCollisions.Sharp3D
             DebugDraw3D.DrawLine((Vector3)Points[2], (Vector3)Points[6], debugColor);
             DebugDraw3D.DrawLine((Vector3)Points[3], (Vector3)Points[7], debugColor);
 
-            foreach(Vector3I faces in Faces)
+            /*foreach(Vector3I faces in Faces)
             {
                 FixVector3 origin = FixVector3.FindTriangleCentroid(Points[faces[0]], Points[faces[1]], Points[faces[2]]);
                 FixVector3 normal = FixVector3.GetPlaneNormal(Points[faces[0]], Points[faces[1]], Points[faces[2]]);
                 Vector3 dir = (Vector3)origin + ((Vector3)normal * 0.5f);
                 DebugDraw3D.DrawLine((Vector3)origin, dir, new Color(0, 1, 0));
-            }
+            }*/
+        }
 
-            //DebugDraw3D.DrawSphere((Vector3)BoundingBox.Center(), 0.12f, new Color(1, 1, 0));
+        public override void DebugDrawShapesEditor(Node3D reference)
+        {
+            if (!DrawDebug) return;
+
+            Vector3 scaledPosOffset = (Vector3)positionOffset / SharpNode.nodeScale;
+            Vector3 scaledRotOffset = (Vector3)rotationOffset / SharpNode.nodeRotation;
+
+            Vector3 rotPos = SharpHelpers.RotateDeg3D(scaledPosOffset, scaledRotOffset);
+            Vector3 newPos = SharpHelpers.Transform3D(rotPos, reference.GlobalPosition, reference.GlobalRotation);
+            
+            DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler(reference.GlobalRotation + SharpHelpers.VectorDegToRad(scaledRotOffset)), ((Vector3)extents / SharpNode.nodeScale) * 2, debugColor, true);
         }
 
         protected override void CreatePolygonPoints()
@@ -65,7 +76,7 @@ namespace SharpCollisions.Sharp3D
                 new FixVector3(Extents.x, Extents.y, -Extents.z),
                 new FixVector3(Extents.x, Extents.y, Extents.z)
             };
-            
+
             Points = new FixVector3[RawPoints.Length];
         }
 

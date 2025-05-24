@@ -7,7 +7,7 @@ namespace SharpCollisions.Sharp2D
     [Tool] [GlobalClass]
     public partial class FixedTransform2D : SharpNode
     {
-        [Export] private Node3D Renderer;
+        [Export] protected Node3D Renderer;
         //[Export] private Node2D Renderer2D;
         
         [Export] public Vector2I fixedPosition;
@@ -35,10 +35,10 @@ namespace SharpCollisions.Sharp2D
         public override void _Process(double delta)
         {
             base._Process(delta);
-            if (Engine.IsEditorHint()) PreviewNode();
+            if (Engine.IsEditorHint()) PreviewNode(true);
         }
 
-        public override void RenderNode()
+        public override void RenderNode(bool debug)
         {
             if (Renderer == null) return;
 
@@ -48,7 +48,7 @@ namespace SharpCollisions.Sharp2D
 			Renderer.GlobalRotation = new Vector3(0, 0, (float)FixedRotation);
         }
 
-        public override void PreviewNode()
+        public override void PreviewNode(bool debug)
         {
             if (Renderer == null) return;
 

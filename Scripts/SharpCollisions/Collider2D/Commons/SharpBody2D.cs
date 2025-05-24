@@ -7,24 +7,23 @@ namespace SharpCollisions.Sharp2D
 	[Tool] [GlobalClass]
 	public partial class SharpBody2D : FixedTransform2D
 	{
-		public delegate void OnOverlapDelegate(SharpBody2D other);
-		public OnOverlapDelegate BeginOverlap;
-		public OnOverlapDelegate DuringOverlap;
-		public OnOverlapDelegate EndOverlap;
+		private uint ID;
+		public FixVector2 LinearVelocity;
+		public Fix64 AngularVelocity;
 
-		protected uint ID;
-		public FixVector2 Velocity;
-
-		[Export] public SharpCollider2D[] Colliders;
-		public List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
-		public List<(uint, int)> CollidedWith = new List<(uint, int)>();
-		public List<uint> BodiesToIgnore = new List<uint>();
+		[Export] private SharpCollider2D[] Colliders;
+		private List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
+		private List<(uint, int)> CollidedWith = new List<(uint, int)>();
+		private List<uint> BodiesToIgnore = new List<uint>();
 		public FixRect BoundingBox = new FixRect();
 
 		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
 		public int BodyMode = 0;
 		
-		
+		public SharpCollider2D[] GetColliders() => Colliders;
+		public SharpCollider2D GetCollider(int index) => Colliders[index];
+
+		private bool collidersRequireUpdate;
 		
 		/*public SharpBody2D() {}
 		
@@ -55,29 +54,29 @@ namespace SharpCollisions.Sharp2D
 				foreach(SharpCollider2D col in Colliders)
 					col.Initialize();
 			
+			collidersRequireUpdate = true;
 			UpdateColliders();
-			BeginOverlap = OnBeginOverlap;
-			DuringOverlap = OnOverlap;
-			EndOverlap = OnEndOverlap;
 		}
 
 		public override void _Process(double delta)
 		{
 			base._Process(delta);
+			PreviewColliders();
 		}
 
-		public override void RenderNode()
+		public override void RenderNode(bool debug)
         {
-			base.RenderNode();
-            DrawColliders();
+			base.RenderNode(debug);
+            if (debug) DrawColliders();
         }
 
 		public void PreviewColliders()
 		{
+			if (!Engine.IsEditorHint()) return;
 			if (!HasColliders()) return;
 			
 			foreach(SharpCollider2D col in Colliders)
-				if (col != null) col.DebugDrawShapesEditor(this);
+				if (col != null) col.DebugDrawShapesEditor(Renderer);
 		}
 
 		public void DrawColliders()
@@ -113,19 +112,49 @@ namespace SharpCollisions.Sharp2D
 		{
 			if (ignore)
 			{
-				BodiesToIgnore.Add(bodyToIgnore.ID);
-				bodyToIgnore.BodiesToIgnore.Add(ID);
+				if (!IsIgnoringBody(bodyToIgnore))  AddBodyToIgnore(bodyToIgnore.ID);
+				if (!bodyToIgnore.IsIgnoringBody(this))	bodyToIgnore.AddBodyToIgnore(ID);
 			}
 			else
 			{
-				if (BodiesToIgnore.Contains(bodyToIgnore.ID))	BodiesToIgnore.Remove(bodyToIgnore.ID);
-				if (bodyToIgnore.BodiesToIgnore.Contains(ID))	bodyToIgnore.BodiesToIgnore.Remove(ID);
+				if (IsIgnoringBody(bodyToIgnore))	RemoveBodyToIgnore(bodyToIgnore.ID);
+				if (bodyToIgnore.IsIgnoringBody(this))	bodyToIgnore.RemoveBodyToIgnore(ID);
 			}
+		}
+
+		public bool IsIgnoringBody(SharpBody2D body)
+		{
+			return BodiesToIgnore.Contains(body.ID);
+		}
+
+		public void AddBodyToIgnore(uint bodyID)
+		{
+			BodiesToIgnore.Add(bodyID);
+		}
+
+		public void RemoveBodyToIgnore(uint bodyID)
+		{
+			BodiesToIgnore.Remove(bodyID);
 		}
 
 		public void ResetIgnoreBodies()
 		{
 			BodiesToIgnore.Clear();
+		}
+
+		public bool HasCollidedWith((uint, int) col)
+		{
+			return CollidedWith.Contains(col);
+		}
+
+		public void ConfirmCollision((uint, int) col)
+		{
+			CollidedWith.Add(col);
+		}
+
+		public void RemoveCollision((uint, int) col)
+		{
+			CollidedWith.Remove(col);
 		}
 
 		private void UpdateBoundingBox()
@@ -151,38 +180,54 @@ namespace SharpCollisions.Sharp2D
             BoundingBox = new FixRect(minX, minY, maxX, maxY);
 		}
 		
-		public void SetVelocity(FixVector2 newVelocity)
+		public void SetLinearVelocity(FixVector2 newVelocity)
 		{
 			if (BodyMode == 2) return;
 			
-			Velocity = newVelocity;
+			LinearVelocity = newVelocity;
+		}
+
+		public void SetAngularVelocity(Fix64 newVelocity)
+		{
+			if (BodyMode == 2) return;
+			
+			AngularVelocity = newVelocity;
+		}
+
+		public void SetAngularVelocityDegrees(Fix64 newVelocity)
+		{
+			if (BodyMode == 2) return;
+			
+			AngularVelocity = newVelocity * Fix64.DegToRad;
 		}
 		
-		public void Move(int delta, int iterations)
+		public void Move()
 		{
-			if (BodyMode == 2) return;
-			if (FixVector2.Length(Velocity) == Fix64.Zero) return;
-			
-			Fix64 fDelta = (Fix64)delta;
-			Fix64 fIterations = (Fix64)iterations;
+			//if (BodyMode == 2) return;
+			if (FixVector2.Length(LinearVelocity) == Fix64.Zero) return;
 
-			Fix64 finalDelta = Fix64.One / (fDelta * fIterations);
-
-			FixedPosition += Velocity * finalDelta;
-			UpdateColliders();
+			FixedPosition += LinearVelocity * SharpTime.SubDelta;
+			collidersRequireUpdate = true;
+			//UpdateColliders();
 		}
 
-		public void Rotate(Fix64 angle)
+		public void Rotate()
+		{
+			//if (BodyMode == 2) return;
+			if (AngularVelocity == Fix64.Zero) return;
+
+			FixedRotation += AngularVelocity * SharpTime.SubDelta;
+			collidersRequireUpdate = true;
+			//UpdateColliders();
+		}
+
+		public void UpdateBody()
 		{
 			if (BodyMode == 2) return;
 
-			FixedRotation += angle;
+			Rotate();
+			Move();
 			UpdateColliders();
-		}
-
-		public void RotateDegrees(Fix64 angle)
-		{
-			Rotate(angle * Fix64.DegToRad);
 		}
 
 		public void SetRotation(Fix64 angle)
@@ -190,7 +235,13 @@ namespace SharpCollisions.Sharp2D
 			if (BodyMode == 2) return;
 
 			FixedRotation = angle;
+			collidersRequireUpdate = true;
 			UpdateColliders();
+		}
+
+		public void SetRotationDegrees(Fix64 angle)
+		{
+			SetRotation(angle * Fix64.DegToRad);
 		}
 
 		public void PushAway(FixVector2 direction)
@@ -198,6 +249,7 @@ namespace SharpCollisions.Sharp2D
 			if (BodyMode == 2) return;
 
 			FixedPosition += direction;
+			collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 		
@@ -206,6 +258,7 @@ namespace SharpCollisions.Sharp2D
 			if (BodyMode == 2) return;
 			
 			FixedPosition = destination;
+			collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 		
@@ -217,6 +270,8 @@ namespace SharpCollisions.Sharp2D
 				return;
 			}
 
+			if (!collidersRequireUpdate) return;
+
 			foreach(SharpCollider2D col in Colliders)
 			{
 				col.Position = FixedPosition;
@@ -225,6 +280,7 @@ namespace SharpCollisions.Sharp2D
 			}
 
 			UpdateBoundingBox();
+			collidersRequireUpdate = false;
 		}
 
 		public void ClearFlags()
@@ -238,7 +294,9 @@ namespace SharpCollisions.Sharp2D
 			}
 		}
 
-		protected CollisionManifold2D GetCollision(SharpBody2D otherBody)
+		public List<CollisionManifold2D> GetCollisions() => Collisions;
+		public CollisionManifold2D GetCollision(int index) => Collisions[index];
+		public CollisionManifold2D GetCollision(SharpBody2D otherBody)
 		{
 			CollisionManifold2D ret = null;
 			for (int i = 0; i < Collisions.Count; i++)
@@ -249,34 +307,33 @@ namespace SharpCollisions.Sharp2D
 
 			return ret;
 		}
-
-		public virtual void OnBeginOverlap(SharpBody2D other)
+		public CollisionManifold2D GetCollision(SharpBody2D otherBody, int otherCollider)
 		{
-			//CollisionManifold2D collision = GetCollision(other);
-            //if (collision != null)
-            //{
-                //Execute action here
-            //}
+			CollisionManifold2D ret = null;
+			for (int i = 0; i < Collisions.Count; i++)
+			{
+				if (Collisions[i].Collider != otherBody.GetCollider(otherCollider)) continue;
+				
+				ret = Collisions[i];
+			}
+
+			return ret;
+		}
+		public void AddCollision(CollisionManifold2D col) => Collisions.Add(col);
+		public void ClearCollisions() => Collisions.Clear();
+
+		public virtual void OnBeginOverlap(CollisionManifold2D collision)
+		{
 			//GD.Print("Entered Collision!");
 		}
 
-		public virtual void OnOverlap(SharpBody2D other)
+		public virtual void OnOverlap(CollisionManifold2D collision)
 		{
-			//CollisionManifold2D collision = GetCollision(other);
-            //if (collision != null)
-            //{
-                //Execute action here
-            //}
 			//GD.Print("Still colliding...");
 		}
 
-		public virtual void OnEndOverlap(SharpBody2D other)
+		public virtual void OnEndOverlap(CollisionManifold2D collision)
 		{
-			//CollisionManifold2D collision = GetCollision(other);
-            //if (collision != null)
-            //{
-                //Execute action here
-            //}
 			//GD.Print("Exited Collision!");
 		}
 	}

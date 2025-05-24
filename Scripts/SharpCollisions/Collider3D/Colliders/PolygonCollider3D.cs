@@ -52,6 +52,7 @@ namespace SharpCollisions.Sharp3D
                     new Vector3I(1, -1, -1) * SharpNode.nodeScale,
                     new Vector3I(0, 1, 0) * SharpNode.nodeScale,
                 };
+                GD.PushWarning("Polygon shapes cannot be simpler than a tetrahedron.");
                 defaultShape = true;
             }
 
@@ -87,14 +88,15 @@ namespace SharpCollisions.Sharp3D
         {
             for (int i = 0; i < RawPoints.Length; i++)
             {
-                Points[i] = FixVector3.Rotate(RawPoints[i], RotationOffset);
-				Points[i] = FixVector3.Transform(Points[i] + PositionOffset, position, rotation);
+                FixVector3 rotPoints = FixVector3.Rotate(RawPoints[i], RotationOffset);
+				Points[i] = FixVector3.Transform(rotPoints + PositionOffset, position, rotation);
             }
         }
 
         public override void DebugDrawShapes(SharpBody3D reference)
         {
             if (!DrawDebug) return;
+            if (Faces == null || Faces.Count <= 0) return;
 
             for (int i = 0; i < Faces.Count; i++)
             {
@@ -107,6 +109,34 @@ namespace SharpCollisions.Sharp3D
                 Vector3 dir = (Vector3)origin + ((Vector3)normal * 0.5f);
                 DebugDraw3D.DrawLine((Vector3)origin, dir, new Color(0, 1, 0));
             }
+        }
+
+        public override void DebugDrawShapesEditor(Node3D reference)
+        {
+            if (!DrawDebug) return;
+            if (vertices == null || vertices.Count <= 0) return;
+            if (Faces == null || Faces.Count <= 0) return;
+
+            Vector3 scaledPosOffset = (Vector3)positionOffset / SharpNode.nodeScale;
+            Vector3 scaledRotOffset = (Vector3)rotationOffset / SharpNode.nodeRotation;
+
+            Vector3 position = reference.GlobalPosition;
+            Vector3 rotation = reference.GlobalRotation;
+
+            for (int i = 0; i < Faces.Count; i++)
+            {
+                Vector3 rotPointA = SharpHelpers.RotateDeg3D((Vector3)vertices[Faces[i].X] / SharpNode.nodeScale, scaledRotOffset);
+                Vector3 pointA = SharpHelpers.Transform3D(rotPointA + scaledPosOffset, position, rotation);
+                Vector3 rotPointB = SharpHelpers.RotateDeg3D((Vector3)vertices[Faces[i].Y] / SharpNode.nodeScale, scaledRotOffset);
+                Vector3 pointB = SharpHelpers.Transform3D(rotPointB + scaledPosOffset, position, rotation);
+                Vector3 rotPointC = SharpHelpers.RotateDeg3D((Vector3)vertices[Faces[i].Z] / SharpNode.nodeScale, scaledRotOffset);
+                Vector3 pointC = SharpHelpers.Transform3D(rotPointC + scaledPosOffset, position, rotation);
+
+                DebugDraw3D.DrawLine(pointA, pointB, debugColor);
+                DebugDraw3D.DrawLine(pointB, pointC, debugColor);
+                DebugDraw3D.DrawLine(pointC, pointA, debugColor);
+            }
+            //DebugDraw3D.DrawLine(vertices[Faces[0].X], vertices[Faces[0].Y], debugColor);
         }
 
         protected override FixVolume GetBoundingBoxPoints()

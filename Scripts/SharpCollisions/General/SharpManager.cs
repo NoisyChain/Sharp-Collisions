@@ -20,13 +20,11 @@ namespace SharpCollisions
 		private SharpWorld3D world3D;
 		private List<SharpNode> nodes;
 		[Export] private int TicksPerSecond = 60;
-		[Export] private int iterations = 4;
+		[Export] private int Substeps = 4;
 		[Export] private float debugLineThickness = 0.025f;
 		[Export] private bool UseEngineSettings = false;
 		[Export] private bool RunOnDedicatedThread = false;
-		public Fix64 fixedTPS => (Fix64)TicksPerSecond;
-		public Fix64 fixedIterations => (Fix64)iterations;
-		public Fix64 fixedDelta => Fix64.One / fixedTPS;
+		[Export] private bool ShowDebugShapes = false;
 		public bool canRender;
 
 		private Thread physicsThread;
@@ -40,8 +38,10 @@ namespace SharpCollisions
 			if (UseEngineSettings)
 			{
 				TicksPerSecond = (int)ProjectSettings.GetSetting("physics/common/physics_ticks_per_second");
-				iterations = (int)ProjectSettings.GetSetting("physics/common/max_physics_steps_per_frame");
+				Substeps = (int)ProjectSettings.GetSetting("physics/common/max_physics_steps_per_frame");
 			}
+
+			SharpTime.Set(TicksPerSecond, Substeps);
 
 			world2D = new SharpWorld2D();
 			world3D = new SharpWorld3D();
@@ -67,9 +67,9 @@ namespace SharpCollisions
 			physicsMutex.WaitOne();
 
 			foreach(SharpBody2D body in world2D.bodies)
-				body.RenderNode();
+				body.RenderNode(ShowDebugShapes);
 			foreach(SharpBody3D body in world3D.bodies)
-				body.RenderNode();
+				body.RenderNode(ShowDebugShapes);
 			
 			physicsMutex.ReleaseMutex();
         }
@@ -94,17 +94,19 @@ namespace SharpCollisions
 
 		private void PhysicsLoop()
 		{
-			for (int i = 0; i < nodes.Count; i++)
-				nodes[i]._FixedPreProcess(fixedDelta);
+			SharpTime.AdvanceFrame();
 			
 			for (int i = 0; i < nodes.Count; i++)
-				nodes[i]._FixedProcess(fixedDelta);
+				nodes[i]._FixedPreProcess(SharpTime.DeltaTime);
 			
-			world2D.Simulate(TicksPerSecond, iterations);
-			world3D.Simulate(TicksPerSecond, iterations);
+			for (int i = 0; i < nodes.Count; i++)
+				nodes[i]._FixedProcess(SharpTime.DeltaTime);
+			
+			world2D.Simulate();
+			world3D.Simulate();
 
 			for (int i = 0; i < nodes.Count; i++)
-				nodes[i]._FixedPostProcess(fixedDelta);
+				nodes[i]._FixedPostProcess(SharpTime.DeltaTime);
 		}
 
 		public void AddNode(SharpNode newNode)

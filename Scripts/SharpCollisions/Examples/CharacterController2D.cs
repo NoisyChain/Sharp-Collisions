@@ -37,17 +37,17 @@ namespace SharpCollisions.Sharp2D
         public bool IsOnGround() 
         {
             if (!HasColliders()) return false;
-            return Colliders[0].collisionFlags.Below;
+            return GetCollider(0).collisionFlags.Below;
         }
         public bool IsOnCeiling()
         {
             if (!HasColliders()) return false;
-            return Colliders[0].collisionFlags.Above;
+            return GetCollider(0).collisionFlags.Above;
         }
         public bool IsOnWalls()
         {
             if (!HasColliders()) return false;
-            return Colliders[0].collisionFlags.Walls;
+            return GetCollider(0).collisionFlags.Walls;
         }
 
         public override void _Instance()
@@ -114,12 +114,12 @@ namespace SharpCollisions.Sharp2D
                 MoveTo(FixVector2.Zero);
             }
 
-            SetVelocity(finalVelocity);
+            SetLinearVelocity(finalVelocity);
 
             string groundAngle = IsOnGround() ? GroundAngle.ToString() : "No Ground";
             if (debug != null && HasColliders()) debugText = "Normal: " + UpVector.ToString() + 
-                "\nFlags: " + Colliders[0].collisionFlags.ToString() + 
-                "\nCollisions:" + Collisions.Count + 
+                "\nFlags: " + GetCollider(0).collisionFlags.ToString() + 
+                "\nCollisions:" + GetCollisions().Count + 
                 "\nFloor angle: " + groundAngle;
 
             //GD.Print(Collisions.Count);
@@ -165,24 +165,33 @@ namespace SharpCollisions.Sharp2D
         {
             base._Process(delta);
             debug.Text = debugText;
-            //foreach(CollisionManifold2D col in Collisions)
-                //DebugDraw3D.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, new Color(0f, 1f, 1f));
         }
+        
+        public override void RenderNode(bool debug)
+        {
+            base.RenderNode(debug);
+
+            if (!debug) return;
+            
+            foreach(CollisionManifold2D col in GetCollisions())
+                DebugDraw3D.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, new Color(0f, 1f, 1f));
+        }
+
         public CollisionManifold2D GetGround()
         { 
             CollisionManifold2D Ground = null;
 
-            if (Collisions.Count > 0)
+            if (GetCollisions().Count > 0)
             {
-                Ground = Collisions[0];
+                Ground = GetCollision(0);
 
-                if (Collisions.Count > 1)
+                if (GetCollisions().Count > 1)
                 {
-                    for (int c = 1; c < Collisions.Count; c++)
+                    for (int c = 1; c < GetCollisions().Count; c++)
                     {
-                        if (IsWalkableSlope(FixVector2.AngleDegrees(Collisions[c].Normal, Up)) ||
+                        if (IsWalkableSlope(FixVector2.AngleDegrees(GetCollision(c).Normal, Up)) ||
                             !IsWalkableSlope(FixVector2.AngleDegrees(Ground.Normal, Up)))
-                            Ground = Collisions[c];
+                            Ground = GetCollision(c);
                     }
                 }
             }
@@ -194,9 +203,9 @@ namespace SharpCollisions.Sharp2D
         { 
             CollisionManifold2D Ceiling = null;
 
-            if (IsOnCeiling() && Collisions.Count > 0)
+            if (IsOnCeiling() && GetCollisions().Count > 0)
             {
-                Ceiling = Collisions[0];
+                Ceiling = GetCollision(0);
 
                 /*if (Collisions.Count > 1)
                 {
@@ -215,7 +224,7 @@ namespace SharpCollisions.Sharp2D
 
         public bool IsValidFloor()
         {
-            return ((FloorLayers & GetGround().CollidedWith.Colliders[0].CollisionLayers) & SharpWorld2D.mask) != 0;
+            return ((FloorLayers & GetGround().CollidedWith.GetCollider(0).CollisionLayers) & SharpWorld2D.mask) != 0;
         }
 
         public bool IsWalkableSlope(Fix64 angle)
@@ -230,34 +239,22 @@ namespace SharpCollisions.Sharp2D
             return CeilingAngle >= (Fix64)90 - HalfThreshold && CeilingAngle <= (Fix64)90 + HalfThreshold;
         }
 
-        public override void OnBeginOverlap(SharpBody2D other)
+        public override void OnBeginOverlap(CollisionManifold2D collision)
         {
-            base.OnBeginOverlap(other);
-            //CollisionManifold2D collision = GetCollision(other);
-            //if (collision != null)
-            //{
-                //Execute action here
-            //}
+            base.OnBeginOverlap(collision);
+            GD.Print(collision.CollidedWith.GetBodyID());
         }
 
-        public override void OnOverlap(SharpBody2D other)
+        public override void OnOverlap(CollisionManifold2D collision)
         {
-            base.OnOverlap(other);
-            //CollisionManifold2D collision = GetCollision(other);
-            //if (collision != null)
-            //{
-                //Execute action here
-            //}
+            base.OnOverlap(collision);
+            
         }
 
-        public override void OnEndOverlap(SharpBody2D other)
+        public override void OnEndOverlap(CollisionManifold2D collision)
         {
-            base.OnEndOverlap(other);
-           //CollisionManifold2D collision = GetCollision(other);
-            //if (collision != null)
-            //{
-                //Execute action here
-            //}
+            base.OnEndOverlap(collision);
+            GD.Print(collision.CollidedWith.GetBodyID());
         }
     }
 }

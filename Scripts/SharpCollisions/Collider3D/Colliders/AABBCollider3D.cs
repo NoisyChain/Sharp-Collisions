@@ -40,6 +40,15 @@ namespace SharpCollisions.Sharp3D
             DebugDraw3D.DrawBox((Vector3)Center, Quaternion.Identity, (Vector3)Extents * 2, debugColor, true);
         }
 
+        public override void DebugDrawShapesEditor(Node3D reference)
+        {
+            if (!DrawDebug) return;
+            Vector3 pos = (Vector3)positionOffset / SharpNode.nodeScale;
+            Vector3 newPos = SharpHelpers.Transform3D(pos, reference.GlobalPosition, reference.GlobalRotation);
+
+            DebugDraw3D.DrawBox(newPos, Quaternion.Identity, ((Vector3)extents / SharpNode.nodeScale) * 2, debugColor, true);
+        }
+
         protected override FixVolume GetBoundingBoxPoints()
         {
             return UpdateAABBBoundingBox();

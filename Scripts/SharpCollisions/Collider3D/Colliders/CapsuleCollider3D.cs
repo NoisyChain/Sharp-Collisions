@@ -83,6 +83,41 @@ namespace SharpCollisions.Sharp3D
             DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing2, (Vector3)LowerPoint - LineSpacing2, debugColor);
         }
 
+        public override void DebugDrawShapesEditor(Node3D reference)
+        {
+            if (!DrawDebug) return;
+
+            float scaledHeight = (float)height / SharpNode.nodeScale;
+            float scaledRadius = (float)radius / SharpNode.nodeScale;
+
+            Vector3 scaledPosOffset = (Vector3)positionOffset / SharpNode.nodeScale;
+            Vector3 scaledRotOffset = (Vector3)rotationOffset / SharpNode.nodeRotation;
+
+            Vector3 upPoint =  scaledPosOffset + (Vector3.Up * (scaledHeight - scaledRadius));
+            Vector3 lowPoint = scaledPosOffset - Vector3.Up * (Vector3.Up * (scaledHeight - scaledRadius));
+
+            Vector3 upperPoint0 = SharpHelpers.RotateDeg3D(upPoint, scaledRotOffset);
+            Vector3 lowerPoint0 = SharpHelpers.RotateDeg3D(lowPoint, scaledRotOffset);
+            Vector3 upperPoint = SharpHelpers.Transform3D(upperPoint0, reference.GlobalPosition, reference.GlobalRotation);
+            Vector3 lowerPoint = SharpHelpers.Transform3D(lowerPoint0, reference.GlobalPosition, reference.GlobalRotation);
+
+            Vector3 DirY = (upperPoint - lowerPoint).Normalized();
+            Vector3 DirX = SharpHelpers.GetNormal3D(lowerPoint, upperPoint);
+            Vector3 DirZ = DirX.Cross(DirY);
+
+            float inflatedRadius = scaledRadius + 0.005f;
+
+            Vector3 LineSpacing1 = DirX * inflatedRadius;
+            Vector3 LineSpacing2 = DirZ * inflatedRadius;
+
+            DebugDraw3D.DrawHalfSphereY(upperPoint, DirX, DirY, DirZ, false, inflatedRadius, debugColor);
+            DebugDraw3D.DrawHalfSphereY(lowerPoint, DirX, DirY, DirZ, true, inflatedRadius, debugColor);
+            DebugDraw3D.DrawLine(upperPoint + LineSpacing1, lowerPoint + LineSpacing1, debugColor);
+            DebugDraw3D.DrawLine(upperPoint - LineSpacing1, lowerPoint - LineSpacing1, debugColor);
+            DebugDraw3D.DrawLine(upperPoint + LineSpacing2, lowerPoint + LineSpacing2, debugColor);
+            DebugDraw3D.DrawLine(upperPoint - LineSpacing2, lowerPoint - LineSpacing2, debugColor);
+        }
+
         protected override FixVolume GetBoundingBoxPoints()
         {
             return UpdateCapsuleBoundingBox();

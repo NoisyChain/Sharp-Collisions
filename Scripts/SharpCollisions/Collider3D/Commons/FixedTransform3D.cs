@@ -9,7 +9,7 @@ namespace SharpCollisions.Sharp3D
     [Tool] [GlobalClass]
     public partial class FixedTransform3D : SharpNode
     {
-        [Export] private Node3D Renderer;
+        [Export] protected Node3D Renderer;
         //public FixedTransform3D Parent;
         //[Export] public FixedTransform3D[] Children;
         [Export] public Vector3I fixedPosition;

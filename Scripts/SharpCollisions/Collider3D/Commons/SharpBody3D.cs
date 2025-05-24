@@ -72,10 +72,11 @@ namespace SharpCollisions.Sharp3D
 
 		public void PreviewColliders()
 		{
+			if (!Engine.IsEditorHint()) return;
 			if (!HasColliders()) return;
-			
-			foreach(SharpCollider3D col in Colliders)
-				if (col != null) col.DebugDrawShapesEditor(this);
+						
+			foreach (SharpCollider3D col in Colliders)
+				col.DebugDrawShapesEditor(Renderer);
 		}
 
 		public void DrawColliders()

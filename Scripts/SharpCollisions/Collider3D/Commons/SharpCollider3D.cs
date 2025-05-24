@@ -64,7 +64,7 @@ namespace SharpCollisions.Sharp3D
 			//RotationOffset = (FixVector3)rotationOffset;
 		}
 
-		public virtual void DebugDrawShapesEditor(SharpBody3D reference) {}
+		public virtual void DebugDrawShapesEditor(Node3D reference) {}
 
 		public virtual void DebugDrawShapes(SharpBody3D reference) {}
 

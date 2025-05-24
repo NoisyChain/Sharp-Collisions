@@ -67,7 +67,13 @@ namespace SharpCollisions.Sharp3D
             if (!DrawDebug) return;
 
             Vector3 DirY = (Vector3)FixVector3.Normalize(UpperPoint - LowerPoint);
-            Vector3 DirX = (Vector3)FixVector3.GetNormal(LowerPoint, UpperPoint);
+            Vector3 arbitrary = (Vector3)reference.Forward;
+            if (DirY.Cross(arbitrary) == Vector3.Zero)
+            {
+                arbitrary = (Vector3)reference.Up;
+            }
+            Vector3 normal = DirY.Cross(arbitrary);
+            Vector3 DirX = normal.Normalized();
             Vector3 DirZ = DirX.Cross(DirY);
 
             float inflatedRadius = (float)Radius + 0.005f;
@@ -102,7 +108,13 @@ namespace SharpCollisions.Sharp3D
             Vector3 lowerPoint = SharpHelpers.Transform3D(lowerPoint0, reference.GlobalPosition, reference.GlobalRotation);
 
             Vector3 DirY = (upperPoint - lowerPoint).Normalized();
-            Vector3 DirX = SharpHelpers.GetNormal3D(lowerPoint, upperPoint);
+            Vector3 arbitrary = reference.Basis.Z;
+            if (DirY.Cross(arbitrary) == Vector3.Zero)
+            {
+                arbitrary = reference.Basis.Y;
+            }
+            Vector3 normal = DirY.Cross( arbitrary);
+            Vector3 DirX = normal.Normalized();
             Vector3 DirZ = DirX.Cross(DirY);
 
             float inflatedRadius = scaledRadius + 0.005f;

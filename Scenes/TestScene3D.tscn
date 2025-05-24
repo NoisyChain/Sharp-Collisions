@@ -47,7 +47,6 @@ tonemap_mode = 2
 script = ExtResource("2_od8d3")
 debugLineThickness = 0.012
 RunOnDedicatedThread = true
-ShowDebugShapes = true
 
 [node name="Character" parent="." instance=ExtResource("2")]
 KeepVelocityOnSlopes = false
@@ -128,7 +127,7 @@ script = ExtResource("10")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(2000, 1300, 3000)
-fixedRotation = Vector3i(0, 900, 450)
+fixedRotation = Vector3i(0, 0, -900)
 
 [node name="Collider" type="Node" parent="Capsule"]
 script = ExtResource("6_3hubp")
@@ -138,7 +137,7 @@ rotationOffset = Vector3i(0, 0, 900)
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Capsule"]
-transform = Transform3D(-3.09085e-08, 3.09085e-08, 0.999978, 0.707105, 0.707105, 0, -0.707105, 0.707105, -4.37104e-08, 2, 1.3, 3)
+transform = Transform3D(-4.37097e-08, 0.999984, 0, -0.999961, -4.37107e-08, 0, 0, 0, 0.999864, 2, 1.3, 3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Capsule/Viewer"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)

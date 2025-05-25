@@ -7,17 +7,17 @@ namespace SharpCollisions
     public partial class SharpNode : Node
     {
         [Export] public bool Active = true;
-        [Export] public bool AutoStart = true;
+        //[Export] public bool AutoStart = true;
         public static int nodeScale = 1000;
         public static int nodeRotation = 10;
         public static Fix64 NodeScale => (Fix64)nodeScale;
         public static Fix64 NodeRotation => (Fix64)nodeRotation;
         public override void _Ready()
         {
-            if (!AutoStart) return;
+            //if (!AutoStart) return;
 
-            if (Engine.IsEditorHint()) return;
-            _Instance();
+            //if (Engine.IsEditorHint()) return;
+            //_Instance();
         }
 
         public virtual void _Instance()

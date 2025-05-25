@@ -213,7 +213,7 @@ namespace SharpCollisions.Sharp2D
 
         public FixVector2 CapsuleContactPoint(FixVector2 upperA, FixVector2 lowerA, FixVector2 upperB, FixVector2 lowerB, Fix64 radiusA, Fix64 radiusB, FixVector2 direction)
         {
-            FixVector2 contact1 = FixVector2.Zero;
+            /*FixVector2 contact1 = FixVector2.Zero;
             FixVector2 contact2 = FixVector2.Zero;
 
             Fix64 minDistSq = Fix64.MaxValue;
@@ -250,6 +250,21 @@ namespace SharpCollisions.Sharp2D
             }
 
             return CircleContactPoint(contact1, radiusA, contact2, radiusB, direction);
+            */
+
+            LineToPointDistance(upperB, lowerB, upperA, out FixVector2 r1);
+            LineToPointDistance(upperB, lowerB, lowerA, out FixVector2 r3);
+            LineToPointDistance(upperA, lowerA, upperB, out FixVector2 r2);
+            LineToPointDistance(upperA, lowerA, lowerB, out FixVector2 r4);
+
+            FixVector2 p1 = r1 - (direction * radiusB);
+            FixVector2 p2 = r2 + (direction * radiusA);
+            FixVector2 p3 = r3 - (direction * radiusB);
+            FixVector2 p4 = r4 + (direction * radiusA);
+
+            FixVector2 contact1 = (p1 + p2) / Fix64.Two;
+            FixVector2 contact2 = (p3 + p4) / Fix64.Two;
+            return (contact1 + contact2) / Fix64.Two;
         }
     }
 }

@@ -75,10 +75,10 @@ namespace SharpCollisions.Sharp2D
 		private void BroadPhase()
 		{
 			PossibleCollisions.Clear();
-			foreach(SharpBody2D body in bodies)
+			for (int i = 0; i < bodies.Count; i++)
 			{
-				body.ClearFlags();
-				body.ClearCollisions();
+				bodies[i].ClearFlags();
+				bodies[i].ClearCollisions();
 			}
 
 			for (int i = 0; i < bodies.Count; i++)

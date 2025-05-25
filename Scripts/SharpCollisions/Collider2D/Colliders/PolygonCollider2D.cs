@@ -47,6 +47,7 @@ namespace SharpCollisions.Sharp2D
                     new Vector2I(0, 1) * SharpNode.nodeScale,
                     new Vector2I(1, -1) * SharpNode.nodeScale
                 };
+                GD.PushWarning("Polygon shape cannot be simpler than a triangle.");
             }
             RawPoints = new FixVector2[vertices.Count];
             for (int i = 0; i < RawPoints.Length; i++)

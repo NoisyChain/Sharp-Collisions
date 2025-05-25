@@ -43,8 +43,9 @@ tonemap_mode = 2
 
 [node name="FPS_HUD" parent="." instance=ExtResource("1_xw0ag")]
 
-[node name="PhysicsManager" type="Node" parent="."]
+[node name="PhysicsManager" type="Node" parent="." node_paths=PackedStringArray("nodes")]
 script = ExtResource("2_od8d3")
+nodes = [NodePath("../Character"), NodePath("../Box"), NodePath("../Box2"), NodePath("../Sphere"), NodePath("../Capsule"), NodePath("../Polygon"), NodePath("../Floor"), NodePath("../Floor2"), NodePath("../Floor3"), NodePath("../Floor4"), NodePath("../Wall"), NodePath("../Wall2"), NodePath("../Wall3"), NodePath("../Wall4")]
 debugLineThickness = 0.012
 RunOnDedicatedThread = true
 ShowDebugShapes = true
@@ -126,9 +127,9 @@ skeleton = NodePath("../..")
 [node name="Capsule" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Renderer")]
 script = ExtResource("10")
 Colliders = [NodePath("Collider")]
+BodyMode = 2
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(2000, 1300, 3000)
-fixedRotation = Vector3i(0, 900, 450)
+fixedPosition = Vector3i(2000, 1000, 3000)
 
 [node name="Collider" type="Node" parent="Capsule"]
 script = ExtResource("6_3hubp")
@@ -138,7 +139,7 @@ rotationOffset = Vector3i(0, 0, 900)
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Capsule"]
-transform = Transform3D(-3.09085e-08, 3.09085e-08, 0.999978, 0.707105, 0.707105, 0, -0.707105, 0.707105, -4.37104e-08, 2, 1.3, 3)
+transform = Transform3D(0.999961, 0, 0, 0, 0.999984, 0, 0, 0, 0.999864, 2, 1, 3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Capsule/Viewer"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)

@@ -40,8 +40,9 @@ tonemap_mode = 2
 
 [node name="FPS_HUD" parent="." instance=ExtResource("1_ver4r")]
 
-[node name="PhysicsManager" type="Node" parent="."]
+[node name="PhysicsManager" type="Node" parent="." node_paths=PackedStringArray("nodes")]
 script = ExtResource("2_fb5pd")
+nodes = [NodePath("../Character"), NodePath("../Floor"), NodePath("../Floor2"), NodePath("../Floor3"), NodePath("../Sphere"), NodePath("../Polygon"), NodePath("../Polygon2"), NodePath("../Capsule"), NodePath("../AABBTest"), NodePath("../AABBTest2")]
 RunOnDedicatedThread = true
 ShowDebugShapes = true
 

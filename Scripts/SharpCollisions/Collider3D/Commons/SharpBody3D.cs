@@ -74,9 +74,11 @@ namespace SharpCollisions.Sharp3D
 		{
 			if (!Engine.IsEditorHint()) return;
 			if (!HasColliders()) return;
-						
+
+			var selected = EditorInterface.Singleton.GetSelection().GetSelectedNodes();
+
 			foreach (SharpCollider3D col in Colliders)
-				col.DebugDrawShapesEditor(Renderer);
+				col.DebugDrawShapesEditor(Renderer, selected.Contains(this));				
 		}
 
 		public void DrawColliders()

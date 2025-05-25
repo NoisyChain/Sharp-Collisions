@@ -50,17 +50,21 @@ namespace SharpCollisions.Sharp3D
             }*/
         }
 
-        public override void DebugDrawShapesEditor(Node3D reference)
+        public override void DebugDrawShapesEditor(Node3D reference, bool selected)
         {
-            if (!DrawDebug) return;
+            if (!selected && !DrawDebug) return;
+
+            Color finalColor = selected && DrawDebug ? selectedColor : debugColor;
 
             Vector3 scaledPosOffset = (Vector3)positionOffset / SharpNode.nodeScale;
             Vector3 scaledRotOffset = (Vector3)rotationOffset / SharpNode.nodeRotation;
 
             Vector3 rotPos = SharpHelpers.RotateDeg3D(scaledPosOffset, scaledRotOffset);
             Vector3 newPos = SharpHelpers.Transform3D(rotPos, reference.GlobalPosition, reference.GlobalRotation);
-            
-            DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler(reference.GlobalRotation + SharpHelpers.VectorDegToRad(scaledRotOffset)), ((Vector3)extents / SharpNode.nodeScale) * 2, debugColor, true);
+
+            DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler(reference.GlobalRotation + SharpHelpers.VectorDegToRad(scaledRotOffset)), ((Vector3)extents / SharpNode.nodeScale) * 2, finalColor, true);
+
+            if (selected) DebugDraw3D.DrawGizmo(reference.Transform, finalColor, true);
         }
 
         protected override void CreatePolygonPoints()

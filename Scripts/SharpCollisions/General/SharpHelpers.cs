@@ -5,11 +5,11 @@ namespace SharpCollisions
     public static class SharpHelpers
     {
         public static Vector2 GetNormal2D(Vector2 a, Vector2 b)
-		{
-			Vector2 edge = b - a;
-			Vector2 axis = new Vector2(-edge.Y, edge.X);
-			return axis.Normalized();
-		}
+        {
+            Vector2 edge = b - a;
+            Vector2 axis = new Vector2(-edge.Y, edge.X);
+            return axis.Normalized();
+        }
         
         public static Vector2 Transform2D(Vector2 v, Vector2 refPosition, float refRotation)
 		{

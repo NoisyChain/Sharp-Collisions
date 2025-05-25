@@ -12,6 +12,7 @@ namespace SharpCollisions.Sharp3D
 		[Export] protected Vector3I rotationOffset;
 		[Export] protected bool DrawDebug;
 		[Export] public Color debugColor = new Color(0, 0, 1);
+		[Export] public Color selectedColor = new Color(1, 0.6f, 0.1f);
 		
 		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
 		public int CollisionLayers = 1;
@@ -64,7 +65,7 @@ namespace SharpCollisions.Sharp3D
 			//RotationOffset = (FixVector3)rotationOffset;
 		}
 
-		public virtual void DebugDrawShapesEditor(Node3D reference) {}
+		public virtual void DebugDrawShapesEditor(Node3D reference, bool selected) {}
 
 		public virtual void DebugDrawShapes(SharpBody3D reference) {}
 

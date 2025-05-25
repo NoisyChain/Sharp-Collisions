@@ -55,9 +55,11 @@ namespace SharpCollisions.Sharp2D
             DebugDraw3D.DrawLine(point4, point1, debugColor);
         }
 
-        public override void DebugDrawShapesEditor(Node3D reference)
+        public override void DebugDrawShapesEditor(Node3D reference, bool selected)
         {
-            if (!DrawDebug) return;
+            if (!selected && !DrawDebug) return;
+
+            Color finalColor = selected && DrawDebug ? selectedColor : debugColor;
 
             Vector3 scaledPosOffset = new Vector3(positionOffset.X, positionOffset.Y, 0) / SharpNode.nodeScale;
             Vector3 scaledRotOffset = new Vector3(0, 0, rotationOffset) / SharpNode.nodeRotation;
@@ -65,8 +67,10 @@ namespace SharpCollisions.Sharp2D
 
             Vector3 rotPos = SharpHelpers.RotateDeg3D(scaledPosOffset, scaledRotOffset);
             Vector3 newPos = SharpHelpers.Transform3D(rotPos, reference.GlobalPosition, reference.GlobalRotation);
+
+            DebugDraw3D.DrawBox(newPos, Quaternion.Identity, scaledExtents, finalColor, true);
             
-            DebugDraw3D.DrawBox(newPos, Quaternion.Identity, scaledExtents, debugColor, true);
+            if (selected) DebugDraw3D.DrawGizmo(reference.Transform, finalColor, true);
         }
 
         protected override FixRect GetBoundingBoxPoints()

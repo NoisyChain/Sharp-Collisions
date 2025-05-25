@@ -75,8 +75,10 @@ namespace SharpCollisions.Sharp2D
 			if (!Engine.IsEditorHint()) return;
 			if (!HasColliders()) return;
 			
-			foreach(SharpCollider2D col in Colliders)
-				if (col != null) col.DebugDrawShapesEditor(Renderer);
+			var selected = EditorInterface.Singleton.GetSelection().GetSelectedNodes();
+			
+			foreach (SharpCollider2D col in Colliders)
+				if (col != null) col.DebugDrawShapesEditor(Renderer, selected.Contains(this));
 		}
 
 		public void DrawColliders()

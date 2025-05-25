@@ -45,7 +45,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-3000, 1330, 0)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere1"]
 script = ExtResource("6_x5v8s")
@@ -63,7 +62,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-3000, 1330, 1000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere2"]
 script = ExtResource("6_x5v8s")
@@ -81,7 +79,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-3000, 1330, -3000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere3"]
 script = ExtResource("6_x5v8s")
@@ -99,7 +96,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-3000, 1330, 3000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere4"]
 script = ExtResource("6_x5v8s")
@@ -117,7 +113,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-3000, 1330, -1000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere5"]
 script = ExtResource("6_x5v8s")
@@ -135,7 +130,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-3000, 1330, -2000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere6"]
 script = ExtResource("6_x5v8s")
@@ -153,7 +147,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-3000, 1330, 2000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere7"]
 script = ExtResource("6_x5v8s")
@@ -171,7 +164,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-2000, 1330, 0)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere8"]
 script = ExtResource("6_x5v8s")
@@ -189,7 +181,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-2000, 1330, 1000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere9"]
 script = ExtResource("6_x5v8s")
@@ -207,7 +198,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-2000, 1330, -3000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere10"]
 script = ExtResource("6_x5v8s")
@@ -225,7 +215,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-2000, 1330, 3000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere11"]
 script = ExtResource("6_x5v8s")
@@ -243,7 +232,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-2000, 1330, -1000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere12"]
 script = ExtResource("6_x5v8s")
@@ -261,7 +249,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-2000, 1330, -2000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere13"]
 script = ExtResource("6_x5v8s")
@@ -279,7 +266,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-2000, 1330, 2000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere14"]
 script = ExtResource("6_x5v8s")
@@ -297,7 +283,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-1000, 1330, 0)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere15"]
 script = ExtResource("6_x5v8s")
@@ -315,7 +300,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-1000, 1330, 1000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere16"]
 script = ExtResource("6_x5v8s")
@@ -333,7 +317,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-1000, 1330, -3000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere17"]
 script = ExtResource("6_x5v8s")
@@ -351,7 +334,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-1000, 1330, 3000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere18"]
 script = ExtResource("6_x5v8s")
@@ -369,7 +351,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-1000, 1330, -1000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere19"]
 script = ExtResource("6_x5v8s")
@@ -387,7 +368,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-1000, 1330, -2000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere20"]
 script = ExtResource("6_x5v8s")
@@ -405,7 +385,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-1000, 1330, 2000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere21"]
 script = ExtResource("6_x5v8s")
@@ -423,7 +402,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(0, 1330, 0)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere22"]
 script = ExtResource("6_x5v8s")
@@ -441,7 +419,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(0, 1330, 1000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere23"]
 script = ExtResource("6_x5v8s")
@@ -459,7 +436,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(0, 1330, -3000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere24"]
 script = ExtResource("6_x5v8s")
@@ -477,7 +453,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(0, 1330, 3000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere25"]
 script = ExtResource("6_x5v8s")
@@ -495,7 +470,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(0, 1330, -1000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere26"]
 script = ExtResource("6_x5v8s")
@@ -513,7 +487,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(0, 1330, -2000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere27"]
 script = ExtResource("6_x5v8s")
@@ -531,7 +504,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(0, 1330, 2000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere28"]
 script = ExtResource("6_x5v8s")
@@ -549,7 +521,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(1000, 1330, 0)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere29"]
 script = ExtResource("6_x5v8s")
@@ -567,7 +538,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(1000, 1330, 1000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere30"]
 script = ExtResource("6_x5v8s")
@@ -585,7 +555,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(1000, 1330, -3000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere31"]
 script = ExtResource("6_x5v8s")
@@ -603,7 +572,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(1000, 1330, 3000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere32"]
 script = ExtResource("6_x5v8s")
@@ -621,7 +589,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(1000, 1330, -1000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere33"]
 script = ExtResource("6_x5v8s")
@@ -639,7 +606,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(1000, 1330, -2000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere34"]
 script = ExtResource("6_x5v8s")
@@ -657,7 +623,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(1000, 1330, 2000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere35"]
 script = ExtResource("6_x5v8s")
@@ -675,7 +640,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(2000, 1330, 0)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere36"]
 script = ExtResource("6_x5v8s")
@@ -693,7 +657,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(2000, 1330, 1000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere37"]
 script = ExtResource("6_x5v8s")
@@ -711,7 +674,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(2000, 1330, -3000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere38"]
 script = ExtResource("6_x5v8s")
@@ -729,7 +691,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(2000, 1330, 3000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere39"]
 script = ExtResource("6_x5v8s")
@@ -747,7 +708,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(2000, 1330, -1000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere40"]
 script = ExtResource("6_x5v8s")
@@ -765,7 +725,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(2000, 1330, -2000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere41"]
 script = ExtResource("6_x5v8s")
@@ -783,7 +742,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(2000, 1330, 2000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere42"]
 script = ExtResource("6_x5v8s")
@@ -801,7 +759,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(3000, 1330, 0)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere43"]
 script = ExtResource("6_x5v8s")
@@ -819,7 +776,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(3000, 1330, 1000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere44"]
 script = ExtResource("6_x5v8s")
@@ -837,7 +793,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(3000, 1330, -3000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere45"]
 script = ExtResource("6_x5v8s")
@@ -855,7 +810,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(3000, 1330, 3000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere46"]
 script = ExtResource("6_x5v8s")
@@ -873,7 +827,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(3000, 1330, -1000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere47"]
 script = ExtResource("6_x5v8s")
@@ -891,7 +844,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(3000, 1330, -2000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere48"]
 script = ExtResource("6_x5v8s")
@@ -909,7 +861,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(3000, 1330, 2000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Sphere49"]
 script = ExtResource("6_x5v8s")
@@ -928,7 +879,6 @@ Colliders = [NodePath("Collider")]
 BodyMode = 2
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-4000, -100, 4000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Floor"]
 script = ExtResource("5_l2ale")
@@ -949,7 +899,6 @@ Colliders = [NodePath("Collider")]
 BodyMode = 2
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-4000, -100, -4000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Floor2"]
 script = ExtResource("5_l2ale")
@@ -970,7 +919,6 @@ Colliders = [NodePath("Collider")]
 BodyMode = 2
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(4000, -100, 4000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Floor3"]
 script = ExtResource("5_l2ale")
@@ -991,7 +939,6 @@ Colliders = [NodePath("Collider")]
 BodyMode = 2
 Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(4000, -100, -4000)
-AutoStart = false
 
 [node name="Collider" type="Node" parent="Floor4"]
 script = ExtResource("5_l2ale")

@@ -232,9 +232,10 @@ namespace SharpCollisions.Sharp3D
             FixVector3 ContactB = centerB - (direction * radiusB);
             return (ContactA + ContactB) / Fix64.Two;
         }
-        
+
         public FixVector3 CapsuleContactPoint(FixVector3 upperA, FixVector3 lowerA, FixVector3 upperB, FixVector3 lowerB, Fix64 radiusA, Fix64 radiusB, FixVector3 direction)
         {
+            /*
             FixVector3 contact1 = FixVector3.Zero;
             FixVector3 contact2 = FixVector3.Zero;
 
@@ -256,7 +257,7 @@ namespace SharpCollisions.Sharp3D
                 contact1 = r1;
             }
 
-            LineToLineDistance(lowerB, upperB, lowerA, upperA, out r1, out r2);
+            LineToLineDistance(lowerA, upperA, upperB, lowerB, out FixVector3 r3, out FixVector3 r4);
             distSq = FixVector3.DistanceSq(r2, r1);
 
             if (Fix64.Approximate(distSq, minDistSq))
@@ -272,6 +273,21 @@ namespace SharpCollisions.Sharp3D
             }
 
             return SphereContactPoint(contact1, radiusA, contact2, radiusB, direction);
+            */
+
+            LineToPointDistance(upperB, lowerB, upperA, out FixVector3 r1);
+            LineToPointDistance(upperB, lowerB, lowerA, out FixVector3 r3);
+            LineToPointDistance(upperA, lowerA, upperB, out FixVector3 r2);
+            LineToPointDistance(upperA, lowerA, lowerB, out FixVector3 r4);
+
+            FixVector3 p1 = r1 - (direction * radiusB);
+            FixVector3 p2 = r2 + (direction * radiusA);
+            FixVector3 p3 = r3 - (direction * radiusB);
+            FixVector3 p4 = r4 + (direction * radiusA);
+
+            FixVector3 contact1 = (p1 + p2) / Fix64.Two;
+            FixVector3 contact2 = (p3 + p4) / Fix64.Two;
+            return (contact1 + contact2) / Fix64.Two;
         }
     }
 }

@@ -116,13 +116,10 @@ namespace SharpCollisions.Sharp3D
         {
             if (!Active) return;
             if (!selected && !DrawDebug) return;
-
-            //We still want to see the gizmo even if there is no shape to preview
-            Color finalColor = selected ? selectedColor : debugColor;
-            if (selected) DebugDraw3D.DrawGizmo(reference.Transform, finalColor, true);
-
             if (vertices == null || vertices.Count <= 0) return;
             if (Faces == null || Faces.Count <= 0) return;
+
+            Color finalColor = selected ? selectedColor : debugColor;
 
             Vector3 scaledPosOffset = (Vector3)positionOffset / SharpNode.nodeScale;
             Vector3 scaledRotOffset = (Vector3)rotationOffset / SharpNode.nodeRotation;

@@ -63,8 +63,6 @@ namespace SharpCollisions.Sharp3D
 
             DebugDraw3D.DrawSimpleSphere(newPos, DirX, DirY, DirZ,
                                             ((float)radius / SharpNode.nodeScale) + 0.005f, finalColor);
-            
-            if (selected) DebugDraw3D.DrawGizmo(reference.Transform, finalColor, true);
         }
 
 

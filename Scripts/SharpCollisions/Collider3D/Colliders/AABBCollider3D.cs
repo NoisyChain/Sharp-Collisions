@@ -52,8 +52,6 @@ namespace SharpCollisions.Sharp3D
             Vector3 newPos = SharpHelpers.Transform3D(pos, reference.GlobalPosition, reference.GlobalRotation);
 
             DebugDraw3D.DrawBox(newPos, Quaternion.Identity, ((Vector3)extents / SharpNode.nodeScale) * 2, finalColor, true);
-            
-            if (selected) DebugDraw3D.DrawGizmo(reference.Transform, finalColor, true);
         }
 
         protected override FixVolume GetBoundingBoxPoints()

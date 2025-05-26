@@ -65,8 +65,6 @@ namespace SharpCollisions.Sharp3D
             Vector3 newPos = SharpHelpers.Transform3D(rotPos, reference.GlobalPosition, reference.GlobalRotation);
 
             DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler(reference.GlobalRotation + SharpHelpers.VectorDegToRad(scaledRotOffset)), ((Vector3)extents / SharpNode.nodeScale) * 2, finalColor, true);
-
-            if (selected) DebugDraw3D.DrawGizmo(reference.Transform, finalColor, true);
         }
 
         protected override void CreatePolygonPoints()

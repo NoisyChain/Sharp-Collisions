@@ -79,6 +79,8 @@ namespace SharpCollisions.Sharp3D
 
 			foreach (SharpCollider3D col in Colliders)
 				if (col != null) col.DebugDrawShapesEditor(Renderer, selected.Contains(this));
+			
+			if (selected.Contains(this)) DebugDraw3D.DrawGizmo(Renderer.Transform, new Color(1, 0.6f, 0.1f), true);
 		}
 
 		public void DrawColliders()

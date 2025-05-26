@@ -61,9 +61,7 @@ namespace SharpCollisions.Sharp2D
 			Vector3 newPos = SharpHelpers.Transform3D(pos, reference.GlobalPosition, reference.GlobalRotation);
 
 			DebugDraw3D.DrawSimpleSphere(newPos, DirX, DirY, DirZ,
-											((float)radius / SharpNode.nodeScale) + 0.005f, finalColor);
-											
-			if (selected) DebugDraw3D.DrawGizmo(reference.Transform, finalColor, true);
+											((float)radius / SharpNode.nodeScale) + 0.005f, finalColor);							
 		}
 
         protected override FixRect GetBoundingBoxPoints()

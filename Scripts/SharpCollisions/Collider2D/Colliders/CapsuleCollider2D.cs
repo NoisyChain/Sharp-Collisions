@@ -118,8 +118,6 @@ namespace SharpCollisions.Sharp2D
             DebugDraw3D.DrawLine(Up, Low, finalColor);
             DebugDraw3D.DrawLine(Up + LineSpacing, Low + LineSpacing, finalColor);
             DebugDraw3D.DrawLine(Up - LineSpacing, Low - LineSpacing, finalColor);
-            
-            if (selected) DebugDraw3D.DrawGizmo(reference.Transform, finalColor, true);
         }
 
         protected override FixRect GetBoundingBoxPoints()

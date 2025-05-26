@@ -19,6 +19,17 @@ Deterministic collision system written in C#
 - Collision manifolds (return contact normal, depth and contact point)
 - A basic character controller for both 2D and 3D
 
+## Quick Start
+
+Coming soon.
+
+## Third-party Libraries
+This repositiry uses third-party libraries:
+
+[FixedMath.NET](https://github.com/asik/FixedMath.Net)
+
+[Debug Draw 3D](https://github.com/DmitriySalnikov/godot_debug_draw_3d)
+##
 Sharp Collisions is in preview state. There's some things to polish at the moment.
 
 Using Godot 4.4.1 .NET. Unity/Monogame versions are being planned.

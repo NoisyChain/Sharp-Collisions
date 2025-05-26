@@ -38,6 +38,7 @@ namespace SharpCollisions.Sharp2D
 
         public override void DebugDrawShapes(SharpBody2D reference)
         {
+			if (!Active) return;
             if (!DrawDebug) return;
 
             Vector3 DirX = (Vector3)reference.Right;
@@ -48,9 +49,10 @@ namespace SharpCollisions.Sharp2D
 
 		public override void DebugDrawShapesEditor(Node3D reference, bool selected)
 		{
+			if (!Active) return;
 			if (!selected && !DrawDebug) return;
 
-			Color finalColor = selected && DrawDebug ? selectedColor : debugColor;
+			Color finalColor = selected ? selectedColor : debugColor;
 
 			Vector3 DirX = reference.Basis.X;
 			Vector3 DirY = reference.Basis.Y;

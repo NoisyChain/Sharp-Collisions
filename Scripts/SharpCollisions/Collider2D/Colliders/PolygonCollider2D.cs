@@ -84,10 +84,14 @@ namespace SharpCollisions.Sharp2D
 
         public override void DebugDrawShapesEditor(Node3D reference, bool selected)
         {
+            if (!Active) return;
             if (!selected && !DrawDebug) return;
-            if (vertices == null || vertices.Count <= 0) return;
 
+            //We still want to see the gizmo even if there is no shape to preview
             Color finalColor = selected && DrawDebug ? selectedColor : debugColor;
+            if (selected) DebugDraw3D.DrawGizmo(reference.Transform, finalColor, true);
+
+            if (vertices == null || vertices.Count <= 0) return;
 
             Vector2 scaledPosOffset = (Vector2)positionOffset / SharpNode.nodeScale;
             float scaledRotOffset = (float)rotationOffset / SharpNode.nodeRotation;
@@ -108,9 +112,8 @@ namespace SharpCollisions.Sharp2D
                 DebugDraw3D.DrawLine(pointA, pointB, finalColor);
             }
             
-            if (selected) DebugDraw3D.DrawGizmo(reference.Transform, finalColor, true);
+            
         }
-
 
         protected override FixRect GetBoundingBoxPoints()
         {

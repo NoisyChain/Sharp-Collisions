@@ -23,6 +23,7 @@ namespace SharpCollisions.Sharp3D
 
         public override void DebugDrawShapes(SharpBody3D reference)
         {
+            if (!Active) return;
             if (!DrawDebug) return;
 
             //Draw Lower quad
@@ -52,9 +53,10 @@ namespace SharpCollisions.Sharp3D
 
         public override void DebugDrawShapesEditor(Node3D reference, bool selected)
         {
+            if (!Active) return;
             if (!selected && !DrawDebug) return;
 
-            Color finalColor = selected && DrawDebug ? selectedColor : debugColor;
+            Color finalColor = selected ? selectedColor : debugColor;
 
             Vector3 scaledPosOffset = (Vector3)positionOffset / SharpNode.nodeScale;
             Vector3 scaledRotOffset = (Vector3)rotationOffset / SharpNode.nodeRotation;

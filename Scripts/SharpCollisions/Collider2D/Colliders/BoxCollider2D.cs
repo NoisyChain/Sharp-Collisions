@@ -36,9 +36,10 @@ namespace SharpCollisions.Sharp2D
 
         public override void DebugDrawShapesEditor(Node3D reference, bool selected)
         {
+            if (!Active) return;
             if (!selected && !DrawDebug) return;
 
-            Color finalColor = selected && DrawDebug ? selectedColor : debugColor;
+            Color finalColor = selected ? selectedColor : debugColor;
 
             Vector3 scaledPosOffset = new Vector3(positionOffset.X, positionOffset.Y, 0) / SharpNode.nodeScale;
             Vector3 scaledRotOffset = new Vector3(0, 0, rotationOffset) / SharpNode.nodeRotation;

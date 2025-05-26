@@ -95,6 +95,7 @@ namespace SharpCollisions.Sharp3D
 
         public override void DebugDrawShapes(SharpBody3D reference)
         {
+            if (!Active) return;
             if (!DrawDebug) return;
             if (Faces == null || Faces.Count <= 0) return;
 
@@ -113,11 +114,15 @@ namespace SharpCollisions.Sharp3D
 
         public override void DebugDrawShapesEditor(Node3D reference, bool selected)
         {
+            if (!Active) return;
             if (!selected && !DrawDebug) return;
+
+            //We still want to see the gizmo even if there is no shape to preview
+            Color finalColor = selected ? selectedColor : debugColor;
+            if (selected) DebugDraw3D.DrawGizmo(reference.Transform, finalColor, true);
+
             if (vertices == null || vertices.Count <= 0) return;
             if (Faces == null || Faces.Count <= 0) return;
-
-            Color finalColor = selected && DrawDebug ? selectedColor : debugColor;
 
             Vector3 scaledPosOffset = (Vector3)positionOffset / SharpNode.nodeScale;
             Vector3 scaledRotOffset = (Vector3)rotationOffset / SharpNode.nodeRotation;
@@ -138,8 +143,6 @@ namespace SharpCollisions.Sharp3D
                 DebugDraw3D.DrawLine(pointB, pointC, finalColor);
                 DebugDraw3D.DrawLine(pointC, pointA, finalColor);
             }
-
-            if (selected) DebugDraw3D.DrawGizmo(reference.Transform, finalColor, true);
         }
 
         protected override FixVolume GetBoundingBoxPoints()

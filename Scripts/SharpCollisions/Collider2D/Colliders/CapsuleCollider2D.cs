@@ -64,6 +64,7 @@ namespace SharpCollisions.Sharp2D
 
         public override void DebugDrawShapes(SharpBody2D reference)
         {
+            if (!Active) return;
             if (!DrawDebug) return;
 
             Vector3 Dir = (Vector3)FixVector2.Normalize(UpperPoint - LowerPoint);
@@ -82,9 +83,10 @@ namespace SharpCollisions.Sharp2D
 
         public override void DebugDrawShapesEditor(Node3D reference, bool selected)
         {
+            if (!Active) return;
             if (!selected && !DrawDebug) return;
 
-            Color finalColor = selected && DrawDebug ? selectedColor : debugColor;
+            Color finalColor = selected ? selectedColor : debugColor;
 
             float scaledHeight = (float)height / SharpNode.nodeScale;
             float scaledRadius = (float)radius / SharpNode.nodeScale;

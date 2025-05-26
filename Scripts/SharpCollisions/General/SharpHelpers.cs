@@ -1,3 +1,4 @@
+using FixMath.NET;
 using Godot;
 
 namespace SharpCollisions
@@ -5,11 +6,11 @@ namespace SharpCollisions
     public static class SharpHelpers
     {
         public static Vector2 GetNormal2D(Vector2 a, Vector2 b)
-		{
-			Vector2 edge = b - a;
-			Vector2 axis = new Vector2(-edge.Y, edge.X);
-			return axis.Normalized();
-		}
+        {
+            Vector2 edge = b - a;
+            Vector2 axis = new Vector2(-edge.Y, edge.X);
+            return axis.Normalized();
+        }
         
         public static Vector2 Transform2D(Vector2 v, Vector2 refPosition, float refRotation)
 		{
@@ -48,12 +49,15 @@ namespace SharpCollisions
 			return new Vector2(rx, ry);
 		}
 
-        public static Vector3 GetNormal3D(Vector3 a, Vector3 b)
+        public static Vector3 GetLineNormal3D(Vector3 line, Vector3 arbitraryA, Vector3 arbitraryB)
         {
-            Vector3 edge = b - a;
-            Vector3 direction = edge.Normalized();
-            Vector3 axis = new Vector3(-direction.Y, direction.X, direction.Z);
-            return axis.Normalized();
+            Vector3 arbitrary = arbitraryA;
+            if (line.Cross(arbitrary) == Vector3.Zero)
+            {
+                arbitrary = arbitraryB;
+            }
+            Vector3 normal = line.Cross(arbitrary);
+            return normal.Normalized();
         }
 
         public static Vector3 Transform3D(Vector3 v, Vector3 refPosition, Vector3 refRotation)

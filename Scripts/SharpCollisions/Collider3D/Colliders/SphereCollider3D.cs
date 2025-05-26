@@ -38,6 +38,7 @@ namespace SharpCollisions.Sharp3D
 
         public override void DebugDrawShapes(SharpBody3D reference)
         {
+            if (!Active) return;
             if (!DrawDebug) return;
 
             Vector3 DirX = (Vector3)reference.Right;
@@ -47,9 +48,12 @@ namespace SharpCollisions.Sharp3D
             DebugDraw3D.DrawSimpleSphere((Vector3)Center, DirX, DirY, DirZ, (float)Radius + 0.005f, debugColor);
         }
 
-        public override void DebugDrawShapesEditor(Node3D reference)
+        public override void DebugDrawShapesEditor(Node3D reference, bool selected)
         {
-            if (!DrawDebug) return;
+            if (!Active) return;
+            if (!selected && !DrawDebug) return;
+
+            Color finalColor = selected ? selectedColor : debugColor;
 
             Vector3 DirX = reference.Basis.X;
             Vector3 DirY = reference.Basis.Y;
@@ -58,7 +62,7 @@ namespace SharpCollisions.Sharp3D
             Vector3 newPos = SharpHelpers.Transform3D(pos, reference.GlobalPosition, reference.GlobalRotation);
 
             DebugDraw3D.DrawSimpleSphere(newPos, DirX, DirY, DirZ,
-                                            ((float)radius / SharpNode.nodeScale) + 0.005f, debugColor);
+                                            ((float)radius / SharpNode.nodeScale) + 0.005f, finalColor);
         }
 
 

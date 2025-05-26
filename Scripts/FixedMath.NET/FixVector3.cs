@@ -80,12 +80,15 @@ namespace FixMath.NET
 			return Cross(Cross(a, b), c);
 		}
 
-		public static FixVector3 GetNormal(FixVector3 a, FixVector3 b)
+		public static FixVector3 GetLineNormal(FixVector3 line, FixVector3 arbitraryA, FixVector3 arbitraryB)
 		{
-			FixVector3 edge = b - a;
-			FixVector3 direction = Normalize(edge);
-			FixVector3 axis = new FixVector3(-direction.y, direction.x, direction.z);
-			return Normalize(axis);
+			FixVector3 arbitrary = arbitraryA;
+            if (Cross(line, arbitrary) == Zero)
+            {
+                arbitrary = arbitraryB;
+            }
+            FixVector3 normal = Cross(line, arbitrary);
+            return Normalize(normal);
 		}
 
 		public static FixVector3 GetPlaneNormal(FixVector3 a, FixVector3 b, FixVector3 c)

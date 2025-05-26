@@ -35,18 +35,23 @@ namespace SharpCollisions.Sharp3D
 
         public override void DebugDrawShapes(SharpBody3D reference)
         {
+            if (!Active) return;
             if (!DrawDebug) return;
 
             DebugDraw3D.DrawBox((Vector3)Center, Quaternion.Identity, (Vector3)Extents * 2, debugColor, true);
         }
 
-        public override void DebugDrawShapesEditor(Node3D reference)
+        public override void DebugDrawShapesEditor(Node3D reference, bool selected)
         {
-            if (!DrawDebug) return;
+            if (!Active) return;
+            if (!selected && !DrawDebug) return;
+
+            Color finalColor = selected ? selectedColor : debugColor;
+
             Vector3 pos = (Vector3)positionOffset / SharpNode.nodeScale;
             Vector3 newPos = SharpHelpers.Transform3D(pos, reference.GlobalPosition, reference.GlobalRotation);
 
-            DebugDraw3D.DrawBox(newPos, Quaternion.Identity, ((Vector3)extents / SharpNode.nodeScale) * 2, debugColor, true);
+            DebugDraw3D.DrawBox(newPos, Quaternion.Identity, ((Vector3)extents / SharpNode.nodeScale) * 2, finalColor, true);
         }
 
         protected override FixVolume GetBoundingBoxPoints()

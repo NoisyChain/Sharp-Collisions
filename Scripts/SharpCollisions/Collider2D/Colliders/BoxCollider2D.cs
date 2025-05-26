@@ -33,10 +33,13 @@ namespace SharpCollisions.Sharp2D
 
             Points = new FixVector2[RawPoints.Length];
         }
-        
-        public override void DebugDrawShapesEditor(Node3D reference)
+
+        public override void DebugDrawShapesEditor(Node3D reference, bool selected)
         {
-            if (!DrawDebug) return;
+            if (!Active) return;
+            if (!selected && !DrawDebug) return;
+
+            Color finalColor = selected ? selectedColor : debugColor;
 
             Vector3 scaledPosOffset = new Vector3(positionOffset.X, positionOffset.Y, 0) / SharpNode.nodeScale;
             Vector3 scaledRotOffset = new Vector3(0, 0, rotationOffset) / SharpNode.nodeRotation;
@@ -44,8 +47,8 @@ namespace SharpCollisions.Sharp2D
 
             Vector3 rotPos = SharpHelpers.RotateDeg3D(scaledPosOffset, scaledRotOffset);
             Vector3 newPos = SharpHelpers.Transform3D(rotPos, reference.GlobalPosition, reference.GlobalRotation);
-            
-            DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler(reference.GlobalRotation + SharpHelpers.VectorDegToRad(scaledRotOffset)), scaledExtents, debugColor, true);
+
+            DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler(reference.GlobalRotation + SharpHelpers.VectorDegToRad(scaledRotOffset)), scaledExtents, finalColor, true);
         }
     }
 }

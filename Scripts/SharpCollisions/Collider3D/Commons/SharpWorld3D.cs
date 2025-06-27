@@ -58,7 +58,7 @@ namespace SharpCollisions.Sharp3D
 				body.ResetIgnoreBodies();
 		}
 
-		private bool CompareLayers(SharpCollider3D colliderA, SharpCollider3D colliderB)
+		private bool CompareLayers(SharpBody3D colliderA, SharpBody3D colliderB)
 		{
 			/*for (int i = 0; i < 8; i++)
 			{
@@ -108,6 +108,8 @@ namespace SharpCollisions.Sharp3D
 			{ ClearCollision(indA, 0, indB, 0); return; }
 			if (bodyA.IsIgnoringBody(bodyB))
 			{ ClearCollision(indA, 0, indB, 0); return; }
+			if (!CompareLayers(bodyA, bodyB))
+			{ ClearCollision(indA, 0, indB, 0);  return; }
 			if (!bodyA.BoundingBox.IsOverlapping(bodyB.BoundingBox))
 			{ ClearCollision(indA, 0, indB, 0); return; }
 
@@ -116,8 +118,6 @@ namespace SharpCollisions.Sharp3D
 				for (int j = 0; j < bodyB.GetColliders().Length; j++)
 				{
 					if (!bodyA.GetCollider(i).Active || !bodyB.GetCollider(j).Active)
-					{ ClearCollision(indA, i, indB, j);  continue; }
-					if (!CompareLayers(bodyA.GetCollider(i), bodyB.GetCollider(j)))
 					{ ClearCollision(indA, i, indB, j);  continue; }
 					if (!bodyA.GetCollider(i).BoundingBox.IsOverlapping(bodyB.GetCollider(j).BoundingBox))
 					{ ClearCollision(indA, i, indB, j);  continue; }

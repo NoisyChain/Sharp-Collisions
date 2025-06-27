@@ -19,6 +19,10 @@ namespace SharpCollisions.Sharp2D
 
 		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
 		public int BodyMode = 0;
+		[Export(PropertyHint.Layers2DPhysics)]
+		public int CollisionLayers = 1;
+		[Export(PropertyHint.Layers2DPhysics)]
+		public int CollisionMask = 1;
 		
 		public SharpCollider2D[] GetColliders() => Colliders;
 		public SharpCollider2D GetCollider(int index) => Colliders[index];

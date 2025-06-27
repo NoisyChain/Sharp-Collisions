@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Sharp Collisions 4"
+config/description="C# deterministic collision system"
 config/tags=PackedStringArray("experiment", "high_priority", "library")
 run/main_scene="res://Scenes/Menu.tscn"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
@@ -32,6 +33,10 @@ project/assembly_name="Sharp Collisions 4"
 [editor_plugins]
 
 enabled=PackedStringArray()
+
+[gui]
+
+common/drop_mouse_on_gui_input_disabled=true
 
 [input]
 
@@ -61,10 +66,19 @@ jump={
 ]
 }
 
+[mono]
+
+project/assembly_name="Fixed Physics"
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_environment="res://default_env.tres"
 
 [sharp_collisions]
 

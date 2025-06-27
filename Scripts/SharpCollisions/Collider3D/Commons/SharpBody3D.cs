@@ -19,6 +19,10 @@ namespace SharpCollisions.Sharp3D
 
 		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
 		public int BodyMode = 0;
+		[Export(PropertyHint.Layers3DPhysics)]
+		public int CollisionLayers = 1;
+		[Export(PropertyHint.Layers3DPhysics)]
+		public int CollisionMask = 1;
 
 		public SharpCollider3D[] GetColliders() => Colliders;
 		public SharpCollider3D GetCollider(int index) => Colliders[index];

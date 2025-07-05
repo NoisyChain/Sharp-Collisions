@@ -94,6 +94,8 @@ namespace SharpCollisions.Sharp2D
 			PossibleCollisions.Sort((a, b) => b.distance.CompareTo(a.distance));
 			//Sort again to reorder by bodies keeping the distance
 			PossibleCollisions.Sort((a, b) => a.BodyA.CompareTo(b.BodyA));
+			//Sort again by priority
+			PossibleCollisions.Sort((a, b) => a.Priority.CompareTo(b.Priority));
 		}
 
 		private void CheckColliders(int indA, int indB)
@@ -123,7 +125,7 @@ namespace SharpCollisions.Sharp2D
 					{ ClearCollision(indA, i, indB, j); continue; }
 
 					PossibleCollisions.Add(new PossibleCollision(
-						indA, indB, i, j,
+						indA, indB, i, j, Mathf.Max(bodyA.Priority, bodyB.Priority),
 						GetCollisionDistance(bodyA.GetCollider(i), bodyB.GetCollider(j))
 					));
 				}

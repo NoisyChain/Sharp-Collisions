@@ -11,24 +11,31 @@ namespace SharpCollisions.Sharp3D
 		public FixVector3 LinearVelocity;
 		public FixVector3 AngularVelocity;
 
+		[Export] public int Priority = 0;
 		[Export] private SharpCollider3D[] Colliders;
-		private List<CollisionManifold3D> Collisions = new List<CollisionManifold3D>();
-		private List<(uint, int)> CollidedWith = new List<(uint, int)>();
-		private List<uint> BodiesToIgnore = new List<uint>();
-		public FixVolume BoundingBox = new FixVolume();
-
+		[Export] private SharpBody3D[] Attachments;
 		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
 		public int BodyMode = 0;
 		[Export(PropertyHint.Layers3DPhysics)]
 		public int CollisionLayers = 1;
 		[Export(PropertyHint.Layers3DPhysics)]
 		public int CollisionMask = 1;
+		
+		private SharpBody3D AttachedTo;
+		private List<CollisionManifold3D> Collisions = new List<CollisionManifold3D>();
+		private List<(uint, int)> CollidedWith = new List<(uint, int)>();
+		private List<uint> BodiesToIgnore = new List<uint>();
+		public FixVolume BoundingBox = new FixVolume();
+
+		public void SetAttachment(SharpBody3D parent) { AttachedTo = parent; }
+		public bool HasAttachments() => Attachments != null && Attachments.Length > 0;
+		public bool IsAttached() => AttachedTo != null;
 
 		public SharpCollider3D[] GetColliders() => Colliders;
 		public SharpCollider3D GetCollider(int index) => Colliders[index];
 
 		private bool collidersRequireUpdate;
-		
+
 		/*public SharpBody3D() {}
 		
 		public SharpBody3D(FixVector3 origin, FixVector3 offset, FixVector3 size, 
@@ -53,13 +60,24 @@ namespace SharpCollisions.Sharp3D
 		{
 			base._Instance();
 			SharpManager.Instance.AddBody(this);
-			
+
 			if (HasColliders())
-				foreach(SharpCollider3D col in Colliders)
+				foreach (SharpCollider3D col in Colliders)
 					col.Initialize();
-			
+
 			collidersRequireUpdate = true;
 			UpdateColliders();
+
+			if (HasAttachments())
+			{
+				foreach (SharpBody3D child in Attachments)
+				{
+					child.SetAttachment(this);
+					child._Instance();
+				}
+
+				UpdateAttachments();
+			}
 		}
 
 		public override void _Process(double delta)
@@ -197,6 +215,7 @@ namespace SharpCollisions.Sharp3D
 		public void SetLinearVelocity(FixVector3 newVelocity)
 		{
 			if (BodyMode == 2) return;
+			if (IsAttached()) return;
 			
 			LinearVelocity = newVelocity;
 		}
@@ -204,40 +223,39 @@ namespace SharpCollisions.Sharp3D
 		public void SetAngularVelocity(FixVector3 newVelocity)
 		{
 			if (BodyMode == 2) return;
-			
+			if (IsAttached()) return;
+
 			AngularVelocity = newVelocity;
 		}
 
 		public void SetAngularVelocityDegrees(FixVector3 newVelocity)
 		{
 			if (BodyMode == 2) return;
-			
-			AngularVelocity = newVelocity * Fix64.DegToRad;
+			if (IsAttached()) return;
+
+			SetAngularVelocity(newVelocity * Fix64.DegToRad);
 		}
 		
 		public void Move()
 		{
-			//if (BodyMode == 2) return;
 			if (FixVector3.Length(LinearVelocity) == Fix64.Zero) return;
 
 			FixedPosition += LinearVelocity * SharpTime.SubDelta;
 			collidersRequireUpdate = true;
-			//UpdateColliders();
 		}
 
 		public void Rotate()
 		{
-			//if (BodyMode == 2) return;
 			if (FixVector3.Length(AngularVelocity) == Fix64.Zero) return;
 
 			FixedRotation += AngularVelocity * SharpTime.SubDelta;
 			collidersRequireUpdate = true;
-			//UpdateColliders();
 		}
 
 		public void UpdateBody()
 		{
 			if (BodyMode == 2) return;
+			if (IsAttached()) return;
 
 			Rotate();
 			Move();
@@ -269,6 +287,17 @@ namespace SharpCollisions.Sharp3D
 			collidersRequireUpdate = true;
 			UpdateColliders();
 		}
+
+		public void UpdateAttachments()
+		{
+			if (!HasAttachments()) return;
+
+			foreach (SharpBody3D child in Attachments)
+			{
+				child.SetRotation(FixedRotation);
+				child.MoveTo(FixedPosition);
+			}
+		}
 		
 		public void UpdateColliders()
 		{
@@ -280,13 +309,14 @@ namespace SharpCollisions.Sharp3D
 
 			if (!collidersRequireUpdate) return;
 
-			foreach(SharpCollider3D col in Colliders)
+			foreach (SharpCollider3D col in Colliders)
 			{
 				col.Position = FixedPosition;
 				col.UpdatePoints(FixedPosition, FixedRotation);
 				col.UpdateBoundingBox();
 			}
 
+			UpdateAttachments();
 			UpdateBoundingBox();
 			collidersRequireUpdate = false;
 		}

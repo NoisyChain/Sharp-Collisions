@@ -276,6 +276,9 @@ namespace SharpCollisions.Sharp3D
 
 		public void PushAway(FixVector3 direction)
 		{
+			if (BodyMode == 2) return;
+			if (IsAttached()) return;
+
 			FixedPosition += direction;
 			collidersRequireUpdate = true;
 			UpdateColliders();

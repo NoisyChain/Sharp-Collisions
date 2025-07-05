@@ -5,17 +5,15 @@ namespace SharpCollisions.Sharp2D.GJK
 {
     public partial class GJK2D
     {
-        private bool AllowDraw = false;
 		public const int MAX_GJK_ITERATIONS = 32;
 		public const int MAX_EPA_ITERATIONS = 32;
 		private Simplex2D Simplex;
 		private Polytope2D Polytope;
 
-        public GJK2D(bool draw = false)
+        public GJK2D()
 		{
 			Simplex = new Simplex2D();
 			Polytope = new Polytope2D();
-			AllowDraw = draw;
 		}		
 		private SupportPoint2D SupportFunction(SharpCollider2D colliderA, SharpCollider2D colliderB, FixVector2 direction)
 		{
@@ -158,7 +156,6 @@ namespace SharpCollisions.Sharp2D.GJK
 					Polytope.Vertices.Insert(minIndex, support);
 				}
 			}
-			DrawPolytope(Polytope);
 			Normal = minNormal;
 			Depth = Fix64.Abs(minDistance) + Fix64.Epsilon;
 			Contact = GetContactPoint(colliderA, colliderB);
@@ -321,19 +318,6 @@ namespace SharpCollisions.Sharp2D.GJK
 				return contact1;
 			else
 				return (contact1 + contact2) / Fix64.Two;
-		}
-
-		private void DrawPolytope(Polytope2D polytope)
-		{
-			if (!AllowDraw) return;
-			DebugDraw3D.DrawSphere(Vector3.Zero, 0.03f, new Color(0f, 0f, 0f));
-			
-			for (int i = 0; i < polytope.Vertices.Count; i++)
-			{
-				Vector3 a = (Vector3)polytope.Vertices[i].Point();
-				Vector3 b = (Vector3)polytope.Vertices[(i + 1) % polytope.Vertices.Count].Point();
-				DebugDraw3D.DrawLine(a, b);
-			}
 		}
     }
 }

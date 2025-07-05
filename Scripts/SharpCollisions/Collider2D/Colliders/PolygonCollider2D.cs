@@ -7,9 +7,7 @@ namespace SharpCollisions.Sharp2D
 {
     [Tool] [GlobalClass]
     public partial class PolygonCollider2D : SharpCollider2D
-    {
-        [Export] protected bool DrawDebugPolytope;
-        
+    {        
         public GJK2D GJK;
         public FixVector2[] RawPoints;
 		public FixVector2[] Points;
@@ -18,7 +16,7 @@ namespace SharpCollisions.Sharp2D
 
         public override void Initialize()
         {
-            GJK = new GJK2D(DrawDebugPolytope);
+            GJK = new GJK2D();
             base.Initialize();
             Shape = CollisionType2D.Polygon;
             CreatePolygonPoints();

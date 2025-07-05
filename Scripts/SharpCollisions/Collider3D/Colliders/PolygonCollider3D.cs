@@ -8,7 +8,9 @@ namespace SharpCollisions.Sharp3D
     [Tool] [GlobalClass]
     public partial class PolygonCollider3D : SharpCollider3D
     {
-        [Export] protected bool DrawDebugPolytope;
+        //[Export] protected bool DrawDebugPolytope;
+
+        [Export] private GJKCollisionLevel CollisionLevel;
         
         public GJK3D GJK;
         public FixVector3[] RawPoints;
@@ -21,7 +23,7 @@ namespace SharpCollisions.Sharp3D
 
         public override void Initialize()
         {
-            GJK = new GJK3D(DrawDebugPolytope);
+            GJK = new GJK3D(CollisionLevel == GJKCollisionLevel.Precision);
             base.Initialize();
             Shape = CollisionType3D.Polygon;
             CreatePolygonPoints();

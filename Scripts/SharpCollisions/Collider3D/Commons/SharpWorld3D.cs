@@ -1,5 +1,6 @@
 using FixMath.NET;
 using Godot;
+using SharpCollisions.Sharp3D.Octree;
 using System.Collections.Generic;
 
 namespace SharpCollisions.Sharp3D
@@ -8,6 +9,7 @@ namespace SharpCollisions.Sharp3D
 	public class SharpWorld3D
 	{
 		public List<SharpBody3D> bodies;
+		private OcTree oTree;
 		
 		public int BodyCount => bodies.Count;
 		private uint CreatedBodies = 0;
@@ -18,12 +20,19 @@ namespace SharpCollisions.Sharp3D
 		private List<(int, int, int, int, bool)> ConfirmedCollisions;
 
 		public const int mask = 0b_1111_1111;
-		
-		public SharpWorld3D()
+
+		public SharpWorld3D(int qtSize, int qtLimit)
 		{
 			bodies = new List<SharpBody3D>();
 			PossibleCollisions = new List<PossibleCollision>();
 			ConfirmedCollisions = new List<(int, int, int, int, bool)>();
+			if (qtSize > 0)
+			{
+				Fix64 octreeSize = new Fix64(qtSize);
+				oTree = new OcTree(
+					new FixVolume(-octreeSize, -octreeSize, -octreeSize, octreeSize, octreeSize, octreeSize), qtLimit
+				);
+			}
 		}
 		
 		public void AddBody(SharpBody3D newBody)
@@ -81,13 +90,27 @@ namespace SharpCollisions.Sharp3D
 				bodies[i].ClearCollisions();
 			}
 
-			for (int i = 0; i < bodies.Count; i++)
+			if (oTree == null) //Brute force the broad phase if no quadtree was created
 			{
-				for (int j = i + 1; j < bodies.Count; j++)
+				for (int i = 0; i < bodies.Count; i++)
 				{
-					//Check every collider in each body
-					CheckColliders(i, j);
+					for (int j = i + 1; j < bodies.Count; j++)
+					{
+						//Check every collider in each body
+						CheckColliders(i, j);
+					}
 				}
+			}
+			else //Use the quadtree otherwise
+			{
+				List<IntPack2> collisionQueries = new List<IntPack2>();
+				oTree.Compute(bodies);
+				oTree.CapturePossibleCollisions(ref collisionQueries);
+				
+				GD.Print($"Registered {collisionQueries.Count} collision queries");
+				
+				foreach (IntPack2 q in collisionQueries)
+					CheckColliders(q.a, q.b);
 			}
 
 			//Sort the colliders so the nearest colliders are checked first
@@ -111,7 +134,7 @@ namespace SharpCollisions.Sharp3D
 			if (bodyA.IsIgnoringBody(bodyB))
 			{ ClearCollision(indA, 0, indB, 0); return; }
 			if (!CompareLayers(bodyA, bodyB))
-			{ ClearCollision(indA, 0, indB, 0);  return; }
+			{ ClearCollision(indA, 0, indB, 0); return; }
 			if (!bodyA.BoundingBox.IsOverlapping(bodyB.BoundingBox))
 			{ ClearCollision(indA, 0, indB, 0); return; }
 
@@ -289,7 +312,7 @@ namespace SharpCollisions.Sharp3D
 			newDepth.y -= Fix64.Abs(length.y);
 			newDepth.z -= Fix64.Abs(length.z);
 
-			return FixVector3.Length(newDepth);
+			return FixVector3.LengthSq(newDepth);
 		}
 	}
 }

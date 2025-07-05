@@ -26,7 +26,10 @@ func _on_button_bm_2_pressed() -> void:
 
 func _on_button_bm_3_pressed() -> void:
 	# Go to Benchmark scene 3 (not existent yet)
-	pass # Replace with function body.
+	load_scene("res://Scenes/Benchmark3.tscn")
+
+func _on_button_bm_4_pressed() -> void:
+	load_scene("res://Scenes/Benchmark4.tscn")
 
 func load_scene(path : String) -> void:
 	get_tree().change_scene_to_file(path)

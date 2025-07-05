@@ -3,6 +3,8 @@ using FixMath.NET;
 
 namespace SharpCollisions
 {
+    public enum BodyType { Static, Kinematic, Dynamic }
+    public enum GJKCollisionLevel { Performance, Precision }
     public struct IntPack2
     {
         public int a;
@@ -13,6 +15,8 @@ namespace SharpCollisions
             a = newA;
             b = newB;
         }
+
+        public IntPack2 Inverse => new IntPack2(b, a);
 
         public bool IsEquals(IntPack2 compare)
         {

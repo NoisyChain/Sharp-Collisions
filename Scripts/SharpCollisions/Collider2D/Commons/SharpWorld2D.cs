@@ -1,5 +1,6 @@
 using FixMath.NET;
 using Godot;
+using SharpCollisions.Sharp2D.Quadtree;
 using System.Collections.Generic;
 
 namespace SharpCollisions.Sharp2D
@@ -8,6 +9,7 @@ namespace SharpCollisions.Sharp2D
 	public class SharpWorld2D
 	{
 		public List<SharpBody2D> bodies;
+		private QuadTree qTree;
 		
 		public int BodyCount => bodies.Count;
 		private uint CreatedBodies = 0;
@@ -18,12 +20,17 @@ namespace SharpCollisions.Sharp2D
 		private List<(int, int, int, int, bool)> ConfirmedCollisions;
 
 		public const int mask = 0b_1111_1111;
-		
-		public SharpWorld2D()
+
+		public SharpWorld2D(int qtSize, int qtLimit)
 		{
 			bodies = new List<SharpBody2D>();
 			PossibleCollisions = new List<PossibleCollision>();
 			ConfirmedCollisions = new List<(int, int, int, int, bool)>();
+			if (qtSize > 0)
+			{
+				Fix64 quadtreeSize = new Fix64(qtSize);
+				qTree = new QuadTree(new FixRect(-quadtreeSize, -quadtreeSize, quadtreeSize, quadtreeSize), qtLimit);
+			}
 		}
 		
 		public void AddBody(SharpBody2D newBody)
@@ -81,13 +88,27 @@ namespace SharpCollisions.Sharp2D
 				bodies[i].ClearCollisions();
 			}
 
-			for (int i = 0; i < bodies.Count; i++)
+			if (qTree == null) //Brute force the broad phase if no quadtree was created
 			{
-				for (int j = i + 1; j < bodies.Count; j++)
+				for (int i = 0; i < bodies.Count; i++)
 				{
-					//Check every collider in each body
-					CheckColliders(i, j);
+					for (int j = i + 1; j < bodies.Count; j++)
+					{
+						//Check every collider in each body
+						CheckColliders(i, j);
+					}
 				}
+			}
+			else //Use the quadtree otherwise
+			{
+				List<IntPack2> collisionQueries = new List<IntPack2>();
+				qTree.Compute(bodies);
+				qTree.CapturePossibleCollisions(ref collisionQueries);
+				
+				//GD.Print($"Registered {collisionQueries.Count} collision queries");
+				
+				foreach (IntPack2 q in collisionQueries)
+					CheckColliders(q.a, q.b);
 			}
 
 			//Sort the colliders so the nearest colliders are checked first
@@ -289,7 +310,7 @@ namespace SharpCollisions.Sharp2D
 			newDepth.x -= Fix64.Abs(length.x);
 			newDepth.y -= Fix64.Abs(length.y);
 
-			return FixVector2.Length(newDepth);
+			return FixVector2.LengthSq(newDepth);
 		}
 	}
 }

@@ -273,6 +273,7 @@ namespace SharpCollisions.Sharp2D
 		public void PushAway(FixVector2 direction)
 		{
 			if (BodyMode == 2) return;
+			if (IsAttached()) return;
 
 			FixedPosition += direction;
 			collidersRequireUpdate = true;

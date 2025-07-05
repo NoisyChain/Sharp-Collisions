@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://vrmhw34ybtru"]
 
-[ext_resource type="Script" path="res://Scripts/menu.gd" id="1_3xa80"]
+[ext_resource type="Script" uid="uid://c3wpbqft7xom6" path="res://Scripts/menu.gd" id="1_3xa80"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -61,13 +61,13 @@ offset_right = 129.0
 offset_bottom = 204.0
 text = "Benchmark 3"
 
-[node name="Button_GD" type="Button" parent="."]
+[node name="Button_BM4" type="Button" parent="."]
 layout_mode = 1
 offset_left = 19.0
 offset_top = 216.0
 offset_right = 129.0
 offset_bottom = 247.0
-text = "GDScript test"
+text = "Benchmark 4"
 
 [connection signal="pressed" from="Button_2D" to="." method="_on_button_2d_pressed"]
 [connection signal="pressed" from="Button_2D2" to="." method="_on_button_2d_2_pressed"]
@@ -75,4 +75,4 @@ text = "GDScript test"
 [connection signal="pressed" from="Button_BM1" to="." method="_on_button_bm_1_pressed"]
 [connection signal="pressed" from="Button_BM2" to="." method="_on_button_bm_2_pressed"]
 [connection signal="pressed" from="Button_BM3" to="." method="_on_button_bm_3_pressed"]
-[connection signal="pressed" from="Button_GD" to="." method="_on_button_bm_3_pressed"]
+[connection signal="pressed" from="Button_BM4" to="." method="_on_button_bm_4_pressed"]

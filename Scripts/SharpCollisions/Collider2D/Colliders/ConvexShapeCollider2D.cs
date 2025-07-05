@@ -6,7 +6,7 @@ using SharpCollisions.Sharp2D.GJK;
 namespace SharpCollisions.Sharp2D
 {
     [Tool] [GlobalClass]
-    public partial class PolygonCollider2D : SharpCollider2D
+    public partial class ConvexShapeCollider2D : SharpCollider2D
     {        
         public GJK2D GJK;
         public FixVector2[] RawPoints;

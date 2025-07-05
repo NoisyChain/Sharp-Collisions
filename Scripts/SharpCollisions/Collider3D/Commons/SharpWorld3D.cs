@@ -101,13 +101,13 @@ namespace SharpCollisions.Sharp3D
 					}
 				}
 			}
-			else //Use the quadtree otherwise
+			else //Use the octree otherwise
 			{
 				List<IntPack2> collisionQueries = new List<IntPack2>();
 				oTree.Compute(bodies);
 				oTree.CapturePossibleCollisions(ref collisionQueries);
 				
-				GD.Print($"Registered {collisionQueries.Count} collision queries");
+				//GD.Print($"Registered {collisionQueries.Count} collision queries");
 				
 				foreach (IntPack2 q in collisionQueries)
 					CheckColliders(q.a, q.b);

@@ -30,7 +30,7 @@ namespace SharpCollisions.Sharp2D
 				return CircleToCapsuleCollision(this, other as CapsuleCollider2D, out Normal, out Depth, out ContactPoint);
 			else if (other.Shape == CollisionType2D.Polygon)
             {
-                PolygonCollider2D pol = other as PolygonCollider2D;
+                ConvexShapeCollider2D pol = other as ConvexShapeCollider2D;
                 return pol.GJK.PolygonCollision(this, other, out Normal, out Depth, out ContactPoint);
             }
             return false;

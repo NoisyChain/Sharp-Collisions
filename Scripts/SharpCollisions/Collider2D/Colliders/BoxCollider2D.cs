@@ -5,7 +5,7 @@ namespace SharpCollisions.Sharp2D
 {
     [Tool]
     [GlobalClass]
-    public partial class BoxCollider2D : PolygonCollider2D
+    public partial class BoxCollider2D : ConvexShapeCollider2D
     {
         public FixVector2 Extents;
 

@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_noiqf"]
 [ext_resource type="Script" uid="uid://dswu8dcd4cdwi" path="res://Scripts/SharpCollisions/General/SharpManager.cs" id="2_hehox"]
 [ext_resource type="Script" uid="uid://d3lb45ae2s8uk" path="res://Scripts/SharpCollisions/Examples/BallPhysics3D.cs" id="3_agu8f"]
-[ext_resource type="Script" uid="uid://c5oybgm7k4u0b" path="res://Scripts/SharpCollisions/Collider3D/Colliders/PolygonCollider3D.cs" id="4_hehox"]
+[ext_resource type="Script" uid="uid://c5oybgm7k4u0b" path="res://Scripts/SharpCollisions/Collider3D/Colliders/ConvexShapeCollider3D.cs" id="4_noiqf"]
 [ext_resource type="Script" uid="uid://vanf8ydlw1ew" path="res://Scripts/SharpCollisions/Collider3D/Commons/SharpBody3D.cs" id="5_i271v"]
 [ext_resource type="Script" uid="uid://s1sf13a5bmwf" path="res://Scripts/SharpCollisions/Collider3D/Colliders/BoxCollider3D.cs" id="6_l5q2h"]
 
@@ -36,6 +36,7 @@ tonemap_mode = 2
 [node name="PhysicsManager" type="Node" parent="." node_paths=PackedStringArray("nodes")]
 script = ExtResource("2_hehox")
 nodes = [NodePath("../Sphere1"), NodePath("../Sphere2"), NodePath("../Sphere3"), NodePath("../Sphere4"), NodePath("../Sphere5"), NodePath("../Sphere6"), NodePath("../Sphere7"), NodePath("../Sphere8"), NodePath("../Sphere9"), NodePath("../Sphere10"), NodePath("../Sphere11"), NodePath("../Sphere12"), NodePath("../Sphere13"), NodePath("../Sphere14"), NodePath("../Sphere15"), NodePath("../Sphere16"), NodePath("../Sphere17"), NodePath("../Sphere18"), NodePath("../Sphere19"), NodePath("../Sphere20"), NodePath("../Sphere21"), NodePath("../Sphere22"), NodePath("../Sphere23"), NodePath("../Sphere24"), NodePath("../Sphere25"), NodePath("../Sphere26"), NodePath("../Sphere27"), NodePath("../Sphere28"), NodePath("../Sphere29"), NodePath("../Sphere30"), NodePath("../Sphere31"), NodePath("../Sphere32"), NodePath("../Sphere33"), NodePath("../Sphere34"), NodePath("../Sphere35"), NodePath("../Sphere36"), NodePath("../Sphere37"), NodePath("../Sphere38"), NodePath("../Sphere39"), NodePath("../Sphere40"), NodePath("../Sphere41"), NodePath("../Sphere42"), NodePath("../Sphere43"), NodePath("../Sphere44"), NodePath("../Sphere45"), NodePath("../Sphere46"), NodePath("../Sphere47"), NodePath("../Sphere48"), NodePath("../Sphere49"), NodePath("../Floor"), NodePath("../Floor2"), NodePath("../Floor3"), NodePath("../Floor4"), NodePath("../Wall"), NodePath("../Wall2"), NodePath("../Wall3"), NodePath("../Wall4")]
+Substeps = 2
 debugLineThickness = 0.012
 ShowDebugShapes = true
 
@@ -47,9 +48,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-3000, 1330, 0)
 
 [node name="Collider" type="Node" parent="Sphere1"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere1"]
@@ -67,9 +68,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-3000, 1330, 1000)
 
 [node name="Collider" type="Node" parent="Sphere2"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere2"]
@@ -87,9 +88,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-3000, 1330, -3000)
 
 [node name="Collider" type="Node" parent="Sphere3"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere3"]
@@ -107,9 +108,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-3000, 1330, 3000)
 
 [node name="Collider" type="Node" parent="Sphere4"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere4"]
@@ -127,9 +128,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-3000, 1330, -1000)
 
 [node name="Collider" type="Node" parent="Sphere5"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere5"]
@@ -147,9 +148,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-3000, 1330, -2000)
 
 [node name="Collider" type="Node" parent="Sphere6"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere6"]
@@ -167,9 +168,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-3000, 1330, 2000)
 
 [node name="Collider" type="Node" parent="Sphere7"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere7"]
@@ -187,9 +188,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-2000, 1330, 0)
 
 [node name="Collider" type="Node" parent="Sphere8"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere8"]
@@ -207,9 +208,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-2000, 1330, 1000)
 
 [node name="Collider" type="Node" parent="Sphere9"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere9"]
@@ -227,9 +228,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-2000, 1330, -3000)
 
 [node name="Collider" type="Node" parent="Sphere10"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere10"]
@@ -247,9 +248,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-2000, 1330, 3000)
 
 [node name="Collider" type="Node" parent="Sphere11"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere11"]
@@ -267,9 +268,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-2000, 1330, -1000)
 
 [node name="Collider" type="Node" parent="Sphere12"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere12"]
@@ -287,9 +288,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-2000, 1330, -2000)
 
 [node name="Collider" type="Node" parent="Sphere13"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere13"]
@@ -307,9 +308,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-2000, 1330, 2000)
 
 [node name="Collider" type="Node" parent="Sphere14"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere14"]
@@ -327,9 +328,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-1000, 1330, 0)
 
 [node name="Collider" type="Node" parent="Sphere15"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere15"]
@@ -347,9 +348,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-1000, 1330, 1000)
 
 [node name="Collider" type="Node" parent="Sphere16"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere16"]
@@ -367,9 +368,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-1000, 1330, -3000)
 
 [node name="Collider" type="Node" parent="Sphere17"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere17"]
@@ -387,9 +388,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-1000, 1330, 3000)
 
 [node name="Collider" type="Node" parent="Sphere18"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere18"]
@@ -407,9 +408,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-1000, 1330, -1000)
 
 [node name="Collider" type="Node" parent="Sphere19"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere19"]
@@ -427,9 +428,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-1000, 1330, -2000)
 
 [node name="Collider" type="Node" parent="Sphere20"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere20"]
@@ -447,9 +448,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(-1000, 1330, 2000)
 
 [node name="Collider" type="Node" parent="Sphere21"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere21"]
@@ -467,9 +468,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(0, 1330, 0)
 
 [node name="Collider" type="Node" parent="Sphere22"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 DrawDebug = true
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
@@ -488,9 +489,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(0, 1330, 1000)
 
 [node name="Collider" type="Node" parent="Sphere23"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere23"]
@@ -508,9 +509,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(0, 1330, -3000)
 
 [node name="Collider" type="Node" parent="Sphere24"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere24"]
@@ -528,9 +529,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(0, 1330, 3000)
 
 [node name="Collider" type="Node" parent="Sphere25"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere25"]
@@ -548,9 +549,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(0, 1330, -1000)
 
 [node name="Collider" type="Node" parent="Sphere26"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere26"]
@@ -568,9 +569,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(0, 1330, -2000)
 
 [node name="Collider" type="Node" parent="Sphere27"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere27"]
@@ -588,9 +589,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(0, 1330, 2000)
 
 [node name="Collider" type="Node" parent="Sphere28"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere28"]
@@ -608,9 +609,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(1000, 1330, 0)
 
 [node name="Collider" type="Node" parent="Sphere29"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere29"]
@@ -628,9 +629,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(1000, 1330, 1000)
 
 [node name="Collider" type="Node" parent="Sphere30"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere30"]
@@ -648,9 +649,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(1000, 1330, -3000)
 
 [node name="Collider" type="Node" parent="Sphere31"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere31"]
@@ -668,9 +669,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(1000, 1330, 3000)
 
 [node name="Collider" type="Node" parent="Sphere32"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere32"]
@@ -688,9 +689,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(1000, 1330, -1000)
 
 [node name="Collider" type="Node" parent="Sphere33"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere33"]
@@ -708,9 +709,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(1000, 1330, -2000)
 
 [node name="Collider" type="Node" parent="Sphere34"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere34"]
@@ -728,9 +729,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(1000, 1330, 2000)
 
 [node name="Collider" type="Node" parent="Sphere35"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere35"]
@@ -748,9 +749,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(2000, 1330, 0)
 
 [node name="Collider" type="Node" parent="Sphere36"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere36"]
@@ -768,9 +769,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(2000, 1330, 1000)
 
 [node name="Collider" type="Node" parent="Sphere37"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere37"]
@@ -788,9 +789,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(2000, 1330, -3000)
 
 [node name="Collider" type="Node" parent="Sphere38"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere38"]
@@ -808,9 +809,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(2000, 1330, 3000)
 
 [node name="Collider" type="Node" parent="Sphere39"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere39"]
@@ -828,9 +829,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(2000, 1330, -1000)
 
 [node name="Collider" type="Node" parent="Sphere40"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere40"]
@@ -848,9 +849,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(2000, 1330, -2000)
 
 [node name="Collider" type="Node" parent="Sphere41"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere41"]
@@ -868,9 +869,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(2000, 1330, 2000)
 
 [node name="Collider" type="Node" parent="Sphere42"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere42"]
@@ -888,9 +889,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(3000, 1330, 0)
 
 [node name="Collider" type="Node" parent="Sphere43"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere43"]
@@ -908,9 +909,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(3000, 1330, 1000)
 
 [node name="Collider" type="Node" parent="Sphere44"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere44"]
@@ -928,9 +929,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(3000, 1330, -3000)
 
 [node name="Collider" type="Node" parent="Sphere45"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere45"]
@@ -948,9 +949,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(3000, 1330, 3000)
 
 [node name="Collider" type="Node" parent="Sphere46"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere46"]
@@ -968,9 +969,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(3000, 1330, -1000)
 
 [node name="Collider" type="Node" parent="Sphere47"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere47"]
@@ -988,9 +989,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(3000, 1330, -2000)
 
 [node name="Collider" type="Node" parent="Sphere48"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere48"]
@@ -1008,9 +1009,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(3000, 1330, 2000)
 
 [node name="Collider" type="Node" parent="Sphere49"]
-script = ExtResource("4_hehox")
-vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, 300), Vector3i(-300, 0, -300), Vector3i(0, -300, 0)])
-Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 4, 3), Vector3i(1, 3, 5), Vector3i(2, 4, 5)])
+script = ExtResource("4_noiqf")
+vertices = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
+Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere49"]

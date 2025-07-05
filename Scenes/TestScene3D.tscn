@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://s1sf13a5bmwf" path="res://Scripts/SharpCollisions/Collider3D/Colliders/BoxCollider3D.cs" id="4"]
 [ext_resource type="Script" uid="uid://cg5dxxak4nmpf" path="res://Scripts/SharpCollisions/Collider3D/Colliders/CapsuleCollider3D.cs" id="6_3hubp"]
 [ext_resource type="Script" uid="uid://bibw4tjrys580" path="res://Scripts/SharpCollisions/Examples/Rotator.cs" id="7_qwg5g"]
-[ext_resource type="Script" uid="uid://c5oybgm7k4u0b" path="res://Scripts/SharpCollisions/Collider3D/Colliders/PolygonCollider3D.cs" id="9_0bdky"]
+[ext_resource type="Script" uid="uid://c5oybgm7k4u0b" path="res://Scripts/SharpCollisions/Collider3D/Colliders/ConvexShapeCollider3D.cs" id="9_earb3"]
 [ext_resource type="Script" uid="uid://vanf8ydlw1ew" path="res://Scripts/SharpCollisions/Collider3D/Commons/SharpBody3D.cs" id="10"]
 
 [sub_resource type="BoxMesh" id="12"]
@@ -39,7 +39,7 @@ ambient_light_source = 3
 reflected_light_source = 2
 tonemap_mode = 2
 
-[node name="Main" type="Node3D"]
+[node name="Main2" type="Node3D"]
 
 [node name="FPS_HUD" parent="." instance=ExtResource("1_xw0ag")]
 
@@ -160,10 +160,9 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector3i(0, 500, 2000)
 
 [node name="Collider" type="Node" parent="Polygon"]
-script = ExtResource("9_0bdky")
+script = ExtResource("9_earb3")
 vertices = []
 Faces = []
-positionOffset = Vector3i(0, 500, 0)
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Polygon"]

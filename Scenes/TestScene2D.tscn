@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://yy8gg16i0mv1" path="res://Scenes/Examples/PreviewBody_Controller.tscn" id="5"]
 [ext_resource type="Script" uid="uid://b4o377chp53rf" path="res://Scripts/SharpCollisions/Collider2D/Colliders/CircleCollider2D.cs" id="6"]
 [ext_resource type="Script" uid="uid://b3noxcpjbrexh" path="res://Scripts/SharpCollisions/Collider2D/Colliders/CapsuleCollider2D.cs" id="7"]
-[ext_resource type="Script" uid="uid://dt55cp5j25344" path="res://Scripts/SharpCollisions/Collider2D/Colliders/PolygonCollider2D.cs" id="8"]
+[ext_resource type="Script" uid="uid://dt55cp5j25344" path="res://Scripts/SharpCollisions/Collider2D/Colliders/ConvexShapeCollider2D.cs" id="7_7xfg0"]
 [ext_resource type="Script" uid="uid://lescpeqkvsdt" path="res://Scripts/SharpCollisions/Collider2D/Colliders/AABBCollider2D.cs" id="9"]
 
 [sub_resource type="BoxMesh" id="1"]
@@ -36,13 +36,14 @@ ambient_light_source = 3
 reflected_light_source = 2
 tonemap_mode = 2
 
-[node name="Main" type="Node3D"]
+[node name="Main2" type="Node3D"]
 
 [node name="FPS_HUD" parent="." instance=ExtResource("1_ver4r")]
 
 [node name="PhysicsManager" type="Node" parent="." node_paths=PackedStringArray("nodes")]
 script = ExtResource("2_fb5pd")
 nodes = [NodePath("../Character"), NodePath("../Floor"), NodePath("../Floor2"), NodePath("../Floor3"), NodePath("../Sphere"), NodePath("../Polygon"), NodePath("../Polygon2"), NodePath("../Capsule"), NodePath("../AABBTest"), NodePath("../AABBTest2")]
+ShowDebugShapes = true
 
 [node name="Character" parent="." node_paths=PackedStringArray("Attachments") instance=ExtResource("5")]
 CeilingAngleLimit = 15
@@ -146,8 +147,8 @@ Renderer = NodePath("Viewer")
 fixedPosition = Vector2i(-1500, -1700)
 
 [node name="Collider" type="Node" parent="Polygon"]
-script = ExtResource("8")
-vertices = [Vector2i(0, 1000), Vector2i(1000, 0), Vector2i(650, -1000), Vector2i(-650, -1000), Vector2i(-1000, 0)]
+script = ExtResource("7_7xfg0")
+vertices = Array[Vector2i]([Vector2i(0, 1000), Vector2i(1000, 200), Vector2i(600, -1000), Vector2i(-600, -1000), Vector2i(-1000, 200)])
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Polygon"]
@@ -163,8 +164,8 @@ fixedPosition = Vector2i(4000, 1700)
 fixedRotation = 900
 
 [node name="Collider" type="Node" parent="Polygon2"]
-script = ExtResource("8")
-vertices = []
+script = ExtResource("7_7xfg0")
+vertices = Array[Vector2i]([Vector2i(0, 1000), Vector2i(1000, -1000), Vector2i(-1000, -1000)])
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Polygon2"]

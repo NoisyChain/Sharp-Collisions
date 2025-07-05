@@ -164,20 +164,20 @@ namespace SharpCollisions.Sharp2D.GJK
         public FixVector2 GetContactPoint(SharpCollider2D colliderA, SharpCollider2D colliderB)
 		{
 			if (colliderA.Shape == CollisionType2D.Circle && colliderB.Shape == CollisionType2D.Polygon)
-				return CirclePolygonContact(colliderA as CircleCollider2D, colliderB as PolygonCollider2D);
+				return CirclePolygonContact(colliderA as CircleCollider2D, colliderB as ConvexShapeCollider2D);
 			else if (colliderA.Shape == CollisionType2D.Polygon && colliderB.Shape == CollisionType2D.Circle)
-				return CirclePolygonContact(colliderB as CircleCollider2D, colliderA as PolygonCollider2D);
+				return CirclePolygonContact(colliderB as CircleCollider2D, colliderA as ConvexShapeCollider2D);
 			if (colliderA.Shape == CollisionType2D.Capsule && colliderB.Shape == CollisionType2D.Polygon)
-				return CapsulePolygonContact(colliderA as CapsuleCollider2D, colliderB as PolygonCollider2D);
+				return CapsulePolygonContact(colliderA as CapsuleCollider2D, colliderB as ConvexShapeCollider2D);
 			else if (colliderA.Shape == CollisionType2D.Polygon && colliderB.Shape == CollisionType2D.Capsule)
-				return CapsulePolygonContact(colliderB as CapsuleCollider2D, colliderA as PolygonCollider2D);
+				return CapsulePolygonContact(colliderB as CapsuleCollider2D, colliderA as ConvexShapeCollider2D);
 			else if (colliderA.Shape == CollisionType2D.Polygon && colliderB.Shape == CollisionType2D.Polygon)
-				return PolygonContact(colliderA as PolygonCollider2D, colliderB as PolygonCollider2D);
+				return PolygonContact(colliderA as ConvexShapeCollider2D, colliderB as ConvexShapeCollider2D);
 			
 			return FixVector2.Zero;
 		}
 
-		public FixVector2 CirclePolygonContact(CircleCollider2D colliderA, PolygonCollider2D colliderB)
+		public FixVector2 CirclePolygonContact(CircleCollider2D colliderA, ConvexShapeCollider2D colliderB)
 		{
 			FixVector2 contact = FixVector2.Zero;
             Fix64 minDistSq = Fix64.MaxValue;
@@ -200,7 +200,7 @@ namespace SharpCollisions.Sharp2D.GJK
 			return contact;
 		}
 
-		public FixVector2 CapsulePolygonContact(CapsuleCollider2D colliderA, PolygonCollider2D colliderB)
+		public FixVector2 CapsulePolygonContact(CapsuleCollider2D colliderA, ConvexShapeCollider2D colliderB)
 		{
 			FixVector2 contact1 = FixVector2.Zero;
             FixVector2 contact2 = FixVector2.Zero;
@@ -251,7 +251,7 @@ namespace SharpCollisions.Sharp2D.GJK
 				return (contact1 + contact2) / Fix64.Two;
 		}
 
-		public FixVector2 PolygonContact(PolygonCollider2D colliderA, PolygonCollider2D colliderB)
+		public FixVector2 PolygonContact(ConvexShapeCollider2D colliderA, ConvexShapeCollider2D colliderB)
 		{
 			FixVector2 contact1 = FixVector2.Zero;
             FixVector2 contact2 = FixVector2.Zero;

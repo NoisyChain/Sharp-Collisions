@@ -679,7 +679,7 @@ static internal class DebugDraw3D
 #endif
         }
     }
-
+//--------------------------Custom Functions-----------------------------------
     public static void DrawSimpleSphere(Vector3 origin, Vector3 X, Vector3 Y, Vector3 Z, 
                                         float radius = 0.5f, Color? color = null, float duration = 0f)
     {
@@ -780,9 +780,8 @@ static internal class DebugDraw3D
         DrawLine(pointAAB, pointAB, color, duration);
         DrawLine(pointAB, pointABB, color, duration);
         DrawLine(pointABB, pointB, color, duration);
-        //DrawLine(pointAAB, pointAB, color, duration);
     }
-    
+//--------------------------------------------------------------------------
     public static DebugDraw3DStats GetRenderStats()
     {
 #if !DEBUG && !FORCED_DD3D

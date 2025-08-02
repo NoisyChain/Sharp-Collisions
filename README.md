@@ -6,6 +6,7 @@ Deterministic collision system written in C#
 - Discrete collision detection
 - Deterministic behavior using fixed point math
 - Broad Phase/Narrow Phase
+- Space partitioning for broad phase (quadtree for 2D/ octree for 3D)
 - AABB collisions
 - Sphere/Capsule collisions using distance checks
 - Convex polygon collisions using GJK-EPA algorithms

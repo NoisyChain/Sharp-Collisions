@@ -13,10 +13,6 @@ namespace SharpCollisions.Sharp2D
 		[Export] protected bool DrawDebug;
 		[Export] public Color debugColor = new Color(0, 0, 1);
 		[Export] public Color selectedColor = new Color(1, 0.6f, 0.1f);
-		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
-		public int CollisionLayers = 1;
-		[Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
-		public int CollisionMask = 1;
 		
 		public CollisionFlags collisionFlags;
 		public CollisionFlags globalCollisionFlags;
@@ -208,77 +204,3 @@ public enum CollisionType2D
 	Capsule = 2,
 	Polygon = 3,
 }
-
-/*[Flags]
-public enum CollisionFlags : byte
-{
-	Null = 0,
-	Below = 0 << 0,
-	Above = 0 << 1,
-	Right = 0 << 2,
-	Left = 0 << 3,
-	Walls = Right | Left
-}
-
-[Flags]
-public enum CollisionFlags3D : byte
-{
-	Null = 0,
-	Below = 0 << 0,
-	Above = 0 << 1,
-	Right = 0 << 2,
-	Left = 0 << 3,
-	Front = 0 << 4,
-	Back = 0 << 5,
-	Walls = Right | Left | Front | Back
-}*/
-
-public struct CollisionFlags
-{
-	public bool Below;
-	public bool Above;
-	public bool Right;
-	public bool Left;
-	public bool Forward;
-	public bool Back;
-
-	public bool Walls => Right || Left || Forward || Back;
-	public bool Any  => Below || Above || Right || Left || Forward || Back;
-
-	public void Clear()
-	{
-		Below = false;
-		Above = false;
-		Right = false;
-		Left = false;
-		Forward = false;
-		Back = false;
-	}
-	public bool Compare(CollisionFlags compareTo)
-	{
-		return Below == compareTo.Below || Above == compareTo.Above || 
-			Right == compareTo.Right || Left == compareTo.Left || 
-			Forward == compareTo.Forward || Back == compareTo.Back;
-	}
-	public bool ComparePositive(CollisionFlags compareTo)
-	{
-		return (Below && Below == compareTo.Below) ||
-			(Above && Above == compareTo.Above) || 
-			(Right && Right == compareTo.Right) ||
-			(Left && Left == compareTo.Left) || 
-			(Forward && Forward == compareTo.Forward) ||
-			(Back && Back == compareTo.Back);
-	}
-	
-	public bool Equals(CollisionFlags compareTo)
-	{
-		return Below == compareTo.Below && Above == compareTo.Above &&
-			Right == compareTo.Right && Left == compareTo.Left &&
-			Forward == compareTo.Forward && Back == compareTo.Back;
-	}
-    public override string ToString()
-    {
-        return $"(Below: {Below}, Above: {Above}, Right: {Right}, Left: {Left}, Forward: {Forward}, Back: {Back})";
-    }
-}
-

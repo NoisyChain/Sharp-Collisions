@@ -6,18 +6,18 @@ namespace SharpCollisions.Sharp3D.GJK
 {
     public partial class GJK3D
     {
-		private bool AllowDraw = false;
         public const int MAX_GJK_ITERATIONS = 32;
 		public const int MAX_EPA_ITERATIONS = 32;
 
 		private Simplex3D Simplex;
 		private Polytope3D Polytope;
+		bool useEPA;
 
-        public GJK3D(bool draw = false) 
+		public GJK3D(bool epa)
 		{
 			Simplex = new Simplex3D();
 			Polytope = new Polytope3D();
-			AllowDraw = draw; 
+			useEPA = epa;
 		}
 
         private SupportPoint3D SupportFunction(SharpCollider3D colliderA, SharpCollider3D colliderB, FixVector3 direction)
@@ -58,6 +58,18 @@ namespace SharpCollisions.Sharp3D.GJK
 				{
 					EPA(Simplex, colliderA, colliderB, out Normal, out Fix64 newDepth, out ContactPoint);
 					Depth = Normal * newDepth;
+
+					/*if (useEPA)
+					{
+						EPA(Simplex, colliderA, colliderB, out Normal, out Fix64 newDepth, out ContactPoint);
+						Depth = Normal * newDepth;
+					}
+					else
+					{
+						Normal = FixVector3.Zero;
+						Depth = FixVector3.Zero;
+						ContactPoint = FixVector3.Zero;
+					}*/
 					return true;
 				}
 			}
@@ -318,7 +330,6 @@ namespace SharpCollisions.Sharp3D.GJK
 
 				if (dist - fDistance < Fix64.Epsilon)
 				{
-					DrawPolytope(Polytope);
 					Normal = FixVector3.Normalize(fNormal);
 					Depth = Fix64.Abs(fDistance) + Fix64.Epsilon;
 					Contact = GetContactPoint(Polytope, Normal);
@@ -363,23 +374,6 @@ namespace SharpCollisions.Sharp3D.GJK
 										(barCoord.z * polytope.Vertices[polytope.GetClosestFace().c].pointB);
 
 			return (contactPointA + contactPointB) / Fix64.Two;
-		}
-
-		private void DrawPolytope(Polytope3D polytope)
-		{
-			if (!AllowDraw) return;
-
-			DebugDraw3D.DrawSphere(Vector3.Zero, 0.03f, new Color(0f, 0f, 0f));
-			
-			for (int i = 0; i < polytope.Faces.Count; i++)
-			{
-				Vector3 a = (Vector3)polytope.Vertices[polytope.Faces[i].a].Point();
-				Vector3 b = (Vector3)polytope.Vertices[polytope.Faces[i].b].Point();
-				Vector3 c = (Vector3)polytope.Vertices[polytope.Faces[i].c].Point();
-				DebugDraw3D.DrawLine(a, b);
-				DebugDraw3D.DrawLine(b, c);
-				DebugDraw3D.DrawLine(c, a);
-			}
 		}
     }
 }

@@ -30,7 +30,7 @@ namespace SharpCollisions.Sharp3D
 				return SphereToCapsuleCollision(this, other as CapsuleCollider3D, out Normal, out Depth, out ContactPoint);
 			else if (other.Shape == CollisionType3D.Polygon)
             {
-                PolygonCollider3D pol = other as PolygonCollider3D;
+                ConvexShapeCollider3D pol = other as ConvexShapeCollider3D;
                 return pol.GJK.PolygonCollision(this, other, out Normal, out Depth, out ContactPoint);
             }
             return false;
@@ -100,8 +100,9 @@ namespace SharpCollisions.Sharp3D
 			Depth = FixVector3.Zero;
 			ContactPoint = FixVector3.Zero;
 
-			Fix64 distance = FixVector3.Distance(colliderA.Center, colliderB.Center);
-			Fix64 radii = colliderA.Radius + colliderB.Radius;
+            Fix64 radii = colliderA.Radius + colliderB.Radius;
+            Fix64 radiiSq = radii * radii;
+            Fix64 distance = FixVector3.Distance(colliderA.Center, colliderB.Center);
 			
 			bool collision = distance <= radii;
 			
@@ -125,6 +126,7 @@ namespace SharpCollisions.Sharp3D
 			LineToPointDistance(colliderB.UpperPoint, colliderB.LowerPoint, colliderA.Center, out FixVector3 CapsulePoint);
 
 			Fix64 radii = colliderA.Radius + colliderB.Radius;
+            Fix64 radiiSq = radii * radii;
 			Fix64 distance = FixVector3.Distance(CapsulePoint, colliderA.Center);
 			
 			bool collision = distance <= radii;

@@ -40,7 +40,7 @@ namespace SharpCollisions.Sharp3D
                 return CapsuleToCapsuleCollision(this, other as CapsuleCollider3D, out Normal, out Depth, out ContactPoint);
             else if (other.Shape == CollisionType3D.Polygon)
             {
-                PolygonCollider3D pol = other as PolygonCollider3D;
+                ConvexShapeCollider3D pol = other as ConvexShapeCollider3D;
                 return pol.GJK.PolygonCollision(this, other, out Normal, out Depth, out ContactPoint);
             }
             return false;
@@ -176,6 +176,7 @@ namespace SharpCollisions.Sharp3D
             LineToLineDistance(colliderA.UpperPoint, colliderA.LowerPoint, colliderB.UpperPoint, colliderB.LowerPoint, out FixVector3 r1, out FixVector3 r2);
 
             Fix64 radii = colliderA.Radius + colliderB.Radius;
+            Fix64 radiiSq = radii * radii;
             Fix64 distance = FixVector3.Distance(r1, r2);
 
             bool collision = distance <= radii;
@@ -204,6 +205,7 @@ namespace SharpCollisions.Sharp3D
             LineToPointDistance(colliderA.UpperPoint, colliderA.LowerPoint, colliderB.Center, out FixVector3 CapsulePoint);
 
             Fix64 radii = colliderA.Radius + colliderB.Radius;
+            Fix64 radiiSq = radii * radii;
             Fix64 distance = FixVector3.Distance(CapsulePoint, colliderB.Center);
 
             bool collision = distance <= radii;
@@ -227,46 +229,6 @@ namespace SharpCollisions.Sharp3D
 
         public FixVector3 CapsuleContactPoint(FixVector3 upperA, FixVector3 lowerA, FixVector3 upperB, FixVector3 lowerB, Fix64 radiusA, Fix64 radiusB, FixVector3 direction)
         {
-            /*
-            FixVector3 contact1 = FixVector3.Zero;
-            FixVector3 contact2 = FixVector3.Zero;
-
-            Fix64 minDistSq = Fix64.MaxValue;
-
-            LineToLineDistance(upperA, lowerA, upperB, lowerB, out FixVector3 r1, out FixVector3 r2);
-            Fix64 distSq = FixVector3.DistanceSq(r2, r1);
-
-            if (Fix64.Approximate(distSq, minDistSq))
-            {
-                if (!FixVector3.Approximate(r1, contact1))
-                {
-                    contact2 = r1;
-                }
-            }
-            else if (distSq < minDistSq)
-            {
-                minDistSq = distSq;
-                contact1 = r1;
-            }
-
-            LineToLineDistance(lowerA, upperA, upperB, lowerB, out FixVector3 r3, out FixVector3 r4);
-            distSq = FixVector3.DistanceSq(r2, r1);
-
-            if (Fix64.Approximate(distSq, minDistSq))
-            {
-                if (!FixVector3.Approximate(r1, contact1))
-                {
-                    contact2 = r1;
-                }
-            }
-            else if (distSq < minDistSq)
-            {
-                contact1 = r1;
-            }
-
-            return SphereContactPoint(contact1, radiusA, contact2, radiusB, direction);
-            */
-
             LineToPointDistance(upperB, lowerB, upperA, out FixVector3 r1);
             LineToPointDistance(upperB, lowerB, lowerA, out FixVector3 r3);
             LineToPointDistance(upperA, lowerA, upperB, out FixVector3 r2);

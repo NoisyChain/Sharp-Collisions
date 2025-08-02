@@ -11,20 +11,31 @@ namespace SharpCollisions.Sharp2D
 		public FixVector2 LinearVelocity;
 		public Fix64 AngularVelocity;
 
+		[Export] public int Priority = 0;
 		[Export] private SharpCollider2D[] Colliders;
+		[Export] private SharpBody2D[] Attachments;
+		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
+		public int BodyMode = 0;
+		[Export(PropertyHint.Layers2DPhysics)]
+		public int CollisionLayers = 1;
+		[Export(PropertyHint.Layers2DPhysics)]
+		public int CollisionMask = 1;
+		
+		private SharpBody2D AttachedTo;
 		private List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
 		private List<(uint, int)> CollidedWith = new List<(uint, int)>();
 		private List<uint> BodiesToIgnore = new List<uint>();
 		public FixRect BoundingBox = new FixRect();
 
-		[Export(PropertyHint.Enum, "Dynamic,Kinematic,Static")]
-		public int BodyMode = 0;
-		
+		public void SetAttachment(SharpBody2D parent) { AttachedTo = parent; }
+		public bool HasAttachments() => Attachments != null && Attachments.Length > 0;
+		public bool IsAttached() => AttachedTo != null;
+
 		public SharpCollider2D[] GetColliders() => Colliders;
 		public SharpCollider2D GetCollider(int index) => Colliders[index];
 
 		private bool collidersRequireUpdate;
-		
+
 		/*public SharpBody2D() {}
 		
 		public SharpBody2D(FixVector2 origin, FixVector2 offset, FixVector2 size, 
@@ -51,11 +62,22 @@ namespace SharpCollisions.Sharp2D
 			SharpManager.Instance.AddBody(this);
 
 			if (HasColliders())
-				foreach(SharpCollider2D col in Colliders)
+				foreach (SharpCollider2D col in Colliders)
 					col.Initialize();
-			
+
 			collidersRequireUpdate = true;
 			UpdateColliders();
+			
+			if (HasAttachments())
+			{
+				foreach (SharpBody2D child in Attachments)
+				{
+					child.SetAttachment(this);
+					child._Instance();
+				}
+
+				UpdateAttachments();
+			}
 		}
 
 		public override void _Process(double delta)
@@ -187,6 +209,7 @@ namespace SharpCollisions.Sharp2D
 		public void SetLinearVelocity(FixVector2 newVelocity)
 		{
 			if (BodyMode == 2) return;
+			if (IsAttached()) return;
 			
 			LinearVelocity = newVelocity;
 		}
@@ -194,6 +217,7 @@ namespace SharpCollisions.Sharp2D
 		public void SetAngularVelocity(Fix64 newVelocity)
 		{
 			if (BodyMode == 2) return;
+			if (IsAttached()) return;
 			
 			AngularVelocity = newVelocity;
 		}
@@ -201,33 +225,31 @@ namespace SharpCollisions.Sharp2D
 		public void SetAngularVelocityDegrees(Fix64 newVelocity)
 		{
 			if (BodyMode == 2) return;
+			if (IsAttached()) return;
 			
-			AngularVelocity = newVelocity * Fix64.DegToRad;
+			SetAngularVelocity(newVelocity * Fix64.DegToRad);
 		}
 		
 		public void Move()
 		{
-			//if (BodyMode == 2) return;
 			if (FixVector2.Length(LinearVelocity) == Fix64.Zero) return;
 
 			FixedPosition += LinearVelocity * SharpTime.SubDelta;
 			collidersRequireUpdate = true;
-			//UpdateColliders();
 		}
 
 		public void Rotate()
 		{
-			//if (BodyMode == 2) return;
 			if (AngularVelocity == Fix64.Zero) return;
 
 			FixedRotation += AngularVelocity * SharpTime.SubDelta;
 			collidersRequireUpdate = true;
-			//UpdateColliders();
 		}
 
 		public void UpdateBody()
 		{
 			if (BodyMode == 2) return;
+			if (IsAttached()) return;
 
 			Rotate();
 			Move();
@@ -251,6 +273,7 @@ namespace SharpCollisions.Sharp2D
 		public void PushAway(FixVector2 direction)
 		{
 			if (BodyMode == 2) return;
+			if (IsAttached()) return;
 
 			FixedPosition += direction;
 			collidersRequireUpdate = true;
@@ -266,6 +289,17 @@ namespace SharpCollisions.Sharp2D
 			UpdateColliders();
 		}
 		
+		public void UpdateAttachments()
+		{
+			if (!HasAttachments()) return;
+
+			foreach (SharpBody2D child in Attachments)
+			{
+				child.SetRotation(FixedRotation);
+				child.MoveTo(FixedPosition);
+			}
+		}
+		
 		public void UpdateColliders()
 		{
 			if (!HasColliders())
@@ -276,13 +310,14 @@ namespace SharpCollisions.Sharp2D
 
 			if (!collidersRequireUpdate) return;
 
-			foreach(SharpCollider2D col in Colliders)
+			foreach (SharpCollider2D col in Colliders)
 			{
 				col.Position = FixedPosition;
 				col.UpdatePoints(FixedPosition, FixedRotation);
 				col.UpdateBoundingBox();
 			}
 
+			UpdateAttachments();
 			UpdateBoundingBox();
 			collidersRequireUpdate = false;
 		}

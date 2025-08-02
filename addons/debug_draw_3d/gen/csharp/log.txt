@@ -176,6 +176,8 @@ Hold Shift to print information on the Output panel when manually starting gener
       is_hd_sphere
       set_plane_size
       get_plane_size
+      set_transform
+      get_transform
       set_viewport
       get_viewport
       set_no_depth_test

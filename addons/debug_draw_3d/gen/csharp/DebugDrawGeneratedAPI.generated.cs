@@ -1,4 +1,4 @@
-/// 1.5.0
+/// 1.5.1
 /// ////////////////////////////////////////////////
 /// THIS FILE HAS BEEN GENERATED.
 /// THE CHANGES IN THIS FILE WILL BE OVERWRITTEN
@@ -67,7 +67,7 @@ static internal class DebugDraw2D
         }
     }
     
-    public static void SetText(string key, Variant? value = null, int priority = 0, Color? color_of_value = null, float duration = -1f)
+    public static void SetText(string key, Variant? value = null, int priority = 0, Color? color_of_value = null, float duration = -1.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -320,7 +320,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawSphere(Vector3 position, float radius = 0.5f, Color? color = null, float duration = 0f)
+    public static void DrawSphere(Vector3 position, float radius = 0.5f, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -332,7 +332,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawSphereXf(Transform3D transform, Color? color = null, float duration = 0f)
+    public static void DrawSphereXf(Transform3D transform, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -344,7 +344,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawCylinder(Transform3D transform, Color? color = null, float duration = 0f)
+    public static void DrawCylinder(Transform3D transform, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -356,7 +356,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawCylinderAb(Vector3 a, Vector3 b, float radius = 0.5f, Color? color = null, float duration = 0f)
+    public static void DrawCylinderAb(Vector3 a, Vector3 b, float radius = 0.5f, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -368,7 +368,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawBox(Vector3 position, Quaternion rotation, Vector3 size, Color? color = null, bool is_box_centered = false, float duration = 0f)
+    public static void DrawBox(Vector3 position, Quaternion rotation, Vector3 size, Color? color = null, bool is_box_centered = false, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -380,7 +380,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawBoxAb(Vector3 a, Vector3 b, Vector3? up = null, Color? color = null, bool is_ab_diagonal = true, float duration = 0f)
+    public static void DrawBoxAb(Vector3 a, Vector3 b, Vector3? up = null, Color? color = null, bool is_ab_diagonal = true, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -392,7 +392,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawBoxXf(Transform3D transform, Color? color = null, bool is_box_centered = true, float duration = 0f)
+    public static void DrawBoxXf(Transform3D transform, Color? color = null, bool is_box_centered = true, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -404,7 +404,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawAabb(Aabb aabb, Color? color = null, float duration = 0f)
+    public static void DrawAabb(Aabb aabb, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -416,7 +416,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawAabbAb(Vector3 a, Vector3 b, Color? color = null, float duration = 0f)
+    public static void DrawAabbAb(Vector3 a, Vector3 b, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -428,7 +428,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawLineHit(Vector3 start, Vector3 end, Vector3 hit, bool is_hit, float hit_size = 0.25f, Color? hit_color = null, Color? after_hit_color = null, float duration = 0f)
+    public static void DrawLineHit(Vector3 start, Vector3 end, Vector3 hit, bool is_hit, float hit_size = 0.25f, Color? hit_color = null, Color? after_hit_color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -440,7 +440,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawLineHitOffset(Vector3 start, Vector3 end, bool is_hit, float unit_offset_of_hit = 0.5f, float hit_size = 0.25f, Color? hit_color = null, Color? after_hit_color = null, float duration = 0f)
+    public static void DrawLineHitOffset(Vector3 start, Vector3 end, bool is_hit, float unit_offset_of_hit = 0.5f, float hit_size = 0.25f, Color? hit_color = null, Color? after_hit_color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -452,7 +452,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawLine(Vector3 a, Vector3 b, Color? color = null, float duration = 0f)
+    public static void DrawLine(Vector3 a, Vector3 b, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -464,7 +464,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawLines(Vector3[] lines, Color? color = null, float duration = 0f)
+    public static void DrawLines(Vector3[] lines, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -476,7 +476,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawRay(Vector3 origin, Vector3 direction, float length, Color? color = null, float duration = 0f)
+    public static void DrawRay(Vector3 origin, Vector3 direction, float length, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -488,7 +488,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawLinePath(Vector3[] path, Color? color = null, float duration = 0f)
+    public static void DrawLinePath(Vector3[] path, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -500,7 +500,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawArrowhead(Transform3D transform, Color? color = null, float duration = 0f)
+    public static void DrawArrowhead(Transform3D transform, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -512,7 +512,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawArrow(Vector3 a, Vector3 b, Color? color = null, float arrow_size = 0.5f, bool is_absolute_size = false, float duration = 0f)
+    public static void DrawArrow(Vector3 a, Vector3 b, Color? color = null, float arrow_size = 0.5f, bool is_absolute_size = false, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -524,7 +524,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawArrowRay(Vector3 origin, Vector3 direction, float length, Color? color = null, float arrow_size = 0.5f, bool is_absolute_size = false, float duration = 0f)
+    public static void DrawArrowRay(Vector3 origin, Vector3 direction, float length, Color? color = null, float arrow_size = 0.5f, bool is_absolute_size = false, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -536,7 +536,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawArrowPath(Vector3[] path, Color? color = null, float arrow_size = 0.75f, bool is_absolute_size = true, float duration = 0f)
+    public static void DrawArrowPath(Vector3[] path, Color? color = null, float arrow_size = 0.75f, bool is_absolute_size = true, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -548,7 +548,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawPointPath(Vector3[] path, DebugDraw3D.PointType type = (DebugDraw3D.PointType)0, float size = 0.25f, Color? points_color = null, Color? lines_color = null, float duration = 0f)
+    public static void DrawPointPath(Vector3[] path, DebugDraw3D.PointType type = (DebugDraw3D.PointType)0, float size = 0.25f, Color? points_color = null, Color? lines_color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -560,7 +560,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawSquare(Vector3 position, float size = 0.20000000298023f, Color? color = null, float duration = 0f)
+    public static void DrawSquare(Vector3 position, float size = 0.20000000298023f, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -572,7 +572,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawPlane(Plane plane, Color? color = null, Vector3? anchor_point = null, float duration = 0f)
+    public static void DrawPlane(Plane plane, Color? color = null, Vector3? anchor_point = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -584,7 +584,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawPoints(Vector3[] points, DebugDraw3D.PointType type = (DebugDraw3D.PointType)0, float size = 0.20000000298023f, Color? color = null, float duration = 0f)
+    public static void DrawPoints(Vector3[] points, DebugDraw3D.PointType type = (DebugDraw3D.PointType)0, float size = 0.20000000298023f, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -596,7 +596,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawCameraFrustum(Camera3D camera, Color? color = null, float duration = 0f)
+    public static void DrawCameraFrustum(Camera3D camera, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -608,7 +608,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawCameraFrustumPlanes(Godot.Collections.Array camera_frustum, Color? color = null, float duration = 0f)
+    public static void DrawCameraFrustumPlanes(Godot.Collections.Array camera_frustum, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -620,7 +620,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawPosition(Transform3D transform, Color? color = null, float duration = 0f)
+    public static void DrawPosition(Transform3D transform, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -632,7 +632,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawGizmo(Transform3D transform, Color? color = null, bool is_centered = false, float duration = 0f)
+    public static void DrawGizmo(Transform3D transform, Color? color = null, bool is_centered = false, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -644,7 +644,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawGrid(Vector3 origin, Vector3 x_size, Vector3 y_size, Vector2I subdivision, Color? color = null, bool is_centered = true, float duration = 0f)
+    public static void DrawGrid(Vector3 origin, Vector3 x_size, Vector3 y_size, Vector2I subdivision, Color? color = null, bool is_centered = true, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -656,7 +656,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawGridXf(Transform3D transform, Vector2I subdivision, Color? color = null, bool is_centered = true, float duration = 0f)
+    public static void DrawGridXf(Transform3D transform, Vector2I subdivision, Color? color = null, bool is_centered = true, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -668,7 +668,7 @@ static internal class DebugDraw3D
         }
     }
     
-    public static void DrawText(Vector3 position, string text, int size = 32, Color? color = null, float duration = 0f)
+    public static void DrawText(Vector3 position, string text, int size = 32, Color? color = null, float duration = 0.0f)
     {
 #if !DEBUG && !FORCED_DD3D
         if (_DebugDrawUtils_.IsCallEnabled)
@@ -679,7 +679,7 @@ static internal class DebugDraw3D
 #endif
         }
     }
-
+//--------------------------Custom Functions-----------------------------------
     public static void DrawSimpleSphere(Vector3 origin, Vector3 X, Vector3 Y, Vector3 Z, 
                                         float radius = 0.5f, Color? color = null, float duration = 0f)
     {
@@ -780,9 +780,8 @@ static internal class DebugDraw3D
         DrawLine(pointAAB, pointAB, color, duration);
         DrawLine(pointAB, pointABB, color, duration);
         DrawLine(pointABB, pointB, color, duration);
-        //DrawLine(pointAAB, pointAB, color, duration);
     }
-    
+//--------------------------------------------------------------------------
     public static DebugDraw3DStats GetRenderStats()
     {
 #if !DEBUG && !FORCED_DD3D
@@ -1143,6 +1142,8 @@ internal class DebugDraw3DScopeConfig : _DebugDrawInstanceWrapper_, IDisposable
     private static readonly StringName __is_hd_sphere = "is_hd_sphere";
     private static readonly StringName __set_plane_size = "set_plane_size";
     private static readonly StringName __get_plane_size = "get_plane_size";
+    private static readonly StringName __set_transform = "set_transform";
+    private static readonly StringName __get_transform = "get_transform";
     private static readonly StringName __set_viewport = "set_viewport";
     private static readonly StringName __get_viewport = "get_viewport";
     private static readonly StringName __set_no_depth_test = "set_no_depth_test";
@@ -1310,6 +1311,46 @@ internal class DebugDraw3DScopeConfig : _DebugDrawInstanceWrapper_, IDisposable
         {
 #if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
             return (float)(Instance?.Call(__get_plane_size));
+#endif
+        }
+#if !DEBUG && !FORCED_DD3D
+        else
+#endif
+        {
+#if !DEBUG && !FORCED_DD3D
+            return default;
+#endif
+        }
+    }
+    
+    public DebugDraw3DScopeConfig SetTransform(Transform3D value)
+    {
+#if !DEBUG && !FORCED_DD3D
+        if (_DebugDrawUtils_.IsCallEnabled)
+#endif
+        {
+#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
+            return (DebugDraw3DScopeConfig)_DebugDrawUtils_.CreateWrapperFromObject((GodotObject)Instance?.Call(__set_transform, value));
+#endif
+        }
+#if !DEBUG && !FORCED_DD3D
+        else
+#endif
+        {
+#if !DEBUG && !FORCED_DD3D
+            return default;
+#endif
+        }
+    }
+    
+    public Transform3D GetTransform()
+    {
+#if !DEBUG && !FORCED_DD3D
+        if (_DebugDrawUtils_.IsCallEnabled)
+#endif
+        {
+#if (!DEBUG || FORCED_DD3D) || (DEBUG && !FORCED_DD3D)
+            return (Transform3D)(Instance?.Call(__get_transform));
 #endif
         }
 #if !DEBUG && !FORCED_DD3D
@@ -1600,10 +1641,10 @@ internal static class _DebugDrawUtils_
     
     public static class DefaultArgumentsData
     {
-        public static readonly Color arg_0 = new Color(0.95999997854233f, 0.95999997854233f, 0.95999997854233f, 1f);
+        public static readonly Color arg_0 = new Color(0.95999997854233f, 0.95999997854233f, 0.95999997854233f, 1.0f);
         public static readonly Variant arg_1 = default;
-        public static readonly Color arg_2 = new Color(0f, 0f, 0f, 0f);
-        public static readonly Vector3 arg_3 = new Vector3(0f, 1f, 0f);
+        public static readonly Color arg_2 = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+        public static readonly Vector3 arg_3 = new Vector3(0.0f, 1.0f, 0.0f);
         public static readonly Vector3 arg_4 = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
     }
     

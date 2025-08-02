@@ -21,6 +21,9 @@ namespace SharpCollisions
 		[Export] private Array<SharpNode> nodes;
 		[Export] private int TicksPerSecond = 60;
 		[Export] private int Substeps = 4;
+		//[Export] private bool UseSpacePartitioning = false;
+		[Export] private int AreaSize = 10;
+		[Export] private int MaxBodiesPerPartition = 4;
 		[Export] private float debugLineThickness = 0.025f;
 		[Export] private bool UseEngineSettings = false;
 		[Export] private bool RunOnDedicatedThread = false;
@@ -43,9 +46,8 @@ namespace SharpCollisions
 
 			SharpTime.Set(TicksPerSecond, Substeps);
 
-			world2D = new SharpWorld2D();
-			world3D = new SharpWorld3D();
-			//nodes = new List<SharpNode>();
+			world2D = new SharpWorld2D(AreaSize, MaxBodiesPerPartition);
+			world3D = new SharpWorld3D(AreaSize, MaxBodiesPerPartition);
 
 			foreach (SharpNode node in nodes)
 			{

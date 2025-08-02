@@ -5,17 +5,15 @@ namespace SharpCollisions.Sharp2D.GJK
 {
     public partial class GJK2D
     {
-        private bool AllowDraw = false;
 		public const int MAX_GJK_ITERATIONS = 32;
 		public const int MAX_EPA_ITERATIONS = 32;
 		private Simplex2D Simplex;
 		private Polytope2D Polytope;
 
-        public GJK2D(bool draw = false)
+        public GJK2D()
 		{
 			Simplex = new Simplex2D();
 			Polytope = new Polytope2D();
-			AllowDraw = draw;
 		}		
 		private SupportPoint2D SupportFunction(SharpCollider2D colliderA, SharpCollider2D colliderB, FixVector2 direction)
 		{
@@ -158,7 +156,6 @@ namespace SharpCollisions.Sharp2D.GJK
 					Polytope.Vertices.Insert(minIndex, support);
 				}
 			}
-			DrawPolytope(Polytope);
 			Normal = minNormal;
 			Depth = Fix64.Abs(minDistance) + Fix64.Epsilon;
 			Contact = GetContactPoint(colliderA, colliderB);
@@ -167,20 +164,20 @@ namespace SharpCollisions.Sharp2D.GJK
         public FixVector2 GetContactPoint(SharpCollider2D colliderA, SharpCollider2D colliderB)
 		{
 			if (colliderA.Shape == CollisionType2D.Circle && colliderB.Shape == CollisionType2D.Polygon)
-				return CirclePolygonContact(colliderA as CircleCollider2D, colliderB as PolygonCollider2D);
+				return CirclePolygonContact(colliderA as CircleCollider2D, colliderB as ConvexShapeCollider2D);
 			else if (colliderA.Shape == CollisionType2D.Polygon && colliderB.Shape == CollisionType2D.Circle)
-				return CirclePolygonContact(colliderB as CircleCollider2D, colliderA as PolygonCollider2D);
+				return CirclePolygonContact(colliderB as CircleCollider2D, colliderA as ConvexShapeCollider2D);
 			if (colliderA.Shape == CollisionType2D.Capsule && colliderB.Shape == CollisionType2D.Polygon)
-				return CapsulePolygonContact(colliderA as CapsuleCollider2D, colliderB as PolygonCollider2D);
+				return CapsulePolygonContact(colliderA as CapsuleCollider2D, colliderB as ConvexShapeCollider2D);
 			else if (colliderA.Shape == CollisionType2D.Polygon && colliderB.Shape == CollisionType2D.Capsule)
-				return CapsulePolygonContact(colliderB as CapsuleCollider2D, colliderA as PolygonCollider2D);
+				return CapsulePolygonContact(colliderB as CapsuleCollider2D, colliderA as ConvexShapeCollider2D);
 			else if (colliderA.Shape == CollisionType2D.Polygon && colliderB.Shape == CollisionType2D.Polygon)
-				return PolygonContact(colliderA as PolygonCollider2D, colliderB as PolygonCollider2D);
+				return PolygonContact(colliderA as ConvexShapeCollider2D, colliderB as ConvexShapeCollider2D);
 			
 			return FixVector2.Zero;
 		}
 
-		public FixVector2 CirclePolygonContact(CircleCollider2D colliderA, PolygonCollider2D colliderB)
+		public FixVector2 CirclePolygonContact(CircleCollider2D colliderA, ConvexShapeCollider2D colliderB)
 		{
 			FixVector2 contact = FixVector2.Zero;
             Fix64 minDistSq = Fix64.MaxValue;
@@ -203,7 +200,7 @@ namespace SharpCollisions.Sharp2D.GJK
 			return contact;
 		}
 
-		public FixVector2 CapsulePolygonContact(CapsuleCollider2D colliderA, PolygonCollider2D colliderB)
+		public FixVector2 CapsulePolygonContact(CapsuleCollider2D colliderA, ConvexShapeCollider2D colliderB)
 		{
 			FixVector2 contact1 = FixVector2.Zero;
             FixVector2 contact2 = FixVector2.Zero;
@@ -254,7 +251,7 @@ namespace SharpCollisions.Sharp2D.GJK
 				return (contact1 + contact2) / Fix64.Two;
 		}
 
-		public FixVector2 PolygonContact(PolygonCollider2D colliderA, PolygonCollider2D colliderB)
+		public FixVector2 PolygonContact(ConvexShapeCollider2D colliderA, ConvexShapeCollider2D colliderB)
 		{
 			FixVector2 contact1 = FixVector2.Zero;
             FixVector2 contact2 = FixVector2.Zero;
@@ -321,19 +318,6 @@ namespace SharpCollisions.Sharp2D.GJK
 				return contact1;
 			else
 				return (contact1 + contact2) / Fix64.Two;
-		}
-
-		private void DrawPolytope(Polytope2D polytope)
-		{
-			if (!AllowDraw) return;
-			DebugDraw3D.DrawSphere(Vector3.Zero, 0.03f, new Color(0f, 0f, 0f));
-			
-			for (int i = 0; i < polytope.Vertices.Count; i++)
-			{
-				Vector3 a = (Vector3)polytope.Vertices[i].Point();
-				Vector3 b = (Vector3)polytope.Vertices[(i + 1) % polytope.Vertices.Count].Point();
-				DebugDraw3D.DrawLine(a, b);
-			}
 		}
     }
 }

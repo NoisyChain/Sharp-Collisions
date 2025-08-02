@@ -13,7 +13,7 @@ namespace SharpCollisions.Sharp2D
         [Export] private bool KeepVelocityOnSlopes = true;
         [Export] private bool KeepSlopeVelocityOnJump = true;
         [Export] private bool StopAirVelocityOnCeiling = true;
-        [Export(PropertyHint.Flags, "Layer1, Layer2, Layer3, Layer4, Layer5, Layer6, Layer7, Layer8")]
+        [Export(PropertyHint.Layers2DPhysics)]
 		public int FloorLayers = 1;
 
         public FixVector2 GroundNormal => GetGround().Normal;
@@ -224,7 +224,7 @@ namespace SharpCollisions.Sharp2D
 
         public bool IsValidFloor()
         {
-            return ((FloorLayers & GetGround().CollidedWith.GetCollider(0).CollisionLayers) & SharpWorld2D.mask) != 0;
+            return ((FloorLayers & GetGround().CollidedWith.CollisionLayers) & SharpWorld2D.mask) != 0;
         }
 
         public bool IsWalkableSlope(Fix64 angle)
@@ -242,7 +242,7 @@ namespace SharpCollisions.Sharp2D
         public override void OnBeginOverlap(CollisionManifold2D collision)
         {
             base.OnBeginOverlap(collision);
-            GD.Print(collision.CollidedWith.GetBodyID());
+            GD.Print($"Collision in! :: {collision.CollidedWith.GetBodyID()}");
         }
 
         public override void OnOverlap(CollisionManifold2D collision)
@@ -254,7 +254,7 @@ namespace SharpCollisions.Sharp2D
         public override void OnEndOverlap(CollisionManifold2D collision)
         {
             base.OnEndOverlap(collision);
-            GD.Print(collision.CollidedWith.GetBodyID());
+            GD.Print($"Collision out! :: {collision.CollidedWith.GetBodyID()}");
         }
     }
 }

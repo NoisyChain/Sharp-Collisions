@@ -21,6 +21,7 @@ config/icon="res://icon.svg"
 
 settings/3d/volumetric_defaults/thickness=0.012
 settings/3d/rendering/render_priority=1
+settings/addon_root_folder="res://addons/debug_draw_3d"
 
 [display]
 

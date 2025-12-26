@@ -14,7 +14,7 @@ config/name="Sharp Collisions 4"
 config/description="C# deterministic collision system"
 config/tags=PackedStringArray("experiment", "high_priority", "library")
 run/main_scene="res://Scenes/Menu.tscn"
-config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
+config/features=PackedStringArray("4.5", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [debug_draw_3d]

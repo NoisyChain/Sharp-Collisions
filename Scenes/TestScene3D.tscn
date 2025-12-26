@@ -73,7 +73,7 @@ Faces = []
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Box"]
-transform = Transform3D(0.436335, 0.630238, -0.642171, -0.841636, 0.538248, -0.0436191, 0.318159, 0.55951, 0.76531, 1.8, 3, 0.1)
+transform = Transform3D(0.43633524, 0.6302378, -0.64217114, -0.8416356, 0.53824764, -0.04361907, 0.31815946, 0.5595099, 0.7653098, 1.8, 3, 0.1)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Box/Viewer"]
 mesh = SubResource("12")
@@ -144,7 +144,7 @@ rotationOffset = Vector3i(0, 0, 900)
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Capsule"]
-transform = Transform3D(-4.37096e-08, -0.99998, 0, 0.999959, -4.37105e-08, 0, 0, 0, 0.999862, 2, 1, 3)
+transform = Transform3D(-4.3709594e-08, -0.99998, 0, 0.999959, -4.3710514e-08, 0, 0, 0, 0.999862, 2, 1, 3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Capsule/Viewer"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)

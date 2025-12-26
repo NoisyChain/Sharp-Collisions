@@ -8,8 +8,8 @@ namespace SharpCollisions.Sharp2D
 	{
 		[Export] public bool Active = true;
 		[Export] public bool isTrigger = false;
-		[Export] protected Vector2I positionOffset;
-		[Export] protected int rotationOffset;
+		[Export] protected Vector2I startingPositionOffset;
+		[Export] protected int startingRotationOffset;
 		[Export] protected bool DrawDebug;
 		[Export] public Color debugColor = new Color(0, 0, 1);
 		[Export] public Color selectedColor = new Color(1, 0.6f, 0.1f);
@@ -39,10 +39,10 @@ namespace SharpCollisions.Sharp2D
 		public virtual void Initialize()
 		{
 			PositionOffset = new FixVector2(
-				(Fix64)positionOffset.X  / SharpNode.NodeScale,
-				(Fix64)positionOffset.Y  / SharpNode.NodeScale
+				(Fix64)startingPositionOffset.X  / SharpNode.NodeScale,
+				(Fix64)startingPositionOffset.Y  / SharpNode.NodeScale
 			);
-			RotationOffset = (Fix64)rotationOffset / SharpNode.NodeRotation;
+			RotationOffset = (Fix64)startingRotationOffset / SharpNode.NodeRotation;
 			RotationOffset *= Fix64.DegToRad;
 		}
 
@@ -74,23 +74,6 @@ namespace SharpCollisions.Sharp2D
 			Depth = FixVector2.Zero;
 			ContactPoint = FixVector2.Zero;
 
-			/*if (colliderA.Shape == CollisionType2D.AABB && colliderB.Shape == CollisionType2D.AABB)
-                return AABBtoAABBCollision(colliderA as AABBCollider2D, colliderB as AABBCollider2D, out Normal, out Depth, out ContactPoint);
-			else if (colliderA.Shape == CollisionType2D.Circle && colliderB.Shape == CollisionType2D.Circle)
-                return CircleToCircleCollision(colliderA as CircleCollider2D, colliderB as CircleCollider2D, out Normal, out Depth, out ContactPoint);
-            else if (colliderA.Shape == CollisionType2D.Capsule && colliderB.Shape == CollisionType2D.Capsule)
-                return CapsuleToCapsuleCollision(colliderA as CapsuleCollider2D, colliderB as CapsuleCollider2D, out Normal, out Depth, out ContactPoint);
-			else if (colliderA.Shape == CollisionType2D.Circle && colliderB.Shape == CollisionType2D.Capsule)
-				return CircleToCapsuleCollision(colliderA as CircleCollider2D, colliderB as CapsuleCollider2D, out Normal, out Depth, out ContactPoint);
-			else if (colliderA.Shape == CollisionType2D.Capsule && colliderB.Shape == CollisionType2D.Circle)
-				return CapsuleToCircleCollision(colliderA as CapsuleCollider2D, colliderB as CircleCollider2D, out Normal, out Depth, out ContactPoint);
-			else if (colliderA.Shape == CollisionType2D.Polygon && colliderB.Shape == CollisionType2D.Polygon ||
-					colliderA.Shape == CollisionType2D.Polygon && colliderB.Shape == CollisionType2D.Circle ||
-                    colliderA.Shape == CollisionType2D.Circle && colliderB.Shape == CollisionType2D.Polygon ||
-					colliderA.Shape == CollisionType2D.Polygon && colliderB.Shape == CollisionType2D.Capsule ||
-                    colliderA.Shape == CollisionType2D.Capsule && colliderB.Shape == CollisionType2D.Polygon)
-                return GJKPolygonCollision(colliderA, colliderB, out Normal, out Depth, out ContactPoint);
-			*/
 			return false;
 		}
 

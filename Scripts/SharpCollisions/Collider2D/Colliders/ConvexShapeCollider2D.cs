@@ -12,7 +12,7 @@ namespace SharpCollisions.Sharp2D
         public FixVector2[] RawPoints;
 		public FixVector2[] Points;
 
-        [Export] private Array<Vector2I> vertices;
+        [Export] private Array<Vector2I> startingPoints;
 
         public override void Initialize()
         {
@@ -37,9 +37,9 @@ namespace SharpCollisions.Sharp2D
         {
             //If there is no enough vertices to create a 2D shape,
             //create a simple triangle as the default shape
-            if (vertices.Count < 3)
+            if (startingPoints.Count < 3)
             {
-                vertices = new Array<Vector2I>
+                startingPoints = new Array<Vector2I>
                 {
                     new Vector2I(-1, -1) * SharpNode.nodeScale,
                     new Vector2I(0, 1) * SharpNode.nodeScale,
@@ -47,12 +47,12 @@ namespace SharpCollisions.Sharp2D
                 };
                 GD.PushWarning("Polygon shape cannot be simpler than a triangle.");
             }
-            RawPoints = new FixVector2[vertices.Count];
+            RawPoints = new FixVector2[startingPoints.Count];
             for (int i = 0; i < RawPoints.Length; i++)
             {
                 RawPoints[i] = new FixVector2(
-                    (Fix64)vertices[i].X / SharpNode.NodeScale,
-                    (Fix64)vertices[i].Y / SharpNode.NodeScale
+                    (Fix64)startingPoints[i].X / SharpNode.NodeScale,
+                    (Fix64)startingPoints[i].Y / SharpNode.NodeScale
                 );
             }
             
@@ -84,20 +84,20 @@ namespace SharpCollisions.Sharp2D
         {
             if (!Active) return;
             if (!selected && !DrawDebug) return;
-            if (vertices == null || vertices.Count <= 0) return;
+            if (startingPoints == null || startingPoints.Count <= 0) return;
 
             Color finalColor = selected && DrawDebug ? selectedColor : debugColor;
 
-            Vector2 scaledPosOffset = (Vector2)positionOffset / SharpNode.nodeScale;
-            float scaledRotOffset = (float)rotationOffset / SharpNode.nodeRotation;
+            Vector2 scaledPosOffset = (Vector2)startingPositionOffset / SharpNode.nodeScale;
+            float scaledRotOffset = (float)startingRotationOffset / SharpNode.nodeRotation;
 
             Vector3 position = reference.GlobalPosition;
             float rotation = reference.GlobalRotation.Z;
 
-            for (int i = 0; i < vertices.Count; i++)
+            for (int i = 0; i < startingPoints.Count; i++)
             {
-                Vector2 start = (Vector2)vertices[i];
-                Vector2 end = (Vector2)vertices[(i + 1) % vertices.Count];
+                Vector2 start = (Vector2)startingPoints[i];
+                Vector2 end = (Vector2)startingPoints[(i + 1) % startingPoints.Count];
 
                 Vector2 rotPointA = SharpHelpers.Rotate2D(start / SharpNode.nodeScale, Mathf.DegToRad(scaledRotOffset));
                 Vector3 pointA = SharpHelpers.Transform2D3D(rotPointA + scaledPosOffset, position, rotation);

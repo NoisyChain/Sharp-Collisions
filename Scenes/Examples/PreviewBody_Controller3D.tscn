@@ -19,17 +19,18 @@ height = 0.6
 radial_segments = 16
 rings = 6
 
-[node name="Body" type="Node" node_paths=PackedStringArray("debug", "Colliders", "Renderer")]
+[node name="Body" type="Node" node_paths=PackedStringArray("debug", "Colliders", "Attachments", "Renderer")]
 script = ExtResource("3")
 debug = NodePath("Debug/DebugText")
 Colliders = [NodePath("Collider")]
+Attachments = []
 Renderer = NodePath("Graphics")
 
 [node name="Collider" type="Node" parent="."]
 script = ExtResource("2_bk3aq")
-radius = 300
-height = 600
-positionOffset = Vector3i(0, 600, 0)
+startingRadius = 300
+startingHeight = 600
+startingPositionOffset = Vector3i(0, 600, 0)
 DrawDebug = true
 
 [node name="Graphics" type="Node3D" parent="."]

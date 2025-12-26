@@ -14,14 +14,14 @@ namespace SharpCollisions.Sharp3D
         public FixVector3 UpperPoint;
         public FixVector3 LowerPoint;
 
-        [Export] protected int radius;
-        [Export] protected int height;
+        [Export] protected int startingRadius;
+        [Export] protected int startingHeight;
 
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)radius / SharpNode.NodeScale;
-            Height = (Fix64)height / SharpNode.NodeScale;
+            Radius = (Fix64)startingRadius / SharpNode.NodeScale;
+            Height = (Fix64)startingHeight / SharpNode.NodeScale;
             Shape = CollisionType3D.Capsule;
             CreateCapsulePoints();
         }
@@ -91,11 +91,11 @@ namespace SharpCollisions.Sharp3D
 
             Color finalColor = selected ? selectedColor : debugColor;
 
-            float scaledHeight = (float)height / SharpNode.nodeScale;
-            float scaledRadius = (float)radius / SharpNode.nodeScale;
+            float scaledHeight = (float)startingHeight / SharpNode.nodeScale;
+            float scaledRadius = (float)startingRadius / SharpNode.nodeScale;
 
-            Vector3 scaledPosOffset = (Vector3)positionOffset / SharpNode.nodeScale;
-            Vector3 scaledRotOffset = (Vector3)rotationOffset / SharpNode.nodeRotation;
+            Vector3 scaledPosOffset = (Vector3)startingPositionOffset / SharpNode.nodeScale;
+            Vector3 scaledRotOffset = (Vector3)startingRotationOffset / SharpNode.nodeRotation;
 
             Vector3 upPoint = scaledPosOffset + (Vector3.Up * (scaledHeight - scaledRadius));
             Vector3 lowPoint = scaledPosOffset - (Vector3.Up * (scaledHeight - scaledRadius));

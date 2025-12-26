@@ -9,14 +9,14 @@ namespace SharpCollisions.Sharp3D
     public partial class BoxCollider3D : ConvexShapeCollider3D
     {
         public FixVector3 Extents;
-        [Export] private Vector3I extents = Vector3I.One;
+        [Export] private Vector3I startingExtents = Vector3I.One;
 
         public override void Initialize()
         {
             Extents = new FixVector3(
-                (Fix64)extents.X / SharpNode.NodeScale,
-                (Fix64)extents.Y / SharpNode.NodeScale,
-                (Fix64)extents.Z / SharpNode.NodeScale
+                (Fix64)startingExtents.X / SharpNode.NodeScale,
+                (Fix64)startingExtents.Y / SharpNode.NodeScale,
+                (Fix64)startingExtents.Z / SharpNode.NodeScale
             );
             base.Initialize();
         }
@@ -58,13 +58,13 @@ namespace SharpCollisions.Sharp3D
 
             Color finalColor = selected ? selectedColor : debugColor;
 
-            Vector3 scaledPosOffset = (Vector3)positionOffset / SharpNode.nodeScale;
-            Vector3 scaledRotOffset = (Vector3)rotationOffset / SharpNode.nodeRotation;
+            Vector3 scaledPosOffset = (Vector3)startingPositionOffset / SharpNode.nodeScale;
+            Vector3 scaledRotOffset = (Vector3)startingRotationOffset / SharpNode.nodeRotation;
 
             Vector3 rotPos = SharpHelpers.RotateDeg3D(scaledPosOffset, scaledRotOffset);
             Vector3 newPos = SharpHelpers.Transform3D(rotPos, reference.GlobalPosition, reference.GlobalRotation);
 
-            DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler(reference.GlobalRotation + SharpHelpers.VectorDegToRad(scaledRotOffset)), ((Vector3)extents / SharpNode.nodeScale) * 2, finalColor, true);
+            DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler(reference.GlobalRotation + SharpHelpers.VectorDegToRad(scaledRotOffset)), ((Vector3)startingExtents / SharpNode.nodeScale) * 2, finalColor, true);
         }
 
         protected override void CreatePolygonPoints()

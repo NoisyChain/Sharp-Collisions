@@ -13,14 +13,14 @@ namespace SharpCollisions.Sharp3D
 		public FixVector3 UpperPoint;
 		public FixVector3 LowerPoint;
 
-        [Export] protected int radius;
-        [Export] protected int height;
+        [Export] protected int startingRadius;
+        [Export] protected int startingHeight;
 
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)radius / SharpNode.NodeScale;
-            Height = (Fix64)height / SharpNode.NodeScale;
+            Radius = (Fix64)startingRadius / SharpNode.NodeScale;
+            Height = (Fix64)startingHeight / SharpNode.NodeScale;
             Shape = CollisionType3D.Cylinder;
             CreateCylinderPoints();
         }

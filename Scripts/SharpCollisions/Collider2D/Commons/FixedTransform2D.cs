@@ -10,8 +10,15 @@ namespace SharpCollisions.Sharp2D
         [Export] protected Node3D Renderer;
         //[Export] private Node2D Renderer2D;
         
-        [Export] public Vector2I fixedPosition;
-        [Export] public int fixedRotation;
+        /// <summary>
+        /// Don't use this variable in the simulation, its only purpose is to inject its value to the actual position
+        /// </summary>
+        [Export] public Vector2I startingPosition;
+
+        /// <summary>
+        /// Don't use this variable in the simulation, its only purpose is to inject its value to the actual rotation
+        /// </summary>
+        [Export] public int startingRotation;
         public FixVector2 FixedPosition;
         public Fix64 FixedRotation;
 
@@ -25,10 +32,10 @@ namespace SharpCollisions.Sharp2D
             base._Instance();
 
             FixedPosition = new FixVector2(
-                (Fix64)fixedPosition.X / NodeScale,
-                (Fix64)fixedPosition.Y / NodeScale
+                (Fix64)startingPosition.X / NodeScale,
+                (Fix64)startingPosition.Y / NodeScale
             );
-            FixedRotation = (Fix64)fixedRotation / NodeRotation;
+            FixedRotation = (Fix64)startingRotation / NodeRotation;
             FixedRotation *= Fix64.DegToRad;
         }
 
@@ -55,11 +62,11 @@ namespace SharpCollisions.Sharp2D
             Renderer.Visible = Active;
 
 			Renderer.GlobalPosition = new Vector3(
-				fixedPosition.X / (float)nodeScale,
-				fixedPosition.Y / (float)nodeScale,
+				startingPosition.X / (float)nodeScale,
+				startingPosition.Y / (float)nodeScale,
 				0
 			);
-			Renderer.GlobalRotationDegrees = new Vector3(0,	0,	fixedRotation / (float)NodeRotation);
+			Renderer.GlobalRotationDegrees = new Vector3(0,	0,	startingRotation / (float)NodeRotation);
         }
 
         public static FixVector2 LocalToWorld(FixVector2 v)

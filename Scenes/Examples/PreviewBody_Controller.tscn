@@ -5,17 +5,18 @@
 [ext_resource type="Texture2D" uid="uid://bysbpvck7hqj3" path="res://icon.png" id="3"]
 [ext_resource type="Script" uid="uid://b3noxcpjbrexh" path="res://Scripts/SharpCollisions/Collider2D/Colliders/CapsuleCollider2D.cs" id="4"]
 
-[node name="Body" type="Node" node_paths=PackedStringArray("debug", "Colliders", "Renderer")]
+[node name="Body" type="Node" node_paths=PackedStringArray("debug", "Colliders", "Attachments", "Renderer")]
 script = ExtResource("2")
 debug = NodePath("Debug/DebugText")
 Colliders = [NodePath("Collider")]
+Attachments = []
 Renderer = NodePath("Graphics")
 
 [node name="Collider" type="Node" parent="."]
 script = ExtResource("4")
-radius = 300
-height = 600
-positionOffset = Vector2i(0, 600)
+startingRadius = 300
+startingHeight = 600
+startingPositionOffset = Vector2i(0, 600)
 DrawDebug = true
 
 [node name="Graphics" type="Node3D" parent="."]

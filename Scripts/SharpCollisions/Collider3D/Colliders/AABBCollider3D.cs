@@ -8,15 +8,15 @@ namespace SharpCollisions.Sharp3D
     {
         public FixVector3 Extents;
 
-        [Export] private Vector3I extents = Vector3I.One;
+        [Export] private Vector3I startingExtents = Vector3I.One;
 
         public override void Initialize()
         {
             base.Initialize();
             Extents = new FixVector3(
-                (Fix64)extents.X / SharpNode.NodeScale,
-                (Fix64)extents.Y / SharpNode.NodeScale,
-                (Fix64)extents.Z / SharpNode.NodeScale
+                (Fix64)startingExtents.X / SharpNode.NodeScale,
+                (Fix64)startingExtents.Y / SharpNode.NodeScale,
+                (Fix64)startingExtents.Z / SharpNode.NodeScale
             );
             Shape = CollisionType3D.AABB;
         }
@@ -48,10 +48,10 @@ namespace SharpCollisions.Sharp3D
 
             Color finalColor = selected ? selectedColor : debugColor;
 
-            Vector3 pos = (Vector3)positionOffset / SharpNode.nodeScale;
+            Vector3 pos = (Vector3)startingPositionOffset / SharpNode.nodeScale;
             Vector3 newPos = SharpHelpers.Transform3D(pos, reference.GlobalPosition, reference.GlobalRotation);
 
-            DebugDraw3D.DrawBox(newPos, Quaternion.Identity, ((Vector3)extents / SharpNode.nodeScale) * 2, finalColor, true);
+            DebugDraw3D.DrawBox(newPos, Quaternion.Identity, ((Vector3)startingExtents / SharpNode.nodeScale) * 2, finalColor, true);
         }
 
         protected override FixVolume GetBoundingBoxPoints()

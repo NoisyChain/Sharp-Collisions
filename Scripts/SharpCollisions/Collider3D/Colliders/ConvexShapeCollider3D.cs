@@ -16,7 +16,7 @@ namespace SharpCollisions.Sharp3D
         public FixVector3[] RawPoints;
 		public FixVector3[] Points;
 
-        [Export] private Array<Vector3I> vertices;
+        [Export] private Array<Vector3I> startingPoints;
         [Export] public Array<Vector3I> Faces;
 
         private bool defaultShape = false;
@@ -45,9 +45,9 @@ namespace SharpCollisions.Sharp3D
         {
             //If there is no enough vertices to create a 3D shape,
             //create a simple tetrahedron as the default shape
-            if (vertices.Count < 4)
+            if (startingPoints.Count < 4)
             {
-                vertices = new Array<Vector3I>()
+                startingPoints = new Array<Vector3I>()
                 {
                     new Vector3I(0, -1, 1) * SharpNode.nodeScale,
                     new Vector3I(-1, -1, -1) * SharpNode.nodeScale,
@@ -58,13 +58,13 @@ namespace SharpCollisions.Sharp3D
                 defaultShape = true;
             }
 
-            RawPoints = new FixVector3[vertices.Count];
+            RawPoints = new FixVector3[startingPoints.Count];
             for (int i = 0; i < RawPoints.Length; i++)
             {
                 RawPoints[i] = new FixVector3(
-                    (Fix64)vertices[i].X / SharpNode.NodeScale,
-                    (Fix64)vertices[i].Y / SharpNode.NodeScale,
-                    (Fix64)vertices[i].Z / SharpNode.NodeScale
+                    (Fix64)startingPoints[i].X / SharpNode.NodeScale,
+                    (Fix64)startingPoints[i].Y / SharpNode.NodeScale,
+                    (Fix64)startingPoints[i].Z / SharpNode.NodeScale
                 );
             }
             
@@ -118,24 +118,24 @@ namespace SharpCollisions.Sharp3D
         {
             if (!Active) return;
             if (!selected && !DrawDebug) return;
-            if (vertices == null || vertices.Count <= 0) return;
+            if (startingPoints == null || startingPoints.Count <= 0) return;
             if (Faces == null || Faces.Count <= 0) return;
 
             Color finalColor = selected ? selectedColor : debugColor;
 
-            Vector3 scaledPosOffset = (Vector3)positionOffset / SharpNode.nodeScale;
-            Vector3 scaledRotOffset = (Vector3)rotationOffset / SharpNode.nodeRotation;
+            Vector3 scaledPosOffset = (Vector3)startingPositionOffset / SharpNode.nodeScale;
+            Vector3 scaledRotOffset = (Vector3)startingRotationOffset / SharpNode.nodeRotation;
 
             Vector3 position = reference.GlobalPosition;
             Vector3 rotation = reference.GlobalRotation;
 
             for (int i = 0; i < Faces.Count; i++)
             {
-                Vector3 rotPointA = SharpHelpers.RotateDeg3D((Vector3)vertices[Faces[i].X] / SharpNode.nodeScale, scaledRotOffset);
+                Vector3 rotPointA = SharpHelpers.RotateDeg3D((Vector3)startingPoints[Faces[i].X] / SharpNode.nodeScale, scaledRotOffset);
                 Vector3 pointA = SharpHelpers.Transform3D(rotPointA + scaledPosOffset, position, rotation);
-                Vector3 rotPointB = SharpHelpers.RotateDeg3D((Vector3)vertices[Faces[i].Y] / SharpNode.nodeScale, scaledRotOffset);
+                Vector3 rotPointB = SharpHelpers.RotateDeg3D((Vector3)startingPoints[Faces[i].Y] / SharpNode.nodeScale, scaledRotOffset);
                 Vector3 pointB = SharpHelpers.Transform3D(rotPointB + scaledPosOffset, position, rotation);
-                Vector3 rotPointC = SharpHelpers.RotateDeg3D((Vector3)vertices[Faces[i].Z] / SharpNode.nodeScale, scaledRotOffset);
+                Vector3 rotPointC = SharpHelpers.RotateDeg3D((Vector3)startingPoints[Faces[i].Z] / SharpNode.nodeScale, scaledRotOffset);
                 Vector3 pointC = SharpHelpers.Transform3D(rotPointC + scaledPosOffset, position, rotation);
 
                 DebugDraw3D.DrawLine(pointA, pointB, finalColor);

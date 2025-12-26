@@ -96,6 +96,7 @@ namespace SharpCollisions.Sharp3D
 		{
 			if (!Engine.IsEditorHint()) return;
 			if (!HasColliders()) return;
+			if (Renderer == null) return;
 
 			var selected = EditorInterface.Singleton.GetSelection().GetSelectedNodes();
 

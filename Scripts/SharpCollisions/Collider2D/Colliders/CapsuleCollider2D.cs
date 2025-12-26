@@ -14,14 +14,14 @@ namespace SharpCollisions.Sharp2D
         public FixVector2 UpperPoint;
         public FixVector2 LowerPoint;
 
-        [Export] protected int radius;
-        [Export] protected int height;
+        [Export] protected int startingRadius;
+        [Export] protected int startingHeight;
 
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)radius / SharpNode.NodeScale;
-            Height = (Fix64)height / SharpNode.NodeScale;
+            Radius = (Fix64)startingRadius / SharpNode.NodeScale;
+            Height = (Fix64)startingHeight / SharpNode.NodeScale;
             Shape = CollisionType2D.Capsule;
             CreateCapsulePoints();
         }
@@ -88,11 +88,11 @@ namespace SharpCollisions.Sharp2D
 
             Color finalColor = selected ? selectedColor : debugColor;
 
-            float scaledHeight = (float)height / SharpNode.nodeScale;
-            float scaledRadius = (float)radius / SharpNode.nodeScale;
+            float scaledHeight = (float)startingHeight / SharpNode.nodeScale;
+            float scaledRadius = (float)startingRadius / SharpNode.nodeScale;
 
-            Vector2 scaledPosOffset = (Vector2)positionOffset / SharpNode.nodeScale;
-            float scaledRotOffset = rotationOffset / SharpNode.nodeRotation;
+            Vector2 scaledPosOffset = (Vector2)startingPositionOffset / SharpNode.nodeScale;
+            float scaledRotOffset = startingRotationOffset / SharpNode.nodeRotation;
 
             Vector2 upPoint = scaledPosOffset + (Vector2.Up * (scaledHeight - scaledRadius));
             Vector2 lowPoint = scaledPosOffset - (Vector2.Up * (scaledHeight - scaledRadius));

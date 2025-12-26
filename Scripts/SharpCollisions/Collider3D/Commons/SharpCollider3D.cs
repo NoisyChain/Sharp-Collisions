@@ -8,8 +8,8 @@ namespace SharpCollisions.Sharp3D
 	{
 		[Export] public bool Active = true;
 		[Export] public bool isTrigger = false;
-		[Export] protected Vector3I positionOffset;
-		[Export] protected Vector3I rotationOffset;
+		[Export] protected Vector3I startingPositionOffset;
+		[Export] protected Vector3I startingRotationOffset;
 		[Export] protected bool DrawDebug;
 		[Export] public Color debugColor = new Color(0, 0, 1);
 		[Export] public Color selectedColor = new Color(1, 0.6f, 0.1f);
@@ -44,15 +44,15 @@ namespace SharpCollisions.Sharp3D
 		public virtual void Initialize()
 		{
 			PositionOffset = new FixVector3(
-                (Fix64)positionOffset.X / SharpNode.NodeScale,
-                (Fix64)positionOffset.Y / SharpNode.NodeScale,
-                (Fix64)positionOffset.Z / SharpNode.NodeScale
+                (Fix64)startingPositionOffset.X / SharpNode.NodeScale,
+                (Fix64)startingPositionOffset.Y / SharpNode.NodeScale,
+                (Fix64)startingPositionOffset.Z / SharpNode.NodeScale
             );
 
             RotationOffset = new FixVector3(
-                (Fix64)rotationOffset.X / SharpNode.NodeRotation,
-                (Fix64)rotationOffset.Y / SharpNode.NodeRotation,
-                (Fix64)rotationOffset.Z / SharpNode.NodeRotation
+                (Fix64)startingRotationOffset.X / SharpNode.NodeRotation,
+                (Fix64)startingRotationOffset.Y / SharpNode.NodeRotation,
+                (Fix64)startingRotationOffset.Z / SharpNode.NodeRotation
             );
 
 			RotationOffset *= Fix64.DegToRad;

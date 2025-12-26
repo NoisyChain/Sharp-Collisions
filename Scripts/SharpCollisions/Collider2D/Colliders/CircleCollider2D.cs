@@ -7,12 +7,12 @@ namespace SharpCollisions.Sharp2D
     public partial class CircleCollider2D : SharpCollider2D
     {
         public Fix64 Radius;
-        [Export] protected int radius;
+        [Export] protected int startingRadius;
         
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)radius / SharpNode.NodeScale;
+            Radius = (Fix64)startingRadius / SharpNode.NodeScale;
             Shape = CollisionType2D.Circle;
         }
 
@@ -57,11 +57,11 @@ namespace SharpCollisions.Sharp2D
 			Vector3 DirX = reference.Basis.X;
 			Vector3 DirY = reference.Basis.Y;
 			Vector3 DirZ = reference.Basis.Z;
-			Vector3 pos = new Vector3(positionOffset.X, positionOffset.Y, 0) / SharpNode.nodeScale;
+			Vector3 pos = new Vector3(startingPositionOffset.X, startingPositionOffset.Y, 0) / SharpNode.nodeScale;
 			Vector3 newPos = SharpHelpers.Transform3D(pos, reference.GlobalPosition, reference.GlobalRotation);
 
 			DebugDraw3D.DrawSimpleSphere(newPos, DirX, DirY, DirZ,
-											((float)radius / SharpNode.nodeScale) + 0.005f, finalColor);							
+											((float)startingRadius / SharpNode.nodeScale) + 0.005f, finalColor);							
 		}
 
         protected override FixRect GetBoundingBoxPoints()

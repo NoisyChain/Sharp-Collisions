@@ -12,8 +12,16 @@ namespace SharpCollisions.Sharp3D
         [Export] protected Node3D Renderer;
         //public FixedTransform3D Parent;
         //[Export] public FixedTransform3D[] Children;
-        [Export] public Vector3I fixedPosition;
-        [Export] public Vector3I fixedRotation;
+
+        /// <summary>
+        /// Don't use this variable in the simulation, its only purpose is to inject its value to the actual position
+        /// </summary>
+        [Export] public Vector3I startingPosition;
+
+        /// <summary>
+        /// Don't use this variable in the simulation, its only purpose is to inject its value to the actual rotation
+        /// </summary>
+        [Export] public Vector3I startingRotation;
         //[Export] public Vector3I localFixedPosition;
         //[Export] public Vector3I localFixedRotation;
         public FixVector3 FixedPosition;
@@ -33,15 +41,15 @@ namespace SharpCollisions.Sharp3D
             base._Instance();
 
             FixedPosition = new FixVector3(
-                (Fix64)fixedPosition.X / NodeScale,
-                (Fix64)fixedPosition.Y / NodeScale,
-                (Fix64)fixedPosition.Z / NodeScale
+                (Fix64)startingPosition.X / NodeScale,
+                (Fix64)startingPosition.Y / NodeScale,
+                (Fix64)startingPosition.Z / NodeScale
             );
 
             FixedRotation = new FixVector3(
-                (Fix64)fixedRotation.X / NodeRotation,
-                (Fix64)fixedRotation.Y / NodeRotation,
-                (Fix64)fixedRotation.Z / NodeRotation
+                (Fix64)startingRotation.X / NodeRotation,
+                (Fix64)startingRotation.Y / NodeRotation,
+                (Fix64)startingRotation.Z / NodeRotation
             );
             FixedRotation *= Fix64.DegToRad;
             /*LocalFixedPosition = new FixVector3(
@@ -98,8 +106,8 @@ namespace SharpCollisions.Sharp3D
 
             Renderer.Visible = Active;
 
-			Renderer.GlobalPosition = (Vector3)fixedPosition / nodeScale;
-			Renderer.GlobalRotationDegrees = (Vector3)fixedRotation / nodeRotation;
+			Renderer.GlobalPosition = (Vector3)startingPosition / nodeScale;
+			Renderer.GlobalRotationDegrees = (Vector3)startingRotation / nodeRotation;
         }
 
         /*public void SetParent(FixedTransform3D newParent)

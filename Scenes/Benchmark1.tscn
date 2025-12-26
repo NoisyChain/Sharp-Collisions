@@ -35,8 +35,7 @@ tonemap_mode = 2
 
 [node name="PhysicsManager" type="Node" parent="." node_paths=PackedStringArray("nodes")]
 script = ExtResource("2_jxjwd")
-nodes = [NodePath("../Sphere1"), NodePath("../Sphere2"), NodePath("../Sphere3"), NodePath("../Sphere4"), NodePath("../Sphere5"), NodePath("../Sphere6"), NodePath("../Sphere7"), NodePath("../Sphere8"), NodePath("../Sphere9"), NodePath("../Sphere10"), NodePath("../Sphere11"), NodePath("../Sphere12"), NodePath("../Sphere13"), NodePath("../Sphere14"), NodePath("../Sphere15"), NodePath("../Sphere16"), NodePath("../Sphere17"), NodePath("../Sphere18"), NodePath("../Sphere19"), NodePath("../Sphere20"), NodePath("../Sphere21"), NodePath("../Sphere22"), NodePath("../Sphere23"), NodePath("../Sphere24"), NodePath("../Sphere25"), NodePath("../Sphere26"), NodePath("../Sphere27"), NodePath("../Sphere28"), NodePath("../Sphere29"), NodePath("../Sphere30"), NodePath("../Sphere31"), NodePath("../Sphere32"), NodePath("../Sphere33"), NodePath("../Sphere34"), NodePath("../Sphere35"), NodePath("../Sphere36"), NodePath("../Sphere37"), NodePath("../Sphere38"), NodePath("../Sphere39"), NodePath("../Sphere40"), NodePath("../Sphere41"), NodePath("../Sphere42"), NodePath("../Sphere43"), NodePath("../Sphere44"), NodePath("../Sphere45"), NodePath("../Sphere46"), NodePath("../Sphere47"), NodePath("../Sphere48"), NodePath("../Sphere49"), NodePath("../Floor"), NodePath("../Floor2"), NodePath("../Floor3"), NodePath("../Floor4"), NodePath("../Wall"), NodePath("../Wall2"), NodePath("../Wall3"), NodePath("../Wall4")]
-Substeps = 2
+nodes = [NodePath("../Sphere1"), NodePath("../Sphere2"), NodePath("../Sphere3"), NodePath("../Sphere4"), NodePath("../Sphere5"), NodePath("../Sphere6"), NodePath("../Sphere7"), NodePath("../Sphere8"), NodePath("../Sphere9"), NodePath("../Sphere10"), NodePath("../Sphere11"), NodePath("../Sphere12"), NodePath("../Sphere13"), NodePath("../Sphere14"), NodePath("../Sphere15"), NodePath("../Sphere16"), NodePath("../Sphere17"), NodePath("../Sphere18"), NodePath("../Sphere19"), NodePath("../Sphere20"), NodePath("../Sphere21"), NodePath("../Sphere22"), NodePath("../Sphere23"), NodePath("../Sphere24"), NodePath("../Sphere25"), NodePath("../Sphere26"), NodePath("../Sphere27"), NodePath("../Sphere28"), NodePath("../Sphere29"), NodePath("../Sphere30"), NodePath("../Sphere31"), NodePath("../Sphere32"), NodePath("../Sphere33"), NodePath("../Sphere34"), NodePath("../Sphere35"), NodePath("../Sphere36"), NodePath("../Sphere37"), NodePath("../Sphere38"), NodePath("../Sphere39"), NodePath("../Sphere40"), NodePath("../Sphere41"), NodePath("../Sphere42"), NodePath("../Sphere43"), NodePath("../Sphere44"), NodePath("../Sphere45"), NodePath("../Sphere46"), NodePath("../Sphere47"), NodePath("../Sphere48"), NodePath("../Sphere49"), NodePath("../Floor"), NodePath("../Wall"), NodePath("../Wall2"), NodePath("../Wall3"), NodePath("../Wall4")]
 debugLineThickness = 0.012
 ShowDebugShapes = true
 
@@ -45,14 +44,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-3000, 1330, 0)
+startingPosition = Vector3i(-3000, 1000, -3000)
 
 [node name="Collider" type="Node" parent="Sphere1"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.33, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere1/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -63,14 +62,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-3000, 1330, 1000)
+startingPosition = Vector3i(-3000, 1000, -2000)
 
 [node name="Collider" type="Node" parent="Sphere2"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.33, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -2)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere2/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -81,14 +80,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-3000, 1330, -3000)
+startingPosition = Vector3i(-3000, 1000, -1000)
 
 [node name="Collider" type="Node" parent="Sphere3"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.33, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -1)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere3/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -99,14 +98,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-3000, 1330, 3000)
+startingPosition = Vector3i(-3000, 1000, 1000)
 
 [node name="Collider" type="Node" parent="Sphere4"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.33, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 1)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere4/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -117,14 +116,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-3000, 1330, -1000)
+startingPosition = Vector3i(-3000, 1000, 2000)
 
 [node name="Collider" type="Node" parent="Sphere5"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.33, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 2)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere5/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -135,14 +134,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-3000, 1330, -2000)
+startingPosition = Vector3i(-3000, 1000, 3000)
 
 [node name="Collider" type="Node" parent="Sphere6"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere6"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.33, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere6/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -153,14 +152,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-3000, 1330, 2000)
+startingPosition = Vector3i(-3000, 1000, 0)
 
 [node name="Collider" type="Node" parent="Sphere7"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere7"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.33, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere7/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -171,14 +170,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-2000, 1330, 0)
+startingPosition = Vector3i(-2000, 1000, -3000)
 
 [node name="Collider" type="Node" parent="Sphere8"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere8"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.33, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere8/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -189,14 +188,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-2000, 1330, 1000)
+startingPosition = Vector3i(-2000, 1000, -2000)
 
 [node name="Collider" type="Node" parent="Sphere9"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere9"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.33, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -2)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere9/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -207,14 +206,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-2000, 1330, -3000)
+startingPosition = Vector3i(-2000, 1000, -1000)
 
 [node name="Collider" type="Node" parent="Sphere10"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere10"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.33, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -1)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere10/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -225,14 +224,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-2000, 1330, 3000)
+startingPosition = Vector3i(-2000, 1000, 1000)
 
 [node name="Collider" type="Node" parent="Sphere11"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere11"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.33, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 1)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere11/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -243,14 +242,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-2000, 1330, -1000)
+startingPosition = Vector3i(-2000, 1000, 2000)
 
 [node name="Collider" type="Node" parent="Sphere12"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere12"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.33, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 2)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere12/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -261,14 +260,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-2000, 1330, -2000)
+startingPosition = Vector3i(-2000, 1000, 3000)
 
 [node name="Collider" type="Node" parent="Sphere13"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere13"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.33, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere13/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -279,14 +278,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-2000, 1330, 2000)
+startingPosition = Vector3i(-2000, 1000, 0)
 
 [node name="Collider" type="Node" parent="Sphere14"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere14"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.33, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere14/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -297,14 +296,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-1000, 1330, 0)
+startingPosition = Vector3i(-1000, 1000, -3000)
 
 [node name="Collider" type="Node" parent="Sphere15"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere15"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.33, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere15/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -315,14 +314,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-1000, 1330, 1000)
+startingPosition = Vector3i(-1000, 1000, -2000)
 
 [node name="Collider" type="Node" parent="Sphere16"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere16"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.33, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -2)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere16/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -333,14 +332,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-1000, 1330, -3000)
+startingPosition = Vector3i(-1000, 1000, -1000)
 
 [node name="Collider" type="Node" parent="Sphere17"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere17"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.33, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere17/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -351,14 +350,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-1000, 1330, 3000)
+startingPosition = Vector3i(-1000, 1000, 1000)
 
 [node name="Collider" type="Node" parent="Sphere18"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere18"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.33, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 1)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere18/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -369,14 +368,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-1000, 1330, -1000)
+startingPosition = Vector3i(-1000, 1000, 2000)
 
 [node name="Collider" type="Node" parent="Sphere19"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere19"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.33, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 2)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere19/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -387,14 +386,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-1000, 1330, -2000)
+startingPosition = Vector3i(-1000, 1000, 3000)
 
 [node name="Collider" type="Node" parent="Sphere20"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere20"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.33, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere20/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -405,14 +404,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-1000, 1330, 2000)
+startingPosition = Vector3i(-1000, 1000, 0)
 
 [node name="Collider" type="Node" parent="Sphere21"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere21"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.33, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere21/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -423,15 +422,15 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(0, 1330, 0)
+startingPosition = Vector3i(0, 1000, -3000)
 
 [node name="Collider" type="Node" parent="Sphere22"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Sphere22"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere22/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -442,14 +441,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(0, 1330, 1000)
+startingPosition = Vector3i(0, 1000, -2000)
 
 [node name="Collider" type="Node" parent="Sphere23"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere23"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere23/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -460,14 +459,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(0, 1330, -3000)
+startingPosition = Vector3i(0, 1000, -1000)
 
 [node name="Collider" type="Node" parent="Sphere24"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere24"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere24/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -478,14 +477,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(0, 1330, 3000)
+startingPosition = Vector3i(0, 1000, 1000)
 
 [node name="Collider" type="Node" parent="Sphere25"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere25"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere25/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -496,14 +495,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(0, 1330, -1000)
+startingPosition = Vector3i(0, 1000, 2000)
 
 [node name="Collider" type="Node" parent="Sphere26"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere26"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere26/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -514,14 +513,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(0, 1330, -2000)
+startingPosition = Vector3i(0, 1000, 3000)
 
 [node name="Collider" type="Node" parent="Sphere27"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere27"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere27/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -532,14 +531,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(0, 1330, 2000)
+startingPosition = Vector3i(0, 1000, 0)
 
 [node name="Collider" type="Node" parent="Sphere28"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere28"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere28/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -550,14 +549,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(1000, 1330, 0)
+startingPosition = Vector3i(1000, 1000, -3000)
 
 [node name="Collider" type="Node" parent="Sphere29"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere29"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.33, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere29/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -568,14 +567,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(1000, 1330, 1000)
+startingPosition = Vector3i(1000, 1000, -2000)
 
 [node name="Collider" type="Node" parent="Sphere30"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere30"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.33, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -2)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere30/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -586,14 +585,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(1000, 1330, -3000)
+startingPosition = Vector3i(1000, 1000, -1000)
 
 [node name="Collider" type="Node" parent="Sphere31"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere31"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.33, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -1)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere31/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -604,14 +603,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(1000, 1330, 3000)
+startingPosition = Vector3i(1000, 1000, 1000)
 
 [node name="Collider" type="Node" parent="Sphere32"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere32"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.33, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere32/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -622,14 +621,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(1000, 1330, -1000)
+startingPosition = Vector3i(1000, 1000, 2000)
 
 [node name="Collider" type="Node" parent="Sphere33"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere33"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.33, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 2)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere33/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -640,14 +639,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(1000, 1330, -2000)
+startingPosition = Vector3i(1000, 1000, 3000)
 
 [node name="Collider" type="Node" parent="Sphere34"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere34"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.33, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere34/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -658,14 +657,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(1000, 1330, 2000)
+startingPosition = Vector3i(1000, 1000, 0)
 
 [node name="Collider" type="Node" parent="Sphere35"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere35"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.33, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere35/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -676,14 +675,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(2000, 1330, 0)
+startingPosition = Vector3i(2000, 1000, -3000)
 
 [node name="Collider" type="Node" parent="Sphere36"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere36"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.33, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere36/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -694,14 +693,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(2000, 1330, 1000)
+startingPosition = Vector3i(2000, 1000, -2000)
 
 [node name="Collider" type="Node" parent="Sphere37"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere37"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.33, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -2)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere37/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -712,14 +711,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(2000, 1330, -3000)
+startingPosition = Vector3i(2000, 1000, -1000)
 
 [node name="Collider" type="Node" parent="Sphere38"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere38"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.33, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -1)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere38/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -730,14 +729,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(2000, 1330, 3000)
+startingPosition = Vector3i(2000, 1000, 1000)
 
 [node name="Collider" type="Node" parent="Sphere39"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere39"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.33, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 1)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere39/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -748,14 +747,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(2000, 1330, -1000)
+startingPosition = Vector3i(2000, 1000, 2000)
 
 [node name="Collider" type="Node" parent="Sphere40"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere40"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.33, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 2)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere40/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -766,14 +765,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(2000, 1330, -2000)
+startingPosition = Vector3i(2000, 1000, 3000)
 
 [node name="Collider" type="Node" parent="Sphere41"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere41"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.33, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere41/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -784,14 +783,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(2000, 1330, 2000)
+startingPosition = Vector3i(2000, 1000, 0)
 
 [node name="Collider" type="Node" parent="Sphere42"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere42"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.33, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere42/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -802,14 +801,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(3000, 1330, 0)
+startingPosition = Vector3i(3000, 1000, -3000)
 
 [node name="Collider" type="Node" parent="Sphere43"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere43"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.33, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, -3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere43/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -820,14 +819,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(3000, 1330, 1000)
+startingPosition = Vector3i(3000, 1000, -2000)
 
 [node name="Collider" type="Node" parent="Sphere44"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere44"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.33, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, -2)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere44/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -838,14 +837,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(3000, 1330, -3000)
+startingPosition = Vector3i(3000, 1000, -1000)
 
 [node name="Collider" type="Node" parent="Sphere45"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere45"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.33, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, -1)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere45/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -856,14 +855,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(3000, 1330, 3000)
+startingPosition = Vector3i(3000, 1000, 1000)
 
 [node name="Collider" type="Node" parent="Sphere46"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere46"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.33, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 1)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere46/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -874,14 +873,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(3000, 1330, -1000)
+startingPosition = Vector3i(3000, 1000, 2000)
 
 [node name="Collider" type="Node" parent="Sphere47"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere47"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.33, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 2)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere47/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -892,14 +891,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(3000, 1330, -2000)
+startingPosition = Vector3i(3000, 1000, 3000)
 
 [node name="Collider" type="Node" parent="Sphere48"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere48"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.33, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 3)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere48/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -910,14 +909,14 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(3000, 1330, 2000)
+startingPosition = Vector3i(3000, 1000, 0)
 
 [node name="Collider" type="Node" parent="Sphere49"]
 script = ExtResource("6_x5v8s")
-radius = 300
+startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere49"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.33, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere49/Viewer"]
 mesh = SubResource("SphereMesh_n3xw3")
@@ -929,81 +928,18 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-4000, -100, 4000)
+startingPosition = Vector3i(0, -100, 0)
 
 [node name="Collider" type="Node" parent="Floor"]
 script = ExtResource("5_l2ale")
-extents = Vector3i(4000, 100, 4000)
-vertices = []
+startingExtents = Vector3i(4000, 100, 4000)
+startingPoints = []
 Faces = []
 
 [node name="Viewer" type="Node3D" parent="Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -0.1, 4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Floor/Viewer"]
-mesh = SubResource("BoxMesh_7l8t4")
-skeleton = NodePath("../..")
-
-[node name="Floor2" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
-script = ExtResource("4_ctdg3")
-Colliders = [NodePath("Collider")]
-Attachments = []
-BodyMode = 2
-Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-4000, -100, -4000)
-
-[node name="Collider" type="Node" parent="Floor2"]
-script = ExtResource("5_l2ale")
-extents = Vector3i(4000, 100, 4000)
-vertices = []
-Faces = []
-
-[node name="Viewer" type="Node3D" parent="Floor2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -0.1, -4)
-
-[node name="MeshInstance" type="MeshInstance3D" parent="Floor2/Viewer"]
-mesh = SubResource("BoxMesh_7l8t4")
-skeleton = NodePath("../..")
-
-[node name="Floor3" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
-script = ExtResource("4_ctdg3")
-Colliders = [NodePath("Collider")]
-Attachments = []
-BodyMode = 2
-Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(4000, -100, 4000)
-
-[node name="Collider" type="Node" parent="Floor3"]
-script = ExtResource("5_l2ale")
-extents = Vector3i(4000, 100, 4000)
-vertices = []
-Faces = []
-
-[node name="Viewer" type="Node3D" parent="Floor3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.1, 4)
-
-[node name="MeshInstance" type="MeshInstance3D" parent="Floor3/Viewer"]
-mesh = SubResource("BoxMesh_7l8t4")
-skeleton = NodePath("../..")
-
-[node name="Floor4" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
-script = ExtResource("4_ctdg3")
-Colliders = [NodePath("Collider")]
-Attachments = []
-BodyMode = 2
-Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(4000, -100, -4000)
-
-[node name="Collider" type="Node" parent="Floor4"]
-script = ExtResource("5_l2ale")
-extents = Vector3i(4000, 100, 4000)
-vertices = []
-Faces = []
-
-[node name="Viewer" type="Node3D" parent="Floor4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.1, -4)
-
-[node name="MeshInstance" type="MeshInstance3D" parent="Floor4/Viewer"]
 mesh = SubResource("BoxMesh_7l8t4")
 skeleton = NodePath("../..")
 
@@ -1013,16 +949,16 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(0, 800, -4000)
+startingPosition = Vector3i(0, 500, -4000)
 
 [node name="Collider" type="Node" parent="Wall"]
 script = ExtResource("5_l2ale")
-extents = Vector3i(4000, 1000, 100)
-vertices = []
+startingExtents = Vector3i(4000, 1000, 100)
+startingPoints = []
 Faces = []
 
 [node name="Viewer" type="Node3D" parent="Wall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -4)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Wall/Viewer"]
 mesh = SubResource("BoxMesh_kow3i")
@@ -1034,16 +970,16 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(0, 800, 4000)
+startingPosition = Vector3i(0, 500, 4000)
 
 [node name="Collider" type="Node" parent="Wall2"]
 script = ExtResource("5_l2ale")
-extents = Vector3i(4000, 1000, 100)
-vertices = []
+startingExtents = Vector3i(4000, 1000, 100)
+startingPoints = []
 Faces = []
 
 [node name="Viewer" type="Node3D" parent="Wall2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 4)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Wall2/Viewer"]
 mesh = SubResource("BoxMesh_kow3i")
@@ -1055,16 +991,16 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-4000, 800, 0)
+startingPosition = Vector3i(4000, 500, 0)
 
 [node name="Collider" type="Node" parent="Wall3"]
 script = ExtResource("5_l2ale")
-extents = Vector3i(100, 1000, 4000)
-vertices = []
+startingExtents = Vector3i(100, 1000, 4000)
+startingPoints = []
 Faces = []
 
 [node name="Viewer" type="Node3D" parent="Wall3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.8, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.5, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Wall3/Viewer"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
@@ -1077,16 +1013,16 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(4000, 800, 0)
+startingPosition = Vector3i(-4000, 500, 0)
 
 [node name="Collider" type="Node" parent="Wall4"]
 script = ExtResource("5_l2ale")
-extents = Vector3i(100, 1000, 4000)
-vertices = []
+startingExtents = Vector3i(100, 1000, 4000)
+startingPoints = []
 Faces = []
 
 [node name="Viewer" type="Node3D" parent="Wall4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.8, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.5, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Wall4/Viewer"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)

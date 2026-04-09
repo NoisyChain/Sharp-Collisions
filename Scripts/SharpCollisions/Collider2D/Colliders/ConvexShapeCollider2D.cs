@@ -33,7 +33,7 @@ namespace SharpCollisions.Sharp2D
 			return GJK.PolygonCollision(this, other, out Normal, out Depth, out ContactPoint);
 		}
 
-        private void CreatePolygonPoints()
+        public virtual void CreatePolygonPoints()
         {
             //If there is no enough vertices to create a 2D shape,
             //create a simple triangle as the default shape
@@ -61,6 +61,7 @@ namespace SharpCollisions.Sharp2D
 
         private void UpdatePolygonPoints(FixVector2 position, Fix64 rotation)
         {
+            CreatePolygonPoints();
             for (int i = 0; i < RawPoints.Length; i++)
             {
                 Points[i] = FixVector2.Rotate(RawPoints[i], RotationOffset);

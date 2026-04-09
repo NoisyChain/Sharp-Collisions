@@ -56,6 +56,7 @@ namespace SharpCollisions.Sharp3D
 
         private void UpdateCapsulePoints(FixVector3 position, FixVector3 rotation)
         {
+            CreateCapsulePoints();
             UpperPoint = FixVector3.Rotate(RawUpperPoint, RotationOffset);
             LowerPoint = FixVector3.Rotate(RawLowerPoint, RotationOffset);
             UpperPoint = FixVector3.Transform(UpperPoint + PositionOffset, position, rotation);
@@ -68,6 +69,7 @@ namespace SharpCollisions.Sharp3D
             if (!DrawDebug) return;
 
             Vector3 DirY = (Vector3)FixVector3.Normalize(UpperPoint - LowerPoint);
+            if (DirY.Length() <= 0.001) DirY = Vector3.Up;
             Vector3 DirX = SharpHelpers.GetLineNormal3D(DirY, (Vector3)reference.Forward, (Vector3)reference.Up);//normal.Normalized();
             Vector3 DirZ = DirX.Cross(DirY);
 
@@ -78,10 +80,13 @@ namespace SharpCollisions.Sharp3D
 
             DebugDraw3D.DrawHalfSphereY((Vector3)UpperPoint, DirX, DirY, DirZ, false, inflatedRadius, debugColor);
             DebugDraw3D.DrawHalfSphereY((Vector3)LowerPoint, DirX, DirY, DirZ, true, inflatedRadius, debugColor);
-            DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing1, (Vector3)LowerPoint + LineSpacing1, debugColor);
-            DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing1, (Vector3)LowerPoint - LineSpacing1, debugColor);
-            DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing2, (Vector3)LowerPoint + LineSpacing2, debugColor);
-            DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing2, (Vector3)LowerPoint - LineSpacing2, debugColor);
+            if (Radius < Height)
+            {
+                DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing1, (Vector3)LowerPoint + LineSpacing1, debugColor);
+                DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing1, (Vector3)LowerPoint - LineSpacing1, debugColor);
+                DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing2, (Vector3)LowerPoint + LineSpacing2, debugColor);
+                DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing2, (Vector3)LowerPoint - LineSpacing2, debugColor);
+            }
         }
 
         public override void DebugDrawShapesEditor(Node3D reference, bool selected)
@@ -91,7 +96,9 @@ namespace SharpCollisions.Sharp3D
 
             Color finalColor = selected ? selectedColor : debugColor;
 
-            float scaledHeight = (float)startingHeight / SharpNode.nodeScale;
+            int clampedHeight = Mathf.Max(startingHeight, startingRadius + 1);
+
+            float scaledHeight = (float)clampedHeight / SharpNode.nodeScale;
             float scaledRadius = (float)startingRadius / SharpNode.nodeScale;
 
             Vector3 scaledPosOffset = (Vector3)startingPositionOffset / SharpNode.nodeScale;
@@ -116,10 +123,13 @@ namespace SharpCollisions.Sharp3D
 
             DebugDraw3D.DrawHalfSphereY(upperPoint, DirX, DirY, DirZ, false, inflatedRadius, finalColor);
             DebugDraw3D.DrawHalfSphereY(lowerPoint, DirX, DirY, DirZ, true, inflatedRadius, finalColor);
-            DebugDraw3D.DrawLine(upperPoint + LineSpacing1, lowerPoint + LineSpacing1, finalColor);
-            DebugDraw3D.DrawLine(upperPoint - LineSpacing1, lowerPoint - LineSpacing1, finalColor);
-            DebugDraw3D.DrawLine(upperPoint + LineSpacing2, lowerPoint + LineSpacing2, finalColor);
-            DebugDraw3D.DrawLine(upperPoint - LineSpacing2, lowerPoint - LineSpacing2, finalColor);
+            if (startingRadius < startingHeight)
+            {
+                DebugDraw3D.DrawLine(upperPoint + LineSpacing1, lowerPoint + LineSpacing1, finalColor);
+                DebugDraw3D.DrawLine(upperPoint - LineSpacing1, lowerPoint - LineSpacing1, finalColor);
+                DebugDraw3D.DrawLine(upperPoint + LineSpacing2, lowerPoint + LineSpacing2, finalColor);
+                DebugDraw3D.DrawLine(upperPoint - LineSpacing2, lowerPoint - LineSpacing2, finalColor);
+            }
         }
 
         protected override FixVolume GetBoundingBoxPoints()
@@ -173,7 +183,29 @@ namespace SharpCollisions.Sharp3D
             Depth = FixVector3.Zero;
             ContactPoint = FixVector3.Zero;
 
-            LineToLineDistance(colliderA.UpperPoint, colliderA.LowerPoint, colliderB.UpperPoint, colliderB.LowerPoint, out FixVector3 r1, out FixVector3 r2);
+            FixVector3 r1 = FixVector3.Zero;
+            FixVector3 r2 = FixVector3.Zero;
+
+            bool colA_Sphere = colliderA.Radius >= colliderA.Height;
+            bool colB_Sphere = colliderB.Radius >= colliderB.Height;
+
+            if (colA_Sphere && colB_Sphere)
+            {
+                r1 = (colliderA.UpperPoint + colliderA.LowerPoint) / Fix64.Two;
+                r2 = (colliderA.UpperPoint + colliderA.LowerPoint) / Fix64.Two;
+            }
+            else if (!colA_Sphere && colB_Sphere)
+            {
+                r2 = (colliderB.UpperPoint + colliderB.LowerPoint) / Fix64.Two;
+                LineToPointDistance(colliderA.UpperPoint, colliderA.LowerPoint, r2, out r1);
+            }
+            else if (colA_Sphere && !colB_Sphere)
+            {
+                r1 = (colliderA.UpperPoint + colliderA.LowerPoint) / Fix64.Two;
+                LineToPointDistance(colliderB.UpperPoint, colliderB.LowerPoint, r1, out r2);
+            }
+            else 
+                LineToLineDistance(colliderA.UpperPoint, colliderA.LowerPoint, colliderB.UpperPoint, colliderB.LowerPoint, out r1, out r2);
 
             Fix64 radii = colliderA.Radius + colliderB.Radius;
             Fix64 radiiSq = radii * radii;
@@ -185,12 +217,19 @@ namespace SharpCollisions.Sharp3D
             {
                 Normal = FixVector3.Normalize(r2 - r1);
                 Depth = Normal * Fix64.Abs(radii - distance);
-                ContactPoint = CapsuleContactPoint
-                (
-                    colliderA.UpperPoint, colliderA.LowerPoint,
-                    colliderB.UpperPoint, colliderB.LowerPoint,
-                    colliderA.Radius, colliderB.Radius, Normal
-                );
+                if (!colA_Sphere && !colB_Sphere)
+                {
+                    ContactPoint = CapsuleContactPoint
+                    (
+                        colliderA.UpperPoint, colliderA.LowerPoint,
+                        colliderB.UpperPoint, colliderB.LowerPoint,
+                        colliderA.Radius, colliderB.Radius, Normal
+                    ); 
+                }
+                else
+                {
+                    ContactPoint = SphereContactPoint(r1, colliderA.Radius, r2, colliderB.Radius, Normal);
+                }
             }
 
             return collision;

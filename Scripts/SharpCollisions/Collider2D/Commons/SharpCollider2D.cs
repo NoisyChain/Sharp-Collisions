@@ -8,6 +8,7 @@ namespace SharpCollisions.Sharp2D
 	{
 		[Export] public bool Active = true;
 		[Export] public bool isTrigger = false;
+		[Export] public bool TriggerDetectsSolidBodies = true;
 		[Export] protected Vector2I startingPositionOffset;
 		[Export] protected int startingRotationOffset;
 		[Export] protected bool DrawDebug;

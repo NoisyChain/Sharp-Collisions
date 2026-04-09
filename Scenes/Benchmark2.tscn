@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://vcrh3rekk0o6"]
+[gd_scene format=3 uid="uid://vcrh3rekk0o6"]
 
 [ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_noiqf"]
 [ext_resource type="Script" uid="uid://dswu8dcd4cdwi" path="res://Scripts/SharpCollisions/General/SharpManager.cs" id="2_hehox"]
@@ -29,998 +29,998 @@ ambient_light_source = 3
 reflected_light_source = 2
 tonemap_mode = 2
 
-[node name="Main" type="Node3D"]
+[node name="Main" type="Node3D" unique_id=1574916435]
 
-[node name="FPS_HUD" parent="." instance=ExtResource("1_noiqf")]
+[node name="FPS_HUD" parent="." unique_id=968226620 instance=ExtResource("1_noiqf")]
 
-[node name="PhysicsManager" type="Node" parent="." node_paths=PackedStringArray("nodes")]
+[node name="PhysicsManager" type="Node" parent="." unique_id=107857720 node_paths=PackedStringArray("nodes")]
 script = ExtResource("2_hehox")
 nodes = [NodePath("../Sphere1"), NodePath("../Sphere2"), NodePath("../Sphere3"), NodePath("../Sphere4"), NodePath("../Sphere5"), NodePath("../Sphere6"), NodePath("../Sphere7"), NodePath("../Sphere8"), NodePath("../Sphere9"), NodePath("../Sphere10"), NodePath("../Sphere11"), NodePath("../Sphere12"), NodePath("../Sphere13"), NodePath("../Sphere14"), NodePath("../Sphere15"), NodePath("../Sphere16"), NodePath("../Sphere17"), NodePath("../Sphere18"), NodePath("../Sphere19"), NodePath("../Sphere20"), NodePath("../Sphere21"), NodePath("../Sphere22"), NodePath("../Sphere23"), NodePath("../Sphere24"), NodePath("../Sphere25"), NodePath("../Sphere26"), NodePath("../Sphere27"), NodePath("../Sphere28"), NodePath("../Sphere29"), NodePath("../Sphere30"), NodePath("../Sphere31"), NodePath("../Sphere32"), NodePath("../Sphere33"), NodePath("../Sphere34"), NodePath("../Sphere35"), NodePath("../Sphere36"), NodePath("../Sphere37"), NodePath("../Sphere38"), NodePath("../Sphere39"), NodePath("../Sphere40"), NodePath("../Sphere41"), NodePath("../Sphere42"), NodePath("../Sphere43"), NodePath("../Sphere44"), NodePath("../Sphere45"), NodePath("../Sphere46"), NodePath("../Sphere47"), NodePath("../Sphere48"), NodePath("../Sphere49"), NodePath("../Floor"), NodePath("../Wall"), NodePath("../Wall2"), NodePath("../Wall3"), NodePath("../Wall4")]
 Substeps = 2
 debugLineThickness = 0.012
-ShowDebugShapes = true
+RunOnDedicatedThread = true
 
-[node name="Sphere1" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere1" type="Node" parent="." unique_id=729431926 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-3000, 1000, -3000)
 
-[node name="Collider" type="Node" parent="Sphere1"]
+[node name="Collider" type="Node" parent="Sphere1" unique_id=679704957]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere1"]
+[node name="Viewer" type="Node3D" parent="Sphere1" unique_id=1415811046]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -3)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere1/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere1/Viewer" unique_id=707762881]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere2" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere2" type="Node" parent="." unique_id=2019055942 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-3000, 1000, -2000)
 
-[node name="Collider" type="Node" parent="Sphere2"]
+[node name="Collider" type="Node" parent="Sphere2" unique_id=2021339476]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere2"]
+[node name="Viewer" type="Node3D" parent="Sphere2" unique_id=1391585654]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere2/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere2/Viewer" unique_id=224958764]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere3" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere3" type="Node" parent="." unique_id=897713406 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-3000, 1000, -1000)
 
-[node name="Collider" type="Node" parent="Sphere3"]
+[node name="Collider" type="Node" parent="Sphere3" unique_id=370475281]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere3"]
+[node name="Viewer" type="Node3D" parent="Sphere3" unique_id=1718193084]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -1)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere3/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere3/Viewer" unique_id=887417842]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere4" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere4" type="Node" parent="." unique_id=1679665280 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-3000, 1000, 1000)
 
-[node name="Collider" type="Node" parent="Sphere4"]
+[node name="Collider" type="Node" parent="Sphere4" unique_id=1414892355]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere4"]
+[node name="Viewer" type="Node3D" parent="Sphere4" unique_id=699414567]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 1)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere4/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere4/Viewer" unique_id=1427103813]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere5" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere5" type="Node" parent="." unique_id=1895557903 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-3000, 1000, 2000)
 
-[node name="Collider" type="Node" parent="Sphere5"]
+[node name="Collider" type="Node" parent="Sphere5" unique_id=1776360499]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere5"]
+[node name="Viewer" type="Node3D" parent="Sphere5" unique_id=1878726490]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere5/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere5/Viewer" unique_id=1414760911]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere6" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere6" type="Node" parent="." unique_id=1492003852 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-3000, 1000, 3000)
 
-[node name="Collider" type="Node" parent="Sphere6"]
+[node name="Collider" type="Node" parent="Sphere6" unique_id=654909866]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere6"]
+[node name="Viewer" type="Node3D" parent="Sphere6" unique_id=1605530728]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 3)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere6/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere6/Viewer" unique_id=1865850882]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere7" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere7" type="Node" parent="." unique_id=225756079 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-3000, 1000, 0)
 
-[node name="Collider" type="Node" parent="Sphere7"]
+[node name="Collider" type="Node" parent="Sphere7" unique_id=989590051]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere7"]
+[node name="Viewer" type="Node3D" parent="Sphere7" unique_id=153484489]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 0)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere7/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere7/Viewer" unique_id=1829284469]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere8" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere8" type="Node" parent="." unique_id=775757446 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-2000, 1000, -3000)
 
-[node name="Collider" type="Node" parent="Sphere8"]
+[node name="Collider" type="Node" parent="Sphere8" unique_id=298519582]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere8"]
+[node name="Viewer" type="Node3D" parent="Sphere8" unique_id=814983812]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -3)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere8/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere8/Viewer" unique_id=1318207749]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere9" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere9" type="Node" parent="." unique_id=1012692122 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-2000, 1000, -2000)
 
-[node name="Collider" type="Node" parent="Sphere9"]
+[node name="Collider" type="Node" parent="Sphere9" unique_id=1928882593]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere9"]
+[node name="Viewer" type="Node3D" parent="Sphere9" unique_id=905868758]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere9/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere9/Viewer" unique_id=1779754037]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere10" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere10" type="Node" parent="." unique_id=644328985 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-2000, 1000, -1000)
 
-[node name="Collider" type="Node" parent="Sphere10"]
+[node name="Collider" type="Node" parent="Sphere10" unique_id=854942591]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere10"]
+[node name="Viewer" type="Node3D" parent="Sphere10" unique_id=1138880179]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -1)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere10/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere10/Viewer" unique_id=761151773]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere11" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere11" type="Node" parent="." unique_id=1256964448 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-2000, 1000, 1000)
 
-[node name="Collider" type="Node" parent="Sphere11"]
+[node name="Collider" type="Node" parent="Sphere11" unique_id=1532199287]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere11"]
+[node name="Viewer" type="Node3D" parent="Sphere11" unique_id=1853513472]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 1)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere11/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere11/Viewer" unique_id=1489436572]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere12" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere12" type="Node" parent="." unique_id=1763003169 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-2000, 1000, 2000)
 
-[node name="Collider" type="Node" parent="Sphere12"]
+[node name="Collider" type="Node" parent="Sphere12" unique_id=1198068725]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere12"]
+[node name="Viewer" type="Node3D" parent="Sphere12" unique_id=482362364]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere12/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere12/Viewer" unique_id=1443855037]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere13" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere13" type="Node" parent="." unique_id=329163395 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-2000, 1000, 3000)
 
-[node name="Collider" type="Node" parent="Sphere13"]
+[node name="Collider" type="Node" parent="Sphere13" unique_id=2115906230]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere13"]
+[node name="Viewer" type="Node3D" parent="Sphere13" unique_id=689794232]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 3)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere13/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere13/Viewer" unique_id=1735310974]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere14" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere14" type="Node" parent="." unique_id=842959347 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-2000, 1000, 0)
 
-[node name="Collider" type="Node" parent="Sphere14"]
+[node name="Collider" type="Node" parent="Sphere14" unique_id=2037954999]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere14"]
+[node name="Viewer" type="Node3D" parent="Sphere14" unique_id=1381876220]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere14/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere14/Viewer" unique_id=1417469372]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere15" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere15" type="Node" parent="." unique_id=2037658652 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-1000, 1000, -3000)
 
-[node name="Collider" type="Node" parent="Sphere15"]
+[node name="Collider" type="Node" parent="Sphere15" unique_id=1793249576]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere15"]
+[node name="Viewer" type="Node3D" parent="Sphere15" unique_id=40314980]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -3)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere15/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere15/Viewer" unique_id=1881306854]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere16" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere16" type="Node" parent="." unique_id=1198687344 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-1000, 1000, -2000)
 
-[node name="Collider" type="Node" parent="Sphere16"]
+[node name="Collider" type="Node" parent="Sphere16" unique_id=1786222074]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere16"]
+[node name="Viewer" type="Node3D" parent="Sphere16" unique_id=2013863476]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere16/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere16/Viewer" unique_id=168244639]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere17" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere17" type="Node" parent="." unique_id=1344691293 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-1000, 1000, -1000)
 
-[node name="Collider" type="Node" parent="Sphere17"]
+[node name="Collider" type="Node" parent="Sphere17" unique_id=19944258]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere17"]
+[node name="Viewer" type="Node3D" parent="Sphere17" unique_id=78176784]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere17/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere17/Viewer" unique_id=2144062811]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere18" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere18" type="Node" parent="." unique_id=1460665930 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-1000, 1000, 1000)
 
-[node name="Collider" type="Node" parent="Sphere18"]
+[node name="Collider" type="Node" parent="Sphere18" unique_id=1158128045]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere18"]
+[node name="Viewer" type="Node3D" parent="Sphere18" unique_id=876352097]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 1)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere18/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere18/Viewer" unique_id=737948918]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere19" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere19" type="Node" parent="." unique_id=1378132630 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-1000, 1000, 2000)
 
-[node name="Collider" type="Node" parent="Sphere19"]
+[node name="Collider" type="Node" parent="Sphere19" unique_id=97916572]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere19"]
+[node name="Viewer" type="Node3D" parent="Sphere19" unique_id=422074106]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere19/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere19/Viewer" unique_id=160509541]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere20" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere20" type="Node" parent="." unique_id=405849524 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-1000, 1000, 3000)
 
-[node name="Collider" type="Node" parent="Sphere20"]
+[node name="Collider" type="Node" parent="Sphere20" unique_id=113863023]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere20"]
+[node name="Viewer" type="Node3D" parent="Sphere20" unique_id=1476659276]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 3)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere20/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere20/Viewer" unique_id=851264936]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere21" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere21" type="Node" parent="." unique_id=515020266 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-1000, 1000, 0)
 
-[node name="Collider" type="Node" parent="Sphere21"]
+[node name="Collider" type="Node" parent="Sphere21" unique_id=240078852]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere21"]
+[node name="Viewer" type="Node3D" parent="Sphere21" unique_id=124396437]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 0)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere21/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere21/Viewer" unique_id=441415080]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere22" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere22" type="Node" parent="." unique_id=1197512995 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(0, 1000, -3000)
 
-[node name="Collider" type="Node" parent="Sphere22"]
+[node name="Collider" type="Node" parent="Sphere22" unique_id=1001293787]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere22"]
+[node name="Viewer" type="Node3D" parent="Sphere22" unique_id=749841731]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere22/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere22/Viewer" unique_id=874968537]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere23" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere23" type="Node" parent="." unique_id=1355599076 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(0, 1000, -2000)
 
-[node name="Collider" type="Node" parent="Sphere23"]
+[node name="Collider" type="Node" parent="Sphere23" unique_id=459875304]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere23"]
+[node name="Viewer" type="Node3D" parent="Sphere23" unique_id=367527809]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere23/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere23/Viewer" unique_id=708129272]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere24" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere24" type="Node" parent="." unique_id=950621725 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(0, 1000, -1000)
 
-[node name="Collider" type="Node" parent="Sphere24"]
+[node name="Collider" type="Node" parent="Sphere24" unique_id=1958776933]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere24"]
+[node name="Viewer" type="Node3D" parent="Sphere24" unique_id=448888243]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere24/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere24/Viewer" unique_id=2090406409]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere25" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere25" type="Node" parent="." unique_id=2048875614 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(0, 1000, 1000)
 
-[node name="Collider" type="Node" parent="Sphere25"]
+[node name="Collider" type="Node" parent="Sphere25" unique_id=1236846506]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere25"]
+[node name="Viewer" type="Node3D" parent="Sphere25" unique_id=1243176305]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere25/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere25/Viewer" unique_id=2080882973]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere26" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere26" type="Node" parent="." unique_id=2076548743 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(0, 1000, 2000)
 
-[node name="Collider" type="Node" parent="Sphere26"]
+[node name="Collider" type="Node" parent="Sphere26" unique_id=1061552121]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere26"]
+[node name="Viewer" type="Node3D" parent="Sphere26" unique_id=176608070]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere26/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere26/Viewer" unique_id=1318845122]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere27" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere27" type="Node" parent="." unique_id=2102738882 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(0, 1000, 3000)
 
-[node name="Collider" type="Node" parent="Sphere27"]
+[node name="Collider" type="Node" parent="Sphere27" unique_id=132474994]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere27"]
+[node name="Viewer" type="Node3D" parent="Sphere27" unique_id=1734297483]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere27/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere27/Viewer" unique_id=580984657]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere28" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere28" type="Node" parent="." unique_id=1827824888 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(0, 1000, 0)
 
-[node name="Collider" type="Node" parent="Sphere28"]
+[node name="Collider" type="Node" parent="Sphere28" unique_id=1184552827]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere28"]
+[node name="Viewer" type="Node3D" parent="Sphere28" unique_id=1154206891]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere28/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere28/Viewer" unique_id=1901586351]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere29" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere29" type="Node" parent="." unique_id=414898019 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(1000, 1000, -3000)
 
-[node name="Collider" type="Node" parent="Sphere29"]
+[node name="Collider" type="Node" parent="Sphere29" unique_id=1683629182]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere29"]
+[node name="Viewer" type="Node3D" parent="Sphere29" unique_id=32366565]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -3)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere29/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere29/Viewer" unique_id=1688057358]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere30" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere30" type="Node" parent="." unique_id=816284888 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(1000, 1000, -2000)
 
-[node name="Collider" type="Node" parent="Sphere30"]
+[node name="Collider" type="Node" parent="Sphere30" unique_id=2135518098]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere30"]
+[node name="Viewer" type="Node3D" parent="Sphere30" unique_id=1868275440]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere30/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere30/Viewer" unique_id=2126398584]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere31" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere31" type="Node" parent="." unique_id=1111135249 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(1000, 1000, -1000)
 
-[node name="Collider" type="Node" parent="Sphere31"]
+[node name="Collider" type="Node" parent="Sphere31" unique_id=1338822156]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere31"]
+[node name="Viewer" type="Node3D" parent="Sphere31" unique_id=1288182128]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -1)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere31/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere31/Viewer" unique_id=1001885368]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere32" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere32" type="Node" parent="." unique_id=1308914704 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(1000, 1000, 1000)
 
-[node name="Collider" type="Node" parent="Sphere32"]
+[node name="Collider" type="Node" parent="Sphere32" unique_id=1082803787]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere32"]
+[node name="Viewer" type="Node3D" parent="Sphere32" unique_id=495445178]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere32/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere32/Viewer" unique_id=77318202]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere33" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere33" type="Node" parent="." unique_id=1931215440 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(1000, 1000, 2000)
 
-[node name="Collider" type="Node" parent="Sphere33"]
+[node name="Collider" type="Node" parent="Sphere33" unique_id=43739563]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere33"]
+[node name="Viewer" type="Node3D" parent="Sphere33" unique_id=824657695]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere33/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere33/Viewer" unique_id=619413258]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere34" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere34" type="Node" parent="." unique_id=660309994 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(1000, 1000, 3000)
 
-[node name="Collider" type="Node" parent="Sphere34"]
+[node name="Collider" type="Node" parent="Sphere34" unique_id=1496426957]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere34"]
+[node name="Viewer" type="Node3D" parent="Sphere34" unique_id=1996751006]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 3)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere34/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere34/Viewer" unique_id=1031378866]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere35" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere35" type="Node" parent="." unique_id=655202931 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(1000, 1000, 0)
 
-[node name="Collider" type="Node" parent="Sphere35"]
+[node name="Collider" type="Node" parent="Sphere35" unique_id=1050100677]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere35"]
+[node name="Viewer" type="Node3D" parent="Sphere35" unique_id=1866446569]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere35/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere35/Viewer" unique_id=1986629494]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere36" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere36" type="Node" parent="." unique_id=999955280 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(2000, 1000, -3000)
 
-[node name="Collider" type="Node" parent="Sphere36"]
+[node name="Collider" type="Node" parent="Sphere36" unique_id=397364077]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere36"]
+[node name="Viewer" type="Node3D" parent="Sphere36" unique_id=1229929240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -3)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere36/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere36/Viewer" unique_id=244147756]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere37" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere37" type="Node" parent="." unique_id=2051234521 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(2000, 1000, -2000)
 
-[node name="Collider" type="Node" parent="Sphere37"]
+[node name="Collider" type="Node" parent="Sphere37" unique_id=430956549]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere37"]
+[node name="Viewer" type="Node3D" parent="Sphere37" unique_id=1519900242]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere37/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere37/Viewer" unique_id=931456566]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere38" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere38" type="Node" parent="." unique_id=278641567 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(2000, 1000, -1000)
 
-[node name="Collider" type="Node" parent="Sphere38"]
+[node name="Collider" type="Node" parent="Sphere38" unique_id=1699878468]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere38"]
+[node name="Viewer" type="Node3D" parent="Sphere38" unique_id=64621063]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -1)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere38/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere38/Viewer" unique_id=1119289218]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere39" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere39" type="Node" parent="." unique_id=132605401 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(2000, 1000, 1000)
 
-[node name="Collider" type="Node" parent="Sphere39"]
+[node name="Collider" type="Node" parent="Sphere39" unique_id=763352304]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere39"]
+[node name="Viewer" type="Node3D" parent="Sphere39" unique_id=561605826]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 1)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere39/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere39/Viewer" unique_id=306519746]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere40" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere40" type="Node" parent="." unique_id=132540250 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(2000, 1000, 2000)
 
-[node name="Collider" type="Node" parent="Sphere40"]
+[node name="Collider" type="Node" parent="Sphere40" unique_id=1659899905]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere40"]
+[node name="Viewer" type="Node3D" parent="Sphere40" unique_id=1983535578]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere40/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere40/Viewer" unique_id=1039178203]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere41" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere41" type="Node" parent="." unique_id=616305260 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(2000, 1000, 3000)
 
-[node name="Collider" type="Node" parent="Sphere41"]
+[node name="Collider" type="Node" parent="Sphere41" unique_id=671798909]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere41"]
+[node name="Viewer" type="Node3D" parent="Sphere41" unique_id=1017970677]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 3)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere41/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere41/Viewer" unique_id=436505076]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere42" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere42" type="Node" parent="." unique_id=1212133337 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(2000, 1000, 0)
 
-[node name="Collider" type="Node" parent="Sphere42"]
+[node name="Collider" type="Node" parent="Sphere42" unique_id=1730829178]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere42"]
+[node name="Viewer" type="Node3D" parent="Sphere42" unique_id=578514700]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere42/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere42/Viewer" unique_id=1890873735]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere43" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere43" type="Node" parent="." unique_id=1754518910 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(3000, 1000, -3000)
 
-[node name="Collider" type="Node" parent="Sphere43"]
+[node name="Collider" type="Node" parent="Sphere43" unique_id=1610291060]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere43"]
+[node name="Viewer" type="Node3D" parent="Sphere43" unique_id=841429069]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, -3)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere43/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere43/Viewer" unique_id=692550603]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere44" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere44" type="Node" parent="." unique_id=1611745713 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(3000, 1000, -2000)
 
-[node name="Collider" type="Node" parent="Sphere44"]
+[node name="Collider" type="Node" parent="Sphere44" unique_id=1313980812]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere44"]
+[node name="Viewer" type="Node3D" parent="Sphere44" unique_id=1945411183]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, -2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere44/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere44/Viewer" unique_id=1916839511]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere45" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere45" type="Node" parent="." unique_id=782784493 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(3000, 1000, -1000)
 
-[node name="Collider" type="Node" parent="Sphere45"]
+[node name="Collider" type="Node" parent="Sphere45" unique_id=216226151]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere45"]
+[node name="Viewer" type="Node3D" parent="Sphere45" unique_id=249259170]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, -1)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere45/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere45/Viewer" unique_id=174349679]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere46" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere46" type="Node" parent="." unique_id=900357544 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(3000, 1000, 1000)
 
-[node name="Collider" type="Node" parent="Sphere46"]
+[node name="Collider" type="Node" parent="Sphere46" unique_id=1705710069]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere46"]
+[node name="Viewer" type="Node3D" parent="Sphere46" unique_id=836591526]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 1)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere46/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere46/Viewer" unique_id=880474780]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere47" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere47" type="Node" parent="." unique_id=1439706007 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(3000, 1000, 2000)
 
-[node name="Collider" type="Node" parent="Sphere47"]
+[node name="Collider" type="Node" parent="Sphere47" unique_id=319819929]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere47"]
+[node name="Viewer" type="Node3D" parent="Sphere47" unique_id=1563682246]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere47/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere47/Viewer" unique_id=30245514]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere48" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere48" type="Node" parent="." unique_id=932440817 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(3000, 1000, 3000)
 
-[node name="Collider" type="Node" parent="Sphere48"]
+[node name="Collider" type="Node" parent="Sphere48" unique_id=1870742787]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere48"]
+[node name="Viewer" type="Node3D" parent="Sphere48" unique_id=714349146]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 3)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere48/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere48/Viewer" unique_id=28846941]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Sphere49" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Sphere49" type="Node" parent="." unique_id=1710854627 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(3000, 1000, 0)
 
-[node name="Collider" type="Node" parent="Sphere49"]
+[node name="Collider" type="Node" parent="Sphere49" unique_id=954002829]
 script = ExtResource("4_noiqf")
 startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
-[node name="Viewer" type="Node3D" parent="Sphere49"]
+[node name="Viewer" type="Node3D" parent="Sphere49" unique_id=784985982]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere49/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere49/Viewer" unique_id=625731330]
 mesh = SubResource("SphereMesh_agu8f")
 skeleton = NodePath("../..")
 
-[node name="Floor" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Floor" type="Node" parent="." unique_id=110185501 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("5_i271v")
 Colliders = [NodePath("Collider")]
 Attachments = []
@@ -1028,19 +1028,19 @@ BodyMode = 2
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(0, -100, 0)
 
-[node name="Collider" type="Node" parent="Floor"]
+[node name="Collider" type="Node" parent="Floor" unique_id=1709081661]
 script = ExtResource("6_l5q2h")
 startingExtents = Vector3i(4000, 100, 4000)
 Faces = []
 
-[node name="Viewer" type="Node3D" parent="Floor"]
+[node name="Viewer" type="Node3D" parent="Floor" unique_id=113394271]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Floor/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Floor/Viewer" unique_id=777943246]
 mesh = SubResource("BoxMesh_7l8t4")
 skeleton = NodePath("../..")
 
-[node name="Wall" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Wall" type="Node" parent="." unique_id=7775772 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("5_i271v")
 Colliders = [NodePath("Collider")]
 Attachments = []
@@ -1048,19 +1048,19 @@ BodyMode = 2
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(0, 500, 4000)
 
-[node name="Collider" type="Node" parent="Wall"]
+[node name="Collider" type="Node" parent="Wall" unique_id=1505241276]
 script = ExtResource("6_l5q2h")
 startingExtents = Vector3i(4000, 1000, 100)
 Faces = []
 
-[node name="Viewer" type="Node3D" parent="Wall"]
+[node name="Viewer" type="Node3D" parent="Wall" unique_id=124295584]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 4)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Wall/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Wall/Viewer" unique_id=1904150742]
 mesh = SubResource("BoxMesh_kow3i")
 skeleton = NodePath("../..")
 
-[node name="Wall2" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Wall2" type="Node" parent="." unique_id=1039860172 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("5_i271v")
 Colliders = [NodePath("Collider")]
 Attachments = []
@@ -1068,19 +1068,19 @@ BodyMode = 2
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(0, 500, -4000)
 
-[node name="Collider" type="Node" parent="Wall2"]
+[node name="Collider" type="Node" parent="Wall2" unique_id=331596365]
 script = ExtResource("6_l5q2h")
 startingExtents = Vector3i(4000, 1000, 100)
 Faces = []
 
-[node name="Viewer" type="Node3D" parent="Wall2"]
+[node name="Viewer" type="Node3D" parent="Wall2" unique_id=1060694682]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -4)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Wall2/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Wall2/Viewer" unique_id=226874119]
 mesh = SubResource("BoxMesh_kow3i")
 skeleton = NodePath("../..")
 
-[node name="Wall3" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Wall3" type="Node" parent="." unique_id=135298027 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("5_i271v")
 Colliders = [NodePath("Collider")]
 Attachments = []
@@ -1088,20 +1088,20 @@ BodyMode = 2
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(4000, 500, 0)
 
-[node name="Collider" type="Node" parent="Wall3"]
+[node name="Collider" type="Node" parent="Wall3" unique_id=584527642]
 script = ExtResource("6_l5q2h")
 startingExtents = Vector3i(100, 1000, 4000)
 Faces = []
 
-[node name="Viewer" type="Node3D" parent="Wall3"]
+[node name="Viewer" type="Node3D" parent="Wall3" unique_id=601759615]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.5, 0)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Wall3/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Wall3/Viewer" unique_id=1639140315]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("BoxMesh_kow3i")
 skeleton = NodePath("../..")
 
-[node name="Wall4" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+[node name="Wall4" type="Node" parent="." unique_id=380818530 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("5_i271v")
 Colliders = [NodePath("Collider")]
 Attachments = []
@@ -1109,27 +1109,27 @@ BodyMode = 2
 Renderer = NodePath("Viewer")
 startingPosition = Vector3i(-4000, 500, 0)
 
-[node name="Collider" type="Node" parent="Wall4"]
+[node name="Collider" type="Node" parent="Wall4" unique_id=2104719807]
 script = ExtResource("6_l5q2h")
 startingExtents = Vector3i(100, 1000, 4000)
 Faces = []
 
-[node name="Viewer" type="Node3D" parent="Wall4"]
+[node name="Viewer" type="Node3D" parent="Wall4" unique_id=574234061]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.5, 0)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Wall4/Viewer"]
+[node name="MeshInstance" type="MeshInstance3D" parent="Wall4/Viewer" unique_id=1629539559]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("BoxMesh_kow3i")
 skeleton = NodePath("../..")
 
-[node name="Camera" type="Camera3D" parent="."]
+[node name="Camera" type="Camera3D" parent="." unique_id=1388357006]
 transform = Transform3D(0.758953, 0.328364, -0.562288, -3.82317e-08, 0.863536, 0.504287, 0.651145, -0.38273, 0.655384, -4.05011, 2.51961, 4.16555)
 current = true
 size = 9.0
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1039638242]
 environment = SubResource("Environment_bff8o")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=915305801]
 transform = Transform3D(0.76591, 0.470268, -0.43844, 0, 0.681922, 0.731425, 0.642948, -0.560206, 0.522291, -1.96341, 1.98419, 3.05469)
 shadow_enabled = true

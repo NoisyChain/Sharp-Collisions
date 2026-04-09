@@ -39,7 +39,6 @@ nodes = [NodePath("../Sphere1"), NodePath("../Sphere2"), NodePath("../Sphere3"),
 Substeps = 2
 debugLineThickness = 0.012
 RunOnDedicatedThread = true
-ShowDebugShapes = true
 
 [node name="Sphere1" type="Node" parent="." unique_id=57864010 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 process_mode = 4

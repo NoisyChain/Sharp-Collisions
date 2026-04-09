@@ -56,6 +56,7 @@ namespace SharpCollisions.Sharp2D
 
         private void UpdateCapsulePoints(FixVector2 position, Fix64 rotation)
         {
+            CreateCapsulePoints();
             UpperPoint = FixVector2.Rotate(RawUpperPoint, RotationOffset);
             LowerPoint = FixVector2.Rotate(RawLowerPoint, RotationOffset);
             UpperPoint = FixVector2.Transform(UpperPoint + PositionOffset, position, rotation);
@@ -165,7 +166,29 @@ namespace SharpCollisions.Sharp2D
             Depth = FixVector2.Zero;
             ContactPoint = FixVector2.Zero;
 
-            LineToLineDistance(colliderA.UpperPoint, colliderA.LowerPoint, colliderB.UpperPoint, colliderB.LowerPoint, out FixVector2 r1, out FixVector2 r2);
+            FixVector2 r1 = FixVector2.Zero;
+            FixVector2 r2 = FixVector2.Zero;
+
+            bool colA_Sphere = colliderA.Radius >= colliderA.Height;
+            bool colB_Sphere = colliderB.Radius >= colliderB.Height;
+
+            if (colA_Sphere && colB_Sphere)
+            {
+                r1 = (colliderA.UpperPoint + colliderA.LowerPoint) / Fix64.Two;
+                r2 = (colliderA.UpperPoint + colliderA.LowerPoint) / Fix64.Two;
+            }
+            else if (!colA_Sphere && colB_Sphere)
+            {
+                r2 = (colliderB.UpperPoint + colliderB.LowerPoint) / Fix64.Two;
+                LineToPointDistance(colliderA.UpperPoint, colliderA.LowerPoint, r2, out r1);
+            }
+            else if (colA_Sphere && !colB_Sphere)
+            {
+                r1 = (colliderA.UpperPoint + colliderA.LowerPoint) / Fix64.Two;
+                LineToPointDistance(colliderB.UpperPoint, colliderB.LowerPoint, r1, out r2);
+            }
+            else 
+                LineToLineDistance(colliderA.UpperPoint, colliderA.LowerPoint, colliderB.UpperPoint, colliderB.LowerPoint, out r1, out r2);
 
             Fix64 radii = colliderA.Radius + colliderB.Radius;
             Fix64 radiiSq = radii * radii;
@@ -177,12 +200,19 @@ namespace SharpCollisions.Sharp2D
             {
                 Normal = FixVector2.Normalize(r2 - r1);
                 Depth = Normal * (radii - distance);
-                ContactPoint = CapsuleContactPoint
-                (
-                    colliderA.UpperPoint, colliderA.LowerPoint,
-                    colliderB.UpperPoint, colliderB.LowerPoint,
-                    colliderA.Radius, colliderB.Radius, Normal
-                );
+                if (!colA_Sphere && !colB_Sphere)
+                {
+                    ContactPoint = CapsuleContactPoint
+                    (
+                        colliderA.UpperPoint, colliderA.LowerPoint,
+                        colliderB.UpperPoint, colliderB.LowerPoint,
+                        colliderA.Radius, colliderB.Radius, Normal
+                    ); 
+                }
+                else
+                {
+                    ContactPoint = CircleContactPoint(r1, colliderA.Radius, r2, colliderB.Radius, Normal);
+                }
             }
 
             return collision;

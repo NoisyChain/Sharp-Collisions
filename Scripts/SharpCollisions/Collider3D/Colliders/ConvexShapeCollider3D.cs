@@ -88,6 +88,7 @@ namespace SharpCollisions.Sharp3D
 
         private void UpdatePolygonPoints(FixVector3 position, FixVector3 rotation)
         {
+            CreatePolygonPoints();
             for (int i = 0; i < RawPoints.Length; i++)
             {
                 FixVector3 rotPoints = FixVector3.Rotate(RawPoints[i], RotationOffset);

@@ -8,6 +8,7 @@ namespace SharpCollisions.Sharp3D
 	{
 		[Export] public bool Active = true;
 		[Export] public bool isTrigger = false;
+		[Export] public bool TriggerDetectsSolidBodies = true;
 		[Export] protected Vector3I startingPositionOffset;
 		[Export] protected Vector3I startingRotationOffset;
 		[Export] protected bool DrawDebug;

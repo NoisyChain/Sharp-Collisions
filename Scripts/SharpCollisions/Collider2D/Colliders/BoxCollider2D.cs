@@ -13,15 +13,14 @@ namespace SharpCollisions.Sharp2D
 
         public override void Initialize()
         {
-            base.Initialize();
             Extents = new FixVector2(
                 (Fix64)startingExtents.X / SharpNode.NodeScale,
                 (Fix64)startingExtents.Y / SharpNode.NodeScale
             );
-            CreateBoxPoints();
+            base.Initialize();
         }
 
-        private void CreateBoxPoints()
+        public override void CreatePolygonPoints()
         {
             RawPoints = new FixVector2[]
             {

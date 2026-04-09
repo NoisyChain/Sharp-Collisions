@@ -1,4 +1,5 @@
 using FixMath.NET;
+using System;
 
 namespace SharpCollisions
 {
@@ -17,6 +18,7 @@ namespace SharpCollisions
         public static Fix64 UnscaledSubDelta => Fix64.One / (Fix64)SubTicksPerSecond;
         public static Fix64 SubDelta => UnscaledSubDelta * TimeScale;
         public static Fix64 TimeScale;
+        public static long Now => DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
         public static void Set(int tps, int steps)
         {

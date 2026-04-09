@@ -1,5 +1,4 @@
 using Godot;
-using System.Collections.Generic;
 using System.Threading;
 using Godot.Collections;
 using SharpCollisions.Sharp2D;
@@ -90,12 +89,18 @@ namespace SharpCollisions
 
         private void Loop()
 		{
+			long threadStartTime;
+            long threadEndTime;
 			while(true)
 			{
+				threadStartTime = SharpTime.Now;
 				physicsMutex.WaitOne();
 				PhysicsLoop();
 				physicsMutex.ReleaseMutex();
-				Thread.Sleep((int)(1f / TicksPerSecond * 1000));
+				threadEndTime = SharpTime.Now;
+                int sleepTime = (int)((1 / 60f) * 1000);
+                int threadTime = (int)(threadEndTime - threadStartTime);
+                Thread.Sleep(Mathf.Max(sleepTime - threadTime, 0));
 			}
 		}
 

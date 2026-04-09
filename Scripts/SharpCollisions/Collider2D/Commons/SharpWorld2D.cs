@@ -136,16 +136,21 @@ namespace SharpCollisions.Sharp2D
 
 			for (int i = 0; i < bodyA.GetColliders().Length; i++)
 			{
+				var colA = bodyA.GetCollider(i);
 				for (int j = 0; j < bodyB.GetColliders().Length; j++)
 				{
-					if (!bodyA.GetCollider(i).Active || !bodyB.GetCollider(j).Active)
+					var colB = bodyB.GetCollider(j);
+
+					if (!colA.Active || !colB.Active)
 					{ ClearCollision(indA, i, indB, j); continue; }
-					if (!bodyA.GetCollider(i).BoundingBox.IsOverlapping(bodyB.GetCollider(j).BoundingBox))
+					if ((colA.TriggerIgnoresSolid && !colB.IsTrigger) || (colB.TriggerIgnoresSolid && !colA.IsTrigger))
+					{ ClearCollision(indA, i, indB, j);  continue; }
+					if (!colA.BoundingBox.IsOverlapping(colB.BoundingBox))
 					{ ClearCollision(indA, i, indB, j); continue; }
 
 					PossibleCollisions.Add(new PossibleCollision(
 						indA, indB, i, j, Mathf.Max(bodyA.Priority, bodyB.Priority),
-						GetCollisionDistance(bodyA.GetCollider(i), bodyB.GetCollider(j))
+						GetCollisionDistance(colA, colB)
 					));
 				}
 			}
@@ -162,7 +167,7 @@ namespace SharpCollisions.Sharp2D
 
 				if (bodyA.GetCollider(colIndA).IsOverlapping(bodyB.GetCollider(colIndB), out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint))
 				{
-					if (!bodyA.GetCollider(colIndA).isTrigger && !bodyB.GetCollider(colIndB).isTrigger)
+					if (!bodyA.GetCollider(colIndA).IsTrigger && !bodyB.GetCollider(colIndB).IsTrigger)
 					{
 						if (bodyA.BodyMode == 1 || bodyB.BodyMode == 1)
 						{
@@ -187,7 +192,7 @@ namespace SharpCollisions.Sharp2D
 					bodyA.AddCollision(new CollisionManifold2D(bodyB, colIndA, colIndB, -Normal, Depth, ContactPoint));
 					bodyB.AddCollision(new CollisionManifold2D(bodyA, colIndB, colIndA, Normal, Depth, ContactPoint));
 
-					if (!bodyA.GetCollider(colIndA).isTrigger && !bodyB.GetCollider(colIndB).isTrigger)
+					if (!bodyA.GetCollider(colIndA).IsTrigger && !bodyB.GetCollider(colIndB).IsTrigger)
 					{
 						bodyA.GetCollider(colIndA).GetCollisionFlags(-Normal, bodyA);
 						bodyB.GetCollider(colIndB).GetCollisionFlags(Normal, bodyB);
@@ -217,14 +222,13 @@ namespace SharpCollisions.Sharp2D
 			{
 				CollisionManifold2D col = bodyA.GetCollision(bodyB, colB);
 				if (col == null) return;
+				bodyA.OnOverlap(col);
 
 				if (!bodyA.HasCollidedWith((bodyB.GetBodyID(), colB)))
 				{
 					bodyA.OnBeginOverlap(col);
 					bodyA.ConfirmCollision((bodyB.GetBodyID(), colB));
 				}
-				else
-					bodyA.OnOverlap(col);
 			}
 			else
 			{

@@ -7,7 +7,7 @@ namespace SharpCollisions.Sharp3D
 	public partial class SharpCollider3D : Node
 	{
 		[Export] public bool Active = true;
-		[Export] public bool isTrigger = false;
+		[Export] public bool IsTrigger = false;
 		[Export] public bool TriggerDetectsSolidBodies = true;
 		[Export] protected Vector3I startingPositionOffset;
 		[Export] protected Vector3I startingRotationOffset;
@@ -23,6 +23,8 @@ namespace SharpCollisions.Sharp3D
 		public FixVector3 RotationOffset;
 		public FixVector3 Center;
 		public FixVolume BoundingBox;
+
+		public bool TriggerIgnoresSolid => IsTrigger && !TriggerDetectsSolidBodies;
 
 		/*public SharpCollider2D(){}
 		

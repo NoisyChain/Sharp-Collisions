@@ -31,10 +31,16 @@ namespace SharpCollisions.Sharp2D.Quadtree
             SW = null;
             SE = null;
 
-            foreach (SharpBody2D s in shapes)
+            foreach (SharpBody2D body in shapes)
             {
-                if (Area.IsOverlapping(s.BoundingBox))
-                    Content.Add(s);
+                foreach(SharpCollider2D col in body.GetColliders())
+                {
+                    if (Area.IsOverlapping(col.BoundingBox))
+                    {
+                        Content.Add(body);
+                        break;
+                    }
+                }
             }
             if (Content.Count <= Limit) return;
 
@@ -66,12 +72,16 @@ namespace SharpCollisions.Sharp2D.Quadtree
                 if (Content == null || Content.Count == 0) return;
                 if (!Area.IsOverlapping(queryArea)) return;
 
-                for (int i = 0; i < Content.Count; i++)
+                foreach (SharpBody2D body in Content)
                 {
-                    if (result.Contains(Content[i])) continue;
-                    if (!queryArea.IsOverlapping(Content[i].BoundingBox)) continue;
+                    if (result.Contains(body)) continue;
+                    foreach(SharpCollider2D col in body.GetColliders())
+                    {
+                        if (!queryArea.IsOverlapping(col.BoundingBox)) continue;
 
-                    result.Add(Content[i]);
+                        result.Add(body);
+                        break;
+                    }
                 }
             }
         }
@@ -96,9 +106,17 @@ namespace SharpCollisions.Sharp2D.Quadtree
                         IntPack2 newCol = new IntPack2((int)Content[i].GetBodyID(), (int)Content[j].GetBodyID());
                         if (collisions.Contains(newCol)) continue;
                         if (collisions.Contains(newCol.Inverse)) continue;
-                        if (!Content[i].BoundingBox.IsOverlapping(Content[j].BoundingBox)) continue;
+                        
+                        foreach(SharpCollider2D colA in Content[i].GetColliders())
+                        {
+                            foreach(SharpCollider2D colB in Content[j].GetColliders())
+                            {
+                                if (!colA.BoundingBox.IsOverlapping(colB.BoundingBox)) continue;
 
-                        collisions.Add(newCol);
+                                collisions.Add(newCol);
+                                break;
+                            }
+                        }
                     }
                 }
             }

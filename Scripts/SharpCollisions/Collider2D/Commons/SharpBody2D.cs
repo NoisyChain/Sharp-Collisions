@@ -25,7 +25,6 @@ namespace SharpCollisions.Sharp2D
 		private List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
 		private List<(uint, int)> CollidedWith = new List<(uint, int)>();
 		private List<uint> BodiesToIgnore = new List<uint>();
-		public FixRect BoundingBox = new FixRect();
 
 		public void SetAttachment(SharpBody2D parent) { AttachedTo = parent; }
 		public bool HasAttachments() => Attachments != null && Attachments.Length > 0;
@@ -182,29 +181,6 @@ namespace SharpCollisions.Sharp2D
 		{
 			CollidedWith.Remove(col);
 		}
-
-		private void UpdateBoundingBox()
-		{
-			Fix64 minX = Fix64.MaxValue;
-            Fix64 minY = Fix64.MaxValue;
-            Fix64 maxX = Fix64.MinValue;
-            Fix64 maxY = Fix64.MinValue;
-
-			for (int i = 0; i < Colliders.Length; i++)
-			{
-				if (Colliders[i].BoundingBox.x < minX)
-					minX = Colliders[i].BoundingBox.x;
-				if (Colliders[i].BoundingBox.w > maxX)
-					maxX = Colliders[i].BoundingBox.w;
-				if (Colliders[i].BoundingBox.y < minY)
-					minY = Colliders[i].BoundingBox.y;
-				if (Colliders[i].BoundingBox.h > maxY)
-					maxY = Colliders[i].BoundingBox.h;
-
-			}
-            
-            BoundingBox = new FixRect(minX, minY, maxX, maxY);
-		}
 		
 		public void SetLinearVelocity(FixVector2 newVelocity)
 		{
@@ -318,7 +294,6 @@ namespace SharpCollisions.Sharp2D
 			}
 
 			UpdateAttachments();
-			UpdateBoundingBox();
 			//collidersRequireUpdate = false;
 		}
 

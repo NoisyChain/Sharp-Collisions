@@ -39,10 +39,16 @@ namespace SharpCollisions.Sharp3D.Octree
             SW_N = null;
             SE_N = null;
 
-            foreach (SharpBody3D s in shapes)
+            foreach (SharpBody3D body in shapes)
             {
-                if (Area.IsOverlapping(s.BoundingBox))
-                    Content.Add(s);
+                foreach(SharpCollider3D col in body.GetColliders())
+                {
+                    if (Area.IsOverlapping(col.BoundingBox))
+                    {
+                        Content.Add(body);
+                        break;
+                    }
+                }
             }
             if (Content.Count <= Limit) return;
 
@@ -86,12 +92,16 @@ namespace SharpCollisions.Sharp3D.Octree
                 if (Content == null || Content.Count == 0) return;
                 if (!Area.IsOverlapping(queryArea)) return;
 
-                for (int i = 0; i < Content.Count; i++)
+                foreach (SharpBody3D body in Content)
                 {
-                    if (result.Contains(Content[i])) continue;
-                    if (!queryArea.IsOverlapping(Content[i].BoundingBox)) continue;
+                    if (result.Contains(body)) continue;
+                    foreach(SharpCollider3D col in body.GetColliders())
+                    {
+                        if (!queryArea.IsOverlapping(col.BoundingBox)) continue;
 
-                    result.Add(Content[i]);
+                        result.Add(body);
+                        break;
+                    }
                 }
             }
         }
@@ -120,9 +130,16 @@ namespace SharpCollisions.Sharp3D.Octree
                         IntPack2 newCol = new IntPack2((int)Content[i].GetBodyID(), (int)Content[j].GetBodyID());
                         if (collisions.Contains(newCol)) continue;
                         if (collisions.Contains(newCol.Inverse)) continue;
-                        if (!Content[i].BoundingBox.IsOverlapping(Content[j].BoundingBox)) continue;
+                        foreach(SharpCollider3D colA in Content[i].GetColliders())
+                        {
+                            foreach(SharpCollider3D colB in Content[j].GetColliders())
+                            {
+                                if (!colA.BoundingBox.IsOverlapping(colB.BoundingBox)) continue;
 
-                        collisions.Add(newCol);
+                                collisions.Add(newCol);
+                                break;
+                            }
+                        }
                     }
                 }
             }

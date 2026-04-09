@@ -25,7 +25,6 @@ namespace SharpCollisions.Sharp3D
 		private List<CollisionManifold3D> Collisions = new List<CollisionManifold3D>();
 		private List<(uint, int)> CollidedWith = new List<(uint, int)>();
 		private List<uint> BodiesToIgnore = new List<uint>();
-		public FixVolume BoundingBox = new FixVolume();
 
 		public void SetAttachment(SharpBody3D parent) { AttachedTo = parent; }
 		public bool HasAttachments() => Attachments != null && Attachments.Length > 0;
@@ -182,35 +181,6 @@ namespace SharpCollisions.Sharp3D
 		{
 			CollidedWith.Remove(col);
 		}
-
-		private void UpdateBoundingBox()
-		{
-			Fix64 minX = Fix64.MaxValue;
-            Fix64 minY = Fix64.MaxValue;
-			Fix64 minZ = Fix64.MaxValue;
-            Fix64 maxX = Fix64.MinValue;
-            Fix64 maxY = Fix64.MinValue;
-			Fix64 maxZ = Fix64.MinValue;
-
-			for (int i = 0; i < Colliders.Length; i++)
-			{
-				if (Colliders[i].BoundingBox.x < minX)
-					minX = Colliders[i].BoundingBox.x;
-				if (Colliders[i].BoundingBox.w > maxX)
-					maxX = Colliders[i].BoundingBox.w;
-				if (Colliders[i].BoundingBox.y < minY)
-					minY = Colliders[i].BoundingBox.y;
-				if (Colliders[i].BoundingBox.h > maxY)
-					maxY = Colliders[i].BoundingBox.h;
-				if (Colliders[i].BoundingBox.z < minZ)
-					minZ = Colliders[i].BoundingBox.z;
-				if (Colliders[i].BoundingBox.d > maxZ)
-					maxZ = Colliders[i].BoundingBox.d;
-
-			}
-            
-            BoundingBox = new FixVolume(minX, minY, minZ, maxX, maxY, maxZ);
-		}
 		
 		public void SetLinearVelocity(FixVector3 newVelocity)
 		{
@@ -320,7 +290,6 @@ namespace SharpCollisions.Sharp3D
 			}
 
 			UpdateAttachments();
-			UpdateBoundingBox();
 			//collidersRequireUpdate = false;
 		}
 

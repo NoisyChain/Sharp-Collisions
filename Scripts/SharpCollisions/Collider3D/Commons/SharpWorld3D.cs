@@ -135,8 +135,6 @@ namespace SharpCollisions.Sharp3D
 			{ ClearCollision(indA, 0, indB, 0); return; }
 			if (!CompareLayers(bodyA, bodyB))
 			{ ClearCollision(indA, 0, indB, 0); return; }
-			if (!bodyA.BoundingBox.IsOverlapping(bodyB.BoundingBox))
-			{ ClearCollision(indA, 0, indB, 0); return; }
 
 			for (int i = 0; i < bodyA.GetColliders().Length; i++)
 			{

@@ -34,7 +34,7 @@ namespace SharpCollisions.Sharp2D
 		public SharpCollider2D[] GetColliders() => Colliders;
 		public SharpCollider2D GetCollider(int index) => Colliders[index];
 
-		private bool collidersRequireUpdate;
+		//private bool collidersRequireUpdate;
 
 		/*public SharpBody2D() {}
 		
@@ -65,8 +65,7 @@ namespace SharpCollisions.Sharp2D
 				foreach (SharpCollider2D col in Colliders)
 					col.Initialize();
 
-			collidersRequireUpdate = true;
-			UpdateColliders();
+			//collidersRequireUpdate = true;
 			
 			if (HasAttachments())
 			{
@@ -75,9 +74,9 @@ namespace SharpCollisions.Sharp2D
 					child.SetAttachment(this);
 					child._Instance();
 				}
-
-				UpdateAttachments();
 			}
+
+			UpdateColliders();
 		}
 
 		public override void _Process(double delta)
@@ -236,7 +235,7 @@ namespace SharpCollisions.Sharp2D
 			if (FixVector2.Length(LinearVelocity) == Fix64.Zero) return;
 
 			FixedPosition += LinearVelocity * SharpTime.SubDelta;
-			collidersRequireUpdate = true;
+			//collidersRequireUpdate = true;
 		}
 
 		public void Rotate()
@@ -244,7 +243,7 @@ namespace SharpCollisions.Sharp2D
 			if (AngularVelocity == Fix64.Zero) return;
 
 			FixedRotation += AngularVelocity * SharpTime.SubDelta;
-			collidersRequireUpdate = true;
+			//collidersRequireUpdate = true;
 		}
 
 		public void UpdateBody()
@@ -262,7 +261,7 @@ namespace SharpCollisions.Sharp2D
 			if (BodyMode == 2) return;
 
 			FixedRotation = angle;
-			collidersRequireUpdate = true;
+			//collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 
@@ -277,7 +276,7 @@ namespace SharpCollisions.Sharp2D
 			if (IsAttached()) return;
 
 			FixedPosition += direction;
-			collidersRequireUpdate = true;
+			//collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 		
@@ -286,7 +285,7 @@ namespace SharpCollisions.Sharp2D
 			if (BodyMode == 2) return;
 			
 			FixedPosition = destination;
-			collidersRequireUpdate = true;
+			//collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 		
@@ -309,7 +308,7 @@ namespace SharpCollisions.Sharp2D
 				return;
 			}
 
-			if (!collidersRequireUpdate) return;
+			//if (!collidersRequireUpdate) return;
 
 			foreach (SharpCollider2D col in Colliders)
 			{
@@ -320,7 +319,7 @@ namespace SharpCollisions.Sharp2D
 
 			UpdateAttachments();
 			UpdateBoundingBox();
-			collidersRequireUpdate = false;
+			//collidersRequireUpdate = false;
 		}
 
 		public void ClearFlags()

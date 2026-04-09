@@ -8,13 +8,17 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Sharp Collisions 4"
 config/description="C# deterministic collision system"
 config/tags=PackedStringArray("experiment", "high_priority", "library")
 run/main_scene="res://Scenes/Menu.tscn"
-config/features=PackedStringArray("4.5", "C#", "GL Compatibility")
+config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [debug_draw_3d]
@@ -22,6 +26,7 @@ config/icon="res://icon.svg"
 settings/3d/volumetric_defaults/thickness=0.012
 settings/3d/rendering/render_priority=1
 settings/addon_root_folder="res://addons/debug_draw_3d"
+settings/updates/check_for_updates=false
 
 [display]
 
@@ -79,6 +84,7 @@ common/enable_pause_aware_picking=true
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_environment="res://default_env.tres"
 
 [sharp_collisions]

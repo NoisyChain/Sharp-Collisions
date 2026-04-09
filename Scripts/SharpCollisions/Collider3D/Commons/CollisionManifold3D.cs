@@ -4,7 +4,7 @@ using Godot;
 namespace SharpCollisions.Sharp3D
 {
     [System.Serializable]
-    public partial class CollisionManifold3D : GodotObject
+    public partial class CollisionManifold3D
     {
         public SharpBody3D CollidedWith;
         public int ColliderA;

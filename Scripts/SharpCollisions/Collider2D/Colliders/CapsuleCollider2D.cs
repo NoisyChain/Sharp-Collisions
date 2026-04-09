@@ -121,7 +121,7 @@ namespace SharpCollisions.Sharp2D
             Vector3 Up = new Vector3(upperPoint.X, upperPoint.Y, 0);
             Vector3 Low = new Vector3(lowerPoint.X, lowerPoint.Y, 0);
 
-            if (Radius >= Height)
+            if (startingRadius >= startingHeight)
             {
                 DebugDraw3D.DrawSimpleSphere((Up + Low) * 0.5f, LineNormal, Dir, Vector3.Zero, inflatedRadius, debugColor);
             }

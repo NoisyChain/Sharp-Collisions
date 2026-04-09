@@ -45,6 +45,7 @@ script = ExtResource("2_fb5pd")
 nodes = [NodePath("../Character"), NodePath("../Floor"), NodePath("../Floor2"), NodePath("../Floor3"), NodePath("../Sphere"), NodePath("../Polygon"), NodePath("../Polygon2"), NodePath("../Capsule"), NodePath("../AABBTest"), NodePath("../AABBTest2")]
 Substeps = 2
 RunOnDedicatedThread = true
+ShowDebugShapes = true
 
 [node name="Character" parent="." unique_id=1388365258 instance=ExtResource("5")]
 CeilingAngleLimit = 15

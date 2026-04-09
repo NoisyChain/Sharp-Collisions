@@ -124,7 +124,7 @@ namespace SharpCollisions.Sharp3D
             Vector3 LineSpacing1 = DirX * inflatedRadius;
             Vector3 LineSpacing2 = DirZ * inflatedRadius;
 
-            if (Radius >= Height)
+            if (startingRadius >= startingHeight)
             {
                 DebugDraw3D.DrawSimpleSphere((upperPoint + lowerPoint) * 0.5f, DirX, DirY, DirZ, inflatedRadius, debugColor);
             }

@@ -69,8 +69,7 @@ namespace SharpCollisions.Sharp3D
             if (!DrawDebug) return;
 
             Vector3 DirY = (Vector3)FixVector3.Normalize(UpperPoint - LowerPoint);
-            if (DirY.Length() <= 0.001) DirY = Vector3.Up;
-            Vector3 DirX = SharpHelpers.GetLineNormal3D(DirY, (Vector3)reference.Forward, (Vector3)reference.Up);//normal.Normalized();
+            Vector3 DirX = SharpHelpers.GetLineNormal3D(DirY, (Vector3)reference.Forward, (Vector3)reference.Up);
             Vector3 DirZ = DirX.Cross(DirY);
 
             float inflatedRadius = (float)Radius + 0.005f;
@@ -78,10 +77,14 @@ namespace SharpCollisions.Sharp3D
             Vector3 LineSpacing1 = DirX * inflatedRadius;
             Vector3 LineSpacing2 = DirZ * inflatedRadius;
 
-            DebugDraw3D.DrawHalfSphereY((Vector3)UpperPoint, DirX, DirY, DirZ, false, inflatedRadius, debugColor);
-            DebugDraw3D.DrawHalfSphereY((Vector3)LowerPoint, DirX, DirY, DirZ, true, inflatedRadius, debugColor);
-            if (Radius < Height)
+            if (Radius >= Height)
             {
+                DebugDraw3D.DrawSimpleSphere((Vector3)(UpperPoint + LowerPoint) * 0.5f, DirX, DirY, DirZ, inflatedRadius, debugColor);
+            }
+            else
+            {
+                DebugDraw3D.DrawHalfSphereY((Vector3)UpperPoint, DirX, DirY, DirZ, false, inflatedRadius, debugColor);
+                DebugDraw3D.DrawHalfSphereY((Vector3)LowerPoint, DirX, DirY, DirZ, true, inflatedRadius, debugColor);
                 DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing1, (Vector3)LowerPoint + LineSpacing1, debugColor);
                 DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing1, (Vector3)LowerPoint - LineSpacing1, debugColor);
                 DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing2, (Vector3)LowerPoint + LineSpacing2, debugColor);
@@ -113,7 +116,7 @@ namespace SharpCollisions.Sharp3D
             Vector3 lowerPoint = SharpHelpers.Transform3D(lowerPoint0, reference.GlobalPosition, reference.GlobalRotation);
 
             Vector3 DirY = (upperPoint - lowerPoint).Normalized();
-            Vector3 DirX = SharpHelpers.GetLineNormal3D(DirY, reference.Basis.Z, reference.Basis.Y);//normal.Normalized();
+            Vector3 DirX = SharpHelpers.GetLineNormal3D(DirY, reference.Basis.Z, reference.Basis.Y);
             Vector3 DirZ = DirX.Cross(DirY);
 
             float inflatedRadius = scaledRadius + 0.005f;
@@ -121,10 +124,14 @@ namespace SharpCollisions.Sharp3D
             Vector3 LineSpacing1 = DirX * inflatedRadius;
             Vector3 LineSpacing2 = DirZ * inflatedRadius;
 
-            DebugDraw3D.DrawHalfSphereY(upperPoint, DirX, DirY, DirZ, false, inflatedRadius, finalColor);
-            DebugDraw3D.DrawHalfSphereY(lowerPoint, DirX, DirY, DirZ, true, inflatedRadius, finalColor);
-            if (startingRadius < startingHeight)
+            if (Radius >= Height)
             {
+                DebugDraw3D.DrawSimpleSphere((upperPoint + lowerPoint) * 0.5f, DirX, DirY, DirZ, inflatedRadius, debugColor);
+            }
+            else
+            {
+                DebugDraw3D.DrawHalfSphereY(upperPoint, DirX, DirY, DirZ, false, inflatedRadius, debugColor);
+                DebugDraw3D.DrawHalfSphereY(lowerPoint, DirX, DirY, DirZ, true, inflatedRadius, debugColor);
                 DebugDraw3D.DrawLine(upperPoint + LineSpacing1, lowerPoint + LineSpacing1, finalColor);
                 DebugDraw3D.DrawLine(upperPoint - LineSpacing1, lowerPoint - LineSpacing1, finalColor);
                 DebugDraw3D.DrawLine(upperPoint + LineSpacing2, lowerPoint + LineSpacing2, finalColor);
@@ -224,7 +231,7 @@ namespace SharpCollisions.Sharp3D
                         colliderA.UpperPoint, colliderA.LowerPoint,
                         colliderB.UpperPoint, colliderB.LowerPoint,
                         colliderA.Radius, colliderB.Radius, Normal
-                    ); 
+                    );
                 }
                 else
                 {

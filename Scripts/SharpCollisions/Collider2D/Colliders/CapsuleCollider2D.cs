@@ -75,11 +75,18 @@ namespace SharpCollisions.Sharp2D
             Vector3 LineNormal = (Vector3)FixVector2.GetNormal(UpperPoint, LowerPoint);
             Vector3 LineSpacing = LineNormal * inflatedRadius;
 
-            DebugDraw3D.DrawHalfSphereY((Vector3)UpperPoint, LineNormal, Dir, Vector3.Zero, false, inflatedRadius, debugColor);
-            DebugDraw3D.DrawHalfSphereY((Vector3)LowerPoint, LineNormal, Dir, Vector3.Zero, true, inflatedRadius, debugColor);
-            DebugDraw3D.DrawLine((Vector3)UpperPoint, (Vector3)LowerPoint, debugColor);
-            DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing, (Vector3)LowerPoint + LineSpacing, debugColor);
-            DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing, (Vector3)LowerPoint - LineSpacing, debugColor);
+            if (Radius >= Height)
+            {
+                DebugDraw3D.DrawSimpleSphere((Vector3)(UpperPoint + LowerPoint) * 0.5f, LineNormal, Dir, Vector3.Zero, inflatedRadius, debugColor);
+            }
+            else
+            {
+                DebugDraw3D.DrawHalfSphereY((Vector3)UpperPoint, LineNormal, Dir, Vector3.Zero, false, inflatedRadius, debugColor);
+                DebugDraw3D.DrawHalfSphereY((Vector3)LowerPoint, LineNormal, Dir, Vector3.Zero, true, inflatedRadius, debugColor);
+                DebugDraw3D.DrawLine((Vector3)UpperPoint, (Vector3)LowerPoint, debugColor);
+                DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing, (Vector3)LowerPoint + LineSpacing, debugColor);
+                DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing, (Vector3)LowerPoint - LineSpacing, debugColor);
+            }
         }
 
         public override void DebugDrawShapesEditor(Node3D reference, bool selected)
@@ -114,11 +121,18 @@ namespace SharpCollisions.Sharp2D
             Vector3 Up = new Vector3(upperPoint.X, upperPoint.Y, 0);
             Vector3 Low = new Vector3(lowerPoint.X, lowerPoint.Y, 0);
 
-            DebugDraw3D.DrawHalfSphereY(Up, LineNormal, Dir, Vector3.Zero, false, inflatedRadius, finalColor);
-            DebugDraw3D.DrawHalfSphereY(Low, LineNormal, Dir, Vector3.Zero, true, inflatedRadius, finalColor);
-            DebugDraw3D.DrawLine(Up, Low, finalColor);
-            DebugDraw3D.DrawLine(Up + LineSpacing, Low + LineSpacing, finalColor);
-            DebugDraw3D.DrawLine(Up - LineSpacing, Low - LineSpacing, finalColor);
+            if (Radius >= Height)
+            {
+                DebugDraw3D.DrawSimpleSphere((Up + Low) * 0.5f, LineNormal, Dir, Vector3.Zero, inflatedRadius, debugColor);
+            }
+            else
+            {
+                DebugDraw3D.DrawHalfSphereY(Up, LineNormal, Dir, Vector3.Zero, false, inflatedRadius, finalColor);
+                DebugDraw3D.DrawHalfSphereY(Low, LineNormal, Dir, Vector3.Zero, true, inflatedRadius, finalColor);
+                DebugDraw3D.DrawLine(Up, Low, finalColor);
+                DebugDraw3D.DrawLine(Up + LineSpacing, Low + LineSpacing, finalColor);
+                DebugDraw3D.DrawLine(Up - LineSpacing, Low - LineSpacing, finalColor);
+            }
         }
 
         protected override FixRect GetBoundingBoxPoints()

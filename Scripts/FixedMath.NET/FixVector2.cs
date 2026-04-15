@@ -162,6 +162,14 @@ namespace FixMath.NET
 				return Normalize(vector) * magnitude;
 			return vector;
 		}
+		
+		public static FixVector2 MoveTowards(FixVector2 a, FixVector2 b, Fix64 v)
+		{
+			if (a == b) return b;
+			FixVector2 direction = Normalize(b - a) * v;
+			return a + direction;
+		}
+
 
 		public static FixVector2 operator +(FixVector2 a, FixVector2 b) {
 			return new FixVector2(a.x + b.x, a.y + b.y);

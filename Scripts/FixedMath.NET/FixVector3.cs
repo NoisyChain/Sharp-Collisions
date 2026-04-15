@@ -332,7 +332,7 @@ namespace FixMath.NET
 
 		public override int GetHashCode()
 		{
-			return x.m_rawValue.GetHashCode() + y.m_rawValue.GetHashCode() + z.m_rawValue.GetHashCode();
+			return x.RawValue.GetHashCode() + y.RawValue.GetHashCode() + z.RawValue.GetHashCode();
 		}
 
         public override string ToString()

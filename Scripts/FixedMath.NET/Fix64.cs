@@ -11,7 +11,7 @@ namespace FixMath.NET
 	[Serializable]
 	public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
 	{
-		public long m_rawValue;
+		private long m_rawValue;
 
 		// Precision of this type is 2^-32, that is 2,3283064365386962890625E-10
 		public static readonly decimal Precision = (decimal)(new Fix64(1L));//0.00000000023283064365386962890625m;

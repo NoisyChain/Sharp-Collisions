@@ -37,6 +37,8 @@ namespace SharpCollisions.Sharp3D
 		
 		public void AddBody(SharpBody3D newBody)
 		{
+			if (bodies.Contains(newBody)) return;
+			
 			newBody.SetBodyID(CreatedBodies);
 			bodies.Add(newBody);
 			CreatedBodies++;

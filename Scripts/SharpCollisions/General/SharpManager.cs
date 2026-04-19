@@ -123,7 +123,9 @@ namespace SharpCollisions
 
 		public void AddNode(SharpNode newNode)
 		{
-			//nodes.Add(newNode);
+			if (nodes.Contains(newNode)) return;
+			
+			nodes.Add(newNode);
 		}
 
 		public void AddBody(SharpBody2D newBody)

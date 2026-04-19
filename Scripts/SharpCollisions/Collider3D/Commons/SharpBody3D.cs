@@ -58,7 +58,10 @@ namespace SharpCollisions.Sharp3D
 		public override void _Instance()
 		{
 			base._Instance();
-			SharpManager.Instance.AddBody(this);
+			if (SharpManager.Instance != null)
+				SharpManager.Instance.AddBody(this);
+			else
+                GD.PrintErr("SharpManager not found. Make sure to add a SharpManager to the scene");
 
 			if (HasColliders())
 				foreach (SharpCollider3D col in Colliders)
@@ -114,6 +117,13 @@ namespace SharpCollisions.Sharp3D
 
 		public override void _Destroy()
         {
+			if (SharpManager.Instance == null)
+			{
+				QueueFree();
+				GD.PrintErr("SharpManager not found. Make sure to add a SharpManager to the scene");
+				return;
+			}
+
             if (SharpManager.Instance.RemoveNode(this) && SharpManager.Instance.RemoveBody(this))
                 QueueFree();
         }

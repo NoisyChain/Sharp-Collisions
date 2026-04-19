@@ -22,7 +22,10 @@ namespace SharpCollisions
 
         public virtual void _Instance()
         {
-            SharpManager.Instance.AddNode(this);
+            if (SharpManager.Instance != null)
+                SharpManager.Instance.AddNode(this);
+            else
+                GD.PrintErr("SharpManager not found. Make sure to add a SharpManager to the scene");
         }
 
         /// <summary>
@@ -49,6 +52,13 @@ namespace SharpCollisions
 
         public virtual void _Destroy()
         {
+            if (SharpManager.Instance == null)
+			{
+                QueueFree();
+				GD.PrintErr("SharpManager not found. Make sure to add a SharpManager to the scene");
+				return;
+			}
+
             if (SharpManager.Instance.RemoveNode(this))
                 QueueFree();
         }

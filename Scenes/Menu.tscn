@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://vrmhw34ybtru"]
+[gd_scene format=3 uid="uid://vrmhw34ybtru"]
 
 [ext_resource type="Script" uid="uid://c3wpbqft7xom6" path="res://Scripts/menu.gd" id="1_3xa80"]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=658755980]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,7 +13,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_3xa80")
 
-[node name="Button_2D" type="Button" parent="."]
+[node name="Button_2D" type="Button" parent="." unique_id=1725902429]
 layout_mode = 1
 offset_left = 19.0
 offset_top = 15.0
@@ -21,7 +21,7 @@ offset_right = 98.0
 offset_bottom = 46.0
 text = "2D Scene"
 
-[node name="Button_2D2" type="Button" parent="."]
+[node name="Button_2D2" type="Button" parent="." unique_id=178271805]
 layout_mode = 1
 offset_left = 108.0
 offset_top = 15.0
@@ -29,7 +29,7 @@ offset_right = 187.0
 offset_bottom = 46.0
 text = "2D Scene (3D Graphics)"
 
-[node name="Button_3D" type="Button" parent="."]
+[node name="Button_3D" type="Button" parent="." unique_id=2135645622]
 layout_mode = 1
 offset_left = 19.0
 offset_top = 53.0
@@ -37,7 +37,7 @@ offset_right = 98.0
 offset_bottom = 84.0
 text = "3D Scene"
 
-[node name="Button_BM1" type="Button" parent="."]
+[node name="Button_BM1" type="Button" parent="." unique_id=49193422]
 layout_mode = 1
 offset_left = 19.0
 offset_top = 93.0
@@ -45,7 +45,7 @@ offset_right = 98.0
 offset_bottom = 124.0
 text = "Benchmark 1"
 
-[node name="Button_BM2" type="Button" parent="."]
+[node name="Button_BM2" type="Button" parent="." unique_id=1096444743]
 layout_mode = 1
 offset_left = 19.0
 offset_top = 133.0
@@ -53,7 +53,7 @@ offset_right = 129.0
 offset_bottom = 164.0
 text = "Benchmark 2"
 
-[node name="Button_BM3" type="Button" parent="."]
+[node name="Button_BM3" type="Button" parent="." unique_id=1136020326]
 layout_mode = 1
 offset_left = 19.0
 offset_top = 173.0
@@ -61,7 +61,7 @@ offset_right = 129.0
 offset_bottom = 204.0
 text = "Benchmark 3"
 
-[node name="Button_BM4" type="Button" parent="."]
+[node name="Button_BM4" type="Button" parent="." unique_id=999824189]
 layout_mode = 1
 offset_left = 19.0
 offset_top = 216.0

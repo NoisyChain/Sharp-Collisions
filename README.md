@@ -31,9 +31,9 @@ node._Instance();
 node._Destroy();
 // SharpNode loops
 // delta returns SharpTime.DeltaTime;
-node._FixedPreProcess(Fix64 delta) {} // Runs before everything
-node._FixedProcess(Fix64 delta) {} // Runs between _FixedPreProcess and SharpWorld.Simulate
-node._FixedPostProcess(Fix64 delta) {} // Runs after SharpWorld.Simulate
+public virtual void _FixedPreProcess(Fix64 delta) {} // Runs before everything
+public virtual void _FixedProcess(Fix64 delta) {} // Runs between _FixedPreProcess and SharpWorld.Simulate
+public virtual void _FixedPostProcess(Fix64 delta) {} // Runs after SharpWorld.Simulate
 ```
 ### SharpManager
 The central class to control all the SharpNodes. It's meant to be an example of how to implement SharpCollisions properly. It should be modified or replicated depending on your needs.

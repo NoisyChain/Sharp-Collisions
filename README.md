@@ -61,7 +61,10 @@ world3d.Simulate();
 ### SharpBody
 The physics body. Always use tih if you want a body with physics behavior. 
 ```c#
-SharpBody body
+// 2D body
+SharpBody2D body;
+// 3D body
+SharpBody3D body;
 // Called at the exact moment the body collides with something
 public virtual void OnBeginOverlap(CollisionManifold3D collision) {}
 // Called every tick the body is colliding with something

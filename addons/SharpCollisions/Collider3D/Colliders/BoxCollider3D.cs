@@ -56,8 +56,6 @@ namespace SharpCollisions.Sharp3D
 
         public FixVector3 Extents = new FixVector3();
 
-        [Export] private Vector3I startingExtents = Vector3I.One;
-
         public override void Initialize()
         {
             /*Extents = new FixVector3(

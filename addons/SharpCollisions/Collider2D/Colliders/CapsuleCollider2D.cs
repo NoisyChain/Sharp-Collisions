@@ -7,21 +7,62 @@ namespace SharpCollisions.Sharp2D
     [GlobalClass]
     public partial class CapsuleCollider2D : SharpCollider2D
     {
-        public Fix64 Radius;
-        public Fix64 Height;
+        [Export] private float _radius
+        {
+            get =>(float)Fix64.FromRaw(raw_Radius);
+            set {
+                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
+                    raw_Radius = ((Fix64)((decimal)value)).RawValue;
+                    Radius = Fix64.FromRaw(raw_Radius);
+                }
+            }
+        }
+
+        [Export] private float _height
+        {
+            get =>(float)Fix64.FromRaw(raw_Height);
+            set {
+                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
+                    raw_Height = ((Fix64)((decimal)value)).RawValue;
+                    Height = Fix64.FromRaw(raw_Height);
+                }
+            }
+        }
+
+        [ExportSubgroup("Raw Values")]
+        [Export] private long raw_radius
+        {
+            get => raw_Radius;
+            set
+            {
+                raw_Radius = value;
+                Radius = Fix64.FromRaw(raw_Radius);
+            }
+        }
+        [Export] private long raw_height
+        {
+            get => raw_Height;
+            set
+            {
+                raw_Height = value;
+                Height = Fix64.FromRaw(raw_Height);
+            }
+        }
+
+        private long raw_Radius;
+        private long raw_Height;
+
+        public Fix64 Radius = new Fix64();
+        public Fix64 Height = new Fix64();
+
         public FixVector2 RawUpperPoint;
         public FixVector2 RawLowerPoint;
         public FixVector2 UpperPoint;
         public FixVector2 LowerPoint;
 
-        [Export] protected int startingRadius;
-        [Export] protected int startingHeight;
-
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)startingRadius / SharpNode.NodeScale;
-            Height = (Fix64)startingHeight / SharpNode.NodeScale;
             Shape = CollisionType2D.Capsule;
             CreateCapsulePoints();
         }
@@ -96,17 +137,17 @@ namespace SharpCollisions.Sharp2D
 
             Color finalColor = selected ? selectedColor : debugColor;
 
-            float scaledHeight = (float)startingHeight / SharpNode.nodeScale;
-            float scaledRadius = (float)startingRadius / SharpNode.nodeScale;
+            float scaledHeight = (float)_height;
+            float scaledRadius = (float)_radius;
 
-            Vector2 scaledPosOffset = (Vector2)startingPositionOffset / SharpNode.nodeScale;
-            float scaledRotOffset = startingRotationOffset / SharpNode.nodeRotation;
+            Vector2 PosOffset = _positionOffset;
+            float RotOffset = _rotationOffset;
 
-            Vector2 upPoint = scaledPosOffset + (Vector2.Up * (scaledHeight - scaledRadius));
-            Vector2 lowPoint = scaledPosOffset - (Vector2.Up * (scaledHeight - scaledRadius));
+            Vector2 upPoint = PosOffset + (Vector2.Up * (scaledHeight - scaledRadius));
+            Vector2 lowPoint = PosOffset - (Vector2.Up * (scaledHeight - scaledRadius));
 
-            Vector2 upperPoint0 = SharpHelpers.Rotate2D(upPoint, Mathf.DegToRad(scaledRotOffset));
-            Vector2 lowerPoint0 = SharpHelpers.Rotate2D(lowPoint, Mathf.DegToRad(scaledRotOffset));
+            Vector2 upperPoint0 = SharpHelpers.Rotate2D(upPoint, Mathf.DegToRad(RotOffset));
+            Vector2 lowerPoint0 = SharpHelpers.Rotate2D(lowPoint, Mathf.DegToRad(RotOffset));
             Vector2 upperPoint = SharpHelpers.Transform2D(upperPoint0, reference.GlobalPosition, reference.GlobalRotation.Z);
             Vector2 lowerPoint = SharpHelpers.Transform2D(lowerPoint0, reference.GlobalPosition, reference.GlobalRotation.Z);
 
@@ -121,9 +162,9 @@ namespace SharpCollisions.Sharp2D
             Vector3 Up = new Vector3(upperPoint.X, upperPoint.Y, 0);
             Vector3 Low = new Vector3(lowerPoint.X, lowerPoint.Y, 0);
 
-            if (startingRadius >= startingHeight)
+            if (_radius >= _height)
             {
-                DebugDraw3D.DrawSimpleSphere((Up + Low) * 0.5f, LineNormal, Dir, Vector3.Zero, inflatedRadius, debugColor);
+                DebugDraw3D.DrawSimpleSphere((Up + Low) * 0.5f, LineNormal, Dir, Vector3.Zero, inflatedRadius, finalColor);
             }
             else
             {

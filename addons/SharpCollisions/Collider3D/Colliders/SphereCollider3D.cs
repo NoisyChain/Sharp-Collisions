@@ -6,13 +6,35 @@ namespace SharpCollisions.Sharp3D
     [Tool] [GlobalClass]
     public partial class SphereCollider3D : SharpCollider3D
     {
-        public Fix64 Radius;
-        [Export] protected int startingRadius;
+        [Export] private float _radius
+        {
+            get =>(float)Fix64.FromRaw(raw_Radius);
+            set {
+                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
+                    raw_Radius = ((Fix64)((decimal)value)).RawValue;
+                    Radius = Fix64.FromRaw(raw_Radius);
+                }
+            }
+        }
+
+		[ExportSubgroup("Raw Values")]
+        [Export] private long raw_radius
+        {
+            get => raw_Radius;
+            set
+            {
+                raw_Radius = value;
+                Radius = Fix64.FromRaw(raw_Radius);
+            }
+        }
+
+        private long raw_Radius;
+
+        public Fix64 Radius = new Fix64();
         
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)startingRadius / SharpNode.NodeScale;
             Shape = CollisionType3D.Sphere;
         }
 
@@ -58,11 +80,10 @@ namespace SharpCollisions.Sharp3D
             Vector3 DirX = reference.Basis.X;
             Vector3 DirY = reference.Basis.Y;
             Vector3 DirZ = reference.Basis.Z;
-            Vector3 pos = (Vector3)startingPositionOffset / SharpNode.nodeScale;
+            Vector3 pos = _positionOffset;
             Vector3 newPos = SharpHelpers.Transform3D(pos, reference.GlobalPosition, reference.GlobalRotation);
 
-            DebugDraw3D.DrawSimpleSphere(newPos, DirX, DirY, DirZ,
-                                            ((float)startingRadius / SharpNode.nodeScale) + 0.005f, finalColor);
+            DebugDraw3D.DrawSimpleSphere(newPos, DirX, DirY, DirZ, _radius + 0.005f, finalColor);
         }
 
 

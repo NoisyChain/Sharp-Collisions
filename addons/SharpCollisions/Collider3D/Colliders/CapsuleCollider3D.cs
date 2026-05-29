@@ -7,21 +7,61 @@ namespace SharpCollisions.Sharp3D
     [GlobalClass]
     public partial class CapsuleCollider3D : SharpCollider3D
     {
-        public Fix64 Radius;
-        public Fix64 Height;
+        [Export] private float _radius
+        {
+            get =>(float)Fix64.FromRaw(raw_Radius);
+            set {
+                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
+                    raw_Radius = ((Fix64)((decimal)value)).RawValue;
+                    Radius = Fix64.FromRaw(raw_Radius);
+                }
+            }
+        }
+
+        [Export] private float _height
+        {
+            get =>(float)Fix64.FromRaw(raw_Height);
+            set {
+                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
+                    raw_Height = ((Fix64)((decimal)value)).RawValue;
+                    Height = Fix64.FromRaw(raw_Height);
+                }
+            }
+        }
+
+        [ExportSubgroup("Raw Values")]
+        [Export] private long raw_radius
+        {
+            get => raw_Radius;
+            set
+            {
+                raw_Radius = value;
+                Radius = Fix64.FromRaw(raw_Radius);
+            }
+        }
+        [Export] private long raw_height
+        {
+            get => raw_Height;
+            set
+            {
+                raw_Height = value;
+                Height = Fix64.FromRaw(raw_Height);
+            }
+        }
+
+        private long raw_Radius;
+        private long raw_Height;
+
+        public Fix64 Radius = new Fix64();
+        public Fix64 Height = new Fix64();
         public FixVector3 RawUpperPoint;
         public FixVector3 RawLowerPoint;
         public FixVector3 UpperPoint;
         public FixVector3 LowerPoint;
 
-        [Export] protected int startingRadius;
-        [Export] protected int startingHeight;
-
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)startingRadius / SharpNode.NodeScale;
-            Height = (Fix64)startingHeight / SharpNode.NodeScale;
             Shape = CollisionType3D.Capsule;
             CreateCapsulePoints();
         }
@@ -99,13 +139,13 @@ namespace SharpCollisions.Sharp3D
 
             Color finalColor = selected ? selectedColor : debugColor;
 
-            int clampedHeight = Mathf.Max(startingHeight, startingRadius + 1);
+            float clampedHeight = Mathf.Max(_height, _radius + 0.001f);
 
-            float scaledHeight = (float)clampedHeight / SharpNode.nodeScale;
-            float scaledRadius = (float)startingRadius / SharpNode.nodeScale;
+            float scaledHeight = clampedHeight;
+            float scaledRadius = _radius;
 
-            Vector3 scaledPosOffset = (Vector3)startingPositionOffset / SharpNode.nodeScale;
-            Vector3 scaledRotOffset = (Vector3)startingRotationOffset / SharpNode.nodeRotation;
+            Vector3 scaledPosOffset = _positionOffset;
+            Vector3 scaledRotOffset = _rotationOffset;
 
             Vector3 upPoint = scaledPosOffset + (Vector3.Up * (scaledHeight - scaledRadius));
             Vector3 lowPoint = scaledPosOffset - (Vector3.Up * (scaledHeight - scaledRadius));
@@ -124,14 +164,14 @@ namespace SharpCollisions.Sharp3D
             Vector3 LineSpacing1 = DirX * inflatedRadius;
             Vector3 LineSpacing2 = DirZ * inflatedRadius;
 
-            if (startingRadius >= startingHeight)
+            if (_radius >= _height)
             {
-                DebugDraw3D.DrawSimpleSphere((upperPoint + lowerPoint) * 0.5f, DirX, DirY, DirZ, inflatedRadius, debugColor);
+                DebugDraw3D.DrawSimpleSphere((upperPoint + lowerPoint) * 0.5f, DirX, DirY, DirZ, inflatedRadius, finalColor);
             }
             else
             {
-                DebugDraw3D.DrawHalfSphereY(upperPoint, DirX, DirY, DirZ, false, inflatedRadius, debugColor);
-                DebugDraw3D.DrawHalfSphereY(lowerPoint, DirX, DirY, DirZ, true, inflatedRadius, debugColor);
+                DebugDraw3D.DrawHalfSphereY(upperPoint, DirX, DirY, DirZ, false, inflatedRadius, finalColor);
+                DebugDraw3D.DrawHalfSphereY(lowerPoint, DirX, DirY, DirZ, true, inflatedRadius, finalColor);
                 DebugDraw3D.DrawLine(upperPoint + LineSpacing1, lowerPoint + LineSpacing1, finalColor);
                 DebugDraw3D.DrawLine(upperPoint - LineSpacing1, lowerPoint - LineSpacing1, finalColor);
                 DebugDraw3D.DrawLine(upperPoint + LineSpacing2, lowerPoint + LineSpacing2, finalColor);

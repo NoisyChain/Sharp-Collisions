@@ -6,18 +6,57 @@ namespace SharpCollisions.Sharp3D
     [Tool] [GlobalClass]
     public partial class AABBCollider3D : SharpCollider3D
     {
-        public FixVector3 Extents;
+        [Export] private Vector3 _extents
+        {
+            get => new Vector3((float)Fix64.FromRaw(raw_Extents_X), (float)Fix64.FromRaw(raw_Extents_Y), (float)Fix64.FromRaw(raw_Extents_Z));
+            set {
+                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
+                    raw_Extents_X = ((Fix64)((decimal)value.X)).RawValue;
+                    raw_Extents_Y = ((Fix64)((decimal)value.Y)).RawValue;
+                    raw_Extents_Z = ((Fix64)((decimal)value.Z)).RawValue;
+                    Extents = new FixVector3(Fix64.FromRaw(raw_Extents_X), Fix64.FromRaw(raw_Extents_Y), Fix64.FromRaw(raw_Extents_Z));
+                }
+            }
+        }
 
-        [Export] private Vector3I startingExtents = Vector3I.One;
+        [ExportSubgroup("Raw Values")]
+        [Export] private long raw_extents_x
+        {
+            get => raw_Extents_X;
+            set
+            {
+                raw_Extents_X = value;
+                Extents = new FixVector3(Fix64.FromRaw(raw_Extents_X), Fix64.FromRaw(raw_Extents_Y), Fix64.FromRaw(raw_Extents_Z));
+            }
+        }
+        [Export] private long raw_extents_y
+        {
+            get => raw_Extents_Y;
+            set
+            {
+                raw_Extents_Y = value;
+                Extents = new FixVector3(Fix64.FromRaw(raw_Extents_X), Fix64.FromRaw(raw_Extents_Y), Fix64.FromRaw(raw_Extents_Z));
+            }
+        }
+        [Export] private long raw_extents_z
+        {
+            get => raw_Extents_Z;
+            set
+            {
+                raw_Extents_Z = value;
+                Extents = new FixVector3(Fix64.FromRaw(raw_Extents_X), Fix64.FromRaw(raw_Extents_Y), Fix64.FromRaw(raw_Extents_Z));
+            }
+        }
+
+        private long raw_Extents_X;
+        private long raw_Extents_Y;
+        private long raw_Extents_Z;
+
+        public FixVector3 Extents = new FixVector3();
 
         public override void Initialize()
         {
             base.Initialize();
-            Extents = new FixVector3(
-                (Fix64)startingExtents.X / SharpNode.NodeScale,
-                (Fix64)startingExtents.Y / SharpNode.NodeScale,
-                (Fix64)startingExtents.Z / SharpNode.NodeScale
-            );
             Shape = CollisionType3D.AABB;
         }
 
@@ -48,10 +87,10 @@ namespace SharpCollisions.Sharp3D
 
             Color finalColor = selected ? selectedColor : debugColor;
 
-            Vector3 pos = (Vector3)startingPositionOffset / SharpNode.nodeScale;
+            Vector3 pos = _positionOffset;
             Vector3 newPos = SharpHelpers.Transform3D(pos, reference.GlobalPosition, reference.GlobalRotation);
 
-            DebugDraw3D.DrawBox(newPos, Quaternion.Identity, ((Vector3)startingExtents / SharpNode.nodeScale) * 2, finalColor, true);
+            DebugDraw3D.DrawBox(newPos, Quaternion.Identity, _extents * 2, finalColor, true);
         }
 
         protected override FixVolume GetBoundingBoxPoints()

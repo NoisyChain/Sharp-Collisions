@@ -8,16 +8,92 @@ namespace SharpCollisions.Sharp3D
     [Tool] [GlobalClass]
     public partial class ConvexShapeCollider3D : SharpCollider3D
     {
-        //[Export] protected bool DrawDebugPolytope;
+        public GJK3D GJK;
 
         //[Export] private GJKCollisionLevel CollisionLevel;
-        
-        public GJK3D GJK;
-        public FixVector3[] RawPoints;
-		public FixVector3[] Points;
+        [Export] private Array<Vector3> _points
+        {
+            get{
+                Array<Vector3> ret = new Array<Vector3>();
+                if (raw_Points_X != null && raw_Points_Y != null && raw_Points_Z != null)
+                {
+                    int length = Mathf.Min(raw_Points_X.Length, raw_Points_Y.Length);
+                    length = Mathf.Min(length, raw_Points_Z.Length);
+                
+                    for (int i = 0; i < length; i++)
+                    {
+                        ret.Add(new Vector3((float)Fix64.FromRaw(raw_Points_X[i]), (float)Fix64.FromRaw(raw_Points_Y[i]), (float)Fix64.FromRaw(raw_Points_Z[i])));
+                    }
+                }
+                return ret;
+            }
+            set{
+                if (Engine.IsEditorHint())  // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_Points_X = new long[value.Count];
+                    raw_Points_Y = new long[value.Count];
+                    raw_Points_Z = new long[value.Count];
+                    RawPoints = new FixVector3[value.Count];
+                    for (int i = 0; i < value.Count; i++)
+                    {
+                        raw_Points_X[i] = ((Fix64)((decimal)value[i].X)).RawValue;
+                        raw_Points_Y[i] = ((Fix64)((decimal)value[i].Y)).RawValue;
+                        raw_Points_Z[i] = ((Fix64)((decimal)value[i].Z)).RawValue;
+                        RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
+                    }
+                }
+            }
+        }
 
-        [Export] private Array<Vector3I> startingPoints;
         [Export] public Array<Vector3I> Faces;
+
+        [ExportSubgroup("Raw Values")]
+        [Export] private long[] raw_points_x
+        {
+            get => raw_Points_X;
+            set
+            {
+                raw_Points_X = value;
+                RawPoints = new FixVector3[_points.Count];
+                for (int i = 0; i < _points.Count; i++)
+                {
+                    RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
+                }
+            }
+        }
+        [Export] private long[] raw_points_y
+        {
+            get => raw_Points_Y;
+            set
+            {
+                raw_Points_Y = value;
+                RawPoints = new FixVector3[_points.Count];
+                for (int i = 0; i < _points.Count; i++)
+                {
+                    RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
+                }
+            }
+        }
+        [Export] private long[] raw_points_z
+        {
+            get => raw_Points_Z;
+            set
+            {
+                raw_Points_Z = value;
+                RawPoints = new FixVector3[_points.Count];
+                for (int i = 0; i < _points.Count; i++)
+                {
+                    RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
+                }
+            }
+        }
+
+        private long[] raw_Points_X;
+        private long[] raw_Points_Y;
+        private long[] raw_Points_Z;
+        
+        public FixVector3[] RawPoints;
+		public FixVector3[] Points;        
 
         private bool defaultShape = false;
 
@@ -45,29 +121,19 @@ namespace SharpCollisions.Sharp3D
         {
             //If there is no enough vertices to create a 3D shape,
             //create a simple tetrahedron as the default shape
-            if (startingPoints.Count < 4)
+            if (RawPoints == null || RawPoints.Length < 4)
             {
-                startingPoints = new Array<Vector3I>()
+                RawPoints = new FixVector3[]
                 {
-                    new Vector3I(0, -1, 1) * SharpNode.nodeScale,
-                    new Vector3I(-1, -1, -1) * SharpNode.nodeScale,
-                    new Vector3I(1, -1, -1) * SharpNode.nodeScale,
-                    new Vector3I(0, 1, 0) * SharpNode.nodeScale,
+                    new FixVector3(Fix64.Zero, Fix64.NegativeOne, Fix64.One),
+                    new FixVector3(Fix64.NegativeOne, Fix64.NegativeOne, Fix64.NegativeOne),
+                    new FixVector3(Fix64.One, Fix64.NegativeOne, Fix64.NegativeOne),
+                    new FixVector3(Fix64.Zero, Fix64.One, Fix64.Zero),
                 };
                 GD.PushWarning("Polygon shapes cannot be simpler than a tetrahedron.");
                 defaultShape = true;
             }
 
-            RawPoints = new FixVector3[startingPoints.Count];
-            for (int i = 0; i < RawPoints.Length; i++)
-            {
-                RawPoints[i] = new FixVector3(
-                    (Fix64)startingPoints[i].X / SharpNode.NodeScale,
-                    (Fix64)startingPoints[i].Y / SharpNode.NodeScale,
-                    (Fix64)startingPoints[i].Z / SharpNode.NodeScale
-                );
-            }
-            
             Points = new FixVector3[RawPoints.Length];
         }
 
@@ -119,24 +185,24 @@ namespace SharpCollisions.Sharp3D
         {
             if (!Active) return;
             if (!selected && !DrawDebug) return;
-            if (startingPoints == null || startingPoints.Count <= 0) return;
+            if (_points == null || _points.Count <= 0) return;
             if (Faces == null || Faces.Count <= 0) return;
 
             Color finalColor = selected ? selectedColor : debugColor;
 
-            Vector3 scaledPosOffset = (Vector3)startingPositionOffset / SharpNode.nodeScale;
-            Vector3 scaledRotOffset = (Vector3)startingRotationOffset / SharpNode.nodeRotation;
+            Vector3 scaledPosOffset = _positionOffset;
+            Vector3 scaledRotOffset = _rotationOffset;
 
             Vector3 position = reference.GlobalPosition;
             Vector3 rotation = reference.GlobalRotation;
 
             for (int i = 0; i < Faces.Count; i++)
             {
-                Vector3 rotPointA = SharpHelpers.RotateDeg3D((Vector3)startingPoints[Faces[i].X] / SharpNode.nodeScale, scaledRotOffset);
+                Vector3 rotPointA = SharpHelpers.RotateDeg3D(_points[Faces[i].X], scaledRotOffset);
                 Vector3 pointA = SharpHelpers.Transform3D(rotPointA + scaledPosOffset, position, rotation);
-                Vector3 rotPointB = SharpHelpers.RotateDeg3D((Vector3)startingPoints[Faces[i].Y] / SharpNode.nodeScale, scaledRotOffset);
+                Vector3 rotPointB = SharpHelpers.RotateDeg3D(_points[Faces[i].Y], scaledRotOffset);
                 Vector3 pointB = SharpHelpers.Transform3D(rotPointB + scaledPosOffset, position, rotation);
-                Vector3 rotPointC = SharpHelpers.RotateDeg3D((Vector3)startingPoints[Faces[i].Z] / SharpNode.nodeScale, scaledRotOffset);
+                Vector3 rotPointC = SharpHelpers.RotateDeg3D(_points[Faces[i].Z], scaledRotOffset);
                 Vector3 pointC = SharpHelpers.Transform3D(rotPointC + scaledPosOffset, position, rotation);
 
                 DebugDraw3D.DrawLine(pointA, pointB, finalColor);

@@ -7,13 +7,74 @@ namespace SharpCollisions.Sharp2D
 {
     [Tool] [GlobalClass]
     public partial class ConvexShapeCollider2D : SharpCollider2D
-    {        
+    {      
         public GJK2D GJK;
+        
+        [Export] private Array<Vector2> _points
+        {
+            get{
+                Array<Vector2> ret = new Array<Vector2>();
+                if (raw_Points_X != null && raw_Points_Y != null)
+                {
+                    int length = Mathf.Min(raw_Points_X.Length, raw_Points_Y.Length);
+                
+                    for (int i = 0; i < length; i++)
+                    {
+                        ret.Add(new Vector2((float)Fix64.FromRaw(raw_Points_X[i]), (float)Fix64.FromRaw(raw_Points_Y[i])));
+                    }
+                }
+                return ret;
+            }
+            set{
+                if (Engine.IsEditorHint())  // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_Points_X = new long[value.Count];
+                    raw_Points_Y = new long[value.Count];
+                    RawPoints = new FixVector2[value.Count];
+                    for (int i = 0; i < value.Count; i++)
+                    {
+                        raw_Points_X[i] = ((Fix64)((decimal)value[i].X)).RawValue;
+                        raw_Points_Y[i] = ((Fix64)((decimal)value[i].Y)).RawValue;
+                        RawPoints[i] = new FixVector2(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]));
+                    }
+                }
+            }
+        }
+
+        [ExportSubgroup("Raw Values")]
+        [Export] private long[] raw_points_x
+        {
+            get => raw_Points_X;
+            set
+            {
+                raw_Points_X = value;
+                RawPoints = new FixVector2[_points.Count];
+                for (int i = 0; i < _points.Count; i++)
+                {
+                    RawPoints[i] = new FixVector2(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]));
+                }
+            }
+        }
+        [Export] private long[] raw_points_y
+        {
+            get => raw_Points_Y;
+            set
+            {
+                raw_Points_Y = value;
+                RawPoints = new FixVector2[_points.Count];
+                for (int i = 0; i < _points.Count; i++)
+                {
+                    RawPoints[i] = new FixVector2(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]));
+                }
+            }
+        }
+
+        private long[] raw_Points_X;
+        private long[] raw_Points_Y;
+
         public FixVector2[] RawPoints;
 		public FixVector2[] Points;
-
-        [Export] private Array<Vector2I> startingPoints;
-
+        
         public override void Initialize()
         {
             GJK = new GJK2D();
@@ -37,23 +98,15 @@ namespace SharpCollisions.Sharp2D
         {
             //If there is no enough vertices to create a 2D shape,
             //create a simple triangle as the default shape
-            if (startingPoints.Count < 3)
+            if (RawPoints == null || RawPoints.Length < 3)
             {
-                startingPoints = new Array<Vector2I>
+                RawPoints = new FixVector2[]
                 {
-                    new Vector2I(-1, -1) * SharpNode.nodeScale,
-                    new Vector2I(0, 1) * SharpNode.nodeScale,
-                    new Vector2I(1, -1) * SharpNode.nodeScale
+                    new FixVector2(Fix64.NegativeOne, Fix64.NegativeOne),
+                    new FixVector2(Fix64.Zero, Fix64.One),
+                    new FixVector2(Fix64.One, Fix64.NegativeOne)
                 };
                 GD.PushWarning("Polygon shape cannot be simpler than a triangle.");
-            }
-            RawPoints = new FixVector2[startingPoints.Count];
-            for (int i = 0; i < RawPoints.Length; i++)
-            {
-                RawPoints[i] = new FixVector2(
-                    (Fix64)startingPoints[i].X / SharpNode.NodeScale,
-                    (Fix64)startingPoints[i].Y / SharpNode.NodeScale
-                );
             }
             
             Points = new FixVector2[RawPoints.Length];
@@ -85,25 +138,25 @@ namespace SharpCollisions.Sharp2D
         {
             if (!Active) return;
             if (!selected && !DrawDebug) return;
-            if (startingPoints == null || startingPoints.Count <= 0) return;
+            if (_points == null || _points.Count <= 0) return;
 
             Color finalColor = selected && DrawDebug ? selectedColor : debugColor;
 
-            Vector2 scaledPosOffset = (Vector2)startingPositionOffset / SharpNode.nodeScale;
-            float scaledRotOffset = (float)startingRotationOffset / SharpNode.nodeRotation;
+            Vector2 PosOffset = _positionOffset;
+            float RotOffset = _rotationOffset;
 
             Vector3 position = reference.GlobalPosition;
             float rotation = reference.GlobalRotation.Z;
 
-            for (int i = 0; i < startingPoints.Count; i++)
+            for (int i = 0; i < _points.Count; i++)
             {
-                Vector2 start = (Vector2)startingPoints[i];
-                Vector2 end = (Vector2)startingPoints[(i + 1) % startingPoints.Count];
+                Vector2 start = _points[i];
+                Vector2 end = _points[(i + 1) % _points.Count];
 
-                Vector2 rotPointA = SharpHelpers.Rotate2D(start / SharpNode.nodeScale, Mathf.DegToRad(scaledRotOffset));
-                Vector3 pointA = SharpHelpers.Transform2D3D(rotPointA + scaledPosOffset, position, rotation);
-                Vector2 rotPointB = SharpHelpers.Rotate2D(end / SharpNode.nodeScale, Mathf.DegToRad(scaledRotOffset));
-                Vector3 pointB = SharpHelpers.Transform2D3D(rotPointB + scaledPosOffset, position, rotation);
+                Vector2 rotPointA = SharpHelpers.Rotate2D(start, Mathf.DegToRad(RotOffset));
+                Vector3 pointA = SharpHelpers.Transform2D3D(rotPointA + PosOffset, position, rotation);
+                Vector2 rotPointB = SharpHelpers.Rotate2D(end, Mathf.DegToRad(RotOffset));
+                Vector3 pointB = SharpHelpers.Transform2D3D(rotPointB + PosOffset, position, rotation);
 
                 DebugDraw3D.DrawLine(pointA, pointB, finalColor);
             }

@@ -9,11 +9,71 @@ namespace SharpCollisions.Sharp2D
 		[Export] public bool Active = true;
 		[Export] public bool IsTrigger = false;
 		[Export] public bool TriggerDetectsSolidBodies = true;
-		[Export] protected Vector2I startingPositionOffset;
-		[Export] protected int startingRotationOffset;
+		/// <summary>
+        /// Don't use this variable in the simulation, its only purpose is to inject its value to the actual position
+        /// </summary>
+        [Export] protected Vector2 _positionOffset
+        {
+            get => new Vector2((float)Fix64.FromRaw(raw_PositionOffset_X), (float)Fix64.FromRaw(raw_PositionOffset_Y));
+            set {
+                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
+                    raw_PositionOffset_X = ((Fix64)((decimal)value.X)).RawValue;
+                    raw_PositionOffset_Y = ((Fix64)((decimal)value.Y)).RawValue;
+					PositionOffset = new FixVector2(Fix64.FromRaw(raw_PositionOffset_X), Fix64.FromRaw(raw_PositionOffset_Y));
+                }
+            }
+        }
+		/// <summary>
+        /// Don't use this variable in the simulation, its only purpose is to inject its value to the actual rotation
+        /// </summary>
+        [Export] protected float _rotationOffset
+        {
+            get => (float)Fix64.FromRaw(raw_RotationOffset);
+            set
+            {
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_RotationOffset = ((Fix64)((decimal)value)).RawValue;
+					RotationOffset = Fix64.FromRaw(raw_RotationOffset) * Fix64.DegToRad;
+                }
+            }
+        }
 		[Export] protected bool DrawDebug;
 		[Export] public Color debugColor = new Color(0, 0, 1);
 		[Export] public Color selectedColor = new Color(1, 0.6f, 0.1f);
+
+		[ExportSubgroup("Raw Values")]
+        [Export] private long raw_positionOffset_X
+        {
+            get => raw_PositionOffset_X;
+            set
+            {
+                raw_PositionOffset_X = value;
+                PositionOffset = new FixVector2(Fix64.FromRaw(raw_PositionOffset_X), Fix64.FromRaw(raw_PositionOffset_Y));
+            }
+        }
+        [Export] private long raw_positionOffset_Y
+        {
+            get => raw_PositionOffset_Y;
+            set
+            {
+                raw_PositionOffset_Y = value;
+                PositionOffset = new FixVector2(Fix64.FromRaw(raw_PositionOffset_X), Fix64.FromRaw(raw_PositionOffset_Y));
+            }
+        }
+        [Export] private long raw_rotationOffset
+        {
+            get => raw_RotationOffset;
+            set
+            {
+                raw_RotationOffset = value;
+               	RotationOffset = Fix64.FromRaw(raw_RotationOffset) * Fix64.DegToRad;
+            }
+        }
+
+        private long raw_PositionOffset_X;
+        private long raw_PositionOffset_Y;
+        private long raw_RotationOffset;
 		
 		public CollisionFlags collisionFlags;
 		public CollisionFlags globalCollisionFlags;
@@ -41,12 +101,12 @@ namespace SharpCollisions.Sharp2D
 
 		public virtual void Initialize()
 		{
-			PositionOffset = new FixVector2(
+			/*PositionOffset = new FixVector2(
 				(Fix64)startingPositionOffset.X  / SharpNode.NodeScale,
 				(Fix64)startingPositionOffset.Y  / SharpNode.NodeScale
 			);
 			RotationOffset = (Fix64)startingRotationOffset / SharpNode.NodeRotation;
-			RotationOffset *= Fix64.DegToRad;
+			RotationOffset *= Fix64.DegToRad;*/
 		}
 
 		public virtual void DebugDrawShapes(SharpBody2D reference)

@@ -6,17 +6,46 @@ namespace SharpCollisions.Sharp2D
     [Tool] [GlobalClass]
     public partial class AABBCollider2D : SharpCollider2D
     {
-        public FixVector2 Extents;
+        [Export] private Vector2 _extents
+        {
+            get => new Vector2((float)Fix64.FromRaw(raw_Extents_X), (float)Fix64.FromRaw(raw_Extents_Y));
+            set {
+                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
+                    raw_Extents_X = ((Fix64)((decimal)value.X)).RawValue;
+                    raw_Extents_Y = ((Fix64)((decimal)value.Y)).RawValue;
+                    Extents = new FixVector2(Fix64.FromRaw(raw_Extents_X), Fix64.FromRaw(raw_Extents_Y));
+                }
+            }
+        }
 
-        [Export] private Vector2I startingExtents = Vector2I.One;
+        [ExportSubgroup("Raw Values")]
+        [Export] private long raw_extents_x
+        {
+            get => raw_Extents_X;
+            set
+            {
+                raw_Extents_X = value;
+                Extents = new FixVector2(Fix64.FromRaw(raw_Extents_X), Fix64.FromRaw(raw_Extents_Y));
+            }
+        }
+        [Export] private long raw_extents_y
+        {
+            get => raw_Extents_Y;
+            set
+            {
+                raw_Extents_Y = value;
+                Extents = new FixVector2(Fix64.FromRaw(raw_Extents_X), Fix64.FromRaw(raw_Extents_Y));
+            }
+        }
+
+        private long raw_Extents_X;
+        private long raw_Extents_Y;
+
+        public FixVector2 Extents = new FixVector2();
 
         public override void Initialize()
         {
             base.Initialize();
-            Extents = new FixVector2(
-                (Fix64)startingExtents.X / SharpNode.NodeScale,
-                (Fix64)startingExtents.Y / SharpNode.NodeScale
-            );
             Shape = CollisionType2D.AABB;
         }
 
@@ -63,11 +92,11 @@ namespace SharpCollisions.Sharp2D
 
             Color finalColor = selected ? selectedColor : debugColor;
 
-            Vector3 scaledPosOffset = new Vector3(startingPositionOffset.X, startingPositionOffset.Y, 0) / SharpNode.nodeScale;
-            Vector3 scaledRotOffset = new Vector3(0, 0, startingRotationOffset) / SharpNode.nodeRotation;
-            Vector3 scaledExtents = new Vector3(startingExtents.X * 2, startingExtents.Y * 2, 0.1f) / SharpNode.nodeScale;
+            Vector3 PosOffset = new Vector3(_positionOffset.X, _positionOffset.Y, 0);
+            Vector3 RotOffset = new Vector3(0, 0, _rotationOffset);
+            Vector3 scaledExtents = new Vector3(_extents.X * 2, _extents.Y * 2, 0.1f);
 
-            Vector3 rotPos = SharpHelpers.RotateDeg3D(scaledPosOffset, scaledRotOffset);
+            Vector3 rotPos = SharpHelpers.RotateDeg3D(PosOffset, RotOffset);
             Vector3 newPos = SharpHelpers.Transform3D(rotPos, reference.GlobalPosition, reference.GlobalRotation);
 
             DebugDraw3D.DrawBox(newPos, Quaternion.Identity, scaledExtents, finalColor, true);

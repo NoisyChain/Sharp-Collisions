@@ -97,14 +97,14 @@ namespace SharpCollisions.Sharp2D
 		{
 			if (!Engine.IsEditorHint()) return;
 			if (!HasColliders()) return;
-			if (Renderer == null) return;
+			if (Renderer3D == null) return;
 
 			var selected = EditorInterface.Singleton.GetSelection().GetSelectedNodes();
 
 			foreach (SharpCollider2D col in Colliders)
-				if (col != null) col.DebugDrawShapesEditor(Renderer, selected.Contains(this));
+				if (col != null) col.DebugDrawShapesEditor(Renderer3D, selected.Contains(this));
 			
-			if (selected.Contains(this)) DebugDraw3D.DrawGizmo(Renderer.Transform, new Color(1, 0.6f, 0.1f), true);
+			if (selected.Contains(this)) DebugDraw3D.DrawGizmo(Renderer3D.Transform, new Color(1, 0.6f, 0.1f), true);
 		}
 
 		public void DrawColliders()

@@ -49,7 +49,6 @@ nodes = [NodePath("../Character"), NodePath("../Box"), NodePath("../Box2"), Node
 Substeps = 2
 debugLineThickness = 0.012
 RunOnDedicatedThread = true
-ShowDebugShapes = true
 
 [node name="Character" parent="." unique_id=1519820629 instance=ExtResource("2")]
 KeepVelocityOnSlopes = false
@@ -62,7 +61,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, -3000)
 _fixedPosition = Vector3(0, 1, -3)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = -12884901888
@@ -75,7 +73,6 @@ raw_extents_y = 4294967296
 raw_extents_z = 4294967296
 startingExtents = Vector3i(1000, 1000, 1000)
 _points = []
-startingPoints = []
 Faces = []
 DrawDebug = true
 
@@ -92,8 +89,6 @@ RotationSpeed = Vector3(45, 45, 45)
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2300, 2000, 0)
-startingRotation = Vector3i(450, 450, 450)
 _fixedPosition = Vector3(-2.3, 2, 0)
 _fixedRotation = Vector3(45, 45, 45)
 raw_fixedPosition_x = -9878424780
@@ -110,12 +105,11 @@ raw_extents_y = 4294967296
 raw_extents_z = 4294967296
 startingExtents = Vector3i(1000, 1000, 1000)
 _points = []
-startingPoints = []
 Faces = []
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Box2" unique_id=1636148238]
-transform = Transform3D(0.852965, -0.1438165, 0.4999996, 0.49965534, 0.49102017, -0.7071063, -0.14634567, 0.8382238, 0.4999996, -2.3, 2, 0)
+transform = Transform3D(0.852965, -0.1435065, 0.4999996, 0.49965534, 0.48996177, -0.7071063, -0.14634567, 0.836417, 0.4999996, -2.3, 2, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Box2/Viewer" unique_id=1571333008]
 mesh = SubResource("12")
@@ -127,7 +121,6 @@ RotationSpeed = Vector3(45, 45, 45)
 Colliders = [NodePath("Collider"), NodePath("Collider2")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2500, 1200, 0)
 _fixedPosition = Vector3(2.5, 1.2, 0)
 raw_fixedPosition_x = 10737418240
 raw_fixedPosition_y = 5153960755
@@ -136,19 +129,16 @@ raw_fixedPosition_y = 5153960755
 script = ExtResource("3")
 _radius = 1.0
 raw_radius = 4294967296
-startingRadius = 1000
 DrawDebug = true
 
 [node name="Collider2" type="Node" parent="Sphere" unique_id=213469181]
 script = ExtResource("3")
 _radius = 1.0
 raw_radius = 4294967296
-startingRadius = 1000
 _positionOffset = Vector3(-0.9, 0.4, 0)
 DrawDebug = true
 raw_positionOffset_x = -3865470566
 raw_positionOffset_y = 1717986918
-startingPositionOffset = Vector3i(-900, 400, 0)
 
 [node name="Viewer" type="Node3D" parent="Sphere" unique_id=1926988097]
 transform = Transform3D(0.99998623, 0, 0, 0, 0.999998, 0, 0, 0, 0.99998426, 2.5, 1.2, 0)
@@ -163,8 +153,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2500, 500, 2500)
-startingRotation = Vector3i(0, 450, 0)
 _fixedPosition = Vector3(2.5, 0.5, 2.5)
 _fixedRotation = Vector3(0, 45, 0)
 raw_fixedPosition_x = 10737418240
@@ -178,12 +166,9 @@ _radius = 0.5
 _height = 1.0
 raw_radius = 2147483648
 raw_height = 4294967296
-startingRadius = 500
-startingHeight = 1000
 _rotationOffset = Vector3(0, 0, 90)
 DrawDebug = true
 raw_rotationOffset_z = 386547056640
-startingRotationOffset = Vector3i(0, 0, 900)
 
 [node name="Viewer" type="Node3D" parent="Capsule" unique_id=720804035]
 transform = Transform3D(0.7070726, 0, 0.70700425, 0, 0.99998, 0, -0.7070726, 0, 0.70700425, 2.5, 0.5, 2.5)
@@ -199,7 +184,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, 2000)
 _fixedPosition = Vector3(0, 1, 2)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = 8589934592
@@ -207,7 +191,6 @@ raw_fixedPosition_z = 8589934592
 [node name="Collider" type="Node" parent="Polygon" unique_id=1404406652]
 script = ExtResource("9_earb3")
 _points = []
-startingPoints = []
 Faces = []
 DrawDebug = true
 
@@ -225,7 +208,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 0, 2000)
 _fixedPosition = Vector3(2, -0.1, 2)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = -429496729
@@ -239,7 +221,6 @@ raw_extents_y = 429496729
 raw_extents_z = 8589934592
 startingExtents = Vector3i(2000, 100, 2000)
 _points = []
-startingPoints = []
 Faces = []
 
 [node name="Viewer" type="Node3D" parent="Floor" unique_id=498634527]
@@ -255,7 +236,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 0, 2000)
 _fixedPosition = Vector3(-2, -0.1, 2)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = -429496729
@@ -269,7 +249,6 @@ raw_extents_y = 429496729
 raw_extents_z = 8589934592
 startingExtents = Vector3i(2000, 100, 2000)
 _points = []
-startingPoints = []
 Faces = []
 
 [node name="Viewer" type="Node3D" parent="Floor2" unique_id=209033362]
@@ -285,7 +264,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 0, -2000)
 _fixedPosition = Vector3(-2, -0.1, -2)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = -429496729
@@ -299,7 +277,6 @@ raw_extents_y = 429496729
 raw_extents_z = 8589934592
 startingExtents = Vector3i(2000, 100, 2000)
 _points = []
-startingPoints = []
 Faces = []
 
 [node name="Viewer" type="Node3D" parent="Floor3" unique_id=696311031]
@@ -315,7 +292,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 0, -2000)
 _fixedPosition = Vector3(2, -0.1, -2)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = -429496729
@@ -329,7 +305,6 @@ raw_extents_y = 429496729
 raw_extents_z = 8589934592
 startingExtents = Vector3i(2000, 100, 2000)
 _points = []
-startingPoints = []
 Faces = []
 
 [node name="Viewer" type="Node3D" parent="Floor4" unique_id=1420323814]
@@ -345,7 +320,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 0, -4000)
 _fixedPosition = Vector3(0, 1, -4)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = -17179869184
@@ -358,7 +332,6 @@ raw_extents_y = 4294967296
 raw_extents_z = 429496729
 startingExtents = Vector3i(4000, 1000, 100)
 _points = []
-startingPoints = []
 Faces = []
 
 [node name="Viewer" type="Node3D" parent="Wall" unique_id=1029909300]
@@ -374,7 +347,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 0, 4000)
 _fixedPosition = Vector3(0, 1, 4)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = 17179869184
@@ -387,7 +359,6 @@ raw_extents_y = 4294967296
 raw_extents_z = 429496729
 startingExtents = Vector3i(4000, 1000, 100)
 _points = []
-startingPoints = []
 Faces = []
 DrawDebug = true
 
@@ -405,7 +376,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(4000, 0, 0)
 _fixedPosition = Vector3(4, 1, 0)
 raw_fixedPosition_x = 17179869184
 raw_fixedPosition_y = 4294967296
@@ -418,7 +388,6 @@ raw_extents_y = 4294967296
 raw_extents_z = 17179869184
 startingExtents = Vector3i(100, 1000, 4000)
 _points = []
-startingPoints = []
 Faces = []
 
 [node name="Viewer" type="Node3D" parent="Wall3" unique_id=1507931151]
@@ -435,7 +404,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-4000, 0, 0)
 _fixedPosition = Vector3(-4, 1, 0)
 raw_fixedPosition_x = -17179869184
 raw_fixedPosition_y = 4294967296
@@ -448,7 +416,6 @@ raw_extents_y = 4294967296
 raw_extents_z = 17179869184
 startingExtents = Vector3i(100, 1000, 4000)
 _points = []
-startingPoints = []
 Faces = []
 
 [node name="Viewer" type="Node3D" parent="Wall4" unique_id=658102628]

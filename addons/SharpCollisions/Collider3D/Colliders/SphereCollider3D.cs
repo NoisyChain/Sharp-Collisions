@@ -123,14 +123,14 @@ namespace SharpCollisions.Sharp3D
 
             Fix64 radii = colliderA.Radius + colliderB.Radius;
             Fix64 radiiSq = radii * radii;
-            Fix64 distance = FixVector3.Distance(colliderA.Center, colliderB.Center);
+            Fix64 distance = FixVector3.DistanceSq(colliderA.Center, colliderB.Center);
 			
-			bool collision = distance <= radii;
+			bool collision = distance <= radiiSq;
 			
 			if (collision)
 			{
 				Normal = FixVector3.Normalize(colliderB.Center - colliderA.Center);
-				Depth = Normal * Fix64.Abs(radii - distance);
+				Depth = Normal * Fix64.Abs(radii - Fix64.Sqrt(distance));
 				ContactPoint = SphereContactPoint(colliderA.Center, colliderA.Radius, colliderB.Center, colliderB.Radius, Normal);
 			}
 			
@@ -148,14 +148,14 @@ namespace SharpCollisions.Sharp3D
 
 			Fix64 radii = colliderA.Radius + colliderB.Radius;
             Fix64 radiiSq = radii * radii;
-			Fix64 distance = FixVector3.Distance(CapsulePoint, colliderA.Center);
+			Fix64 distance = FixVector3.DistanceSq(CapsulePoint, colliderA.Center);
 			
-			bool collision = distance <= radii;
+			bool collision = distance <= radiiSq;
 			
 			if (collision)
 			{
 				Normal = FixVector3.Normalize(CapsulePoint - colliderA.Center);
-				Depth = Normal * Fix64.Abs(radii - distance);
+				Depth = Normal * Fix64.Abs(radii - Fix64.Sqrt(distance));
 				ContactPoint = SphereContactPoint(CapsulePoint, colliderB.Radius, colliderA.Center, colliderA.Radius, Normal);
 			}
 			

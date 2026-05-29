@@ -57,9 +57,7 @@ Attachments = []
 BodyMode = 2
 Renderer3D = NodePath("Viewer")
 _fixedPosition = Vector2(0, -2)
-_fixedRotation = 1.0
-raw_fixedPosition_Y = -8589934592
-raw_fixedRotation = 4294967296
+raw_fixedPosition_y = -8589934592
 
 [node name="Collider" type="Node" parent="Floor" unique_id=527617232]
 script = ExtResource("4")
@@ -70,7 +68,7 @@ _points = []
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Floor" unique_id=995626471]
-transform = Transform3D(0.9998334, -0.017452156, 0, 0.017452156, 0.9998334, 0, 0, 0, 1, 0, -2, 0)
+transform = Transform3D(0.99998313, 0, 0, 0, 0.99998313, 0, 0, 0, 1, 0, -2, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Floor/Viewer" unique_id=1321256801]
 mesh = SubResource("1")
@@ -84,8 +82,8 @@ BodyMode = 2
 Renderer3D = NodePath("Viewer")
 _fixedPosition = Vector2(-4, -1)
 _fixedRotation = -45.0
-raw_fixedPosition_X = -17179869184
-raw_fixedPosition_Y = -4294967296
+raw_fixedPosition_x = -17179869184
+raw_fixedPosition_y = -4294967296
 raw_fixedRotation = -193273528320
 
 [node name="Collider" type="Node" parent="Floor2" unique_id=1392129952]
@@ -111,8 +109,8 @@ BodyMode = 2
 Renderer3D = NodePath("Viewer")
 _fixedPosition = Vector2(4.5, -1)
 _fixedRotation = 35.0
-raw_fixedPosition_X = 19327352832
-raw_fixedPosition_Y = -4294967296
+raw_fixedPosition_x = 19327352832
+raw_fixedPosition_y = -4294967296
 raw_fixedRotation = 150323855360
 
 [node name="Collider" type="Node" parent="Floor3" unique_id=880403683]
@@ -136,8 +134,8 @@ Colliders = [NodePath("Collider"), NodePath("Collider2")]
 Attachments = []
 Renderer3D = NodePath("Viewer")
 _fixedPosition = Vector2(1.5, -0.95)
-raw_fixedPosition_X = 6442450944
-raw_fixedPosition_Y = -4080218931
+raw_fixedPosition_x = 6442450944
+raw_fixedPosition_y = -4080218931
 
 [node name="Collider" type="Node" parent="Sphere" unique_id=620003325]
 script = ExtResource("6")
@@ -167,8 +165,8 @@ Attachments = []
 BodyMode = 2
 Renderer3D = NodePath("Viewer")
 _fixedPosition = Vector2(-1, -0.8)
-raw_fixedPosition_X = -4294967296
-raw_fixedPosition_Y = -3435973836
+raw_fixedPosition_x = -4294967296
+raw_fixedPosition_y = -3435973836
 
 [node name="Collider" type="Node" parent="Polygon" unique_id=2067109096]
 script = ExtResource("7_7xfg0")
@@ -188,8 +186,8 @@ BodyMode = 2
 Renderer3D = NodePath("Viewer")
 _fixedPosition = Vector2(4, 1.7)
 _fixedRotation = 90.0
-raw_fixedPosition_X = 17179869184
-raw_fixedPosition_Y = 7301444403
+raw_fixedPosition_x = 17179869184
+raw_fixedPosition_y = 7301444403
 raw_fixedRotation = 386547056640
 
 [node name="Collider" type="Node" parent="Polygon2" unique_id=710901359]
@@ -208,8 +206,8 @@ BodyMode = 2
 Renderer3D = NodePath("Viewer")
 _fixedPosition = Vector2(-2.5, 1.8)
 _fixedRotation = 25.0
-raw_fixedPosition_X = -10737418240
-raw_fixedPosition_Y = 7730941132
+raw_fixedPosition_x = -10737418240
+raw_fixedPosition_y = 7730941132
 raw_fixedRotation = 107374182400
 
 [node name="Collider" type="Node" parent="Capsule" unique_id=966262467]
@@ -236,14 +234,14 @@ Attachments = []
 BodyMode = 2
 Renderer3D = NodePath("Viewer")
 _fixedPosition = Vector2(2, 3)
-raw_fixedPosition_X = 8589934592
-raw_fixedPosition_Y = 12884901888
+raw_fixedPosition_x = 8589934592
+raw_fixedPosition_y = 12884901888
 
 [node name="Collider" type="Node" parent="AABBTest" unique_id=574731901]
 script = ExtResource("9")
 _extents = Vector2(1, 1)
-raw_extents_X = 4294967296
-raw_extents_Y = 4294967296
+raw_extents_x = 4294967296
+raw_extents_y = 4294967296
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="AABBTest" unique_id=2015468259]
@@ -259,14 +257,14 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer3D = NodePath("Viewer")
 _fixedPosition = Vector2(0.7, 4)
-raw_fixedPosition_X = 3006477107
-raw_fixedPosition_Y = 17179869184
+raw_fixedPosition_x = 3006477107
+raw_fixedPosition_y = 17179869184
 
 [node name="Collider" type="Node" parent="AABBTest2" unique_id=1423941067]
 script = ExtResource("9")
 _extents = Vector2(1, 1)
-raw_extents_X = 4294967296
-raw_extents_Y = 4294967296
+raw_extents_x = 4294967296
+raw_extents_y = 4294967296
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="AABBTest2" unique_id=1252422292]

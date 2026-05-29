@@ -45,7 +45,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-3000, 1000, -3000)
 _fixedPosition = Vector3(-3, 1, -3)
 raw_fixedPosition_x = -12884901888
 raw_fixedPosition_y = 4294967296
@@ -55,7 +54,6 @@ raw_fixedPosition_z = -12884901888
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere1" unique_id=2002286169]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -3)
@@ -69,7 +67,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-3000, 1000, -2000)
 _fixedPosition = Vector3(-3, 1, -2)
 raw_fixedPosition_x = -12884901888
 raw_fixedPosition_y = 4294967296
@@ -79,7 +76,6 @@ raw_fixedPosition_z = -8589934592
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere2" unique_id=1151542068]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -2)
@@ -93,7 +89,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-3000, 1000, -1000)
 _fixedPosition = Vector3(-3, 1, -1)
 raw_fixedPosition_x = -12884901888
 raw_fixedPosition_y = 4294967296
@@ -103,7 +98,6 @@ raw_fixedPosition_z = -4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere3" unique_id=1854152175]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -1)
@@ -117,7 +111,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-3000, 1000, 1000)
 _fixedPosition = Vector3(-3, 1, 1)
 raw_fixedPosition_x = -12884901888
 raw_fixedPosition_y = 4294967296
@@ -127,7 +120,6 @@ raw_fixedPosition_z = 4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere4" unique_id=1638940536]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 1)
@@ -141,7 +133,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-3000, 1000, 2000)
 _fixedPosition = Vector3(-3, 1, 2)
 raw_fixedPosition_x = -12884901888
 raw_fixedPosition_y = 4294967296
@@ -151,7 +142,6 @@ raw_fixedPosition_z = 8589934592
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere5" unique_id=1965936788]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 2)
@@ -165,7 +155,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-3000, 1000, 3000)
 _fixedPosition = Vector3(-3, 1, 3)
 raw_fixedPosition_x = -12884901888
 raw_fixedPosition_y = 4294967296
@@ -175,7 +164,6 @@ raw_fixedPosition_z = 12884901888
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere6" unique_id=1097574182]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 3)
@@ -189,7 +177,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-3000, 1000, 0)
 _fixedPosition = Vector3(-3, 1, 0)
 raw_fixedPosition_x = -12884901888
 raw_fixedPosition_y = 4294967296
@@ -198,7 +185,6 @@ raw_fixedPosition_y = 4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere7" unique_id=969105675]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 0)
@@ -212,7 +198,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 1000, -3000)
 _fixedPosition = Vector3(-2, 1, -3)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
@@ -222,7 +207,6 @@ raw_fixedPosition_z = -12884901888
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere8" unique_id=718963466]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -3)
@@ -236,7 +220,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 1000, -2000)
 _fixedPosition = Vector3(-2, 1, -2)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
@@ -246,7 +229,6 @@ raw_fixedPosition_z = -8589934592
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere9" unique_id=951121863]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -2)
@@ -260,7 +242,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 1000, -1000)
 _fixedPosition = Vector3(-2, 1, -1)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
@@ -270,7 +251,6 @@ raw_fixedPosition_z = -4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere10" unique_id=326561533]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -1)
@@ -284,7 +264,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 1000, 1000)
 _fixedPosition = Vector3(-2, 1, 1)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
@@ -294,7 +273,6 @@ raw_fixedPosition_z = 4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere11" unique_id=1430199694]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 1)
@@ -308,7 +286,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 1000, 2000)
 _fixedPosition = Vector3(-2, 1, 2)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
@@ -318,7 +295,6 @@ raw_fixedPosition_z = 8589934592
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere12" unique_id=1502463949]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 2)
@@ -332,7 +308,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 1000, 3000)
 _fixedPosition = Vector3(-2, 1, 3)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
@@ -342,7 +317,6 @@ raw_fixedPosition_z = 12884901888
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere13" unique_id=60740838]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 3)
@@ -356,7 +330,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 1000, 0)
 _fixedPosition = Vector3(-2, 1, 0)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
@@ -365,7 +338,6 @@ raw_fixedPosition_y = 4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere14" unique_id=651236199]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0)
@@ -379,7 +351,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-1000, 1000, -3000)
 _fixedPosition = Vector3(-1, 1, -3)
 raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = 4294967296
@@ -389,7 +360,6 @@ raw_fixedPosition_z = -12884901888
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere15" unique_id=1884487596]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -3)
@@ -403,7 +373,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-1000, 1000, -2000)
 _fixedPosition = Vector3(-1, 1, -2)
 raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = 4294967296
@@ -413,7 +382,6 @@ raw_fixedPosition_z = -8589934592
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere16" unique_id=84588921]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -2)
@@ -427,7 +395,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-1000, 1000, -1000)
 _fixedPosition = Vector3(-1, 1, -1)
 raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = 4294967296
@@ -437,7 +404,6 @@ raw_fixedPosition_z = -4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere17" unique_id=640650886]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
@@ -451,7 +417,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-1000, 1000, 1000)
 _fixedPosition = Vector3(-1, 1, 1)
 raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = 4294967296
@@ -461,7 +426,6 @@ raw_fixedPosition_z = 4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere18" unique_id=887460814]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 1)
@@ -475,7 +439,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-1000, 1000, 2000)
 _fixedPosition = Vector3(-1, 1, 2)
 raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = 4294967296
@@ -485,7 +448,6 @@ raw_fixedPosition_z = 8589934592
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere19" unique_id=1857225837]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 2)
@@ -499,7 +461,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-1000, 1000, 3000)
 _fixedPosition = Vector3(-1, 1, 3)
 raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = 4294967296
@@ -509,7 +470,6 @@ raw_fixedPosition_z = 12884901888
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere20" unique_id=1913923058]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 3)
@@ -523,7 +483,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-1000, 1000, 0)
 _fixedPosition = Vector3(-1, 1, 0)
 raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = 4294967296
@@ -532,7 +491,6 @@ raw_fixedPosition_y = 4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere21" unique_id=397270905]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 0)
@@ -546,7 +504,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, -3000)
 _fixedPosition = Vector3(0, 1, -3)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = -12884901888
@@ -555,7 +512,6 @@ raw_fixedPosition_z = -12884901888
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Sphere22" unique_id=1018312220]
@@ -570,7 +526,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, -2000)
 _fixedPosition = Vector3(0, 1, -2)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = -8589934592
@@ -579,7 +534,6 @@ raw_fixedPosition_z = -8589934592
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere23" unique_id=72032583]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2)
@@ -593,7 +547,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, -1000)
 _fixedPosition = Vector3(0, 1, -1)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = -4294967296
@@ -602,7 +555,6 @@ raw_fixedPosition_z = -4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere24" unique_id=1246097983]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
@@ -616,7 +568,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, 1000)
 _fixedPosition = Vector3(0, 1, 1)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = 4294967296
@@ -625,7 +576,6 @@ raw_fixedPosition_z = 4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere25" unique_id=1057518917]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
@@ -639,7 +589,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, 2000)
 _fixedPosition = Vector3(0, 1, 2)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = 8589934592
@@ -648,7 +597,6 @@ raw_fixedPosition_z = 8589934592
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere26" unique_id=1981627853]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
@@ -662,7 +610,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, 3000)
 _fixedPosition = Vector3(0, 1, 3)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = 12884901888
@@ -671,7 +618,6 @@ raw_fixedPosition_z = 12884901888
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere27" unique_id=1456880564]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3)
@@ -685,7 +631,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, 0)
 _fixedPosition = Vector3(0, 1, 0)
 raw_fixedPosition_y = 4294967296
 
@@ -693,7 +638,6 @@ raw_fixedPosition_y = 4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere28" unique_id=1642887958]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -707,7 +651,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(1000, 1000, -3000)
 _fixedPosition = Vector3(1, 1, -3)
 raw_fixedPosition_x = 4294967296
 raw_fixedPosition_y = 4294967296
@@ -717,7 +660,6 @@ raw_fixedPosition_z = -12884901888
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere29" unique_id=2018033561]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -3)
@@ -731,7 +673,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(1000, 1000, -2000)
 _fixedPosition = Vector3(1, 1, -2)
 raw_fixedPosition_x = 4294967296
 raw_fixedPosition_y = 4294967296
@@ -741,7 +682,6 @@ raw_fixedPosition_z = -8589934592
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere30" unique_id=845040410]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -2)
@@ -755,7 +695,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(1000, 1000, -1000)
 _fixedPosition = Vector3(1, 1, -1)
 raw_fixedPosition_x = 4294967296
 raw_fixedPosition_y = 4294967296
@@ -765,7 +704,6 @@ raw_fixedPosition_z = -4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere31" unique_id=1828705516]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -1)
@@ -779,7 +717,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(1000, 1000, 1000)
 _fixedPosition = Vector3(1, 1, 1)
 raw_fixedPosition_x = 4294967296
 raw_fixedPosition_y = 4294967296
@@ -789,7 +726,6 @@ raw_fixedPosition_z = 4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere32" unique_id=1827943222]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
@@ -803,7 +739,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(1000, 1000, 2000)
 _fixedPosition = Vector3(1, 1, 2)
 raw_fixedPosition_x = 4294967296
 raw_fixedPosition_y = 4294967296
@@ -813,7 +748,6 @@ raw_fixedPosition_z = 8589934592
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere33" unique_id=523370934]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 2)
@@ -827,7 +761,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(1000, 1000, 3000)
 _fixedPosition = Vector3(1, 1, 3)
 raw_fixedPosition_x = 4294967296
 raw_fixedPosition_y = 4294967296
@@ -837,7 +770,6 @@ raw_fixedPosition_z = 12884901888
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere34" unique_id=45787968]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 3)
@@ -851,7 +783,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(1000, 1000, 0)
 _fixedPosition = Vector3(1, 1, 0)
 raw_fixedPosition_x = 4294967296
 raw_fixedPosition_y = 4294967296
@@ -860,7 +791,6 @@ raw_fixedPosition_y = 4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere35" unique_id=1392901268]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0)
@@ -874,7 +804,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 1000, -3000)
 _fixedPosition = Vector3(2, 1, -3)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = 4294967296
@@ -884,7 +813,6 @@ raw_fixedPosition_z = -12884901888
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere36" unique_id=1630428965]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -3)
@@ -898,7 +826,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 1000, -2000)
 _fixedPosition = Vector3(2, 1, -2)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = 4294967296
@@ -908,7 +835,6 @@ raw_fixedPosition_z = -8589934592
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere37" unique_id=1760116277]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -2)
@@ -922,7 +848,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 1000, -1000)
 _fixedPosition = Vector3(2, 1, -1)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = 4294967296
@@ -932,7 +857,6 @@ raw_fixedPosition_z = -4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere38" unique_id=947019489]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -1)
@@ -946,7 +870,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 1000, 1000)
 _fixedPosition = Vector3(2, 1, 1)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = 4294967296
@@ -956,7 +879,6 @@ raw_fixedPosition_z = 4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere39" unique_id=1975787122]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 1)
@@ -970,7 +892,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 1000, 2000)
 _fixedPosition = Vector3(2, 1, 2)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = 4294967296
@@ -980,7 +901,6 @@ raw_fixedPosition_z = 8589934592
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere40" unique_id=233827668]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 2)
@@ -994,7 +914,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 1000, 3000)
 _fixedPosition = Vector3(2, 1, 3)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = 4294967296
@@ -1004,7 +923,6 @@ raw_fixedPosition_z = 12884901888
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere41" unique_id=1337798317]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 3)
@@ -1018,7 +936,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 1000, 0)
 _fixedPosition = Vector3(2, 1, 0)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = 4294967296
@@ -1027,7 +944,6 @@ raw_fixedPosition_y = 4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere42" unique_id=457912469]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0)
@@ -1041,7 +957,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(3000, 1000, -3000)
 _fixedPosition = Vector3(3, 1, -3)
 raw_fixedPosition_x = 12884901888
 raw_fixedPosition_y = 4294967296
@@ -1051,7 +966,6 @@ raw_fixedPosition_z = -12884901888
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere43" unique_id=543482231]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, -3)
@@ -1065,7 +979,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(3000, 1000, -2000)
 _fixedPosition = Vector3(3, 1, -2)
 raw_fixedPosition_x = 12884901888
 raw_fixedPosition_y = 4294967296
@@ -1075,7 +988,6 @@ raw_fixedPosition_z = -8589934592
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere44" unique_id=8656759]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, -2)
@@ -1089,7 +1001,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(3000, 1000, -1000)
 _fixedPosition = Vector3(3, 1, -1)
 raw_fixedPosition_x = 12884901888
 raw_fixedPosition_y = 4294967296
@@ -1099,7 +1010,6 @@ raw_fixedPosition_z = -4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere45" unique_id=1386586317]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, -1)
@@ -1113,7 +1023,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(3000, 1000, 1000)
 _fixedPosition = Vector3(3, 1, 1)
 raw_fixedPosition_x = 12884901888
 raw_fixedPosition_y = 4294967296
@@ -1123,7 +1032,6 @@ raw_fixedPosition_z = 4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere46" unique_id=1242870508]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 1)
@@ -1137,7 +1045,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(3000, 1000, 2000)
 _fixedPosition = Vector3(3, 1, 2)
 raw_fixedPosition_x = 12884901888
 raw_fixedPosition_y = 4294967296
@@ -1147,7 +1054,6 @@ raw_fixedPosition_z = 8589934592
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere47" unique_id=1167111212]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 2)
@@ -1161,7 +1067,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(3000, 1000, 3000)
 _fixedPosition = Vector3(3, 1, 3)
 raw_fixedPosition_x = 12884901888
 raw_fixedPosition_y = 4294967296
@@ -1171,7 +1076,6 @@ raw_fixedPosition_z = 12884901888
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere48" unique_id=1247299739]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 3)
@@ -1185,7 +1089,6 @@ script = ExtResource("5_rpyv1")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(3000, 1000, 0)
 _fixedPosition = Vector3(3, 1, 0)
 raw_fixedPosition_x = 12884901888
 raw_fixedPosition_y = 4294967296
@@ -1194,7 +1097,6 @@ raw_fixedPosition_y = 4294967296
 script = ExtResource("6_x5v8s")
 _radius = 0.3
 raw_radius = 1288490188
-startingRadius = 300
 
 [node name="Viewer" type="Node3D" parent="Sphere49" unique_id=2062995783]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0)
@@ -1209,7 +1111,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, -100, 0)
 _fixedPosition = Vector3(0, -0.1, 0)
 raw_fixedPosition_y = -429496729
 
@@ -1222,7 +1123,6 @@ raw_extents_z = 17179869184
 startingExtents = Vector3i(4000, 100, 4000)
 _points = []
 Faces = []
-startingPoints = []
 
 [node name="Viewer" type="Node3D" parent="Floor" unique_id=739509866]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
@@ -1237,7 +1137,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 500, -4000)
 _fixedPosition = Vector3(0, 1, -4)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = -17179869184
@@ -1251,7 +1150,6 @@ raw_extents_z = 429496729
 startingExtents = Vector3i(4000, 1000, 100)
 _points = []
 Faces = []
-startingPoints = []
 
 [node name="Viewer" type="Node3D" parent="Wall" unique_id=308368977]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -4)
@@ -1266,7 +1164,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 500, 4000)
 _fixedPosition = Vector3(0, 1, 4)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = 17179869184
@@ -1280,7 +1177,6 @@ raw_extents_z = 429496729
 startingExtents = Vector3i(4000, 1000, 100)
 _points = []
 Faces = []
-startingPoints = []
 
 [node name="Viewer" type="Node3D" parent="Wall2" unique_id=1277459142]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 4)
@@ -1295,7 +1191,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(4000, 500, 0)
 _fixedPosition = Vector3(4, 1, 0)
 raw_fixedPosition_x = 17179869184
 raw_fixedPosition_y = 4294967296
@@ -1309,7 +1204,6 @@ raw_extents_z = 17179869184
 startingExtents = Vector3i(100, 1000, 4000)
 _points = []
 Faces = []
-startingPoints = []
 
 [node name="Viewer" type="Node3D" parent="Wall3" unique_id=725173188]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)
@@ -1325,7 +1219,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-4000, 500, 0)
 _fixedPosition = Vector3(-4, 1, 0)
 raw_fixedPosition_x = -17179869184
 raw_fixedPosition_y = 4294967296
@@ -1339,7 +1232,6 @@ raw_extents_z = 17179869184
 startingExtents = Vector3i(100, 1000, 4000)
 _points = []
 Faces = []
-startingPoints = []
 
 [node name="Viewer" type="Node3D" parent="Wall4" unique_id=707543074]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, 0)

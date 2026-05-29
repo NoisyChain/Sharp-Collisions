@@ -125,6 +125,7 @@ namespace SharpCollisions.Sharp2D
         public override void DebugDrawShapes(SharpBody2D reference)
         {
             if (!DrawDebug) return;
+            //if (Points == null || Points.Length == 0) return;
 
             for (int i = 0; i < Points.Length; i++)
             {

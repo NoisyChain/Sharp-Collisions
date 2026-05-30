@@ -36,7 +36,6 @@ tonemap_mode = 2
 [node name="PhysicsManager" type="Node" parent="." unique_id=107857720 node_paths=PackedStringArray("nodes")]
 script = ExtResource("2_hehox")
 nodes = [NodePath("../Sphere1"), NodePath("../Sphere2"), NodePath("../Sphere3"), NodePath("../Sphere4"), NodePath("../Sphere5"), NodePath("../Sphere6"), NodePath("../Sphere7"), NodePath("../Sphere8"), NodePath("../Sphere9"), NodePath("../Sphere10"), NodePath("../Sphere11"), NodePath("../Sphere12"), NodePath("../Sphere13"), NodePath("../Sphere14"), NodePath("../Sphere15"), NodePath("../Sphere16"), NodePath("../Sphere17"), NodePath("../Sphere18"), NodePath("../Sphere19"), NodePath("../Sphere20"), NodePath("../Sphere21"), NodePath("../Sphere22"), NodePath("../Sphere23"), NodePath("../Sphere24"), NodePath("../Sphere25"), NodePath("../Sphere26"), NodePath("../Sphere27"), NodePath("../Sphere28"), NodePath("../Sphere29"), NodePath("../Sphere30"), NodePath("../Sphere31"), NodePath("../Sphere32"), NodePath("../Sphere33"), NodePath("../Sphere34"), NodePath("../Sphere35"), NodePath("../Sphere36"), NodePath("../Sphere37"), NodePath("../Sphere38"), NodePath("../Sphere39"), NodePath("../Sphere40"), NodePath("../Sphere41"), NodePath("../Sphere42"), NodePath("../Sphere43"), NodePath("../Sphere44"), NodePath("../Sphere45"), NodePath("../Sphere46"), NodePath("../Sphere47"), NodePath("../Sphere48"), NodePath("../Sphere49"), NodePath("../Floor"), NodePath("../Wall"), NodePath("../Wall2"), NodePath("../Wall3"), NodePath("../Wall4")]
-Substeps = 2
 debugLineThickness = 0.012
 RunOnDedicatedThread = true
 
@@ -45,7 +44,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-3000, 1000, -3000)
 _fixedPosition = Vector3(-3, 1, -3)
 raw_fixedPosition_x = -12884901888
 raw_fixedPosition_y = 4294967296
@@ -58,7 +56,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere1" unique_id=1415811046]
@@ -73,7 +70,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-3000, 1000, -2000)
 _fixedPosition = Vector3(-3, 1, -2)
 raw_fixedPosition_x = -12884901888
 raw_fixedPosition_y = 4294967296
@@ -86,7 +82,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere2" unique_id=1391585654]
@@ -101,7 +96,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-3000, 1000, -1000)
 _fixedPosition = Vector3(-3, 1, -1)
 raw_fixedPosition_x = -12884901888
 raw_fixedPosition_y = 4294967296
@@ -114,7 +108,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere3" unique_id=1718193084]
@@ -129,7 +122,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-3000, 1000, 1000)
 _fixedPosition = Vector3(-3, 1, 1)
 raw_fixedPosition_x = -12884901888
 raw_fixedPosition_y = 4294967296
@@ -142,7 +134,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere4" unique_id=699414567]
@@ -157,7 +148,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-3000, 1000, 2000)
 _fixedPosition = Vector3(-3, 1, 2)
 raw_fixedPosition_x = -12884901888
 raw_fixedPosition_y = 4294967296
@@ -170,7 +160,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere5" unique_id=1878726490]
@@ -185,7 +174,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-3000, 1000, 3000)
 _fixedPosition = Vector3(-3, 1, 3)
 raw_fixedPosition_x = -12884901888
 raw_fixedPosition_y = 4294967296
@@ -198,7 +186,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere6" unique_id=1605530728]
@@ -213,7 +200,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-3000, 1000, 0)
 _fixedPosition = Vector3(-3, 1, 0)
 raw_fixedPosition_x = -12884901888
 raw_fixedPosition_y = 4294967296
@@ -225,7 +211,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere7" unique_id=153484489]
@@ -240,7 +225,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 1000, -3000)
 _fixedPosition = Vector3(-2, 1, -3)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
@@ -253,7 +237,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere8" unique_id=814983812]
@@ -268,7 +251,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 1000, -2000)
 _fixedPosition = Vector3(-2, 1, -2)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
@@ -281,7 +263,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere9" unique_id=905868758]
@@ -296,7 +277,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 1000, -1000)
 _fixedPosition = Vector3(-2, 1, -1)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
@@ -309,7 +289,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere10" unique_id=1138880179]
@@ -324,7 +303,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 1000, 1000)
 _fixedPosition = Vector3(-2, 1, 1)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
@@ -337,7 +315,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere11" unique_id=1853513472]
@@ -352,7 +329,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 1000, 2000)
 _fixedPosition = Vector3(-2, 1, 2)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
@@ -365,7 +341,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere12" unique_id=482362364]
@@ -380,7 +355,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 1000, 3000)
 _fixedPosition = Vector3(-2, 1, 3)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
@@ -393,7 +367,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere13" unique_id=689794232]
@@ -408,7 +381,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-2000, 1000, 0)
 _fixedPosition = Vector3(-2, 1, 0)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
@@ -420,7 +392,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere14" unique_id=1381876220]
@@ -435,7 +406,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-1000, 1000, -3000)
 _fixedPosition = Vector3(-1, 1, -3)
 raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = 4294967296
@@ -448,7 +418,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere15" unique_id=40314980]
@@ -463,7 +432,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-1000, 1000, -2000)
 _fixedPosition = Vector3(-1, 1, -2)
 raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = 4294967296
@@ -476,7 +444,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere16" unique_id=2013863476]
@@ -491,7 +458,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-1000, 1000, -1000)
 _fixedPosition = Vector3(-1, 1, -1)
 raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = 4294967296
@@ -504,7 +470,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere17" unique_id=78176784]
@@ -519,7 +484,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-1000, 1000, 1000)
 _fixedPosition = Vector3(-1, 1, 1)
 raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = 4294967296
@@ -532,7 +496,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere18" unique_id=876352097]
@@ -547,7 +510,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-1000, 1000, 2000)
 _fixedPosition = Vector3(-1, 1, 2)
 raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = 4294967296
@@ -560,7 +522,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere19" unique_id=422074106]
@@ -575,7 +536,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-1000, 1000, 3000)
 _fixedPosition = Vector3(-1, 1, 3)
 raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = 4294967296
@@ -588,7 +548,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere20" unique_id=1476659276]
@@ -603,7 +562,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-1000, 1000, 0)
 _fixedPosition = Vector3(-1, 1, 0)
 raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = 4294967296
@@ -615,7 +573,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere21" unique_id=124396437]
@@ -630,7 +587,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, -3000)
 _fixedPosition = Vector3(0, 1, -3)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = -12884901888
@@ -642,7 +598,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere22" unique_id=749841731]
@@ -657,7 +612,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, -2000)
 _fixedPosition = Vector3(0, 1, -2)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = -8589934592
@@ -669,7 +623,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere23" unique_id=367527809]
@@ -684,7 +637,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, -1000)
 _fixedPosition = Vector3(0, 1, -1)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = -4294967296
@@ -696,7 +648,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere24" unique_id=448888243]
@@ -711,7 +662,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, 1000)
 _fixedPosition = Vector3(0, 1, 1)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = 4294967296
@@ -723,7 +673,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere25" unique_id=1243176305]
@@ -738,7 +687,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, 2000)
 _fixedPosition = Vector3(0, 1, 2)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = 8589934592
@@ -750,7 +698,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere26" unique_id=176608070]
@@ -765,7 +712,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, 3000)
 _fixedPosition = Vector3(0, 1, 3)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = 12884901888
@@ -777,7 +723,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere27" unique_id=1734297483]
@@ -792,7 +737,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 1000, 0)
 _fixedPosition = Vector3(0, 1, 0)
 raw_fixedPosition_y = 4294967296
 
@@ -803,7 +747,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere28" unique_id=1154206891]
@@ -818,7 +761,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(1000, 1000, -3000)
 _fixedPosition = Vector3(1, 1, -3)
 raw_fixedPosition_x = 4294967296
 raw_fixedPosition_y = 4294967296
@@ -831,7 +773,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere29" unique_id=32366565]
@@ -846,7 +787,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(1000, 1000, -2000)
 _fixedPosition = Vector3(1, 1, -2)
 raw_fixedPosition_x = 4294967296
 raw_fixedPosition_y = 4294967296
@@ -859,7 +799,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere30" unique_id=1868275440]
@@ -874,7 +813,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(1000, 1000, -1000)
 _fixedPosition = Vector3(1, 1, -1)
 raw_fixedPosition_x = 4294967296
 raw_fixedPosition_y = 4294967296
@@ -887,7 +825,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere31" unique_id=1288182128]
@@ -902,7 +839,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(1000, 1000, 1000)
 _fixedPosition = Vector3(1, 1, 1)
 raw_fixedPosition_x = 4294967296
 raw_fixedPosition_y = 4294967296
@@ -915,7 +851,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere32" unique_id=495445178]
@@ -930,7 +865,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(1000, 1000, 2000)
 _fixedPosition = Vector3(1, 1, 2)
 raw_fixedPosition_x = 4294967296
 raw_fixedPosition_y = 4294967296
@@ -943,7 +877,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere33" unique_id=824657695]
@@ -958,7 +891,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(1000, 1000, 3000)
 _fixedPosition = Vector3(1, 1, 3)
 raw_fixedPosition_x = 4294967296
 raw_fixedPosition_y = 4294967296
@@ -971,7 +903,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere34" unique_id=1996751006]
@@ -986,7 +917,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(1000, 1000, 0)
 _fixedPosition = Vector3(1, 1, 0)
 raw_fixedPosition_x = 4294967296
 raw_fixedPosition_y = 4294967296
@@ -998,7 +928,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere35" unique_id=1866446569]
@@ -1013,7 +942,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 1000, -3000)
 _fixedPosition = Vector3(2, 1, -3)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = 4294967296
@@ -1026,7 +954,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere36" unique_id=1229929240]
@@ -1041,7 +968,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 1000, -2000)
 _fixedPosition = Vector3(2, 1, -2)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = 4294967296
@@ -1054,7 +980,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere37" unique_id=1519900242]
@@ -1069,7 +994,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 1000, -1000)
 _fixedPosition = Vector3(2, 1, -1)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = 4294967296
@@ -1082,7 +1006,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere38" unique_id=64621063]
@@ -1097,7 +1020,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 1000, 1000)
 _fixedPosition = Vector3(2, 1, 1)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = 4294967296
@@ -1110,7 +1032,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere39" unique_id=561605826]
@@ -1125,7 +1046,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 1000, 2000)
 _fixedPosition = Vector3(2, 1, 2)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = 4294967296
@@ -1138,7 +1058,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere40" unique_id=1983535578]
@@ -1153,7 +1072,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 1000, 3000)
 _fixedPosition = Vector3(2, 1, 3)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = 4294967296
@@ -1166,7 +1084,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere41" unique_id=1017970677]
@@ -1181,7 +1098,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(2000, 1000, 0)
 _fixedPosition = Vector3(2, 1, 0)
 raw_fixedPosition_x = 8589934592
 raw_fixedPosition_y = 4294967296
@@ -1193,7 +1109,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere42" unique_id=578514700]
@@ -1208,7 +1123,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(3000, 1000, -3000)
 _fixedPosition = Vector3(3, 1, -3)
 raw_fixedPosition_x = 12884901888
 raw_fixedPosition_y = 4294967296
@@ -1221,7 +1135,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere43" unique_id=841429069]
@@ -1236,7 +1149,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(3000, 1000, -2000)
 _fixedPosition = Vector3(3, 1, -2)
 raw_fixedPosition_x = 12884901888
 raw_fixedPosition_y = 4294967296
@@ -1249,7 +1161,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere44" unique_id=1945411183]
@@ -1264,7 +1175,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(3000, 1000, -1000)
 _fixedPosition = Vector3(3, 1, -1)
 raw_fixedPosition_x = 12884901888
 raw_fixedPosition_y = 4294967296
@@ -1277,7 +1187,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere45" unique_id=249259170]
@@ -1292,7 +1201,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(3000, 1000, 1000)
 _fixedPosition = Vector3(3, 1, 1)
 raw_fixedPosition_x = 12884901888
 raw_fixedPosition_y = 4294967296
@@ -1305,7 +1213,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere46" unique_id=836591526]
@@ -1320,7 +1227,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(3000, 1000, 2000)
 _fixedPosition = Vector3(3, 1, 2)
 raw_fixedPosition_x = 12884901888
 raw_fixedPosition_y = 4294967296
@@ -1333,7 +1239,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere47" unique_id=1563682246]
@@ -1348,7 +1253,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(3000, 1000, 3000)
 _fixedPosition = Vector3(3, 1, 3)
 raw_fixedPosition_x = 12884901888
 raw_fixedPosition_y = 4294967296
@@ -1361,7 +1265,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere48" unique_id=714349146]
@@ -1376,7 +1279,6 @@ script = ExtResource("3_agu8f")
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(3000, 1000, 0)
 _fixedPosition = Vector3(3, 1, 0)
 raw_fixedPosition_x = 12884901888
 raw_fixedPosition_y = 4294967296
@@ -1388,7 +1290,6 @@ Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5)
 raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
 raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
 raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
-startingPoints = Array[Vector3i]([Vector3i(0, 300, 0), Vector3i(300, 0, 300), Vector3i(300, 0, -300), Vector3i(-300, 0, -300), Vector3i(-300, 0, 300), Vector3i(0, -300, 0)])
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 
 [node name="Viewer" type="Node3D" parent="Sphere49" unique_id=784985982]
@@ -1404,7 +1305,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, -100, 0)
 _fixedPosition = Vector3(0, -0.1, 0)
 raw_fixedPosition_y = -429496729
 
@@ -1414,10 +1314,8 @@ _extents = Vector3(4, 0.1, 4)
 raw_extents_x = 17179869184
 raw_extents_y = 429496729
 raw_extents_z = 17179869184
-startingExtents = Vector3i(4000, 100, 4000)
 _points = []
 Faces = []
-startingPoints = []
 
 [node name="Viewer" type="Node3D" parent="Floor" unique_id=113394271]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
@@ -1432,7 +1330,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 500, 4000)
 _fixedPosition = Vector3(0, 1, 4)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = 17179869184
@@ -1443,10 +1340,8 @@ _extents = Vector3(4, 1, 0.1)
 raw_extents_x = 17179869184
 raw_extents_y = 4294967296
 raw_extents_z = 429496729
-startingExtents = Vector3i(4000, 1000, 100)
 _points = []
 Faces = []
-startingPoints = []
 
 [node name="Viewer" type="Node3D" parent="Wall" unique_id=124295584]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 4)
@@ -1461,7 +1356,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(0, 500, -4000)
 _fixedPosition = Vector3(0, 1, -4)
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = -17179869184
@@ -1472,10 +1366,8 @@ _extents = Vector3(4, 1, 0.1)
 raw_extents_x = 17179869184
 raw_extents_y = 4294967296
 raw_extents_z = 429496729
-startingExtents = Vector3i(4000, 1000, 100)
 _points = []
 Faces = []
-startingPoints = []
 
 [node name="Viewer" type="Node3D" parent="Wall2" unique_id=1060694682]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -4)
@@ -1490,7 +1382,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(4000, 500, 0)
 _fixedPosition = Vector3(4, 1, 0)
 raw_fixedPosition_x = 17179869184
 raw_fixedPosition_y = 4294967296
@@ -1501,10 +1392,8 @@ _extents = Vector3(0.1, 1, 4)
 raw_extents_x = 429496729
 raw_extents_y = 4294967296
 raw_extents_z = 17179869184
-startingExtents = Vector3i(100, 1000, 4000)
 _points = []
 Faces = []
-startingPoints = []
 
 [node name="Viewer" type="Node3D" parent="Wall3" unique_id=601759615]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)
@@ -1520,7 +1409,6 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-startingPosition = Vector3i(-4000, 500, 0)
 _fixedPosition = Vector3(-4, 1, 0)
 raw_fixedPosition_x = -17179869184
 raw_fixedPosition_y = 4294967296
@@ -1531,10 +1419,8 @@ _extents = Vector3(0.1, 1, 4)
 raw_extents_x = 429496729
 raw_extents_y = 4294967296
 raw_extents_z = 17179869184
-startingExtents = Vector3i(100, 1000, 4000)
 _points = []
 Faces = []
-startingPoints = []
 
 [node name="Viewer" type="Node3D" parent="Wall4" unique_id=574234061]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, 0)

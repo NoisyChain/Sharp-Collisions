@@ -126,6 +126,8 @@ namespace FixMath.NET
 
 		public static FixVector2 Rotate(FixVector2 v, Fix64 angle)
 		{
+			if (angle == Fix64.Zero) return v;
+			
 			Fix64 rx = Fix64.Cos(angle) * v.x - Fix64.Sin(angle) * v.y;
 			Fix64 ry = Fix64.Sin(angle) * v.x + Fix64.Cos(angle) * v.y;
 			return new FixVector2(rx, ry);

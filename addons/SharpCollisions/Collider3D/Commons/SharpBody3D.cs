@@ -33,28 +33,6 @@ namespace SharpCollisions.Sharp3D
 		public SharpCollider3D[] GetColliders() => Colliders;
 		public SharpCollider3D GetCollider(int index) => Colliders[index];
 
-		//private bool collidersRequireUpdate;
-
-		/*public SharpBody3D() {}
-		
-		public SharpBody3D(FixVector3 origin, FixVector3 offset, FixVector3 size, 
-			FixVector3[] points, Fix64 angle, CollisionType shape, int layers,
-			bool staticBody, bool pushableBody, bool trigger)
-		{
-			position = origin;
-			rotation = angle;
-			velocity = FixVector3.Zero;
-			isStatic = staticBody;
-			isPushable = pushableBody;
-			isTrigger = trigger;
-			CollisionLayers = layers;
-			collider = new SharpCollider3D(position, offset, size, points, shape);
-			UpdateCollider();
-			Collisions = new List<CollisionManifold3D>();
-			CollidedWith = new List<int>();
-			BodiesToIgnore = new List<int>();
-		}*/
-
 		public override void _Instance()
 		{
 			base._Instance();
@@ -66,8 +44,6 @@ namespace SharpCollisions.Sharp3D
 			if (HasColliders())
 				foreach (SharpCollider3D col in Colliders)
 					col.Initialize();
-
-			//collidersRequireUpdate = true;
 
 			if (HasAttachments())
 			{
@@ -221,7 +197,6 @@ namespace SharpCollisions.Sharp3D
 			if (FixVector3.Length(LinearVelocity) == Fix64.Zero) return;
 
 			FixedPosition += LinearVelocity * SharpTime.SubDelta;
-			//collidersRequireUpdate = true;
 		}
 
 		public void Rotate()
@@ -229,7 +204,6 @@ namespace SharpCollisions.Sharp3D
 			if (FixVector3.Length(AngularVelocity) == Fix64.Zero) return;
 
 			FixedRotation += AngularVelocity * SharpTime.SubDelta;
-			//collidersRequireUpdate = true;
 		}
 
 		public void UpdateBody()
@@ -245,7 +219,6 @@ namespace SharpCollisions.Sharp3D
 		public void SetRotation(FixVector3 angle)
 		{
 			FixedRotation = angle;
-			//collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 
@@ -260,14 +233,12 @@ namespace SharpCollisions.Sharp3D
 			if (IsAttached()) return;
 
 			FixedPosition += direction;
-			//collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 		
 		public void MoveTo(FixVector3 destination)
 		{
 			FixedPosition = destination;
-			//collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 
@@ -290,8 +261,6 @@ namespace SharpCollisions.Sharp3D
 				return;
 			}
 
-			//if (!collidersRequireUpdate) return;
-
 			foreach (SharpCollider3D col in Colliders)
 			{
 				col.Position = FixedPosition;
@@ -300,7 +269,6 @@ namespace SharpCollisions.Sharp3D
 			}
 
 			UpdateAttachments();
-			//collidersRequireUpdate = false;
 		}
 
 		public void ClearFlags()

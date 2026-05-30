@@ -46,7 +46,6 @@ tonemap_mode = 2
 [node name="PhysicsManager" type="Node" parent="." unique_id=10007918 node_paths=PackedStringArray("nodes")]
 script = ExtResource("2_od8d3")
 nodes = [NodePath("../Character"), NodePath("../Box"), NodePath("../Box2"), NodePath("../Sphere"), NodePath("../Capsule"), NodePath("../Polygon"), NodePath("../Floor"), NodePath("../Floor2"), NodePath("../Floor3"), NodePath("../Floor4"), NodePath("../Wall"), NodePath("../Wall2"), NodePath("../Wall3"), NodePath("../Wall4")]
-Substeps = 2
 debugLineThickness = 0.012
 RunOnDedicatedThread = true
 
@@ -71,7 +70,6 @@ _extents = Vector3(1, 1, 1)
 raw_extents_x = 4294967296
 raw_extents_y = 4294967296
 raw_extents_z = 4294967296
-startingExtents = Vector3i(1000, 1000, 1000)
 _points = []
 Faces = []
 DrawDebug = true
@@ -103,13 +101,12 @@ _extents = Vector3(1, 1, 1)
 raw_extents_x = 4294967296
 raw_extents_y = 4294967296
 raw_extents_z = 4294967296
-startingExtents = Vector3i(1000, 1000, 1000)
 _points = []
 Faces = []
 DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Box2" unique_id=1636148238]
-transform = Transform3D(0.852965, -0.1435065, 0.4999996, 0.49965534, 0.48996177, -0.7071063, -0.14634567, 0.836417, 0.4999996, -2.3, 2, 0)
+transform = Transform3D(0.852965, -0.14292239, 0.4999996, 0.49965534, 0.4879675, -0.7071063, -0.14634567, 0.8330126, 0.4999996, -2.3, 2, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Box2/Viewer" unique_id=1571333008]
 mesh = SubResource("12")
@@ -219,7 +216,6 @@ _extents = Vector3(2, 0.1, 2)
 raw_extents_x = 8589934592
 raw_extents_y = 429496729
 raw_extents_z = 8589934592
-startingExtents = Vector3i(2000, 100, 2000)
 _points = []
 Faces = []
 
@@ -247,7 +243,6 @@ _extents = Vector3(2, 0.1, 2)
 raw_extents_x = 8589934592
 raw_extents_y = 429496729
 raw_extents_z = 8589934592
-startingExtents = Vector3i(2000, 100, 2000)
 _points = []
 Faces = []
 
@@ -275,7 +270,6 @@ _extents = Vector3(2, 0.1, 2)
 raw_extents_x = 8589934592
 raw_extents_y = 429496729
 raw_extents_z = 8589934592
-startingExtents = Vector3i(2000, 100, 2000)
 _points = []
 Faces = []
 
@@ -303,7 +297,6 @@ _extents = Vector3(2, 0.1, 2)
 raw_extents_x = 8589934592
 raw_extents_y = 429496729
 raw_extents_z = 8589934592
-startingExtents = Vector3i(2000, 100, 2000)
 _points = []
 Faces = []
 
@@ -330,7 +323,6 @@ _extents = Vector3(4, 1, 0.1)
 raw_extents_x = 17179869184
 raw_extents_y = 4294967296
 raw_extents_z = 429496729
-startingExtents = Vector3i(4000, 1000, 100)
 _points = []
 Faces = []
 
@@ -357,7 +349,6 @@ _extents = Vector3(4, 1, 0.1)
 raw_extents_x = 17179869184
 raw_extents_y = 4294967296
 raw_extents_z = 429496729
-startingExtents = Vector3i(4000, 1000, 100)
 _points = []
 Faces = []
 DrawDebug = true
@@ -386,7 +377,6 @@ _extents = Vector3(0.1, 1, 4)
 raw_extents_x = 429496729
 raw_extents_y = 4294967296
 raw_extents_z = 17179869184
-startingExtents = Vector3i(100, 1000, 4000)
 _points = []
 Faces = []
 
@@ -414,7 +404,6 @@ _extents = Vector3(0.1, 1, 4)
 raw_extents_x = 429496729
 raw_extents_y = 4294967296
 raw_extents_z = 17179869184
-startingExtents = Vector3i(100, 1000, 4000)
 _points = []
 Faces = []
 

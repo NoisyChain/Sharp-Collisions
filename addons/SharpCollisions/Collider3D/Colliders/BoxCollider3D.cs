@@ -58,11 +58,6 @@ namespace SharpCollisions.Sharp3D
 
         public override void Initialize()
         {
-            /*Extents = new FixVector3(
-                (Fix64)startingExtents.X / SharpNode.NodeScale,
-                (Fix64)startingExtents.Y / SharpNode.NodeScale,
-                (Fix64)startingExtents.Z / SharpNode.NodeScale
-            );*/
             base.Initialize();
         }
 

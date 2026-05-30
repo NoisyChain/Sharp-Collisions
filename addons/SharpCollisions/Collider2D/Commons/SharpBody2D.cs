@@ -33,28 +33,6 @@ namespace SharpCollisions.Sharp2D
 		public SharpCollider2D[] GetColliders() => Colliders;
 		public SharpCollider2D GetCollider(int index) => Colliders[index];
 
-		//private bool collidersRequireUpdate;
-
-		/*public SharpBody2D() {}
-		
-		public SharpBody2D(FixVector2 origin, FixVector2 offset, FixVector2 size, 
-			FixVector2[] points, Fix64 angle, CollisionType shape, int layers,
-			bool staticBody, bool pushableBody, bool trigger)
-		{
-			position = origin;
-			rotation = angle;
-			velocity = FixVector2.Zero;
-			isStatic = staticBody;
-			isPushable = pushableBody;
-			isTrigger = trigger;
-			CollisionLayers = layers;
-			collider = new SharpCollider2D(position, offset, size, points, shape);
-			UpdateCollider();
-			Collisions = new List<CollisionManifold2D>();
-			CollidedWith = new List<SharpBody2D>();
-			BodiesToIgnore = new List<SharpBody2D>();
-		}*/
-
 		public override void _Instance()
 		{
 			base._Instance();
@@ -221,7 +199,6 @@ namespace SharpCollisions.Sharp2D
 			if (FixVector2.Length(LinearVelocity) == Fix64.Zero) return;
 
 			FixedPosition += LinearVelocity * SharpTime.SubDelta;
-			//collidersRequireUpdate = true;
 		}
 
 		public void Rotate()
@@ -229,7 +206,6 @@ namespace SharpCollisions.Sharp2D
 			if (AngularVelocity == Fix64.Zero) return;
 
 			FixedRotation += AngularVelocity * SharpTime.SubDelta;
-			//collidersRequireUpdate = true;
 		}
 
 		public void UpdateBody()
@@ -247,7 +223,6 @@ namespace SharpCollisions.Sharp2D
 			if (BodyMode == 2) return;
 
 			FixedRotation = angle;
-			//collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 
@@ -262,7 +237,6 @@ namespace SharpCollisions.Sharp2D
 			if (IsAttached()) return;
 
 			FixedPosition += direction;
-			//collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 		
@@ -271,7 +245,6 @@ namespace SharpCollisions.Sharp2D
 			if (BodyMode == 2) return;
 			
 			FixedPosition = destination;
-			//collidersRequireUpdate = true;
 			UpdateColliders();
 		}
 		
@@ -294,8 +267,6 @@ namespace SharpCollisions.Sharp2D
 				return;
 			}
 
-			//if (!collidersRequireUpdate) return;
-
 			foreach (SharpCollider2D col in Colliders)
 			{
 				col.Position = FixedPosition;
@@ -304,7 +275,6 @@ namespace SharpCollisions.Sharp2D
 			}
 
 			UpdateAttachments();
-			//collidersRequireUpdate = false;
 		}
 
 		public void ClearFlags()

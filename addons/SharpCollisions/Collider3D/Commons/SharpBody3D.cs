@@ -277,8 +277,8 @@ namespace SharpCollisions.Sharp3D
 			
 			foreach(SharpCollider3D col in Colliders)
 			{
-				col.collisionFlags.Clear();
-				col.globalCollisionFlags.Clear();
+				col.collisionFlags = CollisionFlags.Empty;
+				col.globalCollisionFlags = CollisionFlags.Empty;
 			}
 		}
 		public List<CollisionManifold3D> GetCollisions() => Collisions;

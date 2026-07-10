@@ -166,33 +166,33 @@ namespace SharpCollisions.Sharp3D
 		public void GetCollisionFlags(FixVector3 normal, SharpBody3D body)
 		{
 			if (FixVector3.Dot(normal, body.Up) > Fix64.Epsilon)
-				collisionFlags.Below = true;
+				collisionFlags |= CollisionFlags.Below;
 			if (FixVector3.Dot(normal, body.Down) > Fix64.Epsilon)
-				collisionFlags.Above = true;
+				collisionFlags |= CollisionFlags.Above;
 			if (FixVector3.Dot(normal, body.Left) > Fix64.Epsilon)
-				collisionFlags.Right = true;
+				collisionFlags |= CollisionFlags.Right;
 			if (FixVector3.Dot(normal, body.Right) > Fix64.Epsilon)
-				collisionFlags.Left = true;
+				collisionFlags |= CollisionFlags.Left;
             if (FixVector3.Dot(normal, body.Back) > Fix64.Epsilon)
-				collisionFlags.Forward = true;
+				collisionFlags |= CollisionFlags.Forward;
 			if (FixVector3.Dot(normal, body.Forward) > Fix64.Epsilon)
-				collisionFlags.Back = true;
+				collisionFlags |= CollisionFlags.Back;
 		}
 
 		public void GetGlobalCollisionFlags(FixVector3 normal)
 		{
 			if (FixVector3.Dot(normal, FixVector3.Up) > Fix64.Epsilon)
-				globalCollisionFlags.Below = true;
+				collisionFlags |= CollisionFlags.Below;
 			if (FixVector3.Dot(normal, FixVector3.Down) > Fix64.Epsilon)
-				globalCollisionFlags.Above = true;
+				collisionFlags |= CollisionFlags.Above;
 			if (FixVector3.Dot(normal, FixVector3.Left) > Fix64.Epsilon)
-				globalCollisionFlags.Right = true;
+				collisionFlags |= CollisionFlags.Right;
 			if (FixVector3.Dot(normal, FixVector3.Right) > Fix64.Epsilon)
-				globalCollisionFlags.Left = true;
+				collisionFlags |= CollisionFlags.Left;
             if (FixVector3.Dot(normal, FixVector3.Back) > Fix64.Epsilon)
-				globalCollisionFlags.Forward = true;
+				collisionFlags |= CollisionFlags.Forward;
 			if (FixVector3.Dot(normal, FixVector3.Forward) > Fix64.Epsilon)
-				globalCollisionFlags.Back = true;
+				collisionFlags |= CollisionFlags.Back;
 		}
 
 		public virtual FixVector3 Support(FixVector3 direction)

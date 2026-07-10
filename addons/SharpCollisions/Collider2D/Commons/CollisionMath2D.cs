@@ -40,25 +40,25 @@ namespace SharpCollisions.Sharp2D
 		public static void GetCollisionFlags(SharpCollider2D collider, FixVector2 normal, SharpBody2D body)
 		{
 			if (FixVector2.Dot(normal, body.Up) > Fix64.Epsilon)
-				collider.collisionFlags.Below = true;
+				collider.collisionFlags |= CollisionFlags.Below;
 			if (FixVector2.Dot(normal, body.Down) > Fix64.Epsilon)
-				collider.collisionFlags.Above = true;
+				collider.collisionFlags |= CollisionFlags.Above;
 			if (FixVector2.Dot(normal, body.Left) > Fix64.Epsilon)
-				collider.collisionFlags.Right = true;
+				collider.collisionFlags |= CollisionFlags.Right;
 			if (FixVector2.Dot(normal, body.Right) > Fix64.Epsilon)
-				collider.collisionFlags.Left = true;
+				collider.collisionFlags |= CollisionFlags.Left;
 		}
 
 		public static void GetGlobalCollisionFlags(SharpCollider2D collider, FixVector2 normal)
 		{
 			if (FixVector2.Dot(normal, FixVector2.Up) > Fix64.Epsilon)
-				collider.globalCollisionFlags.Below = true;
+				collider.collisionFlags |= CollisionFlags.Below;
 			if (FixVector2.Dot(normal, FixVector2.Down) > Fix64.Epsilon)
-				collider.globalCollisionFlags.Above = true;
+				collider.collisionFlags |= CollisionFlags.Above;
 			if (FixVector2.Dot(normal, FixVector2.Left) > Fix64.Epsilon)
-				collider.globalCollisionFlags.Right = true;
+				collider.collisionFlags |= CollisionFlags.Right;
 			if (FixVector2.Dot(normal, FixVector2.Right) > Fix64.Epsilon)
-				collider.globalCollisionFlags.Left = true;
+				collider.collisionFlags |= CollisionFlags.Left;
 		}
 
 		public static FixRect UpdateAABBBoundingBox(FixVector2 center, FixVector2 extents)

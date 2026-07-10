@@ -1,5 +1,6 @@
-using Godot;
+using System;
 using FixMath.NET;
+using Godot;
 
 namespace SharpCollisions
 {
@@ -94,52 +95,17 @@ namespace SharpCollisions
         }
     };
 
-    public struct CollisionFlags
+    [Flags]
+    public enum CollisionFlags : byte
     {
-        public bool Below;
-        public bool Above;
-        public bool Right;
-        public bool Left;
-        public bool Forward;
-        public bool Back;
-
-        public bool Walls => Right || Left || Forward || Back;
-        public bool Any  => Below || Above || Right || Left || Forward || Back;
-
-        public void Clear()
-        {
-            Below = false;
-            Above = false;
-            Right = false;
-            Left = false;
-            Forward = false;
-            Back = false;
-        }
-        public bool Compare(CollisionFlags compareTo)
-        {
-            return Below == compareTo.Below || Above == compareTo.Above || 
-                Right == compareTo.Right || Left == compareTo.Left || 
-                Forward == compareTo.Forward || Back == compareTo.Back;
-        }
-        public bool ComparePositive(CollisionFlags compareTo)
-        {
-            return (Below && Below == compareTo.Below) ||
-                (Above && Above == compareTo.Above) || 
-                (Right && Right == compareTo.Right) ||
-                (Left && Left == compareTo.Left) || 
-                (Forward && Forward == compareTo.Forward) ||
-                (Back && Back == compareTo.Back);
-        }
-        
-        public bool Equals(CollisionFlags compareTo)
-        {
-            return Below == compareTo.Below && Above == compareTo.Above &&
-                Right == compareTo.Right && Left == compareTo.Left &&
-                Forward == compareTo.Forward && Back == compareTo.Back;
-        }
-        public override string ToString()
-        {
-            return $"(Below: {Below}, Above: {Above}, Right: {Right}, Left: {Left}, Forward: {Forward}, Back: {Back})";
-        }
+        Empty = 0,
+        Below = 1 << 0,
+        Above = 1 << 1,
+        Right = 1 << 2,
+        Left = 1 << 3,
+        Forward = 1 << 4,
+        Back = 1 << 5,
+        Walls = Right | Left | Forward | Back,
+        Any = Below | Above | Right | Left | Forward | Back,
     }
 }

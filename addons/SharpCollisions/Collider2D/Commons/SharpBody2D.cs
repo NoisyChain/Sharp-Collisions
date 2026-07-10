@@ -283,8 +283,8 @@ namespace SharpCollisions.Sharp2D
 			
 			foreach(SharpCollider2D col in Colliders)
 			{
-				col.collisionFlags.Clear();
-				col.globalCollisionFlags.Clear();
+				col.collisionFlags = CollisionFlags.Empty;
+				col.globalCollisionFlags = CollisionFlags.Empty;
 			}
 		}
 

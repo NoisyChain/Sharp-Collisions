@@ -37,17 +37,17 @@ namespace SharpCollisions.Sharp3D
         public bool IsOnGround() 
         {
             if (!HasColliders()) return false;
-            return GetCollider(0).collisionFlags.Below;
+            return (GetCollider(0).collisionFlags & CollisionFlags.Below) > 0;
         }
         public bool IsOnCeiling()
         {
             if (!HasColliders()) return false;
-            return GetCollider(0).collisionFlags.Above;
+            return (GetCollider(0).collisionFlags & CollisionFlags.Above) > 0;
         }
         public bool IsOnWalls()
         {
             if (!HasColliders()) return false;
-            return GetCollider(0).collisionFlags.Walls;
+            return (GetCollider(0).collisionFlags & CollisionFlags.Walls) > 0;
         }
 
         public override void _Instance()

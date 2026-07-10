@@ -1,15 +1,12 @@
 using Godot;
 using Godot.Collections;
 using FixMath.NET;
-using SharpCollisions.Sharp2D.GJK;
 
 namespace SharpCollisions.Sharp2D
 {
     [Tool] [GlobalClass]
     public partial class ConvexShapeCollider2D : SharpCollider2D
-    {      
-        public GJK2D GJK;
-        
+    {              
         [Export] private Array<Vector2> _points
         {
             get{
@@ -77,22 +74,10 @@ namespace SharpCollisions.Sharp2D
         
         public override void Initialize()
         {
-            GJK = new GJK2D();
             base.Initialize();
             Shape = CollisionType2D.Polygon;
             CreatePolygonPoints();
         }
-
-        public override bool CollisionDetection(SharpCollider2D other, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
-		{
-			Normal = FixVector2.Zero;
-			Depth = FixVector2.Zero;
-			ContactPoint = FixVector2.Zero;
-
-            if (other.Shape == CollisionType2D.AABB) return false;
-
-			return GJK.PolygonCollision(this, other, out Normal, out Depth, out ContactPoint);
-		}
 
         public virtual void CreatePolygonPoints()
         {
@@ -124,30 +109,30 @@ namespace SharpCollisions.Sharp2D
 
         public override void DebugDrawShapes(SharpBody2D reference)
         {
-            if (!DrawDebug) return;
+            if (!DrawDebugShape) return;
             //if (Points == null || Points.Length == 0) return;
 
             for (int i = 0; i < Points.Length; i++)
             {
                 Vector3 start = (Vector3)Points[i];
                 Vector3 end = (Vector3)Points[(i + 1) % Points.Length];
-                DebugDraw3D.DrawLine(start, end, debugColor);
+                DebugDraw3D.DrawLine(start, end, DebugShapeColor);
             }
         }
 
-        public override void DebugDrawShapesEditor(Node3D reference, bool selected)
+        public override void DebugDrawShapesEditor(SharpBody2D reference, bool selected)
         {
             if (!Active) return;
-            if (!selected && !DrawDebug) return;
+            if (!selected && !DrawDebugShape) return;
             if (_points == null || _points.Count <= 0) return;
 
-            Color finalColor = selected && DrawDebug ? selectedColor : debugColor;
+            Color finalColor = selected && DrawDebugShape ? DebugShapeColorSelected : DebugShapeColor;
 
             Vector2 PosOffset = _positionOffset;
             float RotOffset = _rotationOffset;
 
-            Vector3 position = reference.GlobalPosition;
-            float rotation = reference.GlobalRotation.Z;
+            Vector3 position = (Vector3)reference.FixedPosition;
+            float rotation = (float)reference.FixedRotation;
 
             for (int i = 0; i < _points.Count; i++)
             {
@@ -163,52 +148,15 @@ namespace SharpCollisions.Sharp2D
             }
         }
 
-        protected override FixRect GetBoundingBoxPoints()
-        {
-            return UpdatePolygonBoundingBox();
-        }
-
         public override void UpdatePoints(FixVector2 position, Fix64 rotation)
         {
             UpdatePolygonPoints(position, rotation);
             base.UpdatePoints(position, rotation);
         }
 
-        public override FixVector2 Support(FixVector2 direction)
+        public override void UpdateBoundingBox()
         {
-            FixVector2 maxPoint = FixVector2.Zero;
-			Fix64 maxDistance = Fix64.MinValue;
-
-			for (int i = 0; i < Points.Length; i++)
-			{
-				Fix64 dist = FixVector2.Dot(Points[i], direction);
-				if (dist > maxDistance)
-				{
-					maxDistance = dist;
-					maxPoint = Points[i];
-				}
-			}
-			return maxPoint;
-        }
-
-        public FixRect UpdatePolygonBoundingBox()
-        {
-            Fix64 minX = Fix64.MaxValue;
-			Fix64 minY = Fix64.MaxValue;
-			Fix64 maxX = Fix64.MinValue;
-			Fix64 maxY = Fix64.MinValue;
-
-            for (int p = 0; p < Points.Length; p++)
-            {
-                FixVector2 v = Points[p];
-
-                if (v.x < minX) minX = v.x;
-                if (v.x > maxX) maxX = v.x;
-                if (v.y < minY) minY = v.y;
-                if (v.y > maxY) maxY = v.y;
-            }
-
-            return new FixRect(minX, minY, maxX, maxY);
+            BoundingBox = CollisionMath2D.UpdatePolygonBoundingBox(Points);
         }
     }
 }

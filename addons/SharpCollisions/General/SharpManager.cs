@@ -98,7 +98,7 @@ namespace SharpCollisions
 				PhysicsLoop();
 				physicsMutex.ReleaseMutex();
 				threadEndTime = SharpTime.Now;
-                int sleepTime = (int)((1 / 60f) * 1000);
+                int sleepTime = (int)((1 / (float)TicksPerSecond) * 1000);
                 int threadTime = (int)(threadEndTime - threadStartTime);
                 Thread.Sleep(Mathf.Max(sleepTime - threadTime, 0));
 			}

@@ -119,7 +119,7 @@ namespace SharpCollisions.Sharp2D
             string groundAngle = IsOnGround() ? GroundAngle.ToString() : "No Ground";
             if (debug != null && HasColliders()) debugText = "Normal: " + UpVector.ToString() + 
                 "\nFlags: " + GetCollider(0).collisionFlags.ToString() + 
-                "\nCollisions:" + GetCollisions().Count + 
+                "\nCollisions: " + GetCollisions().Count + 
                 "\nFloor angle: " + groundAngle;
 
             //GD.Print(Collisions.Count);
@@ -164,7 +164,7 @@ namespace SharpCollisions.Sharp2D
         public override void _Process(double delta)
         {
             base._Process(delta);
-            debug.Text = debugText;
+            if (debug != null) debug.Text = debugText;
         }
         
         public override void RenderNode(bool debug)

@@ -167,7 +167,7 @@ namespace SharpCollisions.Sharp2D
 				int colIndA = PossibleCollisions[i].ColliderA;
 				int colIndB = PossibleCollisions[i].ColliderB;
 
-				if (bodyA.GetCollider(colIndA).IsOverlapping(bodyB.GetCollider(colIndB), out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint))
+				if (CollisionMath2D.IsOverlapping(bodyA.GetCollider(colIndA), bodyB.GetCollider(colIndB), out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint))
 				{
 					if (!bodyA.GetCollider(colIndA).IsTrigger && !bodyB.GetCollider(colIndB).IsTrigger)
 					{
@@ -196,10 +196,10 @@ namespace SharpCollisions.Sharp2D
 
 					if (!bodyA.GetCollider(colIndA).IsTrigger && !bodyB.GetCollider(colIndB).IsTrigger)
 					{
-						bodyA.GetCollider(colIndA).GetCollisionFlags(-Normal, bodyA);
-						bodyB.GetCollider(colIndB).GetCollisionFlags(Normal, bodyB);
-						bodyA.GetCollider(colIndA).GetGlobalCollisionFlags(-Normal);
-						bodyB.GetCollider(colIndB).GetGlobalCollisionFlags(Normal);
+						CollisionMath2D.GetCollisionFlags(bodyA.GetCollider(colIndA), -Normal, bodyA);
+						CollisionMath2D.GetCollisionFlags(bodyB.GetCollider(colIndB), Normal, bodyB);
+						CollisionMath2D.GetGlobalCollisionFlags(bodyA.GetCollider(colIndA), -Normal);
+						CollisionMath2D.GetGlobalCollisionFlags(bodyB.GetCollider(colIndB), Normal);
 					}
 					
 					AddConfirmedCollision((PossibleCollisions[i].BodyA, colIndA, PossibleCollisions[i].BodyB, colIndB, true));					

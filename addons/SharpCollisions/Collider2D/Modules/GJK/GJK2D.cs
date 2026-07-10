@@ -14,13 +14,56 @@ namespace SharpCollisions.Sharp2D.GJK
 		{
 			Simplex = new Simplex2D();
 			Polytope = new Polytope2D();
-		}		
+		}
 		private SupportPoint2D SupportFunction(SharpCollider2D colliderA, SharpCollider2D colliderB, FixVector2 direction)
 		{
-            FixVector2 SupportPointA = colliderA.Support(direction);
-            FixVector2 SupportPointB = colliderB.Support(-direction);
+            FixVector2 SupportPointA = Support(colliderA, direction);
+            FixVector2 SupportPointB = Support(colliderB, -direction);
 			return new SupportPoint2D(SupportPointA, SupportPointB);
 		}
+		private FixVector2 Support(SharpCollider2D collider, FixVector2 direction)
+		{
+			switch (collider)
+			{
+				case CircleCollider2D circle:
+					return CircleSupport(circle, direction);
+				case CapsuleCollider2D capsule:
+					return CapsuleSupport(capsule, direction);
+				case ConvexShapeCollider2D convex:
+					return ConvexShapeSupport(convex, direction);
+			}
+			GD.PrintErr("Invalid collider shape");
+			return new FixVector2();
+		}
+		public FixVector2 CircleSupport(CircleCollider2D collider, FixVector2 direction)
+		{
+			FixVector2 NormalizedDirection = FixVector2.Normalize(direction);
+			return collider.Center + collider.Radius * NormalizedDirection;
+		}
+		public FixVector2 CapsuleSupport(CapsuleCollider2D collider, FixVector2 direction)
+        {
+            FixVector2 NormalizedDirection = FixVector2.Normalize(direction);
+            Fix64 Dy = FixVector2.Dot(NormalizedDirection, collider.UpperPoint - collider.LowerPoint);
+
+            if (Dy == Fix64.Zero) return collider.Center + collider.Radius * NormalizedDirection;
+            else return (Dy < Fix64.Zero ? collider.LowerPoint : collider.UpperPoint) + collider.Radius * NormalizedDirection;
+        }
+		public FixVector2 ConvexShapeSupport(ConvexShapeCollider2D collider, FixVector2 direction)
+        {
+            FixVector2 maxPoint = FixVector2.Zero;
+			Fix64 maxDistance = Fix64.MinValue;
+
+			for (int i = 0; i < collider.Points.Length; i++)
+			{
+				Fix64 dist = FixVector2.Dot(collider.Points[i], direction);
+				if (dist > maxDistance)
+				{
+					maxDistance = dist;
+					maxPoint = collider.Points[i];
+				}
+			}
+			return maxPoint;
+        }
         public bool PolygonCollision(SharpCollider2D colliderA, SharpCollider2D colliderB, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
 		{
 			int maxIterations = 0;
@@ -187,7 +230,7 @@ namespace SharpCollisions.Sharp2D.GJK
                 FixVector2 va = colliderB.Points[i];
                 FixVector2 vb = colliderB.Points[(i + 1) % colliderB.Points.Length];
 
-                SharpCollider2D.LineToPointDistance(va, vb, colliderA.Center, out FixVector2 r1);
+                CollisionMath2D.LineToPointDistance(va, vb, colliderA.Center, out FixVector2 r1);
 				Fix64 distSq = FixVector2.DistanceSq(colliderA.Center, r1);
 				
 				if(distSq < minDistSq)
@@ -212,7 +255,7 @@ namespace SharpCollisions.Sharp2D.GJK
 				FixVector2 va = colliderB.Points[i];
 				FixVector2 vb = colliderB.Points[(i + 1) % colliderB.Points.Length];
 
-				SharpCollider2D.LineToLineDistance(va, vb, colliderA.UpperPoint, colliderA.LowerPoint, out FixVector2 r1, out FixVector2 r2);
+				CollisionMath2D.LineToLineDistance(va, vb, colliderA.UpperPoint, colliderA.LowerPoint, out FixVector2 r1, out FixVector2 r2);
 				Fix64 distSq = FixVector2.DistanceSq(r2, r1);
 
 				if (Fix64.Approximate(distSq, minDistSq))
@@ -228,7 +271,7 @@ namespace SharpCollisions.Sharp2D.GJK
 					contact1 = r1;
 				}
 				
-				SharpCollider2D.LineToLineDistance(va, vb, colliderA.LowerPoint, colliderA.UpperPoint, out r1, out r2);
+				CollisionMath2D.LineToLineDistance(va, vb, colliderA.LowerPoint, colliderA.UpperPoint, out r1, out r2);
 				distSq = FixVector2.DistanceSq(r2, r1);
 				
 				if(Fix64.Approximate(distSq, minDistSq))
@@ -268,7 +311,7 @@ namespace SharpCollisions.Sharp2D.GJK
                     FixVector2 va = colliderB.Points[j];
                     FixVector2 vb = colliderB.Points[(j + 1) % colliderB.Points.Length];
 
-                    SharpCollider2D.LineToLineDistance(va, vb, pa, pb, out FixVector2 r1, out FixVector2 r2);
+                    CollisionMath2D.LineToLineDistance(va, vb, pa, pb, out FixVector2 r1, out FixVector2 r2);
 					Fix64 distSq = FixVector2.DistanceSq(r2, r1);
 
                     if(Fix64.Approximate(distSq, minDistSq))
@@ -296,7 +339,7 @@ namespace SharpCollisions.Sharp2D.GJK
                     FixVector2 va = colliderA.Points[j];
                     FixVector2 vb = colliderA.Points[(j + 1) % colliderA.Points.Length];
 
-                    SharpCollider2D.LineToLineDistance(va, vb, pa, pb, out FixVector2 r1, out FixVector2 r2);
+                    CollisionMath2D.LineToLineDistance(va, vb, pa, pb, out FixVector2 r1, out FixVector2 r2);
 					Fix64 distSq = FixVector2.DistanceSq(r2, r1);
 
                     if (Fix64.Approximate(distSq, minDistSq))

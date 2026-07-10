@@ -3,12 +3,11 @@
 [ext_resource type="Script" uid="uid://c2pd4i5gql5t8" path="res://addons/SharpCollisions/Collider2D/Commons/SharpBody2D.cs" id="1"]
 [ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_ver4r"]
 [ext_resource type="Script" uid="uid://dswu8dcd4cdwi" path="res://addons/SharpCollisions/General/SharpManager.cs" id="2_fb5pd"]
-[ext_resource type="Script" uid="uid://d4idavsok0wfs" path="res://addons/SharpCollisions/Collider2D/Colliders/BoxCollider2D.cs" id="4"]
 [ext_resource type="PackedScene" uid="uid://yy8gg16i0mv1" path="res://Scenes/Examples/PreviewBody_Controller.tscn" id="5"]
-[ext_resource type="Script" uid="uid://b4o377chp53rf" path="res://addons/SharpCollisions/Collider2D/Colliders/CircleCollider2D.cs" id="6"]
-[ext_resource type="Script" uid="uid://b3noxcpjbrexh" path="res://addons/SharpCollisions/Collider2D/Colliders/CapsuleCollider2D.cs" id="7"]
-[ext_resource type="Script" uid="uid://dt55cp5j25344" path="res://addons/SharpCollisions/Collider2D/Colliders/ConvexShapeCollider2D.cs" id="7_7xfg0"]
-[ext_resource type="Script" uid="uid://lescpeqkvsdt" path="res://addons/SharpCollisions/Collider2D/Colliders/AABBCollider2D.cs" id="9"]
+[ext_resource type="Script" uid="uid://d4idavsok0wfs" path="res://addons/SharpCollisions/Collider2D/Colliders/BoxCollider2D.cs" id="5_15yvf"]
+[ext_resource type="Script" uid="uid://b4o377chp53rf" path="res://addons/SharpCollisions/Collider2D/Colliders/CircleCollider2D.cs" id="6_l8y4h"]
+[ext_resource type="Script" uid="uid://b3noxcpjbrexh" path="res://addons/SharpCollisions/Collider2D/Colliders/CapsuleCollider2D.cs" id="7_gojt4"]
+[ext_resource type="Script" uid="uid://lescpeqkvsdt" path="res://addons/SharpCollisions/Collider2D/Colliders/AABBCollider2D.cs" id="8_rh5i6"]
 
 [sub_resource type="BoxMesh" id="1"]
 size = Vector3(6, 0.6, 0.2)
@@ -46,7 +45,6 @@ nodes = [NodePath("../Character"), NodePath("../Floor"), NodePath("../Floor2"), 
 RunOnDedicatedThread = true
 
 [node name="Character" parent="." unique_id=1388365258 instance=ExtResource("5")]
-CeilingAngleLimit = 15
 
 [node name="Floor" type="Node" parent="." unique_id=834724130 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer3D")]
 script = ExtResource("1")
@@ -57,13 +55,13 @@ Renderer3D = NodePath("Viewer")
 _fixedPosition = Vector2(0, -2)
 raw_fixedPosition_y = -8589934592
 
-[node name="Collider" type="Node" parent="Floor" unique_id=527617232]
-script = ExtResource("4")
+[node name="Collider" type="Node" parent="Floor" unique_id=570651854]
+script = ExtResource("5_15yvf")
 _extents = Vector2(3, 0.3)
 raw_extents_X = 12884901888
 raw_extents_Y = 1288490188
 _points = []
-DrawDebug = true
+metadata/_custom_type_script = "uid://d4idavsok0wfs"
 
 [node name="Viewer" type="Node3D" parent="Floor" unique_id=995626471]
 transform = Transform3D(0.99998313, 0, 0, 0, 0.99998313, 0, 0, 0, 1, 0, -2, 0)
@@ -84,13 +82,13 @@ raw_fixedPosition_x = -17179869184
 raw_fixedPosition_y = -4294967296
 raw_fixedRotation = -193273528320
 
-[node name="Collider" type="Node" parent="Floor2" unique_id=1392129952]
-script = ExtResource("4")
+[node name="Collider" type="Node" parent="Floor2" unique_id=219323514]
+script = ExtResource("5_15yvf")
 _extents = Vector2(3, 0.3)
 raw_extents_X = 12884901888
 raw_extents_Y = 1288490188
 _points = []
-DrawDebug = true
+metadata/_custom_type_script = "uid://d4idavsok0wfs"
 
 [node name="Viewer" type="Node3D" parent="Floor2" unique_id=2137372264]
 transform = Transform3D(0.7071063, 0.7071063, 0, -0.7071063, 0.7071063, 0, 0, 0, 1, -4, -1, 0)
@@ -111,13 +109,13 @@ raw_fixedPosition_x = 19327352832
 raw_fixedPosition_y = -4294967296
 raw_fixedRotation = 150323855360
 
-[node name="Collider" type="Node" parent="Floor3" unique_id=880403683]
-script = ExtResource("4")
+[node name="Collider" type="Node" parent="Floor3" unique_id=832360521]
+script = ExtResource("5_15yvf")
 _extents = Vector2(3, 0.3)
 raw_extents_X = 12884901888
 raw_extents_Y = 1288490188
 _points = []
-DrawDebug = true
+metadata/_custom_type_script = "uid://d4idavsok0wfs"
 
 [node name="Viewer" type="Node3D" parent="Floor3" unique_id=1050314592]
 transform = Transform3D(0.8191462, -0.57357234, 0, 0.57357234, 0.8191462, 0, 0, 0, 1, 4.5, -1, 0)
@@ -135,30 +133,30 @@ _fixedPosition = Vector2(1.5, -0.95)
 raw_fixedPosition_x = 6442450944
 raw_fixedPosition_y = -4080218931
 
-[node name="Collider" type="Node" parent="Sphere" unique_id=620003325]
-script = ExtResource("6")
+[node name="Collider" type="Node" parent="Sphere" unique_id=1931940713]
+script = ExtResource("6_l8y4h")
 _radius = 0.4
 raw_radius = 1717986918
-DrawDebug = true
+metadata/_custom_type_script = "uid://b4o377chp53rf"
 
-[node name="Collider2" type="Node" parent="Sphere" unique_id=1681846307]
-script = ExtResource("6")
+[node name="Collider2" type="Node" parent="Sphere" unique_id=1202396493]
+script = ExtResource("6_l8y4h")
 _radius = 0.4
 raw_radius = 1717986918
-_positionOffset = Vector2(0.3, 0.15)
-DrawDebug = true
-raw_positionOffset_X = 1288490188
-raw_positionOffset_Y = 644245094
+_positionOffset = Vector2(0.4, 0.2)
+raw_positionOffset_X = 1717986918
+raw_positionOffset_Y = 858993459
+metadata/_custom_type_script = "uid://b4o377chp53rf"
 
 [node name="Viewer" type="Node3D" parent="Sphere" unique_id=155657423]
-transform = Transform3D(0.999998, 0, 0, 0, 0.999998, 0, 0, 0, 1, 1.5, -0.95, 0)
+transform = Transform3D(0.9999952, 0, 0, 0, 0.9999952, 0, 0, 0, 1, 1.5, -0.95, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere/Viewer" unique_id=1746452698]
 mesh = SubResource("SphereMesh_qsbbd")
 
 [node name="Polygon" type="Node" parent="." unique_id=1017516304 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer3D")]
 script = ExtResource("1")
-Colliders = [NodePath("Collider")]
+Colliders = []
 Attachments = []
 BodyMode = 2
 Renderer3D = NodePath("Viewer")
@@ -167,18 +165,13 @@ raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = -3435973836
 
 [node name="Collider" type="Node" parent="Polygon" unique_id=2067109096]
-script = ExtResource("7_7xfg0")
-_points = Array[Vector2]([Vector2(-1, 0), Vector2(0, 1), Vector2(1, 0), Vector2(0.6, -1), Vector2(-0.6, -1)])
-raw_points_x = PackedInt64Array(-4294967296, 0, 4294967296, 2576980377, -2576980377)
-raw_points_y = PackedInt64Array(0, 4294967296, 0, -4294967296, -4294967296)
-DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Polygon" unique_id=1724183368]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.8, 0)
 
 [node name="Polygon2" type="Node" parent="." unique_id=569199741 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer3D")]
 script = ExtResource("1")
-Colliders = [NodePath("Collider")]
+Colliders = []
 Attachments = []
 BodyMode = 2
 Renderer3D = NodePath("Viewer")
@@ -189,9 +182,6 @@ raw_fixedPosition_y = 7301444403
 raw_fixedRotation = 386547056640
 
 [node name="Collider" type="Node" parent="Polygon2" unique_id=710901359]
-script = ExtResource("7_7xfg0")
-_points = []
-DrawDebug = true
 
 [node name="Viewer" type="Node3D" parent="Polygon2" unique_id=1432056459]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 4, 1.7, 0)
@@ -208,15 +198,15 @@ raw_fixedPosition_x = -10737418240
 raw_fixedPosition_y = 7730941132
 raw_fixedRotation = 107374182400
 
-[node name="Collider" type="Node" parent="Capsule" unique_id=966262467]
-script = ExtResource("7")
+[node name="Collider" type="Node" parent="Capsule" unique_id=605041717]
+script = ExtResource("7_gojt4")
 _radius = 0.8
 _height = 2.0
 raw_radius = 3435973836
 raw_height = 8589934592
 _rotationOffset = 90.0
-DrawDebug = true
 raw_rotationOffset = 386547056640
+metadata/_custom_type_script = "uid://b3noxcpjbrexh"
 
 [node name="Viewer" type="Node3D" parent="Capsule" unique_id=998120973]
 transform = Transform3D(0.90629816, -0.4226138, 0, 0.4226138, 0.90629816, 0, 0, 0, 1, -2.5, 1.8, 0)
@@ -229,21 +219,22 @@ mesh = SubResource("3")
 script = ExtResource("1")
 Colliders = [NodePath("Collider")]
 Attachments = []
-BodyMode = 2
 Renderer3D = NodePath("Viewer")
-_fixedPosition = Vector2(2, 3)
-raw_fixedPosition_x = 8589934592
+_fixedPosition = Vector2(2.1, 3)
+_fixedRotation = 45.0
+raw_fixedPosition_x = 9019431321
 raw_fixedPosition_y = 12884901888
+raw_fixedRotation = 193273528320
 
-[node name="Collider" type="Node" parent="AABBTest" unique_id=574731901]
-script = ExtResource("9")
+[node name="Collider" type="Node" parent="AABBTest" unique_id=1964159586]
+script = ExtResource("8_rh5i6")
 _extents = Vector2(1, 1)
 raw_extents_x = 4294967296
 raw_extents_y = 4294967296
-DrawDebug = true
+metadata/_custom_type_script = "uid://lescpeqkvsdt"
 
 [node name="Viewer" type="Node3D" parent="AABBTest" unique_id=2015468259]
-transform = Transform3D(1.0000002, 0, 0, 0, 1.0000002, 0, 0, 0, 1, 2, 3, 0)
+transform = Transform3D(0.70710695, -0.70710695, 0, 0.70710695, 0.70710695, 0, 0, 0, 1, 2.1, 3, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="AABBTest/Viewer" unique_id=993573226]
 mesh = SubResource("12")
@@ -258,12 +249,12 @@ _fixedPosition = Vector2(0.7, 4)
 raw_fixedPosition_x = 3006477107
 raw_fixedPosition_y = 17179869184
 
-[node name="Collider" type="Node" parent="AABBTest2" unique_id=1423941067]
-script = ExtResource("9")
+[node name="Collider" type="Node" parent="AABBTest2" unique_id=1630472853]
+script = ExtResource("8_rh5i6")
 _extents = Vector2(1, 1)
 raw_extents_x = 4294967296
 raw_extents_y = 4294967296
-DrawDebug = true
+metadata/_custom_type_script = "uid://lescpeqkvsdt"
 
 [node name="Viewer" type="Node3D" parent="AABBTest2" unique_id=1252422292]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 4, 0)

@@ -4,11 +4,9 @@ using FixMath.NET;
 namespace SharpCollisions.Sharp2D
 {
 	[Tool] [GlobalClass]
-	public partial class SharpCollider2D  : Node
+	public partial class SharpCollider2D : Node
 	{
 		[Export] public bool Active = true;
-		[Export] public bool IsTrigger = false;
-		[Export] public bool TriggerDetectsSolidBodies = true;
 		/// <summary>
         /// Don't use this variable in the simulation, its only purpose is to inject its value to the actual position
         /// </summary>
@@ -38,9 +36,11 @@ namespace SharpCollisions.Sharp2D
                 }
             }
         }
-		[Export] protected bool DrawDebug;
-		[Export] public Color debugColor = new Color(0, 0, 1);
-		[Export] public Color selectedColor = new Color(1, 0.6f, 0.1f);
+		[Export] public bool IsTrigger = false;
+		[Export] public bool TriggerDetectsSolidBodies = true;
+		[Export] protected bool DrawDebugShape;
+		[Export] public Color DebugShapeColor = new Color(0, 0, 1);
+		[Export] public Color DebugShapeColorSelected = new Color(1, 0.6f, 0.1f);
 
 		[ExportSubgroup("Raw Values")]
         [Export] private long raw_positionOffset_X
@@ -114,130 +114,19 @@ namespace SharpCollisions.Sharp2D
 
 		}
 
-		public virtual void DebugDrawShapesEditor(Node3D reference, bool selected)
+		public virtual void DebugDrawShapesEditor(SharpBody2D reference, bool selected)
 		{
 
-		}
-
-		public bool IsOverlapping(SharpCollider2D other, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
-		{
-			Normal = FixVector2.Zero;
-			Depth = FixVector2.Zero;
-			ContactPoint = FixVector2.Zero;
-
-			if (!Active) return false;
-			if (!other.Active) return false;
-			
-			return CollisionDetection(other, out Normal, out Depth, out ContactPoint);
-		}
-
-		public virtual bool CollisionDetection(SharpCollider2D other, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
-		{
-			Normal = FixVector2.Zero;
-			Depth = FixVector2.Zero;
-			ContactPoint = FixVector2.Zero;
-
-			return false;
-		}
-
-		public void GetCollisionFlags(FixVector2 normal, SharpBody2D body)
-		{
-			if (FixVector2.Dot(normal, body.Up) > Fix64.Epsilon)
-				collisionFlags.Below = true;
-			if (FixVector2.Dot(normal, body.Down) > Fix64.Epsilon)
-				collisionFlags.Above = true;
-			if (FixVector2.Dot(normal, body.Left) > Fix64.Epsilon)
-				collisionFlags.Right = true;
-			if (FixVector2.Dot(normal, body.Right) > Fix64.Epsilon)
-				collisionFlags.Left = true;
-		}
-
-		public void GetGlobalCollisionFlags(FixVector2 normal)
-		{
-			if (FixVector2.Dot(normal, FixVector2.Up) > Fix64.Epsilon)
-				globalCollisionFlags.Below = true;
-			if (FixVector2.Dot(normal, FixVector2.Down) > Fix64.Epsilon)
-				globalCollisionFlags.Above = true;
-			if (FixVector2.Dot(normal, FixVector2.Left) > Fix64.Epsilon)
-				globalCollisionFlags.Right = true;
-			if (FixVector2.Dot(normal, FixVector2.Right) > Fix64.Epsilon)
-				globalCollisionFlags.Left = true;
-		}
-
-		public virtual FixVector2 Support(FixVector2 direction)
-		{
-			return direction;
 		}
 		
-		public void UpdateBoundingBox()
+		public virtual void UpdateBoundingBox()
 		{
-			BoundingBox = GetBoundingBoxPoints();
-		}
-
-		protected virtual FixRect GetBoundingBoxPoints()
-		{
-			return new FixRect();
+			BoundingBox = new FixRect();
 		}
 
 		public virtual void UpdatePoints(FixVector2 position, Fix64 rotation)
 		{
 			Center = FixVector2.Transform(PositionOffset, position, rotation);
-		}
-
-		public static void LineToLineDistance(FixVector2 p1, FixVector2 p2, FixVector2 p3, FixVector2 p4, out FixVector2 r1, out FixVector2 r2)
-		{
-			FixVector2 r = p3 - p1;
-			FixVector2 u = p2 - p1;
-			FixVector2 v = p4 - p3;
-			Fix64 ru = FixVector2.Dot(r, u);
-			Fix64 rv = FixVector2.Dot(r, v);
-			Fix64 uu = FixVector2.Dot(u, u);
-			Fix64 uv = FixVector2.Dot(u, v);
-			Fix64 vv = FixVector2.Dot(v, v);
-			Fix64 det = uu * vv - uv * uv;
-
-			Fix64 s, t;
-			if (det < Fix64.Epsilon * uu * vv)
-			{
-				s = Fix64.Clamp01(ru / uu);
-				t = Fix64.Zero;
-			} 
-			else
-			{
-				s = Fix64.Clamp01((ru * vv - rv * uv) / det);
-				t = Fix64.Clamp01((ru * uv - rv * uu) / det);
-			}
-
-			Fix64 S = Fix64.Clamp01((t * uv + ru) / uu);
-			Fix64 T = Fix64.Clamp01((s * uv - rv) / vv);
-
-			r1 = p1 + S * u;
-			r2 = p3 + T * v;
-		}
-
-		//Line to point collision code taken from Noah Zuo's Blog
-		//https://arrowinmyknee.com/2021/03/15/some-math-about-capsule-collision/
-		public static void LineToPointDistance(FixVector2 p1, FixVector2 p2, FixVector2 p3, out FixVector2 r1)
-		{
-			FixVector2 ab = p2 - p1;
-			Fix64 length = FixVector2.Dot(p3 - p1, ab);
-			if (length <= Fix64.Epsilon) 
-			{
-				r1 = p1;
-			} 
-			else 
-			{
-				Fix64 denom = FixVector2.Dot(ab, ab);
-				if (length >= denom) 
-				{
-					r1 = p2;
-				} 
-				else 
-				{
-					length = length / denom;
-					r1 = p1 + length * ab;
-				}
-			}
 		}
 	}
 }

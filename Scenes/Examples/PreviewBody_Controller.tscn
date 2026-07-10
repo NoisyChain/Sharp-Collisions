@@ -12,7 +12,7 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer3D = NodePath("Graphics")
 
-[node name="Collider" type="Node" parent="." unique_id=1220634900]
+[node name="Collider" type="Node" parent="." unique_id=684078927]
 script = ExtResource("4")
 _radius = 0.3
 _height = 0.6
@@ -21,6 +21,7 @@ raw_height = 2576980377
 _positionOffset = Vector2(0, 0.6)
 DrawDebug = true
 raw_positionOffset_Y = 2576980377
+metadata/_custom_type_script = "uid://b3noxcpjbrexh"
 
 [node name="Graphics" type="Node3D" parent="." unique_id=278301137]
 

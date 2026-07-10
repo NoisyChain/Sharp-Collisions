@@ -86,4 +86,4 @@ This repositiry uses third-party libraries:
 ##
 Sharp Collisions is in preview state. There's some things to polish at the moment.
 
-Using Godot 4.6.2 .NET. Unity/Monogame versions are being planned.
+Using Godot 4.7 .NET. Unity/Monogame versions are being planned.

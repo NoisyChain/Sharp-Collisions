@@ -19,7 +19,7 @@ _height = 0.6
 raw_radius = 1288490188
 raw_height = 2576980377
 _positionOffset = Vector2(0, 0.6)
-DrawDebug = true
+DrawDebugShape = true
 raw_positionOffset_Y = 2576980377
 metadata/_custom_type_script = "uid://b3noxcpjbrexh"
 

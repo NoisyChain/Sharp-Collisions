@@ -269,7 +269,7 @@ namespace SharpCollisions.Sharp2D
 
 			foreach (SharpCollider2D col in Colliders)
 			{
-				col.Position = FixedPosition;
+				//col.Position = FixedPosition;
 				col.UpdatePoints(FixedPosition, FixedRotation);
 				col.UpdateBoundingBox();
 			}

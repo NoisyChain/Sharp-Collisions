@@ -24,7 +24,10 @@ namespace SharpCollisions.Sharp2D
 			}
 			else
 			{
-				if (colliderA.Shape == CollisionType2D.Circle && colliderB.Shape == CollisionType2D.Circle)
+                if ((colliderA.Shape == CollisionType2D.AABB && colliderB.Shape != CollisionType2D.AABB)||
+                    (colliderA.Shape != CollisionType2D.AABB && colliderB.Shape == CollisionType2D.AABB))
+                    return false;
+				else if (colliderA.Shape == CollisionType2D.Circle && colliderB.Shape == CollisionType2D.Circle)
 					return CircleToCircleCollision(colliderA as CircleCollider2D, colliderB as CircleCollider2D, out Normal, out Depth, out ContactPoint);
 				else if (colliderA.Shape == CollisionType2D.Circle && colliderB.Shape == CollisionType2D.Capsule)
 					return CircleToCapsuleCollision(colliderA as CircleCollider2D, colliderB as CapsuleCollider2D, out Normal, out Depth, out ContactPoint);

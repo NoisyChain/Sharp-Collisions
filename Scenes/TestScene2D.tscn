@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://yy8gg16i0mv1" path="res://Scenes/Examples/PreviewBody_Controller.tscn" id="5"]
 [ext_resource type="Script" uid="uid://d4idavsok0wfs" path="res://addons/SharpCollisions/Collider2D/Colliders/BoxCollider2D.cs" id="5_15yvf"]
 [ext_resource type="Script" uid="uid://b4o377chp53rf" path="res://addons/SharpCollisions/Collider2D/Colliders/CircleCollider2D.cs" id="6_l8y4h"]
+[ext_resource type="Script" uid="uid://dt55cp5j25344" path="res://addons/SharpCollisions/Collider2D/Colliders/ConvexShapeCollider2D.cs" id="7_7xfg0"]
 [ext_resource type="Script" uid="uid://b3noxcpjbrexh" path="res://addons/SharpCollisions/Collider2D/Colliders/CapsuleCollider2D.cs" id="7_gojt4"]
 [ext_resource type="Script" uid="uid://lescpeqkvsdt" path="res://addons/SharpCollisions/Collider2D/Colliders/AABBCollider2D.cs" id="8_rh5i6"]
 
@@ -61,6 +62,7 @@ _extents = Vector2(3, 0.3)
 raw_extents_X = 12884901888
 raw_extents_Y = 1288490188
 _points = []
+DrawDebugShape = true
 metadata/_custom_type_script = "uid://d4idavsok0wfs"
 
 [node name="Viewer" type="Node3D" parent="Floor" unique_id=995626471]
@@ -88,6 +90,7 @@ _extents = Vector2(3, 0.3)
 raw_extents_X = 12884901888
 raw_extents_Y = 1288490188
 _points = []
+DrawDebugShape = true
 metadata/_custom_type_script = "uid://d4idavsok0wfs"
 
 [node name="Viewer" type="Node3D" parent="Floor2" unique_id=2137372264]
@@ -115,6 +118,7 @@ _extents = Vector2(3, 0.3)
 raw_extents_X = 12884901888
 raw_extents_Y = 1288490188
 _points = []
+DrawDebugShape = true
 metadata/_custom_type_script = "uid://d4idavsok0wfs"
 
 [node name="Viewer" type="Node3D" parent="Floor3" unique_id=1050314592]
@@ -137,6 +141,7 @@ raw_fixedPosition_y = -4080218931
 script = ExtResource("6_l8y4h")
 _radius = 0.4
 raw_radius = 1717986918
+DrawDebugShape = true
 metadata/_custom_type_script = "uid://b4o377chp53rf"
 
 [node name="Collider2" type="Node" parent="Sphere" unique_id=1202396493]
@@ -144,6 +149,7 @@ script = ExtResource("6_l8y4h")
 _radius = 0.4
 raw_radius = 1717986918
 _positionOffset = Vector2(0.4, 0.2)
+DrawDebugShape = true
 raw_positionOffset_X = 1717986918
 raw_positionOffset_Y = 858993459
 metadata/_custom_type_script = "uid://b4o377chp53rf"
@@ -156,7 +162,7 @@ mesh = SubResource("SphereMesh_qsbbd")
 
 [node name="Polygon" type="Node" parent="." unique_id=1017516304 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer3D")]
 script = ExtResource("1")
-Colliders = []
+Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer3D = NodePath("Viewer")
@@ -164,14 +170,18 @@ _fixedPosition = Vector2(-1, -0.8)
 raw_fixedPosition_x = -4294967296
 raw_fixedPosition_y = -3435973836
 
-[node name="Collider" type="Node" parent="Polygon" unique_id=2067109096]
+[node name="Collider" type="Node" parent="Polygon" unique_id=852191950]
+script = ExtResource("7_7xfg0")
+_points = []
+DrawDebugShape = true
+metadata/_custom_type_script = "uid://dt55cp5j25344"
 
 [node name="Viewer" type="Node3D" parent="Polygon" unique_id=1724183368]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.8, 0)
 
 [node name="Polygon2" type="Node" parent="." unique_id=569199741 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer3D")]
 script = ExtResource("1")
-Colliders = []
+Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer3D = NodePath("Viewer")
@@ -181,7 +191,11 @@ raw_fixedPosition_x = 17179869184
 raw_fixedPosition_y = 7301444403
 raw_fixedRotation = 386547056640
 
-[node name="Collider" type="Node" parent="Polygon2" unique_id=710901359]
+[node name="Collider" type="Node" parent="Polygon2" unique_id=503535013]
+script = ExtResource("7_7xfg0")
+_points = []
+DrawDebugShape = true
+metadata/_custom_type_script = "uid://dt55cp5j25344"
 
 [node name="Viewer" type="Node3D" parent="Polygon2" unique_id=1432056459]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 4, 1.7, 0)
@@ -205,6 +219,7 @@ _height = 2.0
 raw_radius = 3435973836
 raw_height = 8589934592
 _rotationOffset = 90.0
+DrawDebugShape = true
 raw_rotationOffset = 386547056640
 metadata/_custom_type_script = "uid://b3noxcpjbrexh"
 
@@ -231,6 +246,7 @@ script = ExtResource("8_rh5i6")
 _extents = Vector2(1, 1)
 raw_extents_x = 4294967296
 raw_extents_y = 4294967296
+DrawDebugShape = true
 metadata/_custom_type_script = "uid://lescpeqkvsdt"
 
 [node name="Viewer" type="Node3D" parent="AABBTest" unique_id=2015468259]
@@ -254,6 +270,7 @@ script = ExtResource("8_rh5i6")
 _extents = Vector2(1, 1)
 raw_extents_x = 4294967296
 raw_extents_y = 4294967296
+DrawDebugShape = true
 metadata/_custom_type_script = "uid://lescpeqkvsdt"
 
 [node name="Viewer" type="Node3D" parent="AABBTest2" unique_id=1252422292]

@@ -31,9 +31,9 @@ namespace SharpCollisions.Sharp2D.GJK
 					return CapsuleSupport(capsule, direction);
 				case ConvexShapeCollider2D convex:
 					return ConvexShapeSupport(convex, direction);
+				default:
+					return direction;
 			}
-			GD.PrintErr("Invalid collider shape");
-			return new FixVector2();
 		}
 		public FixVector2 CircleSupport(CircleCollider2D collider, FixVector2 direction)
 		{

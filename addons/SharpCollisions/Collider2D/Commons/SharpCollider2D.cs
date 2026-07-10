@@ -74,68 +74,36 @@ namespace SharpCollisions.Sharp2D
         private long raw_PositionOffset_X;
         private long raw_PositionOffset_Y;
         private long raw_RotationOffset;
+
+		public CollisionType2D Shape = CollisionType2D.Null;
 		
 		public CollisionFlags collisionFlags;
 		public CollisionFlags globalCollisionFlags;
-		public CollisionType2D Shape = CollisionType2D.Null;
-		public FixVector2 Position;
+
+		public FixVector2 Center;
 		public FixVector2 PositionOffset;
 		public Fix64 RotationOffset;
-		public FixVector2 Center;
+		
 		public FixRect BoundingBox;
 
 		public bool TriggerIgnoresSolid => IsTrigger && !TriggerDetectsSolidBodies;
 
-		/*public SharpCollider2D(){}
-		
-		public SharpCollider2D(FixVector2 center, FixVector2 offset, FixVector2 size, FixVector2[] points, CollisionType shape)
-		{
-			Shape = shape;
-			Position = center;
-			Offset = offset;
-			Radius = Fix64.Min(size.x, size.y) / Fix64.Two;
-			Height = Fix64.Max(size.x, size.y) / Fix64.Two;
-			Size = size;
-			CreatePoints(points);
-		}*/
-
-		public virtual void Initialize()
-		{
-			/*PositionOffset = new FixVector2(
-				(Fix64)startingPositionOffset.X  / SharpNode.NodeScale,
-				(Fix64)startingPositionOffset.Y  / SharpNode.NodeScale
-			);
-			RotationOffset = (Fix64)startingRotationOffset / SharpNode.NodeRotation;
-			RotationOffset *= Fix64.DegToRad;*/
-		}
-
-		public virtual void DebugDrawShapes(SharpBody2D reference)
-		{
-
-		}
-
-		public virtual void DebugDrawShapesEditor(SharpBody2D reference, bool selected)
-		{
-
-		}
-		
-		public virtual void UpdateBoundingBox()
-		{
-			BoundingBox = new FixRect();
-		}
-
+		public virtual void Initialize() {}
+		public virtual void DebugDrawShapes(SharpBody2D reference) {}
+		public virtual void DebugDrawShapesEditor(SharpBody2D reference, bool selected) {}
+		public virtual void UpdateBoundingBox() { BoundingBox = new FixRect(); }
 		public virtual void UpdatePoints(FixVector2 position, Fix64 rotation)
 		{
 			Center = FixVector2.Transform(PositionOffset, position, rotation);
 		}
 	}
-}
-
-public enum CollisionType2D
-{
-	Null = -1,
-	AABB = 0,
-	Circle = 1,
-	Capsule = 2,
-	Polygon = 3,
+	
+	public enum CollisionType2D
+	{
+		Null = -1,
+		AABB = 0,
+		Circle = 1,
+		Capsule = 2,
+		Polygon = 3,
+	}
 }

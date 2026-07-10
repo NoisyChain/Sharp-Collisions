@@ -100,17 +100,17 @@ namespace SharpCollisions.Sharp2D
 
             Color finalColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
-            float scaledHeight = (float)_height;
-            float scaledRadius = (float)_radius;
+            float scaledHeight = (float)Height;
+            float scaledRadius = (float)Radius;
 
-            Vector2 PosOffset = _positionOffset;
-            float RotOffset = _rotationOffset;
+            Vector2 PosOffset = (Vector2)PositionOffset;
+            float RotOffset = (float)RotationOffset;
 
             Vector2 upPoint = PosOffset + (Vector2.Up * (scaledHeight - scaledRadius));
             Vector2 lowPoint = PosOffset - (Vector2.Up * (scaledHeight - scaledRadius));
 
-            Vector2 upperPoint0 = SharpHelpers.Rotate2D(upPoint, Mathf.DegToRad(RotOffset));
-            Vector2 lowerPoint0 = SharpHelpers.Rotate2D(lowPoint, Mathf.DegToRad(RotOffset));
+            Vector2 upperPoint0 = SharpHelpers.Rotate2D(upPoint, RotOffset);
+            Vector2 lowerPoint0 = SharpHelpers.Rotate2D(lowPoint, RotOffset);
             Vector2 upperPoint = SharpHelpers.Transform2D(upperPoint0, (Vector2)reference.FixedPosition, (float)reference.FixedRotation);
             Vector2 lowerPoint = SharpHelpers.Transform2D(lowerPoint0, (Vector2)reference.FixedPosition, (float)reference.FixedRotation);
 

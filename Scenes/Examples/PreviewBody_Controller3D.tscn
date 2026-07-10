@@ -32,12 +32,9 @@ _radius = 0.3
 _height = 0.6
 raw_radius = 1288490188
 raw_height = 2576980377
-startingRadius = 300
-startingHeight = 600
 _positionOffset = Vector3(0, 0.6, 0)
-DrawDebug = true
+DrawDebugShape = true
 raw_positionOffset_y = 2576980377
-startingPositionOffset = Vector3i(0, 600, 0)
 
 [node name="Graphics" type="Node3D" parent="." unique_id=2147298004]
 

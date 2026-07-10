@@ -69,9 +69,9 @@ namespace SharpCollisions.Sharp2D
 
             Color finalColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
-            Vector3 PosOffset = new Vector3(_positionOffset.X, _positionOffset.Y, 0);
-            Vector3 RotOffset = new Vector3(0, 0, _rotationOffset);
-            Vector3 scaledExtents = new Vector3(_extents.X * 2, _extents.Y * 2, 0.1f);
+            Vector3 PosOffset = new Vector3((float)PositionOffset.x, (float)PositionOffset.y, 0);
+            Vector3 RotOffset = new Vector3(0, 0, (float)RotationOffset);
+            Vector3 scaledExtents = new Vector3((float)Extents.x * 2, (float)Extents.y * 2, 0.1f);
 
             Vector3 FinalRot = new Vector3(0.0f, 0.0f, (float)reference.FixedRotation);
 

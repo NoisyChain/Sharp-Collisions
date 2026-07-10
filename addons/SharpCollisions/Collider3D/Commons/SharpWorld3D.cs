@@ -169,7 +169,7 @@ namespace SharpCollisions.Sharp3D
 				int colIndA = PossibleCollisions[i].ColliderA;
 				int colIndB = PossibleCollisions[i].ColliderB;
 
-				if (bodyA.GetCollider(colIndA).IsOverlapping(bodyB.GetCollider(colIndB), out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint))
+				if (CollisionMath3D.IsOverlapping(bodyA.GetCollider(colIndA), bodyB.GetCollider(colIndB), out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint))
 				{
 					if (!bodyA.GetCollider(colIndA).IsTrigger && !bodyB.GetCollider(colIndB).IsTrigger)
 					{
@@ -198,10 +198,10 @@ namespace SharpCollisions.Sharp3D
 
 					if (!bodyA.GetCollider(colIndA).IsTrigger && !bodyB.GetCollider(colIndB).IsTrigger)
 					{
-						bodyA.GetCollider(colIndA).GetCollisionFlags(-Normal, bodyA);
-						bodyB.GetCollider(colIndB).GetCollisionFlags(Normal, bodyB);
-						bodyA.GetCollider(colIndA).GetGlobalCollisionFlags(-Normal);
-						bodyB.GetCollider(colIndB).GetGlobalCollisionFlags(Normal);
+						CollisionMath3D.GetCollisionFlags(bodyA.GetCollider(colIndA), -Normal, bodyA);
+						CollisionMath3D.GetCollisionFlags(bodyB.GetCollider(colIndB), Normal, bodyB);
+						CollisionMath3D.GetGlobalCollisionFlags(bodyA.GetCollider(colIndA), -Normal);
+						CollisionMath3D.GetGlobalCollisionFlags(bodyB.GetCollider(colIndB), Normal);
 					}
 					
 					AddConfirmedCollision((PossibleCollisions[i].BodyA, colIndA, PossibleCollisions[i].BodyB, colIndB, true));					

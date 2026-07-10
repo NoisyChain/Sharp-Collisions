@@ -59,10 +59,10 @@ namespace SharpCollisions.Sharp2D
 			Vector3 DirX = (Vector3)reference.Right;
 			Vector3 DirY = (Vector3)reference.Up;
 			Vector3 DirZ = DirX.Cross(DirY);
-			Vector3 pos = new Vector3(_positionOffset.X, _positionOffset.Y, 0) ;
+			Vector3 pos = new Vector3((float)PositionOffset.x, (float)PositionOffset.y, 0) ;
 			Vector3 newPos = SharpHelpers.Transform3D(pos, (Vector3)reference.FixedPosition, new Vector3(0.0f, 0.0f, (float)reference.FixedRotation));
 
-			DebugDraw3D.DrawSimpleSphere(newPos, DirX, DirY, DirZ, _radius + 0.005f, finalColor);
+			DebugDraw3D.DrawSimpleSphere(newPos, DirX, DirY, DirZ, (float)Radius + 0.005f, finalColor);
 		}
 
         public override void UpdateBoundingBox()

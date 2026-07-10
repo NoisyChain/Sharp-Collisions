@@ -73,14 +73,14 @@ namespace SharpCollisions.Sharp3D
 		{
 			if (!Engine.IsEditorHint()) return;
 			if (!HasColliders()) return;
-			if (Renderer == null) return;
+			//if (Renderer == null) return;
 
 			var selected = EditorInterface.Singleton.GetSelection().GetSelectedNodes();
 
 			foreach (SharpCollider3D col in Colliders)
-				if (col != null) col.DebugDrawShapesEditor(Renderer, selected.Contains(this));
+				if (col != null) col.DebugDrawShapesEditor(this, selected.Contains(this));
 			
-			if (selected.Contains(this)) DebugDraw3D.DrawGizmo(Renderer.Transform, new Color(1, 0.6f, 0.1f), true);
+			//if (selected.Contains(this)) DebugDraw3D.DrawGizmo(Renderer.Transform, new Color(1, 0.6f, 0.1f), true);
 		}
 
 		public void DrawColliders()
@@ -263,7 +263,6 @@ namespace SharpCollisions.Sharp3D
 
 			foreach (SharpCollider3D col in Colliders)
 			{
-				col.Position = FixedPosition;
 				col.UpdatePoints(FixedPosition, FixedRotation);
 				col.UpdateBoundingBox();
 			}

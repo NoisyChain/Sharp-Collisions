@@ -64,39 +64,39 @@ namespace SharpCollisions.Sharp3D
         public override void DebugDrawShapes(SharpBody3D reference)
         {
             if (!Active) return;
-            if (!DrawDebug) return;
+            if (!DrawDebugShape) return;
 
             //Draw Lower quad
-            DebugDraw3D.DrawLine((Vector3)Points[0], (Vector3)Points[1], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[1], (Vector3)Points[2], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[2], (Vector3)Points[3], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[3], (Vector3)Points[0], debugColor);
+            DebugDraw3D.DrawLine((Vector3)Points[0], (Vector3)Points[1], DebugShapeColor);
+            DebugDraw3D.DrawLine((Vector3)Points[1], (Vector3)Points[2], DebugShapeColor);
+            DebugDraw3D.DrawLine((Vector3)Points[2], (Vector3)Points[3], DebugShapeColor);
+            DebugDraw3D.DrawLine((Vector3)Points[3], (Vector3)Points[0], DebugShapeColor);
             //Draw Upper quad
-            DebugDraw3D.DrawLine((Vector3)Points[4], (Vector3)Points[5], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[5], (Vector3)Points[6], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[6], (Vector3)Points[7], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[7], (Vector3)Points[4], debugColor);
+            DebugDraw3D.DrawLine((Vector3)Points[4], (Vector3)Points[5], DebugShapeColor);
+            DebugDraw3D.DrawLine((Vector3)Points[5], (Vector3)Points[6], DebugShapeColor);
+            DebugDraw3D.DrawLine((Vector3)Points[6], (Vector3)Points[7], DebugShapeColor);
+            DebugDraw3D.DrawLine((Vector3)Points[7], (Vector3)Points[4], DebugShapeColor);
             //Connect both quads
-            DebugDraw3D.DrawLine((Vector3)Points[0], (Vector3)Points[4], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[1], (Vector3)Points[5], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[2], (Vector3)Points[6], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[3], (Vector3)Points[7], debugColor);
+            DebugDraw3D.DrawLine((Vector3)Points[0], (Vector3)Points[4], DebugShapeColor);
+            DebugDraw3D.DrawLine((Vector3)Points[1], (Vector3)Points[5], DebugShapeColor);
+            DebugDraw3D.DrawLine((Vector3)Points[2], (Vector3)Points[6], DebugShapeColor);
+            DebugDraw3D.DrawLine((Vector3)Points[3], (Vector3)Points[7], DebugShapeColor);
         }
 
-        public override void DebugDrawShapesEditor(Node3D reference, bool selected)
+        public override void DebugDrawShapesEditor(SharpBody3D reference, bool selected)
         {
             if (!Active) return;
-            if (!selected && !DrawDebug) return;
+            if (!selected && !DrawDebugShape) return;
 
-            Color finalColor = selected ? selectedColor : debugColor;
+            Color finalColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
-            Vector3 scaledPosOffset = _positionOffset;
-            Vector3 scaledRotOffset = _rotationOffset;
+            Vector3 scaledPosOffset = (Vector3)PositionOffset;
+            Vector3 scaledRotOffset = (Vector3)RotationOffset;
 
-            Vector3 rotPos = SharpHelpers.RotateDeg3D(scaledPosOffset, scaledRotOffset);
-            Vector3 newPos = SharpHelpers.Transform3D(rotPos, reference.GlobalPosition, reference.GlobalRotation);
+            Vector3 rotPos = SharpHelpers.Rotate3D(scaledPosOffset, scaledRotOffset);
+            Vector3 newPos = SharpHelpers.Transform3D(rotPos, (Vector3)reference.FixedPosition, (Vector3)reference.FixedRotation);
 
-            DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler(reference.GlobalRotation + SharpHelpers.VectorDegToRad(scaledRotOffset)), _extents * 2, finalColor, true);
+            DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler((Vector3)reference.FixedRotation + scaledRotOffset), (Vector3)Extents * 2, finalColor, true);
         }
 
         protected override void CreatePolygonPoints()

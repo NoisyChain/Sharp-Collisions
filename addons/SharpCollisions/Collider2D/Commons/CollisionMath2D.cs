@@ -55,13 +55,13 @@ namespace SharpCollisions.Sharp2D
 		public static void GetGlobalCollisionFlags(SharpCollider2D collider, FixVector2 normal)
 		{
 			if (FixVector2.Dot(normal, FixVector2.Up) > Fix64.Epsilon)
-				collider.collisionFlags |= CollisionFlags.Below;
+				collider.globalCollisionFlags |= CollisionFlags.Below;
 			if (FixVector2.Dot(normal, FixVector2.Down) > Fix64.Epsilon)
-				collider.collisionFlags |= CollisionFlags.Above;
+				collider.globalCollisionFlags |= CollisionFlags.Above;
 			if (FixVector2.Dot(normal, FixVector2.Left) > Fix64.Epsilon)
-				collider.collisionFlags |= CollisionFlags.Right;
+				collider.globalCollisionFlags |= CollisionFlags.Right;
 			if (FixVector2.Dot(normal, FixVector2.Right) > Fix64.Epsilon)
-				collider.collisionFlags |= CollisionFlags.Left;
+				collider.globalCollisionFlags |= CollisionFlags.Left;
 		}
 
 		public static FixRect UpdateAABBBoundingBox(FixVector2 center, FixVector2 extents)

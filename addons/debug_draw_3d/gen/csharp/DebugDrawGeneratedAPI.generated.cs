@@ -769,6 +769,15 @@ static internal class DebugDraw3D
         }
     }
 
+    public static void DrawCircle(Vector3 origin, Vector3 X, Vector3 Z,  
+                                float radius = 0.5f, Color? color = null, float duration = 0f)
+    {
+        DrawArc(origin, X, Z, radius, color, duration);
+        DrawArc(origin, -X, Z, radius, color, duration);
+        DrawArc(origin, X, -Z, radius, color, duration);
+        DrawArc(origin, -X, -Z, radius, color, duration);
+     }
+
     public static void DrawArc(Vector3 origin, Vector3 dirA, Vector3 dirB, float radius = 0.5f, Color? color = null, float duration = 0f)
     {
         Vector3 pointA = origin + (dirA * radius);

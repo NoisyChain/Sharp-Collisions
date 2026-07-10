@@ -54,10 +54,10 @@ namespace SharpCollisions.Sharp3D
 
         public Fix64 Radius = new Fix64();
         public Fix64 Height = new Fix64();
-        public FixVector3 RawUpperPoint;
-        public FixVector3 RawLowerPoint;
-        public FixVector3 UpperPoint;
-        public FixVector3 LowerPoint;
+        public FixVector3 RawUpperPoint { get; private set; }
+        public FixVector3 RawLowerPoint { get; private set; }
+        public FixVector3 UpperPoint { get; private set; }
+        public FixVector3 LowerPoint { get; private set; }
 
         public override void Initialize()
         {

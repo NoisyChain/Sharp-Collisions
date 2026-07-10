@@ -23,7 +23,7 @@ namespace SharpCollisions.Sharp3D.GJK
             FixVector3 SupportPointA = Support(colliderA, direction);
             FixVector3 SupportPointB = Support(colliderB, -direction);
 
-			return new SupportPoint3D { pointA = SupportPointA, pointB = SupportPointB};
+			return new SupportPoint3D { pointA = SupportPointA, pointB = SupportPointB };
 		}
 		private FixVector3 Support(SharpCollider3D collider, FixVector3 direction)
 		{
@@ -33,6 +33,8 @@ namespace SharpCollisions.Sharp3D.GJK
 					return SphereSupport(circle, direction);
 				case CapsuleCollider3D capsule:
 					return CapsuleSupport(capsule, direction);
+				case CylinderCollider3D cylinder:
+					return CylinderSupport(cylinder, direction);
 				case ConvexShapeCollider3D convex:
 					return ConvexShapeSupport(convex, direction);
 				default:
@@ -52,8 +54,15 @@ namespace SharpCollisions.Sharp3D.GJK
             if (Dy == Fix64.Zero) return collider.Center + collider.Radius * NormalizedDirection;
             else return (Dy < Fix64.Zero ? collider.LowerPoint : collider.UpperPoint) + collider.Radius * NormalizedDirection;
         }
-		public FixVector3 CylinderSupport(CapsuleCollider3D collider, FixVector3 direction)
+		public FixVector3 CylinderSupport(CylinderCollider3D collider, FixVector3 direction)
         {
+			/*dir = matRS_inverse*dir; //find support in model space
+
+			vec3 dir_xz = vec3(dir.x, 0, dir.z);
+			vec3 result = normalise(dir_xz)*r;
+			result.y = (dir.y>0) ? y_cap : y_base;
+
+			return matRS*result + pos; //convert support to world space*/
             FixVector3 NormalizedDirection = FixVector3.Normalize(direction);
             Fix64 Dy = FixVector3.Dot(NormalizedDirection, collider.UpperPoint - collider.LowerPoint);
 

@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://bibw4tjrys580" path="res://addons/SharpCollisions/Examples/Rotator.cs" id="7_qwg5g"]
 [ext_resource type="Script" uid="uid://c5oybgm7k4u0b" path="res://addons/SharpCollisions/Collider3D/Colliders/ConvexShapeCollider3D.cs" id="9_earb3"]
 [ext_resource type="Script" uid="uid://vanf8ydlw1ew" path="res://addons/SharpCollisions/Collider3D/Commons/SharpBody3D.cs" id="10"]
+[ext_resource type="Script" uid="uid://dl5rlkjokjjpc" path="res://addons/SharpCollisions/Collider3D/Colliders/CylinderCollider3D.cs" id="10_8me38"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_earb3"]
 size = Vector3(2, 2, 2)
@@ -48,7 +49,7 @@ tonemap_mode = 2
 
 [node name="PhysicsManager" type="Node" parent="." unique_id=10007918 node_paths=PackedStringArray("nodes")]
 script = ExtResource("2_od8d3")
-nodes = [NodePath("../Character"), NodePath("../Box"), NodePath("../Box2"), NodePath("../Sphere"), NodePath("../Capsule"), NodePath("../Polygon"), NodePath("../Floor"), NodePath("../Floor2"), NodePath("../Floor3"), NodePath("../Floor4"), NodePath("../Wall"), NodePath("../Wall2"), NodePath("../Wall3"), NodePath("../Wall4")]
+nodes = [NodePath("../Character"), NodePath("../Box"), NodePath("../Box2"), NodePath("../Sphere"), NodePath("../Capsule"), NodePath("../Polygon"), NodePath("../Cylinder"), NodePath("../Floor"), NodePath("../Floor2"), NodePath("../Floor3"), NodePath("../Floor4"), NodePath("../Wall"), NodePath("../Wall2"), NodePath("../Wall3"), NodePath("../Wall4")]
 debugLineThickness = 0.012
 RunOnDedicatedThread = true
 ShowDebugShapes = true
@@ -70,13 +71,7 @@ raw_fixedPosition_z = -12884901888
 
 [node name="Collider" type="Node" parent="Box" unique_id=2129545849]
 script = ExtResource("4")
-_extents = Vector3(1, 1, 1)
-raw_extents_x = 4294967296
-raw_extents_y = 4294967296
-raw_extents_z = 4294967296
 _points = []
-Faces = []
-DrawDebugShape = true
 
 [node name="Viewer" type="Node3D" parent="Box" unique_id=415964012]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3)
@@ -110,7 +105,7 @@ Faces = []
 DrawDebugShape = true
 
 [node name="Viewer" type="Node3D" parent="Box2" unique_id=1636148238]
-transform = Transform3D(0.8534984, -0.14643757, 0.4999999, 0.4999678, 0.4999691, -0.7071067, -0.1464372, 0.8535006, 0.4999999, -2.3, 2, 0)
+transform = Transform3D(0.852965, -0.14567007, 0.4999999, 0.49965534, 0.49734867, -0.7071067, -0.14634567, 0.8490272, 0.4999999, -2.3, 2, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Box2/Viewer" unique_id=1571333008]
 mesh = SubResource("12")
@@ -202,6 +197,27 @@ transform = Transform3D(0.999997, 0, 0, 0, 0.999998, 0, 0, 0, 0.999999, 0, 1, 2)
 visible = false
 mesh = SubResource("PrismMesh_4fpna")
 skeleton = NodePath("../..")
+
+[node name="Cylinder" type="Node" parent="." unique_id=377539652 node_paths=PackedStringArray("Colliders", "Attachments")]
+script = ExtResource("10")
+Colliders = [NodePath("Collider")]
+Attachments = []
+_fixedPosition = Vector3(-2, 1, 2.5)
+raw_fixedPosition_x = -8589934592
+raw_fixedPosition_y = 4294967296
+raw_fixedPosition_z = 10737418240
+metadata/_custom_type_script = "uid://vanf8ydlw1ew"
+
+[node name="Collider" type="Node" parent="Cylinder" unique_id=784900548]
+script = ExtResource("10_8me38")
+_radius = 1.0
+_height = 0.5
+raw_radius = 4294967296
+raw_height = 2147483648
+_positionOffset = Vector3(0, 0.5, 0)
+DrawDebugShape = true
+raw_positionOffset_y = 2147483648
+metadata/_custom_type_script = "uid://dl5rlkjokjjpc"
 
 [node name="Floor" type="Node" parent="." unique_id=1367089990 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("10")

@@ -36,6 +36,7 @@ tonemap_mode = 2
 [node name="PhysicsManager" type="Node" parent="." unique_id=1524375148 node_paths=PackedStringArray("nodes")]
 script = ExtResource("2_jxjwd")
 nodes = [NodePath("../Sphere1"), NodePath("../Sphere2"), NodePath("../Sphere3"), NodePath("../Sphere4"), NodePath("../Sphere5"), NodePath("../Sphere6"), NodePath("../Sphere7"), NodePath("../Sphere8"), NodePath("../Sphere9"), NodePath("../Sphere10"), NodePath("../Sphere11"), NodePath("../Sphere12"), NodePath("../Sphere13"), NodePath("../Sphere14"), NodePath("../Sphere15"), NodePath("../Sphere16"), NodePath("../Sphere17"), NodePath("../Sphere18"), NodePath("../Sphere19"), NodePath("../Sphere20"), NodePath("../Sphere21"), NodePath("../Sphere22"), NodePath("../Sphere23"), NodePath("../Sphere24"), NodePath("../Sphere25"), NodePath("../Sphere26"), NodePath("../Sphere27"), NodePath("../Sphere28"), NodePath("../Sphere29"), NodePath("../Sphere30"), NodePath("../Sphere31"), NodePath("../Sphere32"), NodePath("../Sphere33"), NodePath("../Sphere34"), NodePath("../Sphere35"), NodePath("../Sphere36"), NodePath("../Sphere37"), NodePath("../Sphere38"), NodePath("../Sphere39"), NodePath("../Sphere40"), NodePath("../Sphere41"), NodePath("../Sphere42"), NodePath("../Sphere43"), NodePath("../Sphere44"), NodePath("../Sphere45"), NodePath("../Sphere46"), NodePath("../Sphere47"), NodePath("../Sphere48"), NodePath("../Sphere49"), NodePath("../Floor"), NodePath("../Wall"), NodePath("../Wall2"), NodePath("../Wall3"), NodePath("../Wall4")]
+Substeps = 2
 debugLineThickness = 0.012
 RunOnDedicatedThread = true
 
@@ -1244,5 +1245,6 @@ environment = SubResource("Environment_bff8o")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=597550129]
 transform = Transform3D(0.76591, 0.470268, -0.43844, 0, 0.681922, 0.731425, 0.642948, -0.560206, 0.522291, -1.96341, 1.98419, 3.05469)
+shadow_enabled = true
 directional_shadow_mode = 0
 directional_shadow_max_distance = 25.0

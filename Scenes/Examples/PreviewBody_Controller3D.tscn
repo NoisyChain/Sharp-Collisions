@@ -34,6 +34,7 @@ raw_radius = 1288490188
 raw_height = 2576980377
 _positionOffset = Vector3(0, 0.6, 0)
 DrawDebugShape = true
+DrawBoundingBox = true
 raw_positionOffset_y = 2576980377
 
 [node name="Graphics" type="Node3D" parent="." unique_id=2147298004]

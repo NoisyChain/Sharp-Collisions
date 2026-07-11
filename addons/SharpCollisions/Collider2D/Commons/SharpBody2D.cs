@@ -33,6 +33,12 @@ namespace SharpCollisions.Sharp2D
 		public SharpCollider2D[] GetColliders() => Colliders;
 		public SharpCollider2D GetCollider(int index) => Colliders[index];
 
+		private bool IsStationary => FixVector2.LengthSq(LinearVelocity) == Fix64.Zero && AngularVelocity == Fix64.Zero;
+
+		private bool UpdatePositions;
+		private bool UpdateRotations;
+		private bool UpdateBoundingBoxes;
+
 		public override void _Instance()
 		{
 			base._Instance();
@@ -44,8 +50,6 @@ namespace SharpCollisions.Sharp2D
 			if (HasColliders())
 				foreach (SharpCollider2D col in Colliders)
 					col.Initialize();
-
-			//collidersRequireUpdate = true;
 			
 			if (HasAttachments())
 			{
@@ -56,6 +60,9 @@ namespace SharpCollisions.Sharp2D
 				}
 			}
 
+			UpdatePositions = true;
+			UpdateRotations = true;
+			UpdateBoundingBoxes = true;
 			UpdateColliders();
 		}
 
@@ -75,14 +82,13 @@ namespace SharpCollisions.Sharp2D
 		{
 			if (!Engine.IsEditorHint()) return;
 			if (!HasColliders()) return;
-			//if (Renderer3D == null) return;
 
 			var selected = EditorInterface.Singleton.GetSelection().GetSelectedNodes();
 
 			foreach (SharpCollider2D col in Colliders)
 				if (col != null) col.DebugDrawShapesEditor(this, selected.Contains(this));
 			
-			//if (selected.Contains(this)) DebugDraw3D.DrawGizmo(Renderer3D.Transform, new Color(1, 0.6f, 0.1f), true);
+			//if (selected.Contains(this)) DebugDraw3D.DrawGizmo(transform, new Color(1, 0.6f, 0.1f), true);
 		}
 
 		public void DrawColliders()
@@ -90,7 +96,13 @@ namespace SharpCollisions.Sharp2D
 			if (!HasColliders()) return;
 			
 			foreach(SharpCollider2D col in Colliders)
-				if (col != null) col.DebugDrawShapes(this);
+			{
+				if (col != null)
+				{
+					col.DebugDrawShapes(this);
+					col.DebugDrawBoundingBox();
+				}
+			}
 		}
 
 		public override void _Destroy()
@@ -199,6 +211,8 @@ namespace SharpCollisions.Sharp2D
 			if (FixVector2.Length(LinearVelocity) == Fix64.Zero) return;
 
 			FixedPosition += LinearVelocity * SharpTime.SubDelta;
+			UpdatePositions = true;
+			UpdateBoundingBoxes = true;
 		}
 
 		public void Rotate()
@@ -206,6 +220,8 @@ namespace SharpCollisions.Sharp2D
 			if (AngularVelocity == Fix64.Zero) return;
 
 			FixedRotation += AngularVelocity * SharpTime.SubDelta;
+			UpdateRotations = true;
+			UpdateBoundingBoxes = true;
 		}
 
 		public void UpdateBody()
@@ -218,12 +234,22 @@ namespace SharpCollisions.Sharp2D
 			UpdateColliders();
 		}
 
+		public void SetPosition(FixVector2 destination)
+		{
+			if (BodyMode == 2) return;
+			
+			FixedPosition = destination;
+			UpdatePositions = true;
+			UpdateBoundingBoxes = true;
+		}
+
 		public void SetRotation(Fix64 angle)
 		{
 			if (BodyMode == 2) return;
 
 			FixedRotation = angle;
-			UpdateColliders();
+			UpdateRotations = true;
+			UpdateBoundingBoxes = true;
 		}
 
 		public void SetRotationDegrees(Fix64 angle)
@@ -237,14 +263,9 @@ namespace SharpCollisions.Sharp2D
 			if (IsAttached()) return;
 
 			FixedPosition += direction;
-			UpdateColliders();
-		}
-		
-		public void MoveTo(FixVector2 destination)
-		{
-			if (BodyMode == 2) return;
-			
-			FixedPosition = destination;
+			UpdatePositions = true;
+			UpdateRotations = true;
+			if (IsStationary) UpdateBoundingBoxes = true;
 			UpdateColliders();
 		}
 		
@@ -255,7 +276,7 @@ namespace SharpCollisions.Sharp2D
 			foreach (SharpBody2D child in Attachments)
 			{
 				child.SetRotation(FixedRotation);
-				child.MoveTo(FixedPosition);
+				child.SetPosition(FixedPosition);
 			}
 		}
 		
@@ -269,12 +290,16 @@ namespace SharpCollisions.Sharp2D
 
 			foreach (SharpCollider2D col in Colliders)
 			{
-				//col.Position = FixedPosition;
-				col.UpdatePoints(FixedPosition, FixedRotation);
-				col.UpdateBoundingBox();
+				if (UpdatePositions || UpdateRotations)
+					col.UpdatePoints(FixedPosition, FixedRotation);
+				if (UpdateBoundingBoxes)
+					col.UpdateBoundingBox();
 			}
 
 			UpdateAttachments();
+			UpdatePositions = false;
+			UpdateRotations = false;
+			UpdateBoundingBoxes = false;
 		}
 
 		public void ClearFlags()

@@ -25,6 +25,11 @@ height = 2.0
 
 [sub_resource type="PrismMesh" id="PrismMesh_4fpna"]
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_nho35"]
+top_radius = 1.0
+bottom_radius = 1.0
+height = 1.0
+
 [sub_resource type="BoxMesh" id="BoxMesh_6erxl"]
 size = Vector3(4, 0.2, 4)
 
@@ -52,7 +57,6 @@ script = ExtResource("2_od8d3")
 nodes = [NodePath("../Character"), NodePath("../Box"), NodePath("../Box2"), NodePath("../Sphere"), NodePath("../Capsule"), NodePath("../Polygon"), NodePath("../Cylinder"), NodePath("../Floor"), NodePath("../Floor2"), NodePath("../Floor3"), NodePath("../Floor4"), NodePath("../Wall"), NodePath("../Wall2"), NodePath("../Wall3"), NodePath("../Wall4")]
 debugLineThickness = 0.012
 RunOnDedicatedThread = true
-ShowDebugShapes = true
 
 [node name="Character" parent="." unique_id=1519820629 instance=ExtResource("2")]
 KeepVelocityOnSlopes = false
@@ -65,16 +69,22 @@ Colliders = [NodePath("Collider")]
 Attachments = []
 BodyMode = 2
 Renderer = NodePath("Viewer")
-_fixedPosition = Vector3(0, 1, -3)
+_fixedPosition = Vector3(0, 1, -2.9)
 raw_fixedPosition_y = 4294967296
-raw_fixedPosition_z = -12884901888
+raw_fixedPosition_z = -12455405158
 
 [node name="Collider" type="Node" parent="Box" unique_id=2129545849]
 script = ExtResource("4")
+_extents = Vector3(1, 1, 1)
+raw_extents_x = 4294967296
+raw_extents_y = 4294967296
+raw_extents_z = 4294967296
 _points = []
+Faces = []
+DrawDebugShape = true
 
 [node name="Viewer" type="Node3D" parent="Box" unique_id=415964012]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2.9)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Box/Viewer" unique_id=1644634995]
 mesh = SubResource("BoxMesh_earb3")
@@ -103,9 +113,10 @@ raw_extents_z = 4294967296
 _points = []
 Faces = []
 DrawDebugShape = true
+DrawBoundingBox = true
 
 [node name="Viewer" type="Node3D" parent="Box2" unique_id=1636148238]
-transform = Transform3D(0.852965, -0.14567007, 0.4999999, 0.49965534, 0.49734867, -0.7071067, -0.14634567, 0.8490272, 0.4999999, -2.3, 2, 0)
+transform = Transform3D(0.852965, -0.14626761, 0.4999999, 0.49965534, 0.49938878, -0.7071067, -0.14634567, 0.8525099, 0.4999999, -2.3, 2, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Box2/Viewer" unique_id=1571333008]
 mesh = SubResource("12")
@@ -126,6 +137,7 @@ script = ExtResource("3")
 _radius = 1.0
 raw_radius = 4294967296
 DrawDebugShape = true
+DrawBoundingBox = true
 
 [node name="Collider2" type="Node" parent="Sphere" unique_id=213469181]
 script = ExtResource("3")
@@ -133,6 +145,7 @@ _radius = 1.0
 raw_radius = 4294967296
 _positionOffset = Vector3(-0.9, 0.4, 0)
 DrawDebugShape = true
+DrawBoundingBox = true
 raw_positionOffset_x = -3865470566
 raw_positionOffset_y = 1717986918
 
@@ -164,6 +177,7 @@ raw_radius = 2147483648
 raw_height = 4294967296
 _rotationOffset = Vector3(0, 0, 90)
 DrawDebugShape = true
+DrawBoundingBox = true
 raw_rotationOffset_z = 386547056640
 
 [node name="Viewer" type="Node3D" parent="Capsule" unique_id=720804035]
@@ -198,10 +212,11 @@ visible = false
 mesh = SubResource("PrismMesh_4fpna")
 skeleton = NodePath("../..")
 
-[node name="Cylinder" type="Node" parent="." unique_id=377539652 node_paths=PackedStringArray("Colliders", "Attachments")]
+[node name="Cylinder" type="Node" parent="." unique_id=377539652 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("10")
 Colliders = [NodePath("Collider")]
 Attachments = []
+Renderer = NodePath("Viewer")
 _fixedPosition = Vector3(-2, 1, 2.5)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
@@ -216,8 +231,16 @@ raw_radius = 4294967296
 raw_height = 2147483648
 _positionOffset = Vector3(0, 0.5, 0)
 DrawDebugShape = true
+DrawBoundingBox = true
 raw_positionOffset_y = 2147483648
 metadata/_custom_type_script = "uid://dl5rlkjokjjpc"
+
+[node name="Viewer" type="Node3D" parent="Cylinder" unique_id=1761015019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 2.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cylinder/Viewer" unique_id=507983933]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("CylinderMesh_nho35")
 
 [node name="Floor" type="Node" parent="." unique_id=1367089990 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("10")

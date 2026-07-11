@@ -134,7 +134,7 @@ namespace SharpCollisions.Sharp3D
             { 
                 LateralVelocity = FixVector3.Zero;
                 VerticalVelocity = FixVector3.Zero;
-                MoveTo(FixVector3.Up);
+                SetPosition(FixVector3.Up);
             }
 
             //SetRotation(correctedRotation);
@@ -160,7 +160,7 @@ namespace SharpCollisions.Sharp3D
             if (!debug) return;
             
             foreach(CollisionManifold3D col in GetCollisions())
-                DebugDraw3D.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, new Color(0f, 1f, 1f));
+                DebugDraw3D.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, Colors.Yellow);
         }
 
         public CollisionManifold3D GetGround()

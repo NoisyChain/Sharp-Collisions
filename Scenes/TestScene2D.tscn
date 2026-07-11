@@ -142,6 +142,7 @@ script = ExtResource("6_l8y4h")
 _radius = 0.4
 raw_radius = 1717986918
 DrawDebugShape = true
+DrawBoundingBox = true
 metadata/_custom_type_script = "uid://b4o377chp53rf"
 
 [node name="Collider2" type="Node" parent="Sphere" unique_id=1202396493]
@@ -150,6 +151,7 @@ _radius = 0.4
 raw_radius = 1717986918
 _positionOffset = Vector2(0.4, 0.2)
 DrawDebugShape = true
+DrawBoundingBox = true
 raw_positionOffset_X = 1717986918
 raw_positionOffset_Y = 858993459
 metadata/_custom_type_script = "uid://b4o377chp53rf"

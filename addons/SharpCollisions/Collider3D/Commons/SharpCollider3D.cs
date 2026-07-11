@@ -43,6 +43,7 @@ namespace SharpCollisions.Sharp3D
 		[Export] public bool IsTrigger = false;
 		[Export] public bool TriggerDetectsSolidBodies = true;
 		[Export] protected bool DrawDebugShape;
+        [Export] protected bool DrawBoundingBox;
 		[Export] public Color DebugShapeColor = new Color(0, 0, 1);
 		[Export] public Color DebugShapeColorSelected = new Color(1, 0.6f, 0.1f);
 
@@ -127,6 +128,38 @@ namespace SharpCollisions.Sharp3D
 		public virtual void DebugDrawShapesEditor(SharpBody3D reference, bool selected) {}
 		
 		public virtual void UpdateBoundingBox() { BoundingBox = new FixVolume(); }
+        public void DebugDrawBoundingBox()
+        {
+            if (!DrawBoundingBox) return;
+
+            Vector3[] points =
+            [
+                new Vector3((float)BoundingBox.x,(float)BoundingBox.y, (float)BoundingBox.z),
+                new Vector3((float)BoundingBox.w,(float)BoundingBox.y, (float)BoundingBox.z),
+                new Vector3((float)BoundingBox.w,(float)BoundingBox.h, (float)BoundingBox.z),
+                new Vector3((float)BoundingBox.x,(float)BoundingBox.h, (float)BoundingBox.z),
+                new Vector3((float)BoundingBox.x,(float)BoundingBox.y, (float)BoundingBox.d),
+                new Vector3((float)BoundingBox.w,(float)BoundingBox.y, (float)BoundingBox.d),
+                new Vector3((float)BoundingBox.w,(float)BoundingBox.h, (float)BoundingBox.d),
+                new Vector3((float)BoundingBox.x,(float)BoundingBox.h, (float)BoundingBox.d),
+            ];
+
+            //Draw Lower quad
+            DebugDraw3D.DrawLine(points[0], points[1], Colors.Cyan);
+            DebugDraw3D.DrawLine(points[1], points[2], Colors.Cyan);
+            DebugDraw3D.DrawLine(points[2], points[3], Colors.Cyan);
+            DebugDraw3D.DrawLine(points[3], points[0], Colors.Cyan);
+            //Draw Upper quad
+            DebugDraw3D.DrawLine(points[4], points[5], Colors.Cyan);
+            DebugDraw3D.DrawLine(points[5], points[6], Colors.Cyan);
+            DebugDraw3D.DrawLine(points[6], points[7], Colors.Cyan);
+            DebugDraw3D.DrawLine(points[7], points[4], Colors.Cyan);
+            //Connect both quads
+            DebugDraw3D.DrawLine(points[0], points[4], Colors.Cyan);
+            DebugDraw3D.DrawLine(points[1], points[5], Colors.Cyan);
+            DebugDraw3D.DrawLine(points[2], points[6], Colors.Cyan);
+            DebugDraw3D.DrawLine(points[3], points[7], Colors.Cyan);
+        }
 
 		public virtual void UpdatePoints(FixVector3 position, FixVector3 rotation)
 		{

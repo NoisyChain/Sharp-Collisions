@@ -1,6 +1,4 @@
 Plans for now:
-	- Colliders as reasources?
-	- Less data on colliders
-	- Do not update colliders all the time? (Sleep? More intentional shape updates?)
-	- Debug shapes independent of 3D nodes
+	- More intentional shape updates
 	- New viewer component
+	- Interpolation?

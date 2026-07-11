@@ -39,6 +39,7 @@ namespace SharpCollisions.Sharp2D
 		[Export] public bool IsTrigger = false;
 		[Export] public bool TriggerDetectsSolidBodies = true;
 		[Export] protected bool DrawDebugShape;
+        [Export] protected bool DrawBoundingBox;
 		[Export] public Color DebugShapeColor = new Color(0, 0, 1);
 		[Export] public Color DebugShapeColorSelected = new Color(1, 0.6f, 0.1f);
 
@@ -92,6 +93,25 @@ namespace SharpCollisions.Sharp2D
 		public virtual void DebugDrawShapes(SharpBody2D reference) {}
 		public virtual void DebugDrawShapesEditor(SharpBody2D reference, bool selected) {}
 		public virtual void UpdateBoundingBox() { BoundingBox = new FixRect(); }
+        public void DebugDrawBoundingBox()
+        {
+            if (!DrawBoundingBox) return;
+
+            Vector3[] points =
+            [
+                new Vector3((float)BoundingBox.x,(float)BoundingBox.y, 0.0f),
+                new Vector3((float)BoundingBox.w,(float)BoundingBox.y, 0.0f),
+                new Vector3((float)BoundingBox.w,(float)BoundingBox.h, 0.0f),
+                new Vector3((float)BoundingBox.x,(float)BoundingBox.h, 0.0f),
+            ];
+
+            for (int i = 0; i < points.Length; i++)
+            {
+                Vector3 start = points[i];
+                Vector3 end = points[(i + 1) % points.Length];
+                DebugDraw3D.DrawLine(start, end, Colors.Cyan);
+            }
+        }
 		public virtual void UpdatePoints(FixVector2 position, Fix64 rotation)
 		{
 			Center = FixVector2.Transform(PositionOffset, position, rotation);

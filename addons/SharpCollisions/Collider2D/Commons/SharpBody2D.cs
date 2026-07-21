@@ -264,7 +264,6 @@ namespace SharpCollisions.Sharp2D
 
 			FixedPosition += direction;
 			UpdatePositions = true;
-			UpdateRotations = true;
 			if (IsStationary) UpdateBoundingBoxes = true;
 			UpdateColliders();
 		}

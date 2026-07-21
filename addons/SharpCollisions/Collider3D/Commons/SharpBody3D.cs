@@ -263,12 +263,9 @@ namespace SharpCollisions.Sharp3D
 
 			FixedPosition += direction;
 			UpdatePositions = true;
-			UpdateRotations = true;
 			if (IsStationary) UpdateBoundingBoxes = true;
 			UpdateColliders();
 		}
-		
-		
 
 		public void UpdateAttachments()
 		{

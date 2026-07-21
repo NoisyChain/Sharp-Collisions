@@ -174,7 +174,9 @@ raw_fixedPosition_y = -3435973836
 
 [node name="Collider" type="Node" parent="Polygon" unique_id=852191950]
 script = ExtResource("7_7xfg0")
-_points = []
+_points = Array[Vector2]([Vector2(0, 1), Vector2(1, 0), Vector2(0.6, -1), Vector2(-0.6, -1), Vector2(-1, 0)])
+raw_points_x = PackedInt64Array(0, 4294967296, 2576980377, -2576980377, -4294967296)
+raw_points_y = PackedInt64Array(4294967296, 0, -4294967296, -4294967296, 0)
 DrawDebugShape = true
 metadata/_custom_type_script = "uid://dt55cp5j25344"
 

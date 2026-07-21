@@ -55,8 +55,6 @@ namespace SharpCollisions.Sharp2D
         public Fix64 Radius = new Fix64();
         public Fix64 Height = new Fix64();
 
-        public FixVector2 RawUpperPoint { get; private set; }
-        public FixVector2 RawLowerPoint { get; private set; }
         public FixVector2 UpperPoint { get; private set; }
         public FixVector2 LowerPoint { get; private set; }
 
@@ -148,15 +146,14 @@ namespace SharpCollisions.Sharp2D
         {
             FixVector2 CapsuleDirection = new FixVector2(Fix64.Zero, Height - Radius);
 
-            RawUpperPoint = CapsuleDirection;
-            RawLowerPoint = -CapsuleDirection;
+            UpperPoint = FixVector2.Rotate(CapsuleDirection, RotationOffset);
+            LowerPoint = FixVector2.Rotate(-CapsuleDirection, RotationOffset);
         }
 
         private void UpdateCapsulePoints(FixVector2 position, Fix64 rotation)
         {
             CreateCapsulePoints();
-            UpperPoint = FixVector2.Rotate(RawUpperPoint, RotationOffset);
-            LowerPoint = FixVector2.Rotate(RawLowerPoint, RotationOffset);
+            
             UpperPoint = FixVector2.Transform(UpperPoint + PositionOffset, position, rotation);
             LowerPoint = FixVector2.Transform(LowerPoint + PositionOffset, position, rotation);
         }

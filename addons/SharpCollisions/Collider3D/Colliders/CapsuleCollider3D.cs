@@ -54,8 +54,6 @@ namespace SharpCollisions.Sharp3D
 
         public Fix64 Radius = new Fix64();
         public Fix64 Height = new Fix64();
-        public FixVector3 RawUpperPoint { get; private set; }
-        public FixVector3 RawLowerPoint { get; private set; }
         public FixVector3 UpperPoint { get; private set; }
         public FixVector3 LowerPoint { get; private set; }
 
@@ -151,15 +149,14 @@ namespace SharpCollisions.Sharp3D
         {
             FixVector3 CapsuleDirection = new FixVector3(Fix64.Zero, Height - Radius, Fix64.Zero);
 
-            RawUpperPoint = CapsuleDirection;
-            RawLowerPoint = -CapsuleDirection;
+            UpperPoint = FixVector3.Rotate(CapsuleDirection, RotationOffset);
+            LowerPoint = FixVector3.Rotate(-CapsuleDirection, RotationOffset);
         }
 
         private void UpdateCapsulePoints(FixVector3 position, FixVector3 rotation)
         {
             CreateCapsulePoints();
-            UpperPoint = FixVector3.Rotate(RawUpperPoint, RotationOffset);
-            LowerPoint = FixVector3.Rotate(RawLowerPoint, RotationOffset);
+            
             UpperPoint = FixVector3.Transform(UpperPoint + PositionOffset, position, rotation);
             LowerPoint = FixVector3.Transform(LowerPoint + PositionOffset, position, rotation);
         }

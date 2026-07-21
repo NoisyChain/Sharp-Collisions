@@ -174,7 +174,7 @@ namespace SharpCollisions.Sharp2D
             if (!debug) return;
             
             foreach(CollisionManifold2D col in GetCollisions())
-                DebugDraw3D.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, Colors.Yellow);
+                CustomDebugDraw.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, Colors.Yellow);
         }
 
         public CollisionManifold2D GetGround()

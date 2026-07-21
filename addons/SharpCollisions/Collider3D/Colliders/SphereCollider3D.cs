@@ -47,7 +47,7 @@ namespace SharpCollisions.Sharp3D
             Vector3 DirY = (Vector3)reference.Up;
             Vector3 DirZ = (Vector3)reference.Forward;
 
-            DebugDraw3D.DrawSimpleSphere((Vector3)Center, DirX, DirY, DirZ, (float)Radius + 0.005f, DebugShapeColor);
+            CustomDebugDraw.DrawSimpleSphere((Vector3)Center, DirX, DirY, DirZ, (float)Radius + 0.005f, DebugShapeColor);
         }
 
         public override void DebugDrawShapesEditor(SharpBody3D reference, bool selected)
@@ -63,7 +63,7 @@ namespace SharpCollisions.Sharp3D
             Vector3 pos = _positionOffset;
             Vector3 newPos = SharpHelpers.Transform3D(pos, (Vector3)reference.FixedPosition, (Vector3)reference.FixedRotation);
 
-            DebugDraw3D.DrawSimpleSphere(newPos, DirX, DirY, DirZ, (float)Radius + 0.005f, finalColor);
+            CustomDebugDraw.DrawSimpleSphere(newPos, DirX, DirY, DirZ, (float)Radius + 0.005f, finalColor);
         }
 
         public override void UpdateBoundingBox()

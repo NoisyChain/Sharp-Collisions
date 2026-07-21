@@ -71,7 +71,7 @@ namespace SharpCollisions.Sharp2D
 
             Vector3 PosOffset = new Vector3((float)PositionOffset.x, (float)PositionOffset.y, 0);
             Vector3 RotOffset = new Vector3(0, 0, (float)RotationOffset);
-            Vector3 scaledExtents = new Vector3((float)Extents.x * 2, (float)Extents.y * 2, 0.1f);
+            Vector3 scaledExtents = new Vector3((float)Extents.x * 2, (float)Extents.y * 2, 0.001f);
 
             Vector3 FinalRot = new Vector3(0.0f, 0.0f, (float)reference.FixedRotation);
 

@@ -80,12 +80,12 @@ namespace SharpCollisions.Sharp3D
 
             if (Radius >= Height)
             {
-                DebugDraw3D.DrawSimpleSphere((Vector3)(UpperPoint + LowerPoint) * 0.5f, DirX, DirY, DirZ, inflatedRadius, DebugShapeColor);
+                CustomDebugDraw.DrawSimpleSphere((Vector3)(UpperPoint + LowerPoint) * 0.5f, DirX, DirY, DirZ, inflatedRadius, DebugShapeColor);
             }
             else
             {
-                DebugDraw3D.DrawHalfSphereY((Vector3)UpperPoint, DirX, DirY, DirZ, false, inflatedRadius, DebugShapeColor);
-                DebugDraw3D.DrawHalfSphereY((Vector3)LowerPoint, DirX, DirY, DirZ, true, inflatedRadius, DebugShapeColor);
+                CustomDebugDraw.DrawHalfSphereY((Vector3)UpperPoint, DirX, DirY, DirZ, false, inflatedRadius, DebugShapeColor);
+                CustomDebugDraw.DrawHalfSphereY((Vector3)LowerPoint, DirX, DirY, DirZ, true, inflatedRadius, DebugShapeColor);
                 DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing1, (Vector3)LowerPoint + LineSpacing1, DebugShapeColor);
                 DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing1, (Vector3)LowerPoint - LineSpacing1, DebugShapeColor);
                 DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing2, (Vector3)LowerPoint + LineSpacing2, DebugShapeColor);
@@ -127,12 +127,12 @@ namespace SharpCollisions.Sharp3D
 
             if (Radius >= Height)
             {
-                DebugDraw3D.DrawSimpleSphere((upperPoint + lowerPoint) * 0.5f, DirX, DirY, DirZ, inflatedRadius, finalColor);
+                CustomDebugDraw.DrawSimpleSphere((upperPoint + lowerPoint) * 0.5f, DirX, DirY, DirZ, inflatedRadius, finalColor);
             }
             else
             {
-                DebugDraw3D.DrawHalfSphereY(upperPoint, DirX, DirY, DirZ, false, inflatedRadius, finalColor);
-                DebugDraw3D.DrawHalfSphereY(lowerPoint, DirX, DirY, DirZ, true, inflatedRadius, finalColor);
+                CustomDebugDraw.DrawHalfSphereY(upperPoint, DirX, DirY, DirZ, false, inflatedRadius, finalColor);
+                CustomDebugDraw.DrawHalfSphereY(lowerPoint, DirX, DirY, DirZ, true, inflatedRadius, finalColor);
                 DebugDraw3D.DrawLine(upperPoint + LineSpacing1, lowerPoint + LineSpacing1, finalColor);
                 DebugDraw3D.DrawLine(upperPoint - LineSpacing1, lowerPoint - LineSpacing1, finalColor);
                 DebugDraw3D.DrawLine(upperPoint + LineSpacing2, lowerPoint + LineSpacing2, finalColor);

@@ -78,8 +78,8 @@ namespace SharpCollisions.Sharp3D
             Vector3 LineSpacing1 = DirX * inflatedRadius;
             Vector3 LineSpacing2 = DirZ * inflatedRadius;
 
-            DebugDraw3D.DrawCircle((Vector3)UpperPoint, DirX, DirZ, inflatedRadius, DebugShapeColor);
-            DebugDraw3D.DrawCircle((Vector3)LowerPoint, DirX, DirZ, inflatedRadius, DebugShapeColor);
+            CustomDebugDraw.DrawCircle((Vector3)UpperPoint, DirX, DirZ, inflatedRadius, DebugShapeColor);
+            CustomDebugDraw.DrawCircle((Vector3)LowerPoint, DirX, DirZ, inflatedRadius, DebugShapeColor);
             DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing1, (Vector3)LowerPoint + LineSpacing1, DebugShapeColor);
             DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing1, (Vector3)LowerPoint - LineSpacing1, DebugShapeColor);
             DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing2, (Vector3)LowerPoint + LineSpacing2, DebugShapeColor);
@@ -116,8 +116,8 @@ namespace SharpCollisions.Sharp3D
             Vector3 LineSpacing1 = DirX * inflatedRadius;
             Vector3 LineSpacing2 = DirZ * inflatedRadius;
 
-            DebugDraw3D.DrawCircle(upperPoint, DirX, DirZ, inflatedRadius, finalColor);
-            DebugDraw3D.DrawCircle(lowerPoint, DirX, DirZ, inflatedRadius, finalColor);
+            CustomDebugDraw.DrawCircle(upperPoint, DirX, DirZ, inflatedRadius, finalColor);
+            CustomDebugDraw.DrawCircle(lowerPoint, DirX, DirZ, inflatedRadius, finalColor);
             DebugDraw3D.DrawLine(upperPoint + LineSpacing1, lowerPoint + LineSpacing1, finalColor);
             DebugDraw3D.DrawLine(upperPoint - LineSpacing1, lowerPoint - LineSpacing1, finalColor);
             DebugDraw3D.DrawLine(upperPoint + LineSpacing2, lowerPoint + LineSpacing2, finalColor);

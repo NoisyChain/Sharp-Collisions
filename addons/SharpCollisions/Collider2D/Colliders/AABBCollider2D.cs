@@ -80,14 +80,23 @@ namespace SharpCollisions.Sharp2D
 
             Color finalColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
-            Vector3 PosOffset = new Vector3((float)PositionOffset.x, (float)PositionOffset.y, 0);
-            Vector3 RotOffset = new Vector3(0, 0, (float)RotationOffset);
-            Vector3 scaledExtents = new Vector3((float)Extents.x * 2, (float)Extents.y * 2, 0.1f);
+            Vector2 fCenter = (Vector2)reference.FixedPosition + (Vector2)PositionOffset;
+            Vector2 fExtents = (Vector2)Extents;
 
-            Vector3 rotPos = SharpHelpers.RotateDeg3D(PosOffset, RotOffset);
-            Vector3 newPos = SharpHelpers.Transform3D(rotPos, (Vector3)reference.FixedPosition, new Vector3(0.0f, 0.0f, (float)reference.FixedRotation));
+            float minX = fCenter.X - fExtents.X;
+            float minY = fCenter.Y - fExtents.Y;
+            float maxX = fCenter.X + fExtents.X;
+            float maxY = fCenter.Y + fExtents.Y;
 
-            DebugDraw3D.DrawBox(newPos, Quaternion.Identity, scaledExtents, finalColor, true);
+            Vector3 point1 = new Vector3(minX, minY, 0);
+            Vector3 point2 = new Vector3(maxX, minY, 0);
+            Vector3 point3 = new Vector3(maxX, maxY, 0);
+            Vector3 point4 = new Vector3(minX, maxY, 0);
+
+            DebugDraw3D.DrawLine(point1, point2, finalColor);
+            DebugDraw3D.DrawLine(point2, point3, finalColor);
+            DebugDraw3D.DrawLine(point3, point4, finalColor);
+            DebugDraw3D.DrawLine(point4, point1, finalColor);
         }
 
         public override void UpdatePoints(FixVector2 position, Fix64 rotation)

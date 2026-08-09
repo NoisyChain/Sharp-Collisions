@@ -90,8 +90,7 @@ namespace SharpCollisions.Sharp2D
 		public bool TriggerIgnoresSolid => IsTrigger && !TriggerDetectsSolidBodies;
 
 		public virtual void Initialize() {}
-		public virtual void DebugDrawShapes(SharpBody2D reference) {}
-		public virtual void DebugDrawShapesEditor(SharpBody2D reference, bool selected) {}
+		public virtual void DebugDrawShapes(SharpBody2D reference, bool selected) {}
 		public virtual void UpdateBoundingBox() { BoundingBox = new FixRect(); }
         public void DebugDrawBoundingBox()
         {

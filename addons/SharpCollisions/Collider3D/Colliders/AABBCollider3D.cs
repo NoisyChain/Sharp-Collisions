@@ -59,25 +59,18 @@ namespace SharpCollisions.Sharp3D
             base.Initialize();
             Shape = CollisionType3D.AABB;
         }
-        public override void DebugDrawShapes(SharpBody3D reference)
+
+        public override void DebugDrawShapes(SharpBody3D reference, bool selected)
         {
             if (!Active) return;
             if (!DrawDebugShape) return;
 
-            DebugDraw3D.DrawBox((Vector3)Center, Quaternion.Identity, (Vector3)Extents * 2, DebugShapeColor, true);
-        }
-
-        public override void DebugDrawShapesEditor(SharpBody3D reference, bool selected)
-        {
-            if (!Active) return;
-            if (!selected && !DrawDebugShape) return;
-
-            Color finalColor = selected ? DebugShapeColorSelected : DebugShapeColor;
+            Color drawColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
             Vector3 pos = (Vector3)PositionOffset;
             Vector3 newPos = SharpHelpers.Transform3D(pos, (Vector3)reference.FixedPosition, (Vector3)reference.FixedRotation);
 
-            DebugDraw3D.DrawBox(newPos, Quaternion.Identity, (Vector3)Extents * 2, finalColor, true);
+            DebugDraw3D.DrawBox(newPos, Quaternion.Identity, (Vector3)Extents * 2, drawColor, true);
         }
 
         public override void UpdateBoundingBox() 

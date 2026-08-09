@@ -146,33 +146,14 @@ namespace SharpCollisions.Sharp3D
             }
         }
 
-        public override void DebugDrawShapes(SharpBody3D reference)
+        public override void DebugDrawShapes(SharpBody3D reference, bool selected)
         {
             if (!Active) return;
             if (!DrawDebugShape) return;
-            if (Faces == null || Faces.Count <= 0) return;
-
-            for (int i = 0; i < Faces.Count; i++)
-            {
-                DebugDraw3D.DrawLine((Vector3)Points[Faces[i].X], (Vector3)Points[Faces[i].Y], DebugShapeColor);
-                DebugDraw3D.DrawLine((Vector3)Points[Faces[i].Y], (Vector3)Points[Faces[i].Z], DebugShapeColor);
-                DebugDraw3D.DrawLine((Vector3)Points[Faces[i].Z], (Vector3)Points[Faces[i].X], DebugShapeColor);
-
-                FixVector3 origin = FixVector3.FindTriangleCentroid(Points[Faces[i].X], Points[Faces[i].Y], Points[Faces[i].Z]);
-                FixVector3 normal = FixVector3.GetPlaneNormal(Points[Faces[i].X], Points[Faces[i].Y], Points[Faces[i].Z]);
-                Vector3 dir = (Vector3)origin + ((Vector3)normal * 0.5f);
-                DebugDraw3D.DrawLine((Vector3)origin, dir, new Color(0, 1, 0));
-            }
-        }
-
-        public override void DebugDrawShapesEditor(SharpBody3D reference, bool selected)
-        {
-            if (!Active) return;
-            if (!selected && !DrawDebugShape) return;
             if (_points == null || _points.Count <= 0) return;
             if (Faces == null || Faces.Count <= 0) return;
 
-            Color finalColor = selected ? DebugShapeColorSelected : DebugShapeColor;
+            Color drawColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
             Vector3 scaledPosOffset = (Vector3)PositionOffset;
             Vector3 scaledRotOffset = (Vector3)RotationOffset;
@@ -189,9 +170,9 @@ namespace SharpCollisions.Sharp3D
                 Vector3 rotPointC = SharpHelpers.RotateDeg3D(_points[Faces[i].Z], scaledRotOffset);
                 Vector3 pointC = SharpHelpers.Transform3D(rotPointC + scaledPosOffset, position, rotation);
 
-                DebugDraw3D.DrawLine(pointA, pointB, finalColor);
-                DebugDraw3D.DrawLine(pointB, pointC, finalColor);
-                DebugDraw3D.DrawLine(pointC, pointA, finalColor);
+                DebugDraw3D.DrawLine(pointA, pointB, drawColor);
+                DebugDraw3D.DrawLine(pointB, pointC, drawColor);
+                DebugDraw3D.DrawLine(pointC, pointA, drawColor);
             }
         }
 

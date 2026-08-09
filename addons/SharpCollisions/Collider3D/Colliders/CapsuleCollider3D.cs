@@ -64,41 +64,12 @@ namespace SharpCollisions.Sharp3D
             CreateCapsulePoints();
         }
 
-        public override void DebugDrawShapes(SharpBody3D reference)
+        public override void DebugDrawShapes(SharpBody3D reference, bool selected)
         {
             if (!Active) return;
             if (!DrawDebugShape) return;
 
-            Vector3 DirY = (Vector3)FixVector3.Normalize(UpperPoint - LowerPoint);
-            Vector3 DirX = SharpHelpers.GetLineNormal3D(DirY, (Vector3)reference.Forward, (Vector3)reference.Up);
-            Vector3 DirZ = DirX.Cross(DirY);
-
-            float inflatedRadius = (float)Radius + 0.005f;
-
-            Vector3 LineSpacing1 = DirX * inflatedRadius;
-            Vector3 LineSpacing2 = DirZ * inflatedRadius;
-
-            if (Radius >= Height)
-            {
-                CustomDebugDraw.DrawSimpleSphere((Vector3)(UpperPoint + LowerPoint) * 0.5f, DirX, DirY, DirZ, inflatedRadius, DebugShapeColor);
-            }
-            else
-            {
-                CustomDebugDraw.DrawHalfSphereY((Vector3)UpperPoint, DirX, DirY, DirZ, false, inflatedRadius, DebugShapeColor);
-                CustomDebugDraw.DrawHalfSphereY((Vector3)LowerPoint, DirX, DirY, DirZ, true, inflatedRadius, DebugShapeColor);
-                DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing1, (Vector3)LowerPoint + LineSpacing1, DebugShapeColor);
-                DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing1, (Vector3)LowerPoint - LineSpacing1, DebugShapeColor);
-                DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing2, (Vector3)LowerPoint + LineSpacing2, DebugShapeColor);
-                DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing2, (Vector3)LowerPoint - LineSpacing2, DebugShapeColor);
-            }
-        }
-
-        public override void DebugDrawShapesEditor(SharpBody3D reference, bool selected)
-        {
-            if (!Active) return;
-            if (!selected && !DrawDebugShape) return;
-
-            Color finalColor = selected ? DebugShapeColorSelected : DebugShapeColor;
+            Color drawColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
             float clampedHeight = Mathf.Max((float)Height, (float)Radius + 0.001f);
 
@@ -127,16 +98,16 @@ namespace SharpCollisions.Sharp3D
 
             if (Radius >= Height)
             {
-                CustomDebugDraw.DrawSimpleSphere((upperPoint + lowerPoint) * 0.5f, DirX, DirY, DirZ, inflatedRadius, finalColor);
+                CustomDebugDraw.DrawSimpleSphere((upperPoint + lowerPoint) * 0.5f, DirX, DirY, DirZ, inflatedRadius, drawColor);
             }
             else
             {
-                CustomDebugDraw.DrawHalfSphereY(upperPoint, DirX, DirY, DirZ, false, inflatedRadius, finalColor);
-                CustomDebugDraw.DrawHalfSphereY(lowerPoint, DirX, DirY, DirZ, true, inflatedRadius, finalColor);
-                DebugDraw3D.DrawLine(upperPoint + LineSpacing1, lowerPoint + LineSpacing1, finalColor);
-                DebugDraw3D.DrawLine(upperPoint - LineSpacing1, lowerPoint - LineSpacing1, finalColor);
-                DebugDraw3D.DrawLine(upperPoint + LineSpacing2, lowerPoint + LineSpacing2, finalColor);
-                DebugDraw3D.DrawLine(upperPoint - LineSpacing2, lowerPoint - LineSpacing2, finalColor);
+                CustomDebugDraw.DrawHalfSphereY(upperPoint, DirX, DirY, DirZ, false, inflatedRadius, drawColor);
+                CustomDebugDraw.DrawHalfSphereY(lowerPoint, DirX, DirY, DirZ, true, inflatedRadius, drawColor);
+                DebugDraw3D.DrawLine(upperPoint + LineSpacing1, lowerPoint + LineSpacing1, drawColor);
+                DebugDraw3D.DrawLine(upperPoint - LineSpacing1, lowerPoint - LineSpacing1, drawColor);
+                DebugDraw3D.DrawLine(upperPoint + LineSpacing2, lowerPoint + LineSpacing2, drawColor);
+                DebugDraw3D.DrawLine(upperPoint - LineSpacing2, lowerPoint - LineSpacing2, drawColor);
             }
         }
 

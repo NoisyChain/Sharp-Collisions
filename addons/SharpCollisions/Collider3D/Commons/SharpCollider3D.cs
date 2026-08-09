@@ -123,10 +123,7 @@ namespace SharpCollisions.Sharp3D
 		public bool TriggerIgnoresSolid => IsTrigger && !TriggerDetectsSolidBodies;
 
 		public virtual void Initialize() {}
-
-		public virtual void DebugDrawShapes(SharpBody3D reference) {}
-		public virtual void DebugDrawShapesEditor(SharpBody3D reference, bool selected) {}
-		
+		public virtual void DebugDrawShapes(SharpBody3D reference, bool selected) {}
 		public virtual void UpdateBoundingBox() { BoundingBox = new FixVolume(); }
         public void DebugDrawBoundingBox()
         {

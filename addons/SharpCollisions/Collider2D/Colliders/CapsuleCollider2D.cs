@@ -65,38 +65,12 @@ namespace SharpCollisions.Sharp2D
             CreateCapsulePoints();
         }
 
-        public override void DebugDrawShapes(SharpBody2D reference)
+        public override void DebugDrawShapes(SharpBody2D reference, bool selected)
         {
             if (!Active) return;
             if (!DrawDebugShape) return;
 
-            Vector3 Dir = (Vector3)FixVector2.Normalize(UpperPoint - LowerPoint);
-
-            float inflatedRadius = (float)Radius + 0.005f;
-
-            Vector3 LineNormal = (Vector3)FixVector2.GetNormal(UpperPoint, LowerPoint);
-            Vector3 LineSpacing = LineNormal * inflatedRadius;
-
-            if (Radius >= Height)
-            {
-                CustomDebugDraw.DrawSimpleSphere((Vector3)(UpperPoint + LowerPoint) * 0.5f, LineNormal, Dir, Vector3.Zero, inflatedRadius, DebugShapeColor);
-            }
-            else
-            {
-                CustomDebugDraw.DrawHalfSphereY((Vector3)UpperPoint, LineNormal, Dir, Vector3.Zero, false, inflatedRadius, DebugShapeColor);
-                CustomDebugDraw.DrawHalfSphereY((Vector3)LowerPoint, LineNormal, Dir, Vector3.Zero, true, inflatedRadius, DebugShapeColor);
-                DebugDraw3D.DrawLine((Vector3)UpperPoint, (Vector3)LowerPoint, DebugShapeColor);
-                DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing, (Vector3)LowerPoint + LineSpacing, DebugShapeColor);
-                DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing, (Vector3)LowerPoint - LineSpacing, DebugShapeColor);
-            }
-        }
-
-        public override void DebugDrawShapesEditor(SharpBody2D reference, bool selected)
-        {
-            if (!Active) return;
-            if (!selected && !DrawDebugShape) return;
-
-            Color finalColor = selected ? DebugShapeColorSelected : DebugShapeColor;
+            Color drawColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
             float scaledHeight = (float)Height;
             float scaledRadius = (float)Radius;
@@ -125,15 +99,15 @@ namespace SharpCollisions.Sharp2D
 
             if (_radius >= _height)
             {
-                CustomDebugDraw.DrawSimpleSphere((Up + Low) * 0.5f, LineNormal, Dir, Vector3.Zero, inflatedRadius, finalColor);
+                CustomDebugDraw.DrawSimpleSphere((Up + Low) * 0.5f, LineNormal, Dir, Vector3.Zero, inflatedRadius, drawColor);
             }
             else
             {
-                CustomDebugDraw.DrawHalfSphereY(Up, LineNormal, Dir, Vector3.Zero, false, inflatedRadius, finalColor);
-                CustomDebugDraw.DrawHalfSphereY(Low, LineNormal, Dir, Vector3.Zero, true, inflatedRadius, finalColor);
-                DebugDraw3D.DrawLine(Up, Low, finalColor);
-                DebugDraw3D.DrawLine(Up + LineSpacing, Low + LineSpacing, finalColor);
-                DebugDraw3D.DrawLine(Up - LineSpacing, Low - LineSpacing, finalColor);
+                CustomDebugDraw.DrawHalfSphereY(Up, LineNormal, Dir, Vector3.Zero, false, inflatedRadius, drawColor);
+                CustomDebugDraw.DrawHalfSphereY(Low, LineNormal, Dir, Vector3.Zero, true, inflatedRadius, drawColor);
+                DebugDraw3D.DrawLine(Up, Low, drawColor);
+                DebugDraw3D.DrawLine(Up + LineSpacing, Low + LineSpacing, drawColor);
+                DebugDraw3D.DrawLine(Up - LineSpacing, Low - LineSpacing, drawColor);
             }
         }
 

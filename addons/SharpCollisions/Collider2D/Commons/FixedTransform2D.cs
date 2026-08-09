@@ -129,13 +129,6 @@ namespace SharpCollisions.Sharp2D
                 Renderer2D.GlobalPosition = new Vector2(_fixedPosition.X, _fixedPosition.Y);
                 Renderer2D.GlobalRotationDegrees = _fixedRotation;
             }
-
-			/*Renderer.GlobalPosition = new Vector3(
-				startingPosition.X / (float)nodeScale,
-				startingPosition.Y / (float)nodeScale,
-				0
-			);
-			Renderer.GlobalRotationDegrees = new Vector3(0,	0,	startingRotation / (float)NodeRotation);*/
         }
 
         public static FixVector2 LocalToWorld(FixVector2 v)

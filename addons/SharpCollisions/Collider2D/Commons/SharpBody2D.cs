@@ -86,7 +86,12 @@ namespace SharpCollisions.Sharp2D
 			var selected = EditorInterface.Singleton.GetSelection().GetSelectedNodes();
 
 			foreach (SharpCollider2D col in Colliders)
-				if (col != null) col.DebugDrawShapesEditor(this, selected.Contains(this));
+			{
+				if (col == null) return;
+				
+				bool shapeSelected = selected.Contains(this);
+				col.DebugDrawShapes(this, shapeSelected);
+			}
 			
 			//if (selected.Contains(this)) DebugDraw3D.DrawGizmo(transform, new Color(1, 0.6f, 0.1f), true);
 		}
@@ -99,7 +104,7 @@ namespace SharpCollisions.Sharp2D
 			{
 				if (col != null)
 				{
-					col.DebugDrawShapes(this);
+					col.DebugDrawShapes(this, false);
 					col.DebugDrawBoundingBox();
 				}
 			}

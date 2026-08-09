@@ -49,36 +49,12 @@ namespace SharpCollisions.Sharp2D
             Shape = CollisionType2D.AABB;
         }
 
-        public override void DebugDrawShapes(SharpBody2D reference)
+        public override void DebugDrawShapes(SharpBody2D reference, bool selected)
         {
             if (!Active) return;
             if (!DrawDebugShape) return;
-            
-            Vector2 fCenter = (Vector2)Center;
-            Vector2 fExtents = (Vector2)Extents;
 
-            float minX = fCenter.X - fExtents.X;
-            float minY = fCenter.Y - fExtents.Y;
-            float maxX = fCenter.X + fExtents.X;
-            float maxY = fCenter.Y + fExtents.Y;
-
-            Vector3 point1 = new Vector3(minX, minY, 0);
-            Vector3 point2 = new Vector3(maxX, minY, 0);
-            Vector3 point3 = new Vector3(maxX, maxY, 0);
-            Vector3 point4 = new Vector3(minX, maxY, 0);
-
-            DebugDraw3D.DrawLine(point1, point2, DebugShapeColor);
-            DebugDraw3D.DrawLine(point2, point3, DebugShapeColor);
-            DebugDraw3D.DrawLine(point3, point4, DebugShapeColor);
-            DebugDraw3D.DrawLine(point4, point1, DebugShapeColor);
-        }
-
-        public override void DebugDrawShapesEditor(SharpBody2D reference, bool selected)
-        {
-            if (!Active) return;
-            if (!selected && !DrawDebugShape) return;
-
-            Color finalColor = selected ? DebugShapeColorSelected : DebugShapeColor;
+            Color drawColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
             Vector2 fCenter = (Vector2)reference.FixedPosition + (Vector2)PositionOffset;
             Vector2 fExtents = (Vector2)Extents;
@@ -93,10 +69,10 @@ namespace SharpCollisions.Sharp2D
             Vector3 point3 = new Vector3(maxX, maxY, 0);
             Vector3 point4 = new Vector3(minX, maxY, 0);
 
-            DebugDraw3D.DrawLine(point1, point2, finalColor);
-            DebugDraw3D.DrawLine(point2, point3, finalColor);
-            DebugDraw3D.DrawLine(point3, point4, finalColor);
-            DebugDraw3D.DrawLine(point4, point1, finalColor);
+            DebugDraw3D.DrawLine(point1, point2, drawColor);
+            DebugDraw3D.DrawLine(point2, point3, drawColor);
+            DebugDraw3D.DrawLine(point3, point4, drawColor);
+            DebugDraw3D.DrawLine(point4, point1, drawColor);
         }
 
         public override void UpdatePoints(FixVector2 position, Fix64 rotation)

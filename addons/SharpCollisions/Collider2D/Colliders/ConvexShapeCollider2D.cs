@@ -107,26 +107,13 @@ namespace SharpCollisions.Sharp2D
             }
         }
 
-        public override void DebugDrawShapes(SharpBody2D reference)
-        {
-            if (!DrawDebugShape) return;
-            //if (Points == null || Points.Length == 0) return;
-
-            for (int i = 0; i < Points.Length; i++)
-            {
-                Vector3 start = (Vector3)Points[i];
-                Vector3 end = (Vector3)Points[(i + 1) % Points.Length];
-                DebugDraw3D.DrawLine(start, end, DebugShapeColor);
-            }
-        }
-
-        public override void DebugDrawShapesEditor(SharpBody2D reference, bool selected)
+        public override void DebugDrawShapes(SharpBody2D reference, bool selected)
         {
             if (!Active) return;
-            if (!selected && !DrawDebugShape) return;
+            if (!DrawDebugShape) return;
             if (_points == null || _points.Count <= 0) return;
 
-            Color finalColor = selected && DrawDebugShape ? DebugShapeColorSelected : DebugShapeColor;
+            Color drawColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
             Vector2 PosOffset = _positionOffset;
             float RotOffset = _rotationOffset;
@@ -144,7 +131,7 @@ namespace SharpCollisions.Sharp2D
                 Vector2 rotPointB = SharpHelpers.Rotate2D(end, Mathf.DegToRad(RotOffset));
                 Vector3 pointB = SharpHelpers.Transform2D3D(rotPointB + PosOffset, position, rotation);
 
-                DebugDraw3D.DrawLine(pointA, pointB, finalColor);
+                DebugDraw3D.DrawLine(pointA, pointB, drawColor);
             }
         }
 

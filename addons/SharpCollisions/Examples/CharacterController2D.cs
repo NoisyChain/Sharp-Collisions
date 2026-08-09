@@ -114,6 +114,11 @@ namespace SharpCollisions.Sharp2D
                 SetPosition(FixVector2.Zero);
             }
 
+            if (Input.IsActionPressed("rotate_left") && !Input.IsActionPressed("rotate_right"))
+                FixedRotation -= (new Fix64(45) * Fix64.DegToRad) * delta;
+            if (!Input.IsActionPressed("rotate_left") && Input.IsActionPressed("rotate_right"))
+                FixedRotation += (new Fix64(45) * Fix64.DegToRad) * delta;
+
             SetLinearVelocity(finalVelocity);
 
             string groundAngle = IsOnGround() ? GroundAngle.ToString() : "No Ground";

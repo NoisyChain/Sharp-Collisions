@@ -65,33 +65,12 @@ namespace SharpCollisions.Sharp3D
             CreateCylinderPoints();
         }
 
-        public override void DebugDrawShapes(SharpBody3D reference)
-        {
-            if (!DrawDebugShape) return;
-
-            Vector3 DirY = (Vector3)FixVector3.Normalize(UpperPoint - LowerPoint);
-            Vector3 DirX = SharpHelpers.GetLineNormal3D(DirY, (Vector3)reference.Forward, (Vector3)reference.Up);
-            Vector3 DirZ = DirX.Cross(DirY);
-
-            float inflatedRadius = (float)Radius + 0.005f;
-
-            Vector3 LineSpacing1 = DirX * inflatedRadius;
-            Vector3 LineSpacing2 = DirZ * inflatedRadius;
-
-            CustomDebugDraw.DrawCircle((Vector3)UpperPoint, DirX, DirZ, inflatedRadius, DebugShapeColor);
-            CustomDebugDraw.DrawCircle((Vector3)LowerPoint, DirX, DirZ, inflatedRadius, DebugShapeColor);
-            DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing1, (Vector3)LowerPoint + LineSpacing1, DebugShapeColor);
-            DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing1, (Vector3)LowerPoint - LineSpacing1, DebugShapeColor);
-            DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing2, (Vector3)LowerPoint + LineSpacing2, DebugShapeColor);
-            DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing2, (Vector3)LowerPoint - LineSpacing2, DebugShapeColor);
-        }
-
-        public override void DebugDrawShapesEditor(SharpBody3D reference, bool selected)
+        public override void DebugDrawShapes(SharpBody3D reference, bool selected)
         {
             if (!Active) return;
-            if (!selected && !DrawDebugShape) return;
+            if (!DrawDebugShape) return;
 
-            Color finalColor = selected ? DebugShapeColorSelected : DebugShapeColor;
+            Color drawColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
             float scaledHeight = (float)Height;
             float scaledRadius = (float)Radius;
@@ -116,12 +95,12 @@ namespace SharpCollisions.Sharp3D
             Vector3 LineSpacing1 = DirX * inflatedRadius;
             Vector3 LineSpacing2 = DirZ * inflatedRadius;
 
-            CustomDebugDraw.DrawCircle(upperPoint, DirX, DirZ, inflatedRadius, finalColor);
-            CustomDebugDraw.DrawCircle(lowerPoint, DirX, DirZ, inflatedRadius, finalColor);
-            DebugDraw3D.DrawLine(upperPoint + LineSpacing1, lowerPoint + LineSpacing1, finalColor);
-            DebugDraw3D.DrawLine(upperPoint - LineSpacing1, lowerPoint - LineSpacing1, finalColor);
-            DebugDraw3D.DrawLine(upperPoint + LineSpacing2, lowerPoint + LineSpacing2, finalColor);
-            DebugDraw3D.DrawLine(upperPoint - LineSpacing2, lowerPoint - LineSpacing2, finalColor);
+            CustomDebugDraw.DrawCircle(upperPoint, DirX, DirZ, inflatedRadius, drawColor);
+            CustomDebugDraw.DrawCircle(lowerPoint, DirX, DirZ, inflatedRadius, drawColor);
+            DebugDraw3D.DrawLine(upperPoint + LineSpacing1, lowerPoint + LineSpacing1, drawColor);
+            DebugDraw3D.DrawLine(upperPoint - LineSpacing1, lowerPoint - LineSpacing1, drawColor);
+            DebugDraw3D.DrawLine(upperPoint + LineSpacing2, lowerPoint + LineSpacing2, drawColor);
+            DebugDraw3D.DrawLine(upperPoint - LineSpacing2, lowerPoint - LineSpacing2, drawColor);
         }
 
         public override void UpdateBoundingBox() 

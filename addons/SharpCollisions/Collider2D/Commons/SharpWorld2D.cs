@@ -17,7 +17,7 @@ namespace SharpCollisions.Sharp2D
 		private int MinIterations = 1;
 		private int MaxIterations = 64;
 		private List<PossibleCollision> PossibleCollisions;
-		private List<(int, int, int, int, bool)> ConfirmedCollisions;
+		private List<CollisionResult2D> CollisionResults = new List<CollisionResult2D>();
 
 		public const int mask = 0b_1111_1111;
 
@@ -25,7 +25,7 @@ namespace SharpCollisions.Sharp2D
 		{
 			bodies = new List<SharpBody2D>();
 			PossibleCollisions = new List<PossibleCollision>();
-			ConfirmedCollisions = new List<(int, int, int, int, bool)>();
+			CollisionResults = new List<CollisionResult2D>();
 			if (qtSize > 0)
 			{
 				Fix64 quadtreeSize = new Fix64(qtSize);
@@ -69,14 +69,6 @@ namespace SharpCollisions.Sharp2D
 
 		private bool CompareLayers(SharpBody2D colliderA, SharpBody2D colliderB)
 		{
-			/*for (int i = 0; i < 8; i++)
-			{
-				if ((bodyA.CollisionLayers & 1 << i) != 0)
-					if ((bodyA.CollisionLayers & 1 << i) == (bodyB.CollisionLayers & 1 << i))
-						return true;
-			}
-			return false;*/
-			
 			//DON'T ASK ME WHAT'S HAPPENING HERE
 			return ((colliderA.CollisionMask & colliderB.CollisionLayers) & mask) != 0;
 		}
@@ -84,10 +76,10 @@ namespace SharpCollisions.Sharp2D
 		private void BroadPhase()
 		{
 			PossibleCollisions.Clear();
+			CollisionResults.Clear();
 			for (int i = 0; i < bodies.Count; i++)
 			{
 				bodies[i].ClearFlags();
-				bodies[i].ClearCollisions();
 			}
 
 			if (qTree == null) //Brute force the broad phase if no quadtree was created
@@ -129,12 +121,9 @@ namespace SharpCollisions.Sharp2D
 			if (!bodyA.HasColliders() || !bodyB.HasColliders()) return;
 			if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2) return;
 
-			if (!bodyA.Active || !bodyB.Active)
-			{ ClearCollision(indA, 0, indB, 0); return; }
-			if (bodyA.IsIgnoringBody(bodyB))
-			{ ClearCollision(indA, 0, indB, 0); return; }
-			if (!CompareLayers(bodyA, bodyB))
-			{ ClearCollision(indA, 0, indB, 0);  return; }
+			if (!bodyA.Active || !bodyB.Active) return;
+			if (bodyA.IsIgnoringBody(bodyB)) return;
+			if (!CompareLayers(bodyA, bodyB)) return;
 
 			for (int i = 0; i < bodyA.GetColliders().Length; i++)
 			{
@@ -143,12 +132,9 @@ namespace SharpCollisions.Sharp2D
 				{
 					var colB = bodyB.GetCollider(j);
 
-					if (!colA.Active || !colB.Active)
-					{ ClearCollision(indA, i, indB, j); continue; }
-					if ((colA.TriggerIgnoresSolid && !colB.IsTrigger) || (colB.TriggerIgnoresSolid && !colA.IsTrigger))
-					{ ClearCollision(indA, i, indB, j);  continue; }
-					if (!colA.BoundingBox.IsOverlapping(colB.BoundingBox))
-					{ ClearCollision(indA, i, indB, j); continue; }
+					if (!colA.Active || !colB.Active) continue;
+					if ((colA.TriggerIgnoresSolid && !colB.IsTrigger) || (colB.TriggerIgnoresSolid && !colA.IsTrigger)) continue;
+					if (!colA.BoundingBox.IsOverlapping(colB.BoundingBox)) continue;
 
 					PossibleCollisions.Add(new PossibleCollision(
 						indA, indB, i, j, Mathf.Max(bodyA.Priority, bodyB.Priority),
@@ -191,9 +177,6 @@ namespace SharpCollisions.Sharp2D
 						//ResolvePhysics(bodyA, bodyB, Normal);
 					}
 
-					bodyA.AddCollision(new CollisionManifold2D(bodyB, colIndA, colIndB, -Normal, Depth, ContactPoint));
-					bodyB.AddCollision(new CollisionManifold2D(bodyA, colIndB, colIndA, Normal, Depth, ContactPoint));
-
 					if (!bodyA.GetCollider(colIndA).IsTrigger && !bodyB.GetCollider(colIndB).IsTrigger)
 					{
 						CollisionMath2D.GetCollisionFlags(bodyA.GetCollider(colIndA), -Normal, bodyA);
@@ -202,68 +185,63 @@ namespace SharpCollisions.Sharp2D
 						CollisionMath2D.GetGlobalCollisionFlags(bodyB.GetCollider(colIndB), Normal);
 					}
 					
-					AddConfirmedCollision((PossibleCollisions[i].BodyA, colIndA, PossibleCollisions[i].BodyB, colIndB, true));					
+					CollisionResults.Add(new CollisionResult2D(true, bodyA, bodyB, colIndA, colIndB, Normal, Depth, ContactPoint));
 					//GD.Print($"Body {PossibleCollisions[i].Item1} collided with body {PossibleCollisions[i].Item2}.");
 				}
 				else
 				{
-					AddConfirmedCollision((PossibleCollisions[i].BodyA, colIndA, PossibleCollisions[i].BodyB, colIndB, false));
+					CollisionResults.Add(new CollisionResult2D(false, bodyA, bodyB, colIndA, colIndB, Normal, Depth, ContactPoint));
 				}
 			}
 		}
 
-		private void AddConfirmedCollision((int, int, int, int, bool) col)
+		private void ProcessCollisions()
 		{
-			if (!ConfirmedCollisions.Contains(col))
-				ConfirmedCollisions.Add(col);
-		}
-
-		private void SetCollidedWith(SharpBody2D bodyA, SharpBody2D bodyB, int colA, int colB, bool hasCollided)
-		{
-			if (hasCollided)
+			foreach(var col in CollisionResults)
 			{
-				CollisionManifold2D col = bodyA.GetCollision(bodyB, colB);
-				if (col == null) return;
-				bodyA.OnOverlap(col);
-
-				if (!bodyA.HasCollidedWith((bodyB.GetBodyID(), colB)))
+				if (col.Collided)
 				{
-					bodyA.OnBeginOverlap(col);
-					bodyA.ConfirmCollision((bodyB.GetBodyID(), colB));
+					CollisionManifold2D retA = new CollisionManifold2D(col.BodyB, col.ColliderA, col.ColliderB, -col.Normal, col.Depth, col.ContactPoint);
+					CollisionManifold2D retB = new CollisionManifold2D(col.BodyA, col.ColliderB, col.ColliderA, col.Normal, col.Depth, col.ContactPoint);
+
+					if (!col.BodyA.HasCollidedWith((col.BodyB.GetBodyID(), col.ColliderB)))
+					{
+						col.BodyA.OnBeginOverlap(retA);
+						col.BodyA.ConfirmCollision((col.BodyB.GetBodyID(), col.ColliderB));
+					}
+					col.BodyA.OnOverlap(retA);
+
+					if (!col.BodyB.HasCollidedWith((col.BodyA.GetBodyID(), col.ColliderA)))
+					{
+						col.BodyB.OnBeginOverlap(retB);
+						col.BodyB.ConfirmCollision((col.BodyA.GetBodyID(), col.ColliderA));
+					}
+					col.BodyB.OnOverlap(retB);
+				}
+				else
+				{
+					CollisionManifold2D retA = new CollisionManifold2D(col.BodyB, col.ColliderA, col.ColliderB, FixVector2.Zero, FixVector2.Zero, FixVector2.Zero);
+					CollisionManifold2D retB = new CollisionManifold2D(col.BodyA, col.ColliderB, col.ColliderA, FixVector2.Zero, FixVector2.Zero, FixVector2.Zero);
+						
+					if (col.BodyA.HasCollidedWith((col.BodyB.GetBodyID(), col.ColliderB)))
+					{
+						col.BodyA.OnEndOverlap(retA);
+						col.BodyA.RemoveCollision((col.BodyB.GetBodyID(), col.ColliderB));
+					}
+
+					if (col.BodyB.HasCollidedWith((col.BodyA.GetBodyID(), col.ColliderA)))
+					{
+						col.BodyB.OnEndOverlap(retB);
+						col.BodyB.RemoveCollision((col.BodyA.GetBodyID(), col.ColliderA));
+					}
 				}
 			}
-			else
-			{
-				if (bodyA.HasCollidedWith((bodyB.GetBodyID(), colB)))
-				{
-					CollisionManifold2D col = new CollisionManifold2D(bodyB, colA, colB, FixVector2.Zero, FixVector2.Zero, FixVector2.Zero);
-
-					bodyA.OnEndOverlap(col);
-					bodyA.RemoveCollision((bodyB.GetBodyID(), colB));
-				}
-			}
-		}
-
-		private void ClearCollision(int bodyA, int colA, int bodyB, int colB)
-		{
-			SetCollidedWith(bodies[bodyA], bodies[bodyB], colA, colB, false);
-			SetCollidedWith(bodies[bodyB], bodies[bodyA], colB, colA, false);
 		}
 
 		private void MoveBodies()
 		{
 			for (int i = 0; i < bodies.Count; i++)
 				bodies[i].UpdateBody();
-		}
-
-		private void CallCollisionEvents()
-		{
-			for (int i = 0; i < ConfirmedCollisions.Count; i++)
-			{
-				(int, int, int, int, bool) cur = ConfirmedCollisions[i];
-				SetCollidedWith(bodies[cur.Item1], bodies[cur.Item3], cur.Item2, cur.Item4, cur.Item5);
-				SetCollidedWith(bodies[cur.Item3], bodies[cur.Item1], cur.Item4, cur.Item2, cur.Item5);
-			}
 		}
 
 		/*void ResolvePhysics(SharpBody2D bodyA, SharpBody2D bodyB, FixVector2 normal)
@@ -294,14 +272,13 @@ namespace SharpCollisions.Sharp2D
 			
 			int iterations = Mathf.Clamp(SharpTime.Substeps, MinIterations, MaxIterations);
 
-			ConfirmedCollisions.Clear();
 			for (int it = 0; it < iterations; it++)
 			{
 				MoveBodies();
 				BroadPhase();
 				NarrowPhase();
 			}
-			CallCollisionEvents();
+			ProcessCollisions();
 		}
 
 		public Fix64 GetCollisionDistance(SharpCollider2D colliderA, SharpCollider2D colliderB)
@@ -316,5 +293,30 @@ namespace SharpCollisions.Sharp2D
 
 			return FixVector2.LengthSq(newDepth);
 		}
+	}
+
+	public class CollisionResult2D
+	{
+		public bool Collided;
+		public SharpBody2D BodyA;
+		public SharpBody2D BodyB;
+        public int ColliderA;
+        public int ColliderB;
+        public FixVector2 Normal;
+        public FixVector2 Depth;
+        public FixVector2 ContactPoint;
+
+		public CollisionResult2D() {}
+        public CollisionResult2D(bool collided, SharpBody2D bodyA, SharpBody2D bodyB, int colA, int colB, FixVector2 normal, FixVector2 depth, FixVector2 contact)
+        {
+			Collided = collided;
+			BodyA = bodyA;
+            BodyB = bodyB;
+            ColliderA = colA;
+            ColliderB = colB;
+            Normal = normal;
+            Depth = depth;
+            ContactPoint = contact;
+        }
 	}
 }

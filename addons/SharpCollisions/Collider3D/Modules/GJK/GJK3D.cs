@@ -189,7 +189,6 @@ namespace SharpCollisions.Sharp3D.GJK
 					Simplex.Reset(new List<SupportPoint3D>(){a, c});
 					supportDirection = FixVector3.TripleProduct(ac, ao, ac);
 				}
-
 				else
 				{
 					Simplex.Reset(new List<SupportPoint3D>(){a, b});
@@ -203,7 +202,6 @@ namespace SharpCollisions.Sharp3D.GJK
 					Simplex.Reset(new List<SupportPoint3D>(){a, b});
 					return LineSimplex(ref Simplex, ref supportDirection);
 				}
-
 				else
 				{
 					if (FixVector3.IsSameDirection(abc, ao))

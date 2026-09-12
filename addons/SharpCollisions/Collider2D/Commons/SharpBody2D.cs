@@ -22,7 +22,6 @@ namespace SharpCollisions.Sharp2D
 		public int CollisionMask = 1;
 		
 		private SharpBody2D AttachedTo;
-		private List<CollisionManifold2D> Collisions = new List<CollisionManifold2D>();
 		private List<(uint, int)> CollidedWith = new List<(uint, int)>();
 		private List<uint> BodiesToIgnore = new List<uint>();
 
@@ -186,6 +185,11 @@ namespace SharpCollisions.Sharp2D
 		{
 			CollidedWith.Remove(col);
 		}
+
+		public int ConfirmedCollisions()
+		{
+			return CollidedWith.Count;
+		}
 		
 		public void SetLinearVelocity(FixVector2 newVelocity)
 		{
@@ -316,34 +320,6 @@ namespace SharpCollisions.Sharp2D
 				col.globalCollisionFlags = CollisionFlags.Empty;
 			}
 		}
-
-		public List<CollisionManifold2D> GetCollisions() => Collisions;
-		public CollisionManifold2D GetCollision(int index) => Collisions[index];
-		public CollisionManifold2D GetCollision(SharpBody2D otherBody)
-		{
-			CollisionManifold2D ret = null;
-			for (int i = 0; i < Collisions.Count; i++)
-			{
-				if (Collisions[i].CollidedWith == otherBody)
-					ret = Collisions[i];
-			}
-
-			return ret;
-		}
-		public CollisionManifold2D GetCollision(SharpBody2D otherBody, int otherCollider)
-		{
-			CollisionManifold2D ret = null;
-			for (int i = 0; i < Collisions.Count; i++)
-			{
-				if (Collisions[i].Collider != otherBody.GetCollider(otherCollider)) continue;
-				
-				ret = Collisions[i];
-			}
-
-			return ret;
-		}
-		public void AddCollision(CollisionManifold2D col) => Collisions.Add(col);
-		public void ClearCollisions() => Collisions.Clear();
 
 		public virtual void OnBeginOverlap(CollisionManifold2D collision)
 		{

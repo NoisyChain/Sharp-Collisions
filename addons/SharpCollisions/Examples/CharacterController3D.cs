@@ -13,12 +13,13 @@ namespace SharpCollisions.Sharp3D
         [Export] private bool KeepVelocityOnSlopes = true;
         [Export] private bool KeepSlopeVelocityOnJump = true;
         [Export] private bool StopAirVelocityOnCeiling = true;
+        [Export] private bool RotateOnMovingPlatformer = true;
         [Export(PropertyHint.Layers3DPhysics)]
 		public int FloorLayers = 1;
 
         public FixVector3 GroundNormal => GetGround().Normal;
         public Fix64 GroundAngle => FixVector3.AngleDegrees(GroundNormal, Up);
-        public Fix64 CeilingAngle => FixVector3.AngleDegrees(GetCeiling().Normal, Up);
+        public Fix64 CeilingAngle => FixVector3.AngleDegrees(FixVector3.Down, Up);
 
         private FixVector3 VerticalVelocity;
         private FixVector3 LateralVelocity;
@@ -118,9 +119,9 @@ namespace SharpCollisions.Sharp3D
             {
                 UpVector = FixVector3.Up;
 
-                if (StopAirVelocityOnCeiling && GetCeiling() != null && !IsAngularCeiling())
+                //if (StopAirVelocityOnCeiling && GetCeiling() != null && !IsAngularCeiling())
                     //Add a bit of extra force or else the body gets stuck on the ceiling for some reason
-                    VerticalVelocity = -UpVector * ceilingUnstickForce;
+                    //VerticalVelocity = -UpVector * ceilingUnstickForce;
                 
                 VerticalVelocity -= UpVector * gravity * delta;
                 
@@ -142,8 +143,8 @@ namespace SharpCollisions.Sharp3D
             string groundAngle = IsOnGround() ? GroundAngle.ToString() : "No Ground";
             if (debug != null && HasColliders()) debugText = "Normal: " + UpVector.ToString() + 
                 "\nFlags: " + GetCollider(0).collisionFlags.ToString() + 
-                "\nCollisions: " + GetCollisions().Count + 
-                "\nContact Point: " + (GetCollisions().Count > 0 ? GetCollision(0).ContactPoint : 0) + 
+                "\nCollisions: " + ConfirmedCollisions() + 
+                //"\nContact Point: " + (GetCollisions().Count > 0 ? GetCollision(0).ContactPoint : 0) + 
                 "\nFloor angle: " + groundAngle;
         }
 
@@ -159,15 +160,15 @@ namespace SharpCollisions.Sharp3D
 
             if (!debug) return;
             
-            foreach(CollisionManifold3D col in GetCollisions())
-                CustomDebugDraw.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, Colors.Yellow);
+            //foreach(CollisionManifold3D col in GetCollisions())
+                //CustomDebugDraw.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, Colors.Yellow);
         }
 
         public CollisionManifold3D GetGround()
         { 
             CollisionManifold3D Ground = null;
 
-            if (GetCollisions().Count > 0)
+            /*if (GetCollisions().Count > 0)
             {
                 Ground = GetCollision(0);
 
@@ -180,7 +181,7 @@ namespace SharpCollisions.Sharp3D
                             Ground = GetCollision(c);
                     }
                 }
-            }
+            }*/
 
             return Ground;
         }
@@ -189,11 +190,11 @@ namespace SharpCollisions.Sharp3D
         { 
             CollisionManifold3D Ceiling = null;
 
-            if (IsOnCeiling() && GetCollisions().Count > 0)
+            /*if (IsOnCeiling() && GetCollisions().Count > 0)
             {
                 Ceiling = GetCollision(0);
 
-                /*if (Collisions.Count > 1)
+                if (Collisions.Count > 1)
                 {
                     for (int c = 1; c < Collisions.Count; c++)
                     {
@@ -202,8 +203,8 @@ namespace SharpCollisions.Sharp3D
                             FixVector2.IsExactDirection(Collisions[c].Normal, LateralVelocity))
                             Ceiling = Collisions[c];
                     }
-                }*/
-            }
+                }
+            }*/
 
             return Ceiling;
         }

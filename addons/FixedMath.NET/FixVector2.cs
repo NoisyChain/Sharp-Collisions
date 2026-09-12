@@ -25,18 +25,6 @@ namespace FixMath.NET
 		public static readonly FixVector2 Right = new FixVector2(Fix64.One, Fix64.Zero);
 		public static readonly FixVector2 Left = new FixVector2(Fix64.NegativeOne, Fix64.Zero);
 		
-		public static Fix64 Length(FixVector2 v)
-		{
-			return Fix64.Sqrt(v.x * v.x + v.y * v.y);
-		}
-
-		public static Fix64 Distance(FixVector2 vec0, FixVector2 vec1)
-		{
-			Fix64 dx = vec0.x - vec1.x;
-			Fix64 dy = vec0.y - vec1.y;
-			return Fix64.Sqrt(dx * dx + dy * dy);
-		}
-
 		public static Fix64 LengthSq(FixVector2 v)
 		{
 			return v.x * v.x + v.y * v.y;
@@ -48,26 +36,32 @@ namespace FixMath.NET
 			Fix64 dy = vec0.y - vec1.y;
 			return dx * dx + dy * dy;
 		}
+		
+		public static Fix64 Length(FixVector2 v)
+		{
+			return Fix64.Sqrt(LengthSq(v));
+		}
+
+		public static Fix64 Distance(FixVector2 vec0, FixVector2 vec1)
+		{
+			return Fix64.Sqrt(DistanceSq(vec0, vec1));
+		}
 
 		public static FixVector2 Normalize(FixVector2 v)
 		{
 			Fix64 len = Length(v);
 			if (len == Fix64.Zero) return Zero;
 			FixVector2 nor = new FixVector2(v.x / len, v.y / len);
-			//if (Fix64.Abs(nor.x) < Fix64.Epsilon) nor.x = Fix64.Zero;
-			//if (Fix64.Abs(nor.y) < Fix64.Epsilon) nor.y = Fix64.Zero;
 			return nor;
 		}
 
 		public static Fix64 Dot(FixVector2 a, FixVector2 b)
 		{
-			// a · b = ax * bx + ay * by
 			return a.x * b.x + a.y * b.y;
 		}
 
 		public static Fix64 Cross(FixVector2 a, FixVector2 b)
 		{
-			// cz = ax * by − ay * bx
 			return a.x * b.y - a.y * b.x;
 		}
 

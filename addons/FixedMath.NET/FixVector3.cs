@@ -29,19 +29,6 @@ namespace FixMath.NET
         public static readonly FixVector3 Forward = new FixVector3(Fix64.Zero, Fix64.Zero, Fix64.One);
 		public static readonly FixVector3 Back = new FixVector3(Fix64.Zero, Fix64.Zero, Fix64.NegativeOne);
 		
-		public static Fix64 Length(FixVector3 v)
-		{
-			return Fix64.Sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-		}
-
-		public static Fix64 Distance(FixVector3 vec0, FixVector3 vec1)
-		{
-			Fix64 dx = vec0.x - vec1.x;
-			Fix64 dy = vec0.y - vec1.y;
-			Fix64 dz = vec0.z - vec1.z;
-			return Fix64.Sqrt(dx * dx + dy * dy + dz * dz);
-		}
-
 		public static Fix64 LengthSq(FixVector3 v)
 		{
 			return v.x * v.x + v.y * v.y + v.z * v.z;
@@ -55,6 +42,16 @@ namespace FixMath.NET
 			return dx * dx + dy * dy + dz * dz;
 		}
 
+		public static Fix64 Length(FixVector3 v)
+		{
+			return Fix64.Sqrt(LengthSq(v));
+		}
+
+		public static Fix64 Distance(FixVector3 vec0, FixVector3 vec1)
+		{
+			return Fix64.Sqrt(DistanceSq(vec0, vec1));
+		}
+
 		public static FixVector3 Normalize(FixVector3 v)
 		{
 			Fix64 len = Length(v);
@@ -62,6 +59,7 @@ namespace FixMath.NET
 			FixVector3 nor = new FixVector3(v.x / len, v.y / len, v.z / len);
 			return nor;
 		}
+
         public static Fix64 Dot(FixVector3 a, FixVector3 b)
 		{
 			return a.x * b.x + a.y * b.y + a.z * b.z;
@@ -72,7 +70,8 @@ namespace FixMath.NET
 			return new FixVector3(
 				(a.y * b.z) - (a.z * b.y),
 				(a.z * b.x) - (a.x * b.z),
-				(a.x * b.y) - (a.y * b.x));
+				(a.x * b.y) - (a.y * b.x)
+			);
 		}
 
 		public static FixVector3 TripleProduct(FixVector3 a, FixVector3 b, FixVector3 c)

@@ -13,6 +13,7 @@ namespace SharpCollisions.Sharp2D
         [Export] private bool KeepVelocityOnSlopes = true;
         [Export] private bool KeepSlopeVelocityOnJump = true;
         [Export] private bool StopAirVelocityOnCeiling = true;
+        [Export] private bool RotateOnMovingPlatformer = true;
         [Export(PropertyHint.Layers2DPhysics)]
 		public int FloorLayers = 1;
 
@@ -124,7 +125,7 @@ namespace SharpCollisions.Sharp2D
             string groundAngle = IsOnGround() ? GroundAngle.ToString() : "No Ground";
             if (debug != null && HasColliders()) debugText = "Normal: " + UpVector.ToString() + 
                 "\nFlags: " + GetCollider(0).collisionFlags.ToString() + 
-                "\nCollisions: " + GetCollisions().Count + 
+                "\nCollisions: " + ConfirmedCollisions() + 
                 "\nFloor angle: " + groundAngle;
 
             //GD.Print(Collisions.Count);
@@ -178,15 +179,15 @@ namespace SharpCollisions.Sharp2D
 
             if (!debug) return;
             
-            foreach(CollisionManifold2D col in GetCollisions())
-                CustomDebugDraw.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, Colors.Yellow);
+            //foreach(CollisionManifold2D col in GetCollisions())
+                //CustomDebugDraw.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, Colors.Yellow);
         }
 
         public CollisionManifold2D GetGround()
         { 
             CollisionManifold2D Ground = null;
 
-            if (GetCollisions().Count > 0)
+            /*if (GetCollisions().Count > 0)
             {
                 Ground = GetCollision(0);
 
@@ -199,7 +200,7 @@ namespace SharpCollisions.Sharp2D
                             Ground = GetCollision(c);
                     }
                 }
-            }
+            }*/
 
             return Ground;
         }
@@ -208,11 +209,11 @@ namespace SharpCollisions.Sharp2D
         { 
             CollisionManifold2D Ceiling = null;
 
-            if (IsOnCeiling() && GetCollisions().Count > 0)
+            /*if (IsOnCeiling() && GetCollisions().Count > 0)
             {
                 Ceiling = GetCollision(0);
 
-                /*if (Collisions.Count > 1)
+                if (Collisions.Count > 1)
                 {
                     for (int c = 1; c < Collisions.Count; c++)
                     {
@@ -221,8 +222,8 @@ namespace SharpCollisions.Sharp2D
                             FixVector2.IsExactDirection(Collisions[c].Normal, LateralVelocity))
                             Ceiling = Collisions[c];
                     }
-                }*/
-            }
+                }
+            }*/
 
             return Ceiling;
         }

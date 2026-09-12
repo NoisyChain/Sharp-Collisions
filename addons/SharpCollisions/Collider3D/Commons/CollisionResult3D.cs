@@ -1,10 +1,9 @@
 using FixMath.NET;
-using Godot;
 
 namespace SharpCollisions.Sharp3D
 {
     [System.Serializable]
-    public class CollisionManifold3D
+    public class CollisionResult3D
     {
         public SharpBody3D CollidedWith;
         public int ColliderA;
@@ -15,9 +14,9 @@ namespace SharpCollisions.Sharp3D
 
         public SharpCollider3D Collider => CollidedWith.GetCollider(ColliderB);
 
-        public CollisionManifold3D() {}
+        public CollisionResult3D() {}
 
-        public CollisionManifold3D(SharpBody3D body, int colA, int colB, FixVector3 normal, FixVector3 depth, FixVector3 contact)
+        public CollisionResult3D(SharpBody3D body, int colA, int colB, FixVector3 normal, FixVector3 depth, FixVector3 contact)
         {
             CollidedWith = body;
             ColliderA = colA;

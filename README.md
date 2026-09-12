@@ -66,11 +66,11 @@ SharpBody2D body;
 // 3D body
 SharpBody3D body;
 // Called at the exact moment the body collides with something
-public virtual void OnBeginOverlap(CollisionManifold3D collision) {}
+public virtual void OnBeginOverlap(CollisionResult3D collision) {}
 // Called every tick the body is colliding with something
-public virtual void OnOverlap(CollisionManifold3D collision) {}
+public virtual void OnOverlap(CollisionResult3D collision) {}
 // Called at the moment the body stops colliding with something
-public virtual void OnEndOverlap(CollisionManifold3D collision) {}
+public virtual void OnEndOverlap(CollisionResult3D collision) {}
 ```
 ### SharpCollider
 The colliders are what allows the SharpBody to collide. Every SharpBody needs to have at least 1 collider.

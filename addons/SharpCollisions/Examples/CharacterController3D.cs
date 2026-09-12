@@ -160,13 +160,13 @@ namespace SharpCollisions.Sharp3D
 
             if (!debug) return;
             
-            //foreach(CollisionManifold3D col in GetCollisions())
+            //foreach(CollisionResult3D col in GetCollisions())
                 //CustomDebugDraw.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, Colors.Yellow);
         }
 
-        public CollisionManifold3D GetGround()
+        public CollisionResult3D GetGround()
         { 
-            CollisionManifold3D Ground = null;
+            CollisionResult3D Ground = null;
 
             /*if (GetCollisions().Count > 0)
             {
@@ -186,9 +186,9 @@ namespace SharpCollisions.Sharp3D
             return Ground;
         }
 
-        public CollisionManifold3D GetCeiling()
+        public CollisionResult3D GetCeiling()
         { 
-            CollisionManifold3D Ceiling = null;
+            CollisionResult3D Ceiling = null;
 
             /*if (IsOnCeiling() && GetCollisions().Count > 0)
             {
@@ -226,18 +226,18 @@ namespace SharpCollisions.Sharp3D
             return CeilingAngle >= (Fix64)90 - HalfThreshold && CeilingAngle <= (Fix64)90 + HalfThreshold;
         }
 
-        public override void OnBeginOverlap(CollisionManifold3D collision)
+        public override void OnBeginOverlap(CollisionResult3D collision)
         {
             base.OnBeginOverlap(collision);
             GD.Print(collision.CollidedWith.GetBodyID());
         }
 
-        public override void OnOverlap(CollisionManifold3D collision)
+        public override void OnOverlap(CollisionResult3D collision)
         {
             base.OnOverlap(collision);
         }
 
-        public override void OnEndOverlap(CollisionManifold3D collision)
+        public override void OnEndOverlap(CollisionResult3D collision)
         {
             base.OnEndOverlap(collision);
             GD.Print(collision.CollidedWith.GetBodyID());

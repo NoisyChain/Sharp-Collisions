@@ -321,17 +321,17 @@ namespace SharpCollisions.Sharp2D
 			}
 		}
 
-		public virtual void OnBeginOverlap(CollisionManifold2D collision)
+		public virtual void OnBeginOverlap(CollisionResult2D collision)
 		{
 			//GD.Print("Entered Collision!");
 		}
 
-		public virtual void OnOverlap(CollisionManifold2D collision)
+		public virtual void OnOverlap(CollisionResult2D collision)
 		{
 			//GD.Print("Still colliding...");
 		}
 
-		public virtual void OnEndOverlap(CollisionManifold2D collision)
+		public virtual void OnEndOverlap(CollisionResult2D collision)
 		{
 			//GD.Print("Exited Collision!");
 		}

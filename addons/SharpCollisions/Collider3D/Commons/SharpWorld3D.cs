@@ -17,7 +17,7 @@ namespace SharpCollisions.Sharp3D
 		private int MinIterations = 1;
 		private int MaxIterations = 64;
 		private List<PossibleCollision> PossibleCollisions = new List<PossibleCollision>();
-		private List<CollisionResult3D> CollisionResults = new List<CollisionResult3D>();
+		private List<CollisionProfile3D> CollisionResults = new List<CollisionProfile3D>();
 
 		public const int mask = 0b_1111_1111;
 
@@ -25,7 +25,7 @@ namespace SharpCollisions.Sharp3D
 		{
 			bodies = new List<SharpBody3D>();
 			PossibleCollisions = new List<PossibleCollision>();
-			CollisionResults = new List<CollisionResult3D>();
+			CollisionResults = new List<CollisionProfile3D>();
 			if (qtSize > 0)
 			{
 				Fix64 octreeSize = new Fix64(qtSize);
@@ -187,12 +187,12 @@ namespace SharpCollisions.Sharp3D
 						CollisionMath3D.GetGlobalCollisionFlags(bodyB.GetCollider(colIndB), Normal);
 					}
 					
-					CollisionResults.Add(new CollisionResult3D(true, bodyA, bodyB, colIndA, colIndB, Normal, Depth, ContactPoint));
+					CollisionResults.Add(new CollisionProfile3D(true, bodyA, bodyB, colIndA, colIndB, Normal, Depth, ContactPoint));
 					//GD.Print($"Body {PossibleCollisions[i].Item1} collided with body {PossibleCollisions[i].Item2}.");
 				}
 				else
 				{
-					CollisionResults.Add(new CollisionResult3D(false, bodyA, bodyB, colIndA, colIndB, Normal, Depth, ContactPoint));
+					CollisionResults.Add(new CollisionProfile3D(false, bodyA, bodyB, colIndA, colIndB, Normal, Depth, ContactPoint));
 				}
 			}
 		}
@@ -203,8 +203,8 @@ namespace SharpCollisions.Sharp3D
 			{
 				if (col.Collided)
 				{
-					CollisionManifold3D retA = new CollisionManifold3D(col.BodyB, col.ColliderA, col.ColliderB, -col.Normal, col.Depth, col.ContactPoint);
-					CollisionManifold3D retB = new CollisionManifold3D(col.BodyA, col.ColliderB, col.ColliderA, col.Normal, col.Depth, col.ContactPoint);
+					CollisionResult3D retA = new CollisionResult3D(col.BodyB, col.ColliderA, col.ColliderB, -col.Normal, col.Depth, col.ContactPoint);
+					CollisionResult3D retB = new CollisionResult3D(col.BodyA, col.ColliderB, col.ColliderA, col.Normal, col.Depth, col.ContactPoint);
 
 					if (!col.BodyA.HasCollidedWith((col.BodyB.GetBodyID(), col.ColliderB)))
 					{
@@ -222,8 +222,8 @@ namespace SharpCollisions.Sharp3D
 				}
 				else
 				{
-					CollisionManifold3D retA = new CollisionManifold3D(col.BodyB, col.ColliderA, col.ColliderB, FixVector3.Zero, FixVector3.Zero, FixVector3.Zero);
-					CollisionManifold3D retB = new CollisionManifold3D(col.BodyA, col.ColliderB, col.ColliderA, FixVector3.Zero, FixVector3.Zero, FixVector3.Zero);
+					CollisionResult3D retA = new CollisionResult3D(col.BodyB, col.ColliderA, col.ColliderB, FixVector3.Zero, FixVector3.Zero, FixVector3.Zero);
+					CollisionResult3D retB = new CollisionResult3D(col.BodyA, col.ColliderB, col.ColliderA, FixVector3.Zero, FixVector3.Zero, FixVector3.Zero);
 						
 					if (col.BodyA.HasCollidedWith((col.BodyB.GetBodyID(), col.ColliderB)))
 					{
@@ -298,7 +298,7 @@ namespace SharpCollisions.Sharp3D
 		}
 	}
 
-	public class CollisionResult3D
+	public class CollisionProfile3D
 	{
 		public bool Collided;
 		public SharpBody3D BodyA;
@@ -309,8 +309,8 @@ namespace SharpCollisions.Sharp3D
         public FixVector3 Depth;
         public FixVector3 ContactPoint;
 
-		public CollisionResult3D() {}
-        public CollisionResult3D(bool collided, SharpBody3D bodyA, SharpBody3D bodyB, int colA, int colB, FixVector3 normal, FixVector3 depth, FixVector3 contact)
+		public CollisionProfile3D() {}
+        public CollisionProfile3D(bool collided, SharpBody3D bodyA, SharpBody3D bodyB, int colA, int colB, FixVector3 normal, FixVector3 depth, FixVector3 contact)
         {
 			Collided = collided;
 			BodyA = bodyA;

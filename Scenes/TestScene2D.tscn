@@ -22,6 +22,7 @@ rings = 16
 [sub_resource type="CapsuleMesh" id="3"]
 radius = 0.8
 height = 4.0
+radial_segments = 16
 
 [sub_resource type="BoxMesh" id="12"]
 size = Vector3(2, 2, 1)

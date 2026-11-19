@@ -24,6 +24,7 @@ radial_segments = 32
 rings = 16
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_omnyj"]
+radial_segments = 16
 
 [sub_resource type="PrismMesh" id="PrismMesh_4fpna"]
 
@@ -31,6 +32,7 @@ rings = 16
 top_radius = 1.0
 bottom_radius = 1.0
 height = 1.0
+radial_segments = 16
 
 [sub_resource type="BoxMesh" id="BoxMesh_6erxl"]
 size = Vector3(4, 0.2, 4)
@@ -118,7 +120,7 @@ DrawDebugShape = true
 DrawBoundingBox = true
 
 [node name="Viewer" type="Node3D" parent="Box2" unique_id=1636148238]
-transform = Transform3D(0.852965, -0.14597404, 0.4999999, 0.49965534, 0.4983865, -0.7071067, -0.14634567, 0.8507989, 0.4999999, -2.3, 2, 0)
+transform = Transform3D(0.852965, -0.14499275, 0.4999999, 0.49965534, 0.49503615, -0.7071067, -0.14634567, 0.84507954, 0.4999999, -2.3, 2, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Box2/Viewer" unique_id=1571333008]
 mesh = SubResource("12")

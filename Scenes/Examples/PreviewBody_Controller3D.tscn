@@ -7,7 +7,7 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_oe6u2"]
 radius = 0.3
 height = 0.9
-radial_segments = 16
+radial_segments = 12
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qdvso"]
 albedo_texture = ExtResource("3_3ojkc")
@@ -16,8 +16,8 @@ albedo_texture = ExtResource("3_3ojkc")
 material = SubResource("StandardMaterial3D_qdvso")
 radius = 0.3
 height = 0.6
-radial_segments = 16
-rings = 6
+radial_segments = 12
+rings = 8
 
 [node name="Body" type="Node" unique_id=31245260 node_paths=PackedStringArray("debug", "Colliders", "Attachments", "Renderer")]
 script = ExtResource("3")

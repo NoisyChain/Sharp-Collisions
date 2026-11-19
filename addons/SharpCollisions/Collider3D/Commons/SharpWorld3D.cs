@@ -19,8 +19,6 @@ namespace SharpCollisions.Sharp3D
 		private List<PossibleCollision> PossibleCollisions = new List<PossibleCollision>();
 		private List<CollisionProfile3D> CollisionResults = new List<CollisionProfile3D>();
 
-		public const int mask = 0b_1111_1111;
-
 		public SharpWorld3D(int qtSize, int qtLimit)
 		{
 			bodies = new List<SharpBody3D>();
@@ -72,7 +70,7 @@ namespace SharpCollisions.Sharp3D
 		private bool CompareLayers(SharpBody3D colliderA, SharpBody3D colliderB)
 		{
 			//DON'T ASK ME WHAT'S HAPPENING HERE
-			return ((colliderA.CollisionMask & colliderB.CollisionLayers) & mask) != 0;
+			return ((colliderA.CollisionMask & colliderB.CollisionLayers) & SharpHelpers.mask) != 0;
 		}
 
 		private void BroadPhase()
@@ -97,14 +95,8 @@ namespace SharpCollisions.Sharp3D
 			}
 			else //Use the octree otherwise
 			{
-				List<IntPack2> collisionQueries = new List<IntPack2>();
 				oTree.Compute(bodies);
-				oTree.CapturePossibleCollisions(ref collisionQueries);
-				
-				//GD.Print($"Registered {collisionQueries.Count} collision queries");
-				
-				foreach (IntPack2 q in collisionQueries)
-					CheckColliders(q.a, q.b);
+				oTree.CapturePossibleCollisions(ref PossibleCollisions);
 			}
 
 			//Sort the colliders so the nearest colliders are checked first
@@ -140,7 +132,7 @@ namespace SharpCollisions.Sharp3D
 
 					PossibleCollisions.Add(new PossibleCollision(
 						indA, indB, i, j, Mathf.Max(bodyA.Priority, bodyB.Priority),
-						GetCollisionDistance(colA, colB)
+						CollisionMath3D.GetCollisionDistance(colA, colB)
 					));
 				}
 			}
@@ -281,21 +273,5 @@ namespace SharpCollisions.Sharp3D
 			}
 			ProcessCollisions();
 		}
-
-		public Fix64 GetCollisionDistance(SharpCollider3D colliderA, SharpCollider3D colliderB)
-		{
-			FixVector3 length = colliderB.Center - colliderA.Center;
-
-			FixVector3 newDepth = FixVector3.Zero;
-			newDepth.x = (colliderA.BoundingBox.w - colliderA.Center.x) + (colliderB.BoundingBox.w - colliderB.Center.x);
-			newDepth.y = (colliderA.BoundingBox.h - colliderA.Center.y) + (colliderB.BoundingBox.h - colliderB.Center.y);
-			newDepth.z = (colliderA.BoundingBox.d - colliderA.Center.z) + (colliderB.BoundingBox.d - colliderB.Center.z);
-			newDepth.x -= Fix64.Abs(length.x);
-			newDepth.y -= Fix64.Abs(length.y);
-			newDepth.z -= Fix64.Abs(length.z);
-
-			return FixVector3.LengthSq(newDepth);
-		}
 	}
-
 }

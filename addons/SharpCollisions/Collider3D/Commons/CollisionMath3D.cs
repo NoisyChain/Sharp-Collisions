@@ -434,6 +434,21 @@ namespace SharpCollisions.Sharp3D
             return (contact1 + contact2) / Fix64.Two;
         }
 
+		public static Fix64 GetCollisionDistance(SharpCollider3D colliderA, SharpCollider3D colliderB)
+		{
+			FixVector3 length = colliderB.Center - colliderA.Center;
+
+			FixVector3 newDepth = FixVector3.Zero;
+			newDepth.x = (colliderA.BoundingBox.w - colliderA.Center.x) + (colliderB.BoundingBox.w - colliderB.Center.x);
+			newDepth.y = (colliderA.BoundingBox.h - colliderA.Center.y) + (colliderB.BoundingBox.h - colliderB.Center.y);
+			newDepth.z = (colliderA.BoundingBox.d - colliderA.Center.z) + (colliderB.BoundingBox.d - colliderB.Center.z);
+			newDepth.x -= Fix64.Abs(length.x);
+			newDepth.y -= Fix64.Abs(length.y);
+			newDepth.z -= Fix64.Abs(length.z);
+
+			return FixVector3.LengthSq(newDepth);
+		}
+
 		public static void LineToLineDistance(FixVector3 p1, FixVector3 p2, FixVector3 p3, FixVector3 p4, out FixVector3 r1, out FixVector3 r2)
 		{
 			FixVector3 r = p3 - p1;

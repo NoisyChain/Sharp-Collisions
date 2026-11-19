@@ -19,8 +19,6 @@ namespace SharpCollisions.Sharp2D
 		private List<PossibleCollision> PossibleCollisions = new List<PossibleCollision>();
 		private List<CollisionProfile2D> CollisionResults = new List<CollisionProfile2D>();
 
-		public const int mask = 0b_1111_1111;
-
 		public SharpWorld2D(int qtSize, int qtLimit)
 		{
 			bodies = new List<SharpBody2D>();
@@ -67,12 +65,6 @@ namespace SharpCollisions.Sharp2D
 				body.ResetIgnoreBodies();
 		}
 
-		private bool CompareLayers(SharpBody2D colliderA, SharpBody2D colliderB)
-		{
-			//DON'T ASK ME WHAT'S HAPPENING HERE
-			return ((colliderA.CollisionMask & colliderB.CollisionLayers) & mask) != 0;
-		}
-
 		private void BroadPhase()
 		{
 			PossibleCollisions.Clear();
@@ -95,14 +87,8 @@ namespace SharpCollisions.Sharp2D
 			}
 			else //Use the quadtree otherwise
 			{
-				List<IntPack2> collisionQueries = new List<IntPack2>();
 				qTree.Compute(bodies);
-				qTree.CapturePossibleCollisions(ref collisionQueries);
-				
-				//GD.Print($"Registered {collisionQueries.Count} collision queries");
-				
-				foreach (IntPack2 q in collisionQueries)
-					CheckColliders(q.a, q.b);
+				qTree.CapturePossibleCollisions(ref PossibleCollisions);
 			}
 
 			//Sort the colliders so the nearest colliders are checked first
@@ -118,12 +104,12 @@ namespace SharpCollisions.Sharp2D
 			SharpBody2D bodyA = bodies[indA];
 			SharpBody2D bodyB = bodies[indB];
 
-			if (!bodyA.HasColliders() || !bodyB.HasColliders()) return;
-			if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2) return;
-
 			if (!bodyA.Active || !bodyB.Active) return;
+			if (!bodyA.HasColliders() || !bodyB.HasColliders()) return;
+
+			if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2) return;
 			if (bodyA.IsIgnoringBody(bodyB)) return;
-			if (!CompareLayers(bodyA, bodyB)) return;
+			if (!bodyA.CompareLayers(bodyB)) return;
 
 			for (int i = 0; i < bodyA.GetColliders().Length; i++)
 			{
@@ -138,7 +124,7 @@ namespace SharpCollisions.Sharp2D
 
 					PossibleCollisions.Add(new PossibleCollision(
 						indA, indB, i, j, Mathf.Max(bodyA.Priority, bodyB.Priority),
-						GetCollisionDistance(colA, colB)
+						CollisionMath2D.GetCollisionDistance(colA, colB)
 					));
 				}
 			}
@@ -279,19 +265,6 @@ namespace SharpCollisions.Sharp2D
 				NarrowPhase();
 			}
 			ProcessCollisions();
-		}
-
-		public Fix64 GetCollisionDistance(SharpCollider2D colliderA, SharpCollider2D colliderB)
-		{
-			FixVector2 length = colliderB.Center - colliderA.Center;
-
-			FixVector2 newDepth = FixVector2.Zero;
-			newDepth.x = (colliderA.BoundingBox.w - colliderA.Center.x) + (colliderB.BoundingBox.w - colliderB.Center.x);
-			newDepth.y = (colliderA.BoundingBox.h - colliderA.Center.y) + (colliderB.BoundingBox.h - colliderB.Center.y);
-			newDepth.x -= Fix64.Abs(length.x);
-			newDepth.y -= Fix64.Abs(length.y);
-
-			return FixVector2.LengthSq(newDepth);
 		}
 	}
 }

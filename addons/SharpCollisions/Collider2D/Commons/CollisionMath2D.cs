@@ -360,6 +360,19 @@ namespace SharpCollisions.Sharp2D
             return (contact1 + contact2) / Fix64.Two;
         }
 
+        public static Fix64 GetCollisionDistance(SharpCollider2D colliderA, SharpCollider2D colliderB)
+		{
+			FixVector2 length = colliderB.Center - colliderA.Center;
+
+			FixVector2 newDepth = FixVector2.Zero;
+			newDepth.x = (colliderA.BoundingBox.w - colliderA.Center.x) + (colliderB.BoundingBox.w - colliderB.Center.x);
+			newDepth.y = (colliderA.BoundingBox.h - colliderA.Center.y) + (colliderB.BoundingBox.h - colliderB.Center.y);
+			newDepth.x -= Fix64.Abs(length.x);
+			newDepth.y -= Fix64.Abs(length.y);
+
+			return FixVector2.LengthSq(newDepth);
+		}
+
 		public static void LineToLineDistance(FixVector2 p1, FixVector2 p2, FixVector2 p3, FixVector2 p4, out FixVector2 r1, out FixVector2 r2)
 		{
 			FixVector2 r = p3 - p1;

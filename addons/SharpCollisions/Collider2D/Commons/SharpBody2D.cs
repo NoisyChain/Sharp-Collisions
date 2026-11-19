@@ -310,6 +310,12 @@ namespace SharpCollisions.Sharp2D
 			UpdateBoundingBoxes = false;
 		}
 
+		public bool CompareLayers(SharpBody2D compareTo)
+		{
+			//DON'T ASK ME WHAT'S HAPPENING HERE
+			return ((CollisionMask & compareTo.CollisionLayers) & SharpHelpers.mask) != 0;
+		}
+
 		public void ClearFlags()
 		{
 			if (!HasColliders()) return;

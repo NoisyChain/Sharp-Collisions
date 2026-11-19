@@ -176,6 +176,8 @@ namespace SharpCollisions.Sharp3D
             if (!IsValidFloor(surface.CollidedWith.CollisionLayers)) return;
             Fix64 err = (Fix64)0.1;
             Fix64 SurfaceDot = FixVector3.Dot(surface.Normal, Up);
+            Fix64 GroundDot = FixVector3.Dot(GroundData.Normal, Up);
+            //Fix64 SurfaceAngle = FixVector3.AngleDegrees();
             //Check floor
             if (IsOnGround() && SurfaceDot > err)
             {
@@ -201,7 +203,7 @@ namespace SharpCollisions.Sharp3D
 
         public bool IsValidFloor(int colliderLayer)
         {
-            return ((FloorLayers & colliderLayer) & SharpWorld3D.mask) != 0;
+            return ((FloorLayers & colliderLayer) & SharpHelpers.mask) != 0;
         }
 
         public bool IsWalkableSlope(Fix64 angle)

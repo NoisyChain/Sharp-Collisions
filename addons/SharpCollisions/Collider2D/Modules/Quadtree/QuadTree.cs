@@ -5,7 +5,7 @@ namespace SharpCollisions.Sharp2D.Quadtree
 {
     public class QuadTree
     {
-        public List<SharpBody2D> Content;
+        public List<(SharpBody2D, int)> Content;
         public FixRect Area;
         public int Limit;
         public bool IsFull;
@@ -17,14 +17,19 @@ namespace SharpCollisions.Sharp2D.Quadtree
 
         public QuadTree(FixRect area, int lim)
         {
-            Content = new List<SharpBody2D>();
+            Content = new List<(SharpBody2D, int)>();
             Area = area;
             Limit = lim;
         }
 
         public void Compute(List<SharpBody2D> shapes)
         {
-            Content.Clear();
+            // Expand Content to contain colliders
+            // Create new SharpBodies list to store the contained bodies
+            // Use new list to compute next areas
+            
+            Content = new List<(SharpBody2D, int)>();
+            List<SharpBody2D> ContainedBodies = new List<SharpBody2D>();
             IsFull = false;
             NW = null;
             NE = null;
@@ -33,12 +38,17 @@ namespace SharpCollisions.Sharp2D.Quadtree
 
             foreach (SharpBody2D body in shapes)
             {
-                foreach(SharpCollider2D col in body.GetColliders())
+                if (!body.Active) continue;
+                if (!body.HasColliders()) continue;
+                
+                for(int i = 0; i < body.GetColliders().Length; i++)
                 {
-                    if (Area.IsOverlapping(col.BoundingBox))
+                    SharpCollider2D col = body.GetCollider(i);
+                    if (!col.Active) continue;
+                    if (Area.IsOverlapping(body.GetCollider(i).BoundingBox))
                     {
-                        Content.Add(body);
-                        break;
+                        Content.Add((body, i));
+                        if (!ContainedBodies.Contains(body)) ContainedBodies.Add(body);
                     }
                 }
             }
@@ -51,14 +61,15 @@ namespace SharpCollisions.Sharp2D.Quadtree
             SW = new QuadTree(new FixRect(Area.x, Area.Center().y, Area.Center().x, Area.h), Limit);
             SE = new QuadTree(new FixRect(Area.Center().x, Area.Center().y, Area.w, Area.h), Limit);
 
-            NW.Compute(Content);
-            NE.Compute(Content);
-            SW.Compute(Content);
-            SE.Compute(Content);
+            NW.Compute(ContainedBodies);
+            NE.Compute(ContainedBodies);
+            SW.Compute(ContainedBodies);
+            SE.Compute(ContainedBodies);
             Content.Clear();
+            ContainedBodies.Clear();
         }
 
-        public void Query(FixRect queryArea, ref List<SharpBody2D> result)
+        public void Query(FixRect queryArea, ref List<(SharpBody2D, int)> result)
         {
             if (IsFull)
             {
@@ -66,27 +77,22 @@ namespace SharpCollisions.Sharp2D.Quadtree
                 NE.Query(queryArea, ref result);
                 SW.Query(queryArea, ref result);
                 SE.Query(queryArea, ref result);
+                return;
             }
-            else
+
+            if (Content == null || Content.Count == 0) return;
+            if (!Area.IsOverlapping(queryArea)) return;
+
+            foreach ((SharpBody2D, int) conts in Content)
             {
-                if (Content == null || Content.Count == 0) return;
-                if (!Area.IsOverlapping(queryArea)) return;
+                if (result.Contains(conts)) continue;
+                if (!queryArea.IsOverlapping(conts.Item1.GetCollider(conts.Item2).BoundingBox)) continue;
 
-                foreach (SharpBody2D body in Content)
-                {
-                    if (result.Contains(body)) continue;
-                    foreach(SharpCollider2D col in body.GetColliders())
-                    {
-                        if (!queryArea.IsOverlapping(col.BoundingBox)) continue;
-
-                        result.Add(body);
-                        break;
-                    }
-                }
+                result.Add(conts);
             }
         }
 
-        public void CapturePossibleCollisions(ref List<IntPack2> collisions)
+        public void CapturePossibleCollisions(ref List<PossibleCollision> collisions)
         {
             if (IsFull)
             {
@@ -94,30 +100,33 @@ namespace SharpCollisions.Sharp2D.Quadtree
                 NE.CapturePossibleCollisions(ref collisions);
                 SW.CapturePossibleCollisions(ref collisions);
                 SE.CapturePossibleCollisions(ref collisions);
+                return;
             }
-            else
+
+            for (int i = 0; i < Content.Count; i++)
             {
-                for (int i = 0; i < Content.Count; i++)
+                var bodyA = Content[i].Item1;
+                for (int j = i + 1; j < Content.Count; j++)
                 {
-                    for (int j = i + 1; j < Content.Count; j++)
-                    {
-                        if (Content[i].BodyMode == 2 && Content[j].BodyMode == 2) continue;
+                    var bodyB = Content[j].Item1;
 
-                        IntPack2 newCol = new IntPack2((int)Content[i].GetBodyID(), (int)Content[j].GetBodyID());
-                        if (collisions.Contains(newCol)) continue;
-                        if (collisions.Contains(newCol.Inverse)) continue;
-                        
-                        foreach(SharpCollider2D colA in Content[i].GetColliders())
-                        {
-                            foreach(SharpCollider2D colB in Content[j].GetColliders())
-                            {
-                                if (!colA.BoundingBox.IsOverlapping(colB.BoundingBox)) continue;
+                    if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2) continue;
+                    if (bodyA.IsIgnoringBody(bodyB)) continue;
+                    if (!bodyA.CompareLayers(bodyB)) continue;
 
-                                collisions.Add(newCol);
-                                break;
-                            }
-                        }
-                    }
+                    SharpCollider2D colA = Content[i].Item1.GetCollider(Content[i].Item2);
+                    SharpCollider2D colB = Content[j].Item1.GetCollider(Content[j].Item2);
+
+                    if ((colA.TriggerIgnoresSolid && !colB.IsTrigger) || (colB.TriggerIgnoresSolid && !colA.IsTrigger)) continue;
+                    if (!colA.BoundingBox.IsOverlapping(colB.BoundingBox)) continue;
+
+                    PossibleCollision newCol = new PossibleCollision(
+                        (int)Content[i].Item1.GetBodyID(), (int)Content[j].Item1.GetBodyID(),
+                        Content[i].Item2, Content[j].Item2,
+                        Godot.Mathf.Max(Content[i].Item1.Priority, Content[j].Item1.Priority),
+                        CollisionMath2D.GetCollisionDistance(colA, colB)
+                    );
+                    if (!collisions.Contains(newCol)) collisions.Add(newCol);  
                 }
             }
         }

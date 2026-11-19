@@ -5,7 +5,7 @@ namespace SharpCollisions.Sharp3D.Octree
 {
     public class OcTree
     {
-        public List<SharpBody3D> Content;
+        public List<(SharpBody3D, int)> Content;
         public FixVolume Area;
         public int Limit;
         public bool IsFull;
@@ -21,14 +21,15 @@ namespace SharpCollisions.Sharp3D.Octree
 
         public OcTree(FixVolume area, int lim)
         {
-            Content = new List<SharpBody3D>();
+            Content = new List<(SharpBody3D, int)>();
             Area = area;
             Limit = lim;
         }
 
         public void Compute(List<SharpBody3D> shapes)
         {
-            Content.Clear();
+            Content = new List<(SharpBody3D, int)>();
+            List<SharpBody3D> ContainedBodies = new List<SharpBody3D>();
             IsFull = false;
             NW_P = null;
             NE_P = null;
@@ -41,12 +42,17 @@ namespace SharpCollisions.Sharp3D.Octree
 
             foreach (SharpBody3D body in shapes)
             {
-                foreach(SharpCollider3D col in body.GetColliders())
+                if (!body.Active) continue;
+                if (!body.HasColliders()) continue;
+                
+                for(int i = 0; i < body.GetColliders().Length; i++)
                 {
-                    if (Area.IsOverlapping(col.BoundingBox))
+                    SharpCollider3D col = body.GetCollider(i);
+                    if (!col.Active) continue;
+                    if (Area.IsOverlapping(body.GetCollider(i).BoundingBox))
                     {
-                        Content.Add(body);
-                        break;
+                        Content.Add((body, i));
+                        if (!ContainedBodies.Contains(body)) ContainedBodies.Add(body);
                     }
                 }
             }
@@ -63,18 +69,19 @@ namespace SharpCollisions.Sharp3D.Octree
             SW_N = new OcTree(new FixVolume(Area.x, Area.Center().y, Area.Center().z, Area.Center().x, Area.h, Area.d), Limit);
             SE_N = new OcTree(new FixVolume(Area.Center().x, Area.Center().y, Area.Center().z, Area.w, Area.h, Area.d), Limit);
 
-            NW_P.Compute(Content);
-            NE_P.Compute(Content);
-            SW_P.Compute(Content);
-            SE_P.Compute(Content);
-            NW_N.Compute(Content);
-            NE_N.Compute(Content);
-            SW_N.Compute(Content);
-            SE_N.Compute(Content);
+            NW_P.Compute(ContainedBodies);
+            NE_P.Compute(ContainedBodies);
+            SW_P.Compute(ContainedBodies);
+            SE_P.Compute(ContainedBodies);
+            NW_N.Compute(ContainedBodies);
+            NE_N.Compute(ContainedBodies);
+            SW_N.Compute(ContainedBodies);
+            SE_N.Compute(ContainedBodies);
             Content.Clear();
+            ContainedBodies.Clear();
         }
 
-        public void Query(FixVolume queryArea, ref List<SharpBody3D> result)
+        public void Query(FixVolume queryArea, ref List<(SharpBody3D, int)> result)
         {
             if (IsFull)
             {
@@ -86,27 +93,22 @@ namespace SharpCollisions.Sharp3D.Octree
                 NE_N.Query(queryArea, ref result);
                 SW_N.Query(queryArea, ref result);
                 SE_N.Query(queryArea, ref result);
+                return;
             }
-            else
+
+            if (Content == null || Content.Count == 0) return;
+            if (!Area.IsOverlapping(queryArea)) return;
+
+            foreach ((SharpBody3D, int) conts in Content)
             {
-                if (Content == null || Content.Count == 0) return;
-                if (!Area.IsOverlapping(queryArea)) return;
+                if (result.Contains(conts)) continue;
+                if (!queryArea.IsOverlapping(conts.Item1.GetCollider(conts.Item2).BoundingBox)) continue;
 
-                foreach (SharpBody3D body in Content)
-                {
-                    if (result.Contains(body)) continue;
-                    foreach(SharpCollider3D col in body.GetColliders())
-                    {
-                        if (!queryArea.IsOverlapping(col.BoundingBox)) continue;
-
-                        result.Add(body);
-                        break;
-                    }
-                }
+                result.Add(conts);
             }
         }
 
-        public void CapturePossibleCollisions(ref List<IntPack2> collisions)
+        public void CapturePossibleCollisions(ref List<PossibleCollision> collisions)
         {
             if (IsFull)
             {
@@ -118,29 +120,33 @@ namespace SharpCollisions.Sharp3D.Octree
                 NE_N.CapturePossibleCollisions(ref collisions);
                 SW_N.CapturePossibleCollisions(ref collisions);
                 SE_N.CapturePossibleCollisions(ref collisions);
+                return;
             }
-            else
+
+            for (int i = 0; i < Content.Count; i++)
             {
-                for (int i = 0; i < Content.Count; i++)
+                var bodyA = Content[i].Item1;
+                for (int j = i + 1; j < Content.Count; j++)
                 {
-                    for (int j = i + 1; j < Content.Count; j++)
-                    {
-                        if (Content[i].BodyMode == 2 && Content[j].BodyMode == 2) continue;
+                    var bodyB = Content[j].Item1;
 
-                        IntPack2 newCol = new IntPack2((int)Content[i].GetBodyID(), (int)Content[j].GetBodyID());
-                        if (collisions.Contains(newCol)) continue;
-                        if (collisions.Contains(newCol.Inverse)) continue;
-                        foreach(SharpCollider3D colA in Content[i].GetColliders())
-                        {
-                            foreach(SharpCollider3D colB in Content[j].GetColliders())
-                            {
-                                if (!colA.BoundingBox.IsOverlapping(colB.BoundingBox)) continue;
+                    if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2) continue;
+                    if (bodyA.IsIgnoringBody(bodyB)) continue;
+                    if (!bodyA.CompareLayers(bodyB)) continue;
 
-                                collisions.Add(newCol);
-                                break;
-                            }
-                        }
-                    }
+                    SharpCollider3D colA = Content[i].Item1.GetCollider(Content[i].Item2);
+                    SharpCollider3D colB = Content[j].Item1.GetCollider(Content[j].Item2);
+
+                    if ((colA.TriggerIgnoresSolid && !colB.IsTrigger) || (colB.TriggerIgnoresSolid && !colA.IsTrigger)) continue;
+                    if (!colA.BoundingBox.IsOverlapping(colB.BoundingBox)) continue;
+
+                    PossibleCollision newCol = new PossibleCollision(
+                        (int)Content[i].Item1.GetBodyID(), (int)Content[j].Item1.GetBodyID(),
+                        Content[i].Item2, Content[j].Item2,
+                        Godot.Mathf.Max(Content[i].Item1.Priority, Content[j].Item1.Priority),
+                        CollisionMath3D.GetCollisionDistance(colA, colB)
+                    );
+                    if (!collisions.Contains(newCol)) collisions.Add(newCol);  
                 }
             }
         }

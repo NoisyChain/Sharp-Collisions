@@ -225,7 +225,7 @@ namespace SharpCollisions.Sharp2D
 
         public bool IsValidFloor(int colliderLayer)
         {
-            return ((FloorLayers & colliderLayer) & SharpWorld2D.mask) != 0;
+            return ((FloorLayers & colliderLayer) & SharpHelpers.mask) != 0;
         }
 
         public bool IsWalkableSlope(Fix64 angle)

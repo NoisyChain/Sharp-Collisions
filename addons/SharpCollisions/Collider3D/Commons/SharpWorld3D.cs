@@ -40,7 +40,7 @@ namespace SharpCollisions.Sharp3D
 			newBody.SetBodyID(CreatedBodies);
 			bodies.Add(newBody);
 			CreatedBodies++;
-			GD.Print(BodyCount);
+			GD.Print($"3D Body with ID {newBody.GetBodyID()} created successfully. Body count: {BodyCount}");
 		}
 		
 		public bool RemoveBody(SharpBody3D body)

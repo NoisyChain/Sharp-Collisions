@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://c5oybgm7k4u0b" path="res://addons/SharpCollisions/Collider3D/Colliders/ConvexShapeCollider3D.cs" id="9_earb3"]
 [ext_resource type="Script" uid="uid://vanf8ydlw1ew" path="res://addons/SharpCollisions/Collider3D/Commons/SharpBody3D.cs" id="10"]
 [ext_resource type="Script" uid="uid://dl5rlkjokjjpc" path="res://addons/SharpCollisions/Collider3D/Colliders/CylinderCollider3D.cs" id="10_8me38"]
+[ext_resource type="Script" uid="uid://cjdj043ji4yll" path="res://addons/SharpCollisions/Collider3D/Commons/SharpRenderer3D.cs" id="11_vtcxo"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_earb3"]
 size = Vector3(2, 2, 2)
@@ -25,8 +26,6 @@ rings = 16
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_omnyj"]
 radial_segments = 16
-
-[sub_resource type="PrismMesh" id="PrismMesh_4fpna"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_nho35"]
 top_radius = 1.0
@@ -87,16 +86,22 @@ _points = []
 Faces = []
 DrawDebugShape = true
 
-[node name="Viewer" type="Node3D" parent="Box" unique_id=415964012]
+[node name="Viewer" type="Node" parent="Box" unique_id=835084989 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("11_vtcxo")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
+
+[node name="Graphics" type="Node3D" parent="Box" unique_id=415964012]
 transform = Transform3D(0.9999492, 0, 0, 0, 0.9999987, 0, 0, 0, 0.9999501, 0, 1, -2.9)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Box/Viewer" unique_id=1644634995]
+[node name="MeshInstance" type="MeshInstance3D" parent="Box/Graphics" unique_id=1644634995]
 mesh = SubResource("BoxMesh_earb3")
 skeleton = NodePath("../..")
 
 [node name="Box2" type="Node" parent="." unique_id=1947746478 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("7_qwg5g")
-RotationSpeed = Vector3(45, 45, 45)
+RotationSpeed = Vector3(2000, 2000, 2000)
 Colliders = [NodePath("Collider")]
 Attachments = []
 Renderer = NodePath("Viewer")
@@ -119,16 +124,22 @@ Faces = []
 DrawDebugShape = true
 DrawBoundingBox = true
 
-[node name="Viewer" type="Node3D" parent="Box2" unique_id=1636148238]
-transform = Transform3D(0.852965, -0.14499275, 0.4999999, 0.49965534, 0.49503615, -0.7071067, -0.14634567, 0.84507954, 0.4999999, -2.3, 2, 0)
+[node name="Viewer" type="Node" parent="Box2" unique_id=1792602747 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("11_vtcxo")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Box2/Viewer" unique_id=1571333008]
+[node name="Graphics" type="Node3D" parent="Box2" unique_id=1636148238]
+transform = Transform3D(0.852965, -0.14278905, 0.4999999, 0.49965534, 0.48751226, -0.7071067, -0.14634567, 0.83223546, 0.4999999, -2.3, 2, 0)
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Box2/Graphics" unique_id=1571333008]
 mesh = SubResource("12")
 skeleton = NodePath("../..")
 
 [node name="Sphere" type="Node" parent="." unique_id=808666458 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("7_qwg5g")
-RotationSpeed = Vector3(45, 45, 45)
+RotationSpeed = Vector3(1100, 1100, 1100)
 Colliders = [NodePath("Collider"), NodePath("Collider2")]
 Attachments = []
 Renderer = NodePath("Viewer")
@@ -153,10 +164,16 @@ DrawBoundingBox = true
 raw_positionOffset_x = -3865470566
 raw_positionOffset_y = 1717986918
 
-[node name="Viewer" type="Node3D" parent="Sphere" unique_id=1926988097]
+[node name="Viewer" type="Node" parent="Sphere" unique_id=954135472 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("11_vtcxo")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
+
+[node name="Graphics" type="Node3D" parent="Sphere" unique_id=1926988097]
 transform = Transform3D(0.9998683, 0, 0, 0, 0.99999386, 0, 0, 0, 0.9998674, 2.5, 1.2, 0)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere/Viewer" unique_id=76623510]
+[node name="MeshInstance" type="MeshInstance3D" parent="Sphere/Graphics" unique_id=76623510]
 mesh = SubResource("15")
 skeleton = NodePath("../..")
 
@@ -184,10 +201,16 @@ DrawDebugShape = true
 DrawBoundingBox = true
 raw_rotationOffset_z = 386547056640
 
-[node name="Viewer" type="Node3D" parent="Capsule" unique_id=720804035]
+[node name="Viewer" type="Node" parent="Capsule" unique_id=1929167194 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("11_vtcxo")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
+
+[node name="Graphics" type="Node3D" parent="Capsule" unique_id=720804035]
 transform = Transform3D(0.7070694, 0, 0.7070054, 0, 0.99997693, 0, -0.7070694, 0, 0.7070054, 2.5, 0.5, 2.5)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Capsule/Viewer" unique_id=735253551]
+[node name="MeshInstance" type="MeshInstance3D" parent="Capsule/Graphics" unique_id=735253551]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_omnyj")
 skeleton = NodePath("../..")
@@ -208,13 +231,14 @@ _points = []
 Faces = []
 DrawDebugShape = true
 
-[node name="Viewer" type="Node3D" parent="Polygon" unique_id=134371332]
-transform = Transform3D(0.999997, 0, 0, 0, 0.999998, 0, 0, 0, 0.999999, 0, 1, 2)
+[node name="Viewer" type="Node" parent="Polygon" unique_id=1203226574 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("11_vtcxo")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Polygon/Viewer" unique_id=1518610294]
-visible = false
-mesh = SubResource("PrismMesh_4fpna")
-skeleton = NodePath("../..")
+[node name="Graphics" type="Node3D" parent="Polygon" unique_id=134371332]
+transform = Transform3D(0.999997, 0, 0, 0, 0.999998, 0, 0, 0, 0.999999, 0, 1, 2)
 
 [node name="Cylinder" type="Node" parent="." unique_id=377539652 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("10")
@@ -239,10 +263,16 @@ DrawBoundingBox = true
 raw_positionOffset_y = 2147483648
 metadata/_custom_type_script = "uid://dl5rlkjokjjpc"
 
-[node name="Viewer" type="Node3D" parent="Cylinder" unique_id=1761015019]
+[node name="Viewer" type="Node" parent="Cylinder" unique_id=191114123 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("11_vtcxo")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
+
+[node name="Graphics" type="Node3D" parent="Cylinder" unique_id=1761015019]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 2.5)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Cylinder/Viewer" unique_id=507983933]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cylinder/Graphics" unique_id=507983933]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("CylinderMesh_nho35")
 
@@ -267,10 +297,16 @@ _points = []
 Faces = []
 DrawDebugShape = true
 
-[node name="Viewer" type="Node3D" parent="Floor" unique_id=498634527]
+[node name="Viewer" type="Node" parent="Floor" unique_id=468504915 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("11_vtcxo")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
+
+[node name="Graphics" type="Node3D" parent="Floor" unique_id=498634527]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.1, 2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Floor/Viewer" unique_id=713853459]
+[node name="MeshInstance" type="MeshInstance3D" parent="Floor/Graphics" unique_id=713853459]
 mesh = SubResource("BoxMesh_6erxl")
 skeleton = NodePath("../..")
 
@@ -295,10 +331,16 @@ _points = []
 Faces = []
 DrawDebugShape = true
 
-[node name="Viewer" type="Node3D" parent="Floor2" unique_id=209033362]
+[node name="Viewer" type="Node" parent="Floor2" unique_id=398877838 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("11_vtcxo")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
+
+[node name="Graphics" type="Node3D" parent="Floor2" unique_id=209033362]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.1, 2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Floor2/Viewer" unique_id=60196511]
+[node name="MeshInstance" type="MeshInstance3D" parent="Floor2/Graphics" unique_id=60196511]
 mesh = SubResource("BoxMesh_6erxl")
 skeleton = NodePath("../..")
 
@@ -323,10 +365,16 @@ _points = []
 Faces = []
 DrawDebugShape = true
 
-[node name="Viewer" type="Node3D" parent="Floor3" unique_id=696311031]
+[node name="Viewer" type="Node" parent="Floor3" unique_id=1120595067 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("11_vtcxo")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
+
+[node name="Graphics" type="Node3D" parent="Floor3" unique_id=696311031]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.1, -2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Floor3/Viewer" unique_id=1618124962]
+[node name="MeshInstance" type="MeshInstance3D" parent="Floor3/Graphics" unique_id=1618124962]
 mesh = SubResource("BoxMesh_6erxl")
 skeleton = NodePath("../..")
 
@@ -351,10 +399,16 @@ _points = []
 Faces = []
 DrawDebugShape = true
 
-[node name="Viewer" type="Node3D" parent="Floor4" unique_id=1420323814]
+[node name="Viewer" type="Node" parent="Floor4" unique_id=1016643744 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("11_vtcxo")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
+
+[node name="Graphics" type="Node3D" parent="Floor4" unique_id=1420323814]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.1, -2)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Floor4/Viewer" unique_id=191446920]
+[node name="MeshInstance" type="MeshInstance3D" parent="Floor4/Graphics" unique_id=191446920]
 mesh = SubResource("BoxMesh_6erxl")
 skeleton = NodePath("../..")
 
@@ -378,10 +432,16 @@ _points = []
 Faces = []
 DrawDebugShape = true
 
-[node name="Viewer" type="Node3D" parent="Wall" unique_id=1029909300]
+[node name="Viewer" type="Node" parent="Wall" unique_id=1549657816 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("11_vtcxo")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
+
+[node name="Graphics" type="Node3D" parent="Wall" unique_id=1029909300]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -4)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Wall/Viewer" unique_id=1383200897]
+[node name="MeshInstance" type="MeshInstance3D" parent="Wall/Graphics" unique_id=1383200897]
 mesh = SubResource("BoxMesh_3dihv")
 skeleton = NodePath("../..")
 
@@ -405,10 +465,16 @@ _points = []
 Faces = []
 DrawDebugShape = true
 
-[node name="Viewer" type="Node3D" parent="Wall2" unique_id=1442403018]
+[node name="Viewer" type="Node" parent="Wall2" unique_id=1740550137 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("11_vtcxo")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
+
+[node name="Graphics" type="Node3D" parent="Wall2" unique_id=1442403018]
 transform = Transform3D(0.999997, 0, 0, 0, 0.999997, 0, 0, 0, 0.999995, 0, 1, 4)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Wall2/Viewer" unique_id=14545833]
+[node name="MeshInstance" type="MeshInstance3D" parent="Wall2/Graphics" unique_id=14545833]
 visible = false
 mesh = SubResource("BoxMesh_3dihv")
 skeleton = NodePath("../..")
@@ -433,10 +499,16 @@ _points = []
 Faces = []
 DrawDebugShape = true
 
-[node name="Viewer" type="Node3D" parent="Wall3" unique_id=1507931151]
+[node name="Viewer" type="Node" parent="Wall3" unique_id=2129789896 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("11_vtcxo")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
+
+[node name="Graphics" type="Node3D" parent="Wall3" unique_id=1507931151]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Wall3/Viewer" unique_id=1269334001]
+[node name="MeshInstance" type="MeshInstance3D" parent="Wall3/Graphics" unique_id=1269334001]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("BoxMesh_3dihv")
 skeleton = NodePath("../..")
@@ -461,10 +533,16 @@ _points = []
 Faces = []
 DrawDebugShape = true
 
-[node name="Viewer" type="Node3D" parent="Wall4" unique_id=658102628]
+[node name="Viewer" type="Node" parent="Wall4" unique_id=314160355 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("11_vtcxo")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
+
+[node name="Graphics" type="Node3D" parent="Wall4" unique_id=658102628]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, 0)
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Wall4/Viewer" unique_id=1117059902]
+[node name="MeshInstance" type="MeshInstance3D" parent="Wall4/Graphics" unique_id=1117059902]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("BoxMesh_3dihv")
 skeleton = NodePath("../..")

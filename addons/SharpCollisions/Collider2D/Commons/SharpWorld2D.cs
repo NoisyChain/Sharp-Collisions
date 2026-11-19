@@ -38,7 +38,7 @@ namespace SharpCollisions.Sharp2D
 			newBody.SetBodyID(CreatedBodies);
 			bodies.Add(newBody);
 			CreatedBodies++;
-			GD.Print(BodyCount);
+			GD.Print($"2D Body with ID {newBody.GetBodyID()} created successfully. Body count: {BodyCount}");
 		}
 		
 		public bool RemoveBody(SharpBody2D body)

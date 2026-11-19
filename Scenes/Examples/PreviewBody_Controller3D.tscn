@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cg5dxxak4nmpf" path="res://addons/SharpCollisions/Collider3D/Colliders/CapsuleCollider3D.cs" id="2_bk3aq"]
 [ext_resource type="Script" uid="uid://brxmtpxfbr6ug" path="res://addons/SharpCollisions/Examples/CharacterController3D.cs" id="3"]
 [ext_resource type="Texture2D" uid="uid://bx6bfwnydn8wd" path="res://icon_circle.png" id="3_3ojkc"]
+[ext_resource type="Script" uid="uid://cjdj043ji4yll" path="res://addons/SharpCollisions/Collider3D/Commons/SharpRenderer3D.cs" id="3_dsmia"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_oe6u2"]
 radius = 0.3
@@ -24,7 +25,7 @@ script = ExtResource("3")
 debug = NodePath("Debug/DebugText")
 Colliders = [NodePath("Collider")]
 Attachments = []
-Renderer = NodePath("Graphics")
+Renderer = NodePath("Viewer")
 
 [node name="Collider" type="Node" parent="." unique_id=205171231]
 script = ExtResource("2_bk3aq")
@@ -36,6 +37,12 @@ _positionOffset = Vector3(0, 0.6, 0)
 DrawDebugShape = true
 DrawBoundingBox = true
 raw_positionOffset_y = 2576980377
+
+[node name="Viewer" type="Node" parent="." unique_id=1736118793 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("3_dsmia")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
 
 [node name="Graphics" type="Node3D" parent="." unique_id=2147298004]
 

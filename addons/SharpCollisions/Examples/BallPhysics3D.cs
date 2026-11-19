@@ -10,8 +10,14 @@ public partial class BallPhysics3D : SharpBody3D
     public override void _Ready()
     {
         base._Ready();
-        Direction = FixVector3.Normalize(FixVector3.Zero -  FixedPosition);
+        if (!Engine.IsEditorHint()) ProcessMode = ProcessModeEnum.Disabled;
+        Direction = FixVector3.Normalize(FixVector3.Zero - FixedPosition);
         Direction.y = Fix64.Zero;
+    }
+
+    public override void OnOverlap(CollisionResult3D collision)
+    {
+        //Direction = -collision.Normal;
     }
 
 

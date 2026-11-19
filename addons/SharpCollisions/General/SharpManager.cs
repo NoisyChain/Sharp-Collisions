@@ -137,7 +137,6 @@ namespace SharpCollisions
 			}
 			
 			world2D.AddBody(newBody);
-			GD.Print("2D Body created!");
 		}
 		
 		public void AddBody(SharpBody3D newBody)
@@ -149,7 +148,6 @@ namespace SharpCollisions
 			}
 			
 			world3D.AddBody(newBody);
-			GD.Print("3D Body created!");
 		}
 
 		public bool RemoveNode(SharpNode selectedNode)

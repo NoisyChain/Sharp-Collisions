@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://bhob5u45xxnko"]
+
+[ext_resource type="Script" uid="uid://d3lb45ae2s8uk" path="res://addons/SharpCollisions/Examples/BallPhysics3D.cs" id="1_imou2"]
+[ext_resource type="Script" uid="uid://44pibwortjvd" path="res://addons/SharpCollisions/Collider3D/Colliders/SphereCollider3D.cs" id="2_5orgh"]
+[ext_resource type="Script" uid="uid://cjdj043ji4yll" path="res://addons/SharpCollisions/Collider3D/Commons/SharpRenderer3D.cs" id="3_rcy8x"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_n3xw3"]
+radius = 0.3
+height = 0.6
+radial_segments = 16
+rings = 12
+
+[node name="BenchmarkSphere" type="Node" unique_id=1062928868 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+script = ExtResource("1_imou2")
+Colliders = [NodePath("Collider")]
+Attachments = []
+Renderer = NodePath("Viewer")
+
+[node name="Collider" type="Node" parent="." unique_id=873932486]
+script = ExtResource("2_5orgh")
+_radius = 0.3
+raw_radius = 1288490188
+DrawDebugShape = true
+
+[node name="Viewer" type="Node" parent="." unique_id=724414426 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("3_rcy8x")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://cjdj043ji4yll"
+
+[node name="Graphics" type="Node3D" parent="." unique_id=2066868438]
+process_mode = 3
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Graphics" unique_id=681033220]
+mesh = SubResource("SphereMesh_n3xw3")
+skeleton = NodePath("../..")

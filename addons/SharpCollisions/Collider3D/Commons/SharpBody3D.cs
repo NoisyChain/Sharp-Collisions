@@ -7,7 +7,7 @@ namespace SharpCollisions.Sharp3D
 	[Tool] [GlobalClass]
 	public partial class SharpBody3D : FixedTransform3D
 	{
-		private uint ID; 
+		private uint ID;
 		public FixVector3 LinearVelocity;
 		public FixVector3 AngularVelocity;
 

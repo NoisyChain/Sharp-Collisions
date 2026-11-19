@@ -7,8 +7,7 @@ namespace SharpCollisions.Sharp2D
     [Tool] [GlobalClass]
     public partial class FixedTransform2D : SharpNode
     {
-        [Export] protected Node3D Renderer3D;
-        [Export] protected Node2D Renderer2D;
+        [Export] protected SharpRenderer Renderer;
         
         /// <summary>
         /// Don't use this variable in the simulation, its only purpose is to inject its value to the actual position
@@ -97,40 +96,12 @@ namespace SharpCollisions.Sharp2D
 
         public override void RenderNode(bool debug)
         {
-            if (Renderer3D != null)
-            {
-                Renderer3D.Visible = Active;
-			
-                Renderer3D.GlobalPosition = (Vector3)FixedPosition;
-                Renderer3D.GlobalRotationDegrees = new Vector3(0, 0, (float)FixedRotation);
-            }
-
-            if (Renderer2D != null)
-            {
-                Renderer2D.Visible = Active;
-			
-                Renderer2D.GlobalPosition = (Vector2)FixedPosition;
-                Renderer2D.GlobalRotationDegrees = (float)FixedRotation;
-            }
+            if (Renderer != null) Renderer.Render();
         }
 
         public override void PreviewNode(bool debug)
         {
-            if (Renderer3D != null)
-            {
-                Renderer3D.Visible = Active;
-
-                Renderer3D.GlobalPosition = new Vector3(_fixedPosition.X, _fixedPosition.Y, 0);
-                Renderer3D.GlobalRotationDegrees = new Vector3(0, 0, _fixedRotation);
-            }
-
-            if (Renderer2D != null)
-            {
-                Renderer2D.Visible = Active;
-
-                Renderer2D.GlobalPosition = new Vector2(_fixedPosition.X, _fixedPosition.Y);
-                Renderer2D.GlobalRotationDegrees = _fixedRotation;
-            }
+            if (Renderer != null) Renderer.Render();
         }
 
         public static FixVector2 LocalToWorld(FixVector2 v)

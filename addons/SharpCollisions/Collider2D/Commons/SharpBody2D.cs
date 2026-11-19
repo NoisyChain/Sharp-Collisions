@@ -176,6 +176,11 @@ namespace SharpCollisions.Sharp2D
 			return CollidedWith.Contains(col);
 		}
 
+		public List<(uint,int)> ConfirmedCollisions()
+		{
+			return CollidedWith;
+		}
+
 		public void ConfirmCollision((uint, int) col)
 		{
 			CollidedWith.Add(col);
@@ -186,7 +191,7 @@ namespace SharpCollisions.Sharp2D
 			CollidedWith.Remove(col);
 		}
 
-		public int ConfirmedCollisions()
+		public int ConfirmedCollisionCount()
 		{
 			return CollidedWith.Count;
 		}

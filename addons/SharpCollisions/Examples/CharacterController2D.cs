@@ -137,7 +137,7 @@ namespace SharpCollisions.Sharp2D
             string groundAngle = IsOnGround() ? GroundAngle.ToString() : "No Ground";
             if (debug != null && HasColliders()) debugText = "Normal: " + UpVector.ToString() + 
                 "\nFlags: " + GetCollider(0).collisionFlags.ToString() + 
-                "\nCollisions: " + ConfirmedCollisions() + 
+                "\nCollisions: " + ConfirmedCollisionCount() + 
                 "\nFloor angle: " + groundAngle;
 
             //GD.Print(Collisions.Count);

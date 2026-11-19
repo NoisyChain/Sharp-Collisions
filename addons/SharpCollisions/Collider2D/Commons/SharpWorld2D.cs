@@ -222,6 +222,35 @@ namespace SharpCollisions.Sharp2D
 					}
 				}
 			}
+
+			// Hacky solution for missing OnEndOverlap interactions
+			// I HATE THIS I HATE THIS I HATE THIS I HATE THIS I HATE THIS I HATE THIS I HATE THIS I HATE THIS I HATE THIS I HATE THIS I HATE THIS I HATE THIS
+			// But if it works it's good enough for now, no significant performance hit was found anyway bleh
+			// Suggestion for better solution: big bounding box with info from previous collision (gonna need it for CCD later so i'll leave it for later)
+			foreach (SharpBody2D body in bodies)
+			{
+				if (body.ConfirmedCollisionCount() == 0) continue;
+				for (int i = 0; i < body.ConfirmedCollisionCount(); i++)
+				{
+					(uint, int) conf = (0, 0);
+					CollisionResult2D ret = new CollisionResult2D();
+					bool delete = false;
+					for (int c = 0; c < body.GetColliders().Length; c++)
+					{
+						SharpCollider2D colA = body.GetCollider(c);
+						conf = body.ConfirmedCollisions()[i];
+						SharpCollider2D colB = bodies[(int)conf.Item1].GetCollider(conf.Item2);
+						ret = new CollisionResult2D(bodies[(int)conf.Item1], c, conf.Item2, FixVector2.Zero, FixVector2.Zero, FixVector2.Zero);
+						if (colA.BoundingBox.IsOverlapping(colB.BoundingBox)) break;
+						delete = true;
+					}
+					if (delete)
+					{
+						body.OnEndOverlap(ret);
+						body.RemoveCollision(conf);
+					}
+				}
+			}
 		}
 
 		private void MoveBodies()

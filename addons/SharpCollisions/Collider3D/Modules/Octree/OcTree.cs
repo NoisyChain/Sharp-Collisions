@@ -146,7 +146,7 @@ namespace SharpCollisions.Sharp3D.Octree
                         Godot.Mathf.Max(Content[i].Item1.Priority, Content[j].Item1.Priority),
                         CollisionMath3D.GetCollisionDistance(colA, colB)
                     );
-                    if (!collisions.Contains(newCol)) collisions.Add(newCol);  
+                    if (!collisions.Contains(newCol)) collisions.Add(newCol);
                 }
             }
         }

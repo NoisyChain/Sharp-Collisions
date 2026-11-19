@@ -4,5 +4,7 @@ Plans for now:
 	- More intentional shape updates (X)
 	- New viewer component (OK)
 	- Interpolation? (X)
-	- Improve character controller a bit
+	- Improve character controller a bit 
 	- Space partitioning gets colliders instead of bodies (OK)
+	- Fix the collided bodies bug (OK)
+	- Fix polygon null reference

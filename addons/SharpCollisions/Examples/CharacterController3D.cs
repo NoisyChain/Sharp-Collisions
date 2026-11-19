@@ -150,7 +150,7 @@ namespace SharpCollisions.Sharp3D
             string groundAngle = IsOnGround() ? GroundAngle.ToString() : "No Ground";
             if (debug != null && HasColliders()) debugText = "Normal: " + UpVector.ToString() + 
                 "\nFlags: " + GetCollider(0).collisionFlags.ToString() + 
-                "\nCollisions: " + ConfirmedCollisions() + 
+                "\nCollisions: " + ConfirmedCollisionCount() + 
                 //"\nContact Point: " + (GetCollisions().Count > 0 ? GetCollision(0).ContactPoint : 0) + 
                 "\nFloor angle: " + groundAngle;
         }

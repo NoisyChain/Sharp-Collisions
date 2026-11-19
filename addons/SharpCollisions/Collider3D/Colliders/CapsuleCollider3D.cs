@@ -9,10 +9,12 @@ namespace SharpCollisions.Sharp3D
     {
         [Export] private float _radius
         {
-            get =>(float)Fix64.FromRaw(raw_Radius);
-            set {
-                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_Radius = ((Fix64)((decimal)value)).RawValue;
+            get =>(float)Radius;
+            set
+            {
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_Radius = ((Fix64)value).RawValue;
                     Radius = Fix64.FromRaw(raw_Radius);
                 }
             }
@@ -20,10 +22,12 @@ namespace SharpCollisions.Sharp3D
 
         [Export] private float _height
         {
-            get =>(float)Fix64.FromRaw(raw_Height);
-            set {
-                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_Height = ((Fix64)((decimal)value)).RawValue;
+            get =>(float)Height;
+            set
+            {
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_Height = ((Fix64)value).RawValue;
                     Height = Fix64.FromRaw(raw_Height);
                 }
             }
@@ -32,7 +36,7 @@ namespace SharpCollisions.Sharp3D
         [ExportSubgroup("Raw Values")]
         [Export] private long raw_radius
         {
-            get => raw_Radius;
+            get => Radius.RawValue;
             set
             {
                 raw_Radius = value;
@@ -41,7 +45,7 @@ namespace SharpCollisions.Sharp3D
         }
         [Export] private long raw_height
         {
-            get => raw_Height;
+            get => Height.RawValue;
             set
             {
                 raw_Height = value;
@@ -77,15 +81,15 @@ namespace SharpCollisions.Sharp3D
             float scaledRadius = (float)Radius;
 
             Vector3 scaledPosOffset = (Vector3)PositionOffset;
-            Vector3 scaledRotOffset = (Vector3)RotationOffset;
+            Vector3 scaledRotOffset = (Vector3)(RotationOffset * Fix64.DegToRad);
 
             Vector3 upPoint = scaledPosOffset + (Vector3.Up * (scaledHeight - scaledRadius));
             Vector3 lowPoint = scaledPosOffset - (Vector3.Up * (scaledHeight - scaledRadius));
 
             Vector3 upperPoint0 = SharpHelpers.Rotate3D(upPoint, scaledRotOffset);
             Vector3 lowerPoint0 = SharpHelpers.Rotate3D(lowPoint, scaledRotOffset);
-            Vector3 upperPoint = SharpHelpers.Transform3D(upperPoint0, (Vector3)reference.FixedPosition, (Vector3)reference.FixedRotation);
-            Vector3 lowerPoint = SharpHelpers.Transform3D(lowerPoint0, (Vector3)reference.FixedPosition, (Vector3)reference.FixedRotation);
+            Vector3 upperPoint = SharpHelpers.Transform3D(upperPoint0, (Vector3)reference.FixedPosition, (Vector3)(reference.FixedRotation * Fix64.DegToRad));
+            Vector3 lowerPoint = SharpHelpers.Transform3D(lowerPoint0, (Vector3)reference.FixedPosition, (Vector3)(reference.FixedRotation * Fix64.DegToRad));
 
             Vector3 DirY = (upperPoint - lowerPoint).Normalized();
             Vector3 DirX = SharpHelpers.GetLineNormal3D(DirY, (Vector3)reference.Forward, (Vector3)reference.Up);
@@ -120,8 +124,8 @@ namespace SharpCollisions.Sharp3D
         {
             FixVector3 CapsuleDirection = new FixVector3(Fix64.Zero, Height - Radius, Fix64.Zero);
 
-            UpperPoint = FixVector3.Rotate(CapsuleDirection, RotationOffset);
-            LowerPoint = FixVector3.Rotate(-CapsuleDirection, RotationOffset);
+            UpperPoint = FixVector3.Rotate(CapsuleDirection, RotationOffset * Fix64.DegToRad);
+            LowerPoint = FixVector3.Rotate(-CapsuleDirection, RotationOffset * Fix64.DegToRad);
         }
 
         private void UpdateCapsulePoints(FixVector3 position, FixVector3 rotation)

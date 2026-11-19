@@ -8,10 +8,10 @@ namespace SharpCollisions.Sharp3D
     {
         [Export] private float _radius
         {
-            get =>(float)Fix64.FromRaw(raw_Radius);
+            get => (float)Radius;
             set {
                 if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_Radius = ((Fix64)((decimal)value)).RawValue;
+                    raw_Radius = ((Fix64)value).RawValue;
                     Radius = Fix64.FromRaw(raw_Radius);
                 }
             }
@@ -20,7 +20,7 @@ namespace SharpCollisions.Sharp3D
 		[ExportSubgroup("Raw Values")]
         [Export] private long raw_radius
         {
-            get => raw_Radius;
+            get => Radius.RawValue;
             set
             {
                 raw_Radius = value;
@@ -48,10 +48,9 @@ namespace SharpCollisions.Sharp3D
             Vector3 DirX = (Vector3)reference.Right;
             Vector3 DirY = (Vector3)reference.Up;
             Vector3 DirZ = (Vector3)reference.Forward;
-            Vector3 pos = _positionOffset;
-            Vector3 newPos = SharpHelpers.Transform3D(pos, (Vector3)reference.FixedPosition, (Vector3)reference.FixedRotation);
+            FixVector3 newPos = FixVector3.Transform(PositionOffset, reference.FixedPosition, reference.FixedRotation * Fix64.DegToRad);
 
-            CustomDebugDraw.DrawSimpleSphere(newPos, DirX, DirY, DirZ, (float)Radius + 0.005f, drawColor);
+            CustomDebugDraw.DrawSimpleSphere((Vector3)newPos, DirX, DirY, DirZ, (float)Radius + 0.005f, drawColor);
         }
 
         public override void UpdateBoundingBox()

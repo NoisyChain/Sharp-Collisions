@@ -9,32 +9,31 @@ namespace SharpCollisions.Sharp3D
     {
         [Export] private Array<Vector3> _points
         {
-            get{
+            get
+            {
                 Array<Vector3> ret = new Array<Vector3>();
-                if (raw_Points_X != null && raw_Points_Y != null && raw_Points_Z != null)
-                {
-                    int length = Mathf.Min(raw_Points_X.Length, raw_Points_Y.Length);
-                    length = Mathf.Min(length, raw_Points_Z.Length);
-                
-                    for (int i = 0; i < length; i++)
+                if (RawPoints != null)
+                {                
+                    for (int i = 0; i < RawPoints.Length; i++)
                     {
-                        ret.Add(new Vector3((float)Fix64.FromRaw(raw_Points_X[i]), (float)Fix64.FromRaw(raw_Points_Y[i]), (float)Fix64.FromRaw(raw_Points_Z[i])));
+                        ret.Add((Vector3)RawPoints[i]);
                     }
                 }
                 return ret;
             }
-            set{
+            set
+            {
                 if (Engine.IsEditorHint())  // Avoid any float values changing fixed point raw values when the game runs
                 {
                     raw_Points_X = new long[value.Count];
                     raw_Points_Y = new long[value.Count];
                     raw_Points_Z = new long[value.Count];
                     RawPoints = new FixVector3[value.Count];
-                    for (int i = 0; i < value.Count; i++)
+                    for (int i = 0; i < RawPoints.Length; i++)
                     {
-                        raw_Points_X[i] = ((Fix64)((decimal)value[i].X)).RawValue;
-                        raw_Points_Y[i] = ((Fix64)((decimal)value[i].Y)).RawValue;
-                        raw_Points_Z[i] = ((Fix64)((decimal)value[i].Z)).RawValue;
+                        raw_Points_X[i] = ((Fix64)value[i].X).RawValue;
+                        raw_Points_Y[i] = ((Fix64)value[i].Y).RawValue;
+                        raw_Points_Z[i] = ((Fix64)value[i].Z).RawValue;
                         RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
                     }
                 }
@@ -46,12 +45,20 @@ namespace SharpCollisions.Sharp3D
         [ExportSubgroup("Raw Values")]
         [Export] private long[] raw_points_x
         {
-            get => raw_Points_X;
+            get
+            {
+                long[] ret = new long[RawPoints.Length];
+                for (int i = 0; i < ret.Length; i++)
+                {
+                    ret[i] = RawPoints[i].x.RawValue;
+                }
+                return ret;
+            }
             set
             {
                 raw_Points_X = value;
-                RawPoints = new FixVector3[_points.Count];
-                for (int i = 0; i < _points.Count; i++)
+                RawPoints = new FixVector3[value.Length];
+                for (int i = 0; i < RawPoints.Length; i++)
                 {
                     RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
                 }
@@ -59,12 +66,20 @@ namespace SharpCollisions.Sharp3D
         }
         [Export] private long[] raw_points_y
         {
-            get => raw_Points_Y;
+            get
+            {
+                long[] ret = new long[RawPoints.Length];
+                for (int i = 0; i < ret.Length; i++)
+                {
+                    ret[i] = RawPoints[i].y.RawValue;
+                }
+                return ret;
+            }
             set
             {
                 raw_Points_Y = value;
-                RawPoints = new FixVector3[_points.Count];
-                for (int i = 0; i < _points.Count; i++)
+                RawPoints = new FixVector3[value.Length];
+                for (int i = 0; i < RawPoints.Length; i++)
                 {
                     RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
                 }
@@ -72,12 +87,20 @@ namespace SharpCollisions.Sharp3D
         }
         [Export] private long[] raw_points_z
         {
-            get => raw_Points_Z;
+            get
+            {
+                long[] ret = new long[RawPoints.Length];
+                for (int i = 0; i < ret.Length; i++)
+                {
+                    ret[i] = RawPoints[i].z.RawValue;
+                }
+                return ret;
+            }
             set
             {
                 raw_Points_Z = value;
-                RawPoints = new FixVector3[_points.Count];
-                for (int i = 0; i < _points.Count; i++)
+                RawPoints = new FixVector3[value.Length];
+                for (int i = 0; i < RawPoints.Length; i++)
                 {
                     RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
                 }
@@ -156,18 +179,18 @@ namespace SharpCollisions.Sharp3D
             Color drawColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
             Vector3 scaledPosOffset = (Vector3)PositionOffset;
-            Vector3 scaledRotOffset = (Vector3)RotationOffset;
+            Vector3 scaledRotOffset = (Vector3)(RotationOffset * Fix64.DegToRad);
 
             Vector3 position = (Vector3)reference.FixedPosition;
-            Vector3 rotation = (Vector3)reference.FixedRotation;
+            Vector3 rotation = (Vector3)(reference.FixedRotation * Fix64.DegToRad);
 
             for (int i = 0; i < Faces.Count; i++)
             {
-                Vector3 rotPointA = SharpHelpers.RotateDeg3D(_points[Faces[i].X], scaledRotOffset);
+                Vector3 rotPointA = SharpHelpers.Rotate3D(_points[Faces[i].X], scaledRotOffset);
                 Vector3 pointA = SharpHelpers.Transform3D(rotPointA + scaledPosOffset, position, rotation);
-                Vector3 rotPointB = SharpHelpers.RotateDeg3D(_points[Faces[i].Y], scaledRotOffset);
+                Vector3 rotPointB = SharpHelpers.Rotate3D(_points[Faces[i].Y], scaledRotOffset);
                 Vector3 pointB = SharpHelpers.Transform3D(rotPointB + scaledPosOffset, position, rotation);
-                Vector3 rotPointC = SharpHelpers.RotateDeg3D(_points[Faces[i].Z], scaledRotOffset);
+                Vector3 rotPointC = SharpHelpers.Rotate3D(_points[Faces[i].Z], scaledRotOffset);
                 Vector3 pointC = SharpHelpers.Transform3D(rotPointC + scaledPosOffset, position, rotation);
 
                 DebugDraw3D.DrawLine(pointA, pointB, drawColor);

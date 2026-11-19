@@ -9,29 +9,29 @@ namespace SharpCollisions.Sharp2D
     {              
         [Export] private Array<Vector2> _points
         {
-            get{
+            get
+            {
                 Array<Vector2> ret = new Array<Vector2>();
-                if (raw_Points_X != null && raw_Points_Y != null)
-                {
-                    int length = Mathf.Min(raw_Points_X.Length, raw_Points_Y.Length);
-                
-                    for (int i = 0; i < length; i++)
+                if (RawPoints != null)
+                {                
+                    for (int i = 0; i < RawPoints.Length; i++)
                     {
-                        ret.Add(new Vector2((float)Fix64.FromRaw(raw_Points_X[i]), (float)Fix64.FromRaw(raw_Points_Y[i])));
+                        ret.Add((Vector2)RawPoints[i]);
                     }
                 }
                 return ret;
             }
-            set{
-                if (Engine.IsEditorHint())  // Avoid any float values changing fixed point raw values when the game runs
+            set
+            {
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
                 {
                     raw_Points_X = new long[value.Count];
                     raw_Points_Y = new long[value.Count];
                     RawPoints = new FixVector2[value.Count];
-                    for (int i = 0; i < value.Count; i++)
+                    for (int i = 0; i < RawPoints.Length; i++)
                     {
-                        raw_Points_X[i] = ((Fix64)((decimal)value[i].X)).RawValue;
-                        raw_Points_Y[i] = ((Fix64)((decimal)value[i].Y)).RawValue;
+                        raw_Points_X[i] = ((Fix64)value[i].X).RawValue;
+                        raw_Points_Y[i] = ((Fix64)value[i].Y).RawValue;
                         RawPoints[i] = new FixVector2(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]));
                     }
                 }
@@ -41,12 +41,20 @@ namespace SharpCollisions.Sharp2D
         [ExportSubgroup("Raw Values")]
         [Export] private long[] raw_points_x
         {
-            get => raw_Points_X;
+            get
+            {
+                long[] ret = new long[RawPoints.Length];
+                for (int i = 0; i < ret.Length; i++)
+                {
+                    ret[i] = RawPoints[i].x.RawValue;
+                }
+                return ret;
+            }
             set
             {
                 raw_Points_X = value;
-                RawPoints = new FixVector2[_points.Count];
-                for (int i = 0; i < _points.Count; i++)
+                RawPoints = new FixVector2[value.Length];
+                for (int i = 0; i < RawPoints.Length; i++)
                 {
                     RawPoints[i] = new FixVector2(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]));
                 }
@@ -54,12 +62,20 @@ namespace SharpCollisions.Sharp2D
         }
         [Export] private long[] raw_points_y
         {
-            get => raw_Points_Y;
+            get
+            {
+                long[] ret = new long[RawPoints.Length];
+                for (int i = 0; i < ret.Length; i++)
+                {
+                    ret[i] = RawPoints[i].y.RawValue;
+                }
+                return ret;
+            }
             set
             {
                 raw_Points_Y = value;
-                RawPoints = new FixVector2[_points.Count];
-                for (int i = 0; i < _points.Count; i++)
+                RawPoints = new FixVector2[value.Length];
+                for (int i = 0; i < RawPoints.Length; i++)
                 {
                     RawPoints[i] = new FixVector2(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]));
                 }
@@ -85,8 +101,7 @@ namespace SharpCollisions.Sharp2D
             //create a simple triangle as the default shape
             if (RawPoints == null || RawPoints.Length < 3)
             {
-                RawPoints = new FixVector2[]
-                {
+                RawPoints = new FixVector2[] {
                     new FixVector2(Fix64.NegativeOne, Fix64.NegativeOne),
                     new FixVector2(Fix64.Zero, Fix64.One),
                     new FixVector2(Fix64.One, Fix64.NegativeOne)
@@ -115,20 +130,20 @@ namespace SharpCollisions.Sharp2D
 
             Color drawColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
-            Vector2 PosOffset = _positionOffset;
-            float RotOffset = _rotationOffset;
+            Vector2 PosOffset = (Vector2)PositionOffset;
+            float RotOffset = (float)(RotationOffset * Fix64.DegToRad);
 
             Vector3 position = (Vector3)reference.FixedPosition;
-            float rotation = (float)reference.FixedRotation;
+            float rotation = (float)(reference.FixedRotation * Fix64.DegToRad);
 
             for (int i = 0; i < _points.Count; i++)
             {
                 Vector2 start = _points[i];
                 Vector2 end = _points[(i + 1) % _points.Count];
 
-                Vector2 rotPointA = SharpHelpers.Rotate2D(start, Mathf.DegToRad(RotOffset));
+                Vector2 rotPointA = SharpHelpers.Rotate2D(start, RotOffset);
                 Vector3 pointA = SharpHelpers.Transform2D3D(rotPointA + PosOffset, position, rotation);
-                Vector2 rotPointB = SharpHelpers.Rotate2D(end, Mathf.DegToRad(RotOffset));
+                Vector2 rotPointB = SharpHelpers.Rotate2D(end, RotOffset);
                 Vector3 pointB = SharpHelpers.Transform2D3D(rotPointB + PosOffset, position, rotation);
 
                 DebugDraw3D.DrawLine(pointA, pointB, drawColor);

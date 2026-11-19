@@ -16,6 +16,8 @@ size = Vector3(6, 0.6, 0.2)
 [sub_resource type="SphereMesh" id="SphereMesh_qsbbd"]
 radius = 0.4
 height = 0.8
+radial_segments = 32
+rings = 16
 
 [sub_resource type="CapsuleMesh" id="3"]
 radius = 0.8
@@ -43,7 +45,7 @@ tonemap_mode = 2
 [node name="PhysicsManager" type="Node" parent="." unique_id=1016824260 node_paths=PackedStringArray("nodes")]
 script = ExtResource("2_fb5pd")
 nodes = [NodePath("../Character"), NodePath("../Floor"), NodePath("../Floor2"), NodePath("../Floor3"), NodePath("../Sphere"), NodePath("../Polygon"), NodePath("../Polygon2"), NodePath("../Capsule"), NodePath("../AABBTest"), NodePath("../AABBTest2")]
-ShowDebugShapes = true
+RunOnDedicatedThread = true
 
 [node name="Character" parent="." unique_id=1388365258 instance=ExtResource("5")]
 
@@ -66,7 +68,7 @@ DrawDebugShape = true
 metadata/_custom_type_script = "uid://d4idavsok0wfs"
 
 [node name="Viewer" type="Node3D" parent="Floor" unique_id=995626471]
-transform = Transform3D(0.99998313, 0, 0, 0, 0.99998313, 0, 0, 0, 1, 0, -2, 0)
+transform = Transform3D(0.9999797, 0, 0, 0, 0.9999797, 0, 0, 0, 1, 0, -2, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Floor/Viewer" unique_id=1321256801]
 mesh = SubResource("1")
@@ -134,8 +136,10 @@ Colliders = [NodePath("Collider"), NodePath("Collider2")]
 Attachments = []
 Renderer3D = NodePath("Viewer")
 _fixedPosition = Vector2(1.5, -0.95)
+_fixedRotation = 98.26
 raw_fixedPosition_x = 6442450944
 raw_fixedPosition_y = -4080218931
+raw_fixedRotation = 422023495680
 
 [node name="Collider" type="Node" parent="Sphere" unique_id=1931940713]
 script = ExtResource("6_l8y4h")
@@ -157,7 +161,7 @@ raw_positionOffset_Y = 858993459
 metadata/_custom_type_script = "uid://b4o377chp53rf"
 
 [node name="Viewer" type="Node3D" parent="Sphere" unique_id=155657423]
-transform = Transform3D(0.9999952, 0, 0, 0, 0.9999952, 0, 0, 0, 1, 1.5, -0.95, 0)
+transform = Transform3D(-0.14365469, -0.98955256, 0, 0.98955256, -0.14365469, 0, 0, 0, 1, 1.5, -0.95, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere/Viewer" unique_id=1746452698]
 mesh = SubResource("SphereMesh_qsbbd")
@@ -175,13 +179,13 @@ raw_fixedPosition_y = -3435973836
 [node name="Collider" type="Node" parent="Polygon" unique_id=852191950]
 script = ExtResource("7_7xfg0")
 _points = Array[Vector2]([Vector2(0, 1), Vector2(1, 0), Vector2(0.6, -1), Vector2(-0.6, -1), Vector2(-1, 0)])
-raw_points_x = PackedInt64Array(0, 4294967296, 2576980377, -2576980377, -4294967296)
+raw_points_x = PackedInt64Array(0, 4294967296, 2576980480, -2576980480, -4294967296)
 raw_points_y = PackedInt64Array(4294967296, 0, -4294967296, -4294967296, 0)
 DrawDebugShape = true
 metadata/_custom_type_script = "uid://dt55cp5j25344"
 
 [node name="Viewer" type="Node3D" parent="Polygon" unique_id=1724183368]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.8, 0)
+transform = Transform3D(0.9999973, 0, 0, 0, 0.9999973, 0, 0, 0, 1, -1, -0.8, 0)
 
 [node name="Polygon2" type="Node" parent="." unique_id=569199741 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer3D")]
 script = ExtResource("1")
@@ -228,7 +232,7 @@ raw_rotationOffset = 386547056640
 metadata/_custom_type_script = "uid://b3noxcpjbrexh"
 
 [node name="Viewer" type="Node3D" parent="Capsule" unique_id=998120973]
-transform = Transform3D(0.90629816, -0.4226138, 0, 0.4226138, 0.90629816, 0, 0, 0, 1, -2.5, 1.8, 0)
+transform = Transform3D(0.90628844, -0.42260924, 0, 0.42260924, 0.90628844, 0, 0, 0, 1, -2.5, 1.8, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Capsule/Viewer" unique_id=55474576]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)

@@ -8,18 +8,20 @@ namespace SharpCollisions.Sharp2D
     public partial class FixedTransform2D : SharpNode
     {
         [Export] protected Node3D Renderer3D;
-        [Export] private Node2D Renderer2D;
+        [Export] protected Node2D Renderer2D;
         
         /// <summary>
         /// Don't use this variable in the simulation, its only purpose is to inject its value to the actual position
         /// </summary>
         [Export] private Vector2 _fixedPosition
         {
-            get => new Vector2((float)Fix64.FromRaw(raw_FixedPosition_X), (float)Fix64.FromRaw(raw_FixedPosition_Y));
-            set {
-                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_FixedPosition_X = ((Fix64)((decimal)value.X)).RawValue;
-                    raw_FixedPosition_Y = ((Fix64)((decimal)value.Y)).RawValue;
+            get => (Vector2)FixedPosition;
+            set
+            {
+                if (Engine.IsEditorHint())
+                {  // Avoid any float values changing fixed point raw values when the game runs
+                    raw_FixedPosition_X = ((Fix64)value.X).RawValue;
+                    raw_FixedPosition_Y = ((Fix64)value.Y).RawValue;
                     FixedPosition = new FixVector2(Fix64.FromRaw(raw_FixedPosition_X), Fix64.FromRaw(raw_FixedPosition_Y));
                 }
             }
@@ -30,13 +32,13 @@ namespace SharpCollisions.Sharp2D
         /// </summary>
         [Export] private float _fixedRotation
         {
-            get => (float)Fix64.FromRaw(raw_FixedRotation);
+            get => (float)FixedRotation;
             set
             {
                 if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
                 {
-                    raw_FixedRotation = ((Fix64)((decimal)value)).RawValue;
-                    FixedRotation = Fix64.FromRaw(raw_FixedRotation) * Fix64.DegToRad;
+                    raw_FixedRotation = ((Fix64)value).RawValue;
+                    FixedRotation = Fix64.FromRaw(raw_FixedRotation);
                 }
             }
         }
@@ -44,7 +46,7 @@ namespace SharpCollisions.Sharp2D
         [ExportSubgroup("Raw Values")]
         [Export] private long raw_fixedPosition_x
         {
-            get => raw_FixedPosition_X;
+            get => FixedPosition.x.RawValue;
             set
             {
                 raw_FixedPosition_X = value;
@@ -53,7 +55,7 @@ namespace SharpCollisions.Sharp2D
         }
         [Export] private long raw_fixedPosition_y
         {
-            get => raw_FixedPosition_Y;
+            get => FixedPosition.y.RawValue;
             set
             {
                 raw_FixedPosition_Y = value;
@@ -62,11 +64,11 @@ namespace SharpCollisions.Sharp2D
         }
         [Export] private long raw_fixedRotation
         {
-            get => raw_FixedRotation;
+            get => FixedRotation.RawValue;
             set
             {
                 raw_FixedRotation = value;
-                FixedRotation = Fix64.FromRaw(raw_FixedRotation) * Fix64.DegToRad;
+                FixedRotation = Fix64.FromRaw(raw_FixedRotation);
             }
         }
 
@@ -77,8 +79,8 @@ namespace SharpCollisions.Sharp2D
         public FixVector2 FixedPosition = new FixVector2();
         public Fix64 FixedRotation = new Fix64();
 
-        public FixVector2 Right => FixVector2.Rotate(FixVector2.Right, FixedRotation);
-        public FixVector2 Up => FixVector2.Rotate(FixVector2.Up, FixedRotation);
+        public FixVector2 Right => FixVector2.RotateDegrees(FixVector2.Right, FixedRotation);
+        public FixVector2 Up => FixVector2.RotateDegrees(FixVector2.Up, FixedRotation);
         public FixVector2 Left => -Right;
         public FixVector2 Down => -Up;
 
@@ -100,7 +102,7 @@ namespace SharpCollisions.Sharp2D
                 Renderer3D.Visible = Active;
 			
                 Renderer3D.GlobalPosition = (Vector3)FixedPosition;
-                Renderer3D.GlobalRotation = new Vector3(0, 0, (float)FixedRotation);
+                Renderer3D.GlobalRotationDegrees = new Vector3(0, 0, (float)FixedRotation);
             }
 
             if (Renderer2D != null)
@@ -108,7 +110,7 @@ namespace SharpCollisions.Sharp2D
                 Renderer2D.Visible = Active;
 			
                 Renderer2D.GlobalPosition = (Vector2)FixedPosition;
-                Renderer2D.GlobalRotation = (float)FixedRotation;
+                Renderer2D.GlobalRotationDegrees = (float)FixedRotation;
             }
         }
 

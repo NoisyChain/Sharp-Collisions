@@ -113,7 +113,6 @@ namespace SharpCollisions.Sharp3D
         {
 			if (SharpManager.Instance == null)
 			{
-				QueueFree();
 				GD.PrintErr("SharpManager not found. Make sure to add a SharpManager to the scene");
 				return;
 			}
@@ -207,14 +206,6 @@ namespace SharpCollisions.Sharp3D
 			AngularVelocity = newVelocity;
 		}
 
-		public void SetAngularVelocityDegrees(FixVector3 newVelocity)
-		{
-			if (BodyMode == 2) return;
-			if (IsAttached()) return;
-
-			SetAngularVelocity(newVelocity * Fix64.DegToRad);
-		}
-		
 		public void Move()
 		{
 			if (FixVector3.Length(LinearVelocity) == Fix64.Zero) return;
@@ -272,7 +263,7 @@ namespace SharpCollisions.Sharp3D
 
 			FixedPosition += direction;
 			UpdatePositions = true;
-			if (IsStationary) UpdateBoundingBoxes = true;
+			UpdateBoundingBoxes = IsStationary;
 			UpdateColliders();
 		}
 
@@ -298,7 +289,7 @@ namespace SharpCollisions.Sharp3D
 			foreach (SharpCollider3D col in Colliders)
 			{
 				if (UpdatePositions || UpdateRotations)
-					col.UpdatePoints(FixedPosition, FixedRotation);
+					col.UpdatePoints(FixedPosition, FixedRotation * Fix64.DegToRad);
 				if (UpdateBoundingBoxes)
 					col.UpdateBoundingBox();
 			}

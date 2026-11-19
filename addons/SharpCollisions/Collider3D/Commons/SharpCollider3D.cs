@@ -13,12 +13,12 @@ namespace SharpCollisions.Sharp3D
         /// </summary>
         [Export] protected Vector3 _positionOffset
         {
-            get => new Vector3((float)Fix64.FromRaw(raw_PositionOffset_X), (float)Fix64.FromRaw(raw_PositionOffset_Y), (float)Fix64.FromRaw(raw_PositionOffset_Z));
+            get => (Vector3)PositionOffset;
             set {
                 if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_PositionOffset_X = ((Fix64)((decimal)value.X)).RawValue;
-                    raw_PositionOffset_Y = ((Fix64)((decimal)value.Y)).RawValue;
-                    raw_PositionOffset_Z = ((Fix64)((decimal)value.Z)).RawValue;
+                    raw_PositionOffset_X = ((Fix64)value.X).RawValue;
+                    raw_PositionOffset_Y = ((Fix64)value.Y).RawValue;
+                    raw_PositionOffset_Z = ((Fix64)value.Z).RawValue;
                     PositionOffset = new FixVector3(Fix64.FromRaw(raw_PositionOffset_X), Fix64.FromRaw(raw_PositionOffset_Y), Fix64.FromRaw(raw_PositionOffset_Z));
                 }
             }
@@ -29,13 +29,13 @@ namespace SharpCollisions.Sharp3D
         /// </summary>
         [Export] protected Vector3 _rotationOffset
         {
-            get => new Vector3((float)Fix64.FromRaw(raw_RotationOffset_X), (float)Fix64.FromRaw(raw_RotationOffset_Y), (float)Fix64.FromRaw(raw_RotationOffset_Z));
+            get => (Vector3)RotationOffset;
             set {
                 if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_RotationOffset_X = ((Fix64)((decimal)value.X)).RawValue;
-                    raw_RotationOffset_Y = ((Fix64)((decimal)value.Y)).RawValue;
-                    raw_RotationOffset_Z = ((Fix64)((decimal)value.Z)).RawValue;
-                    RotationOffset = new FixVector3(Fix64.FromRaw(raw_RotationOffset_X), Fix64.FromRaw(raw_RotationOffset_Y), Fix64.FromRaw(raw_RotationOffset_Z)) * Fix64.DegToRad;
+                    raw_RotationOffset_X = ((Fix64)value.X).RawValue;
+                    raw_RotationOffset_Y = ((Fix64)value.Y).RawValue;
+                    raw_RotationOffset_Z = ((Fix64)value.Z).RawValue;
+                    RotationOffset = new FixVector3(Fix64.FromRaw(raw_RotationOffset_X), Fix64.FromRaw(raw_RotationOffset_Y), Fix64.FromRaw(raw_RotationOffset_Z));
                 }
             }
         }
@@ -50,7 +50,7 @@ namespace SharpCollisions.Sharp3D
 		[ExportSubgroup("Raw Values")]
         [Export] private long raw_positionOffset_x
         {
-            get => raw_PositionOffset_X;
+            get => PositionOffset.x.RawValue;
             set
             {
                 raw_PositionOffset_X = value;
@@ -59,7 +59,7 @@ namespace SharpCollisions.Sharp3D
         }
         [Export] private long raw_positionOffset_y
         {
-            get => raw_PositionOffset_Y;
+            get => PositionOffset.y.RawValue;
             set
             {
                 raw_PositionOffset_Y = value;
@@ -68,7 +68,7 @@ namespace SharpCollisions.Sharp3D
         }
 		[Export] private long raw_positionOffset_z
         {
-            get => raw_PositionOffset_Z;
+            get => PositionOffset.z.RawValue;
             set
             {
                 raw_PositionOffset_Z = value;
@@ -77,28 +77,28 @@ namespace SharpCollisions.Sharp3D
         }
         [Export] private long raw_rotationOffset_x
         {
-            get => raw_RotationOffset_X;
+            get => RotationOffset.x.RawValue;
             set
             {
                 raw_RotationOffset_X = value;
-               	RotationOffset = new FixVector3(Fix64.FromRaw(raw_RotationOffset_X), Fix64.FromRaw(raw_RotationOffset_Y), Fix64.FromRaw(raw_RotationOffset_Z)) * Fix64.DegToRad;
+               	RotationOffset = new FixVector3(Fix64.FromRaw(raw_RotationOffset_X), Fix64.FromRaw(raw_RotationOffset_Y), Fix64.FromRaw(raw_RotationOffset_Z));
             }
         }[Export] private long raw_rotationOffset_y
         {
-            get => raw_RotationOffset_Y;
+            get => RotationOffset.y.RawValue;
             set
             {
                 raw_RotationOffset_Y = value;
-               	RotationOffset = new FixVector3(Fix64.FromRaw(raw_RotationOffset_X), Fix64.FromRaw(raw_RotationOffset_Y), Fix64.FromRaw(raw_RotationOffset_Z)) * Fix64.DegToRad;
+               	RotationOffset = new FixVector3(Fix64.FromRaw(raw_RotationOffset_X), Fix64.FromRaw(raw_RotationOffset_Y), Fix64.FromRaw(raw_RotationOffset_Z));
             }
         }
 		[Export] private long raw_rotationOffset_z
         {
-            get => raw_RotationOffset_Z;
+            get => RotationOffset.z.RawValue;
             set
             {
                 raw_RotationOffset_Z = value;
-               	RotationOffset = new FixVector3(Fix64.FromRaw(raw_RotationOffset_X), Fix64.FromRaw(raw_RotationOffset_Y), Fix64.FromRaw(raw_RotationOffset_Z)) * Fix64.DegToRad;
+               	RotationOffset = new FixVector3(Fix64.FromRaw(raw_RotationOffset_X), Fix64.FromRaw(raw_RotationOffset_Y), Fix64.FromRaw(raw_RotationOffset_Z));
             }
         }
 

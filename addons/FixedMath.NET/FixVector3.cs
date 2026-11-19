@@ -122,6 +122,11 @@ namespace FixMath.NET
 			return new FixVector3(tx, ty, tz);
 		}
 
+		public static FixVector3 TransformDegrees(FixVector3 v, FixVector3 refPosition, FixVector3 refRotation)
+		{
+			return Transform(v, refPosition, refRotation * Fix64.RadToDeg);
+		}
+
 		public static FixVector3 Project(FixVector3 u, FixVector3 v)
 		{
 			if (u == Zero) return Zero;
@@ -142,19 +147,17 @@ namespace FixMath.NET
 		/// <returns>The rotated vector</returns>
 		public static FixVector3 Rotate(FixVector3 v, FixVector3 angle)
 		{
-			//FixVector3 RotRoll = Roll(v, angle.z);
-			//FixVector3 RotPitch = Pitch(RotRoll, angle.x);
-			//FixVector3 RotYaw = Yaw(RotPitch, angle.y);
-
 			FixVector3 ret = v;
-			if (angle.z != Fix64.Zero)
-				ret = Roll(ret, angle.z);
-			if (angle.x != Fix64.Zero)
-				ret = Pitch(ret, angle.x);
-			if (angle.y != Fix64.Zero)
-				ret = Yaw(ret, angle.y);
+			ret = Roll(ret, angle.z);
+			ret = Pitch(ret, angle.x);
+			ret = Yaw(ret, angle.y);
 
 			return ret;
+		}
+
+		public static FixVector3 RotateDegrees(FixVector3 v, FixVector3 angle)
+		{
+			return Rotate(v, angle * Fix64.DegToRad);
 		}
 
 		/// <summary>

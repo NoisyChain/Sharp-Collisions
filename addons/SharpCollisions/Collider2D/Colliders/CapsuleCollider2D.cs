@@ -1,5 +1,6 @@
 using Godot;
 using FixMath.NET;
+using System;
 
 namespace SharpCollisions.Sharp2D
 {
@@ -9,10 +10,12 @@ namespace SharpCollisions.Sharp2D
     {
         [Export] private float _radius
         {
-            get =>(float)Fix64.FromRaw(raw_Radius);
-            set {
-                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_Radius = ((Fix64)((decimal)value)).RawValue;
+            get =>(float)Radius;
+            set
+            {
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_Radius = ((Fix64)value).RawValue;
                     Radius = Fix64.FromRaw(raw_Radius);
                 }
             }
@@ -20,10 +23,12 @@ namespace SharpCollisions.Sharp2D
 
         [Export] private float _height
         {
-            get =>(float)Fix64.FromRaw(raw_Height);
-            set {
-                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_Height = ((Fix64)((decimal)value)).RawValue;
+            get =>(float)Height;
+            set
+            {
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_Height = ((Fix64)value).RawValue;
                     Height = Fix64.FromRaw(raw_Height);
                 }
             }
@@ -32,7 +37,7 @@ namespace SharpCollisions.Sharp2D
         [ExportSubgroup("Raw Values")]
         [Export] private long raw_radius
         {
-            get => raw_Radius;
+            get => Radius.RawValue;
             set
             {
                 raw_Radius = value;
@@ -41,7 +46,7 @@ namespace SharpCollisions.Sharp2D
         }
         [Export] private long raw_height
         {
-            get => raw_Height;
+            get => Height.RawValue;
             set
             {
                 raw_Height = value;
@@ -76,15 +81,15 @@ namespace SharpCollisions.Sharp2D
             float scaledRadius = (float)Radius;
 
             Vector2 PosOffset = (Vector2)PositionOffset;
-            float RotOffset = (float)RotationOffset;
+            float RotOffset = (float)(RotationOffset * Fix64.DegToRad);
 
             Vector2 upPoint = PosOffset + (Vector2.Up * (scaledHeight - scaledRadius));
             Vector2 lowPoint = PosOffset - (Vector2.Up * (scaledHeight - scaledRadius));
 
             Vector2 upperPoint0 = SharpHelpers.Rotate2D(upPoint, RotOffset);
             Vector2 lowerPoint0 = SharpHelpers.Rotate2D(lowPoint, RotOffset);
-            Vector2 upperPoint = SharpHelpers.Transform2D(upperPoint0, (Vector2)reference.FixedPosition, (float)reference.FixedRotation);
-            Vector2 lowerPoint = SharpHelpers.Transform2D(lowerPoint0, (Vector2)reference.FixedPosition, (float)reference.FixedRotation);
+            Vector2 upperPoint = SharpHelpers.Transform2D(upperPoint0, (Vector2)reference.FixedPosition, (float)(reference.FixedRotation * Fix64.DegToRad));
+            Vector2 lowerPoint = SharpHelpers.Transform2D(lowerPoint0, (Vector2)reference.FixedPosition, (float)(reference.FixedRotation * Fix64.DegToRad));
 
             Vector2 direction = (upperPoint - lowerPoint).Normalized();
 
@@ -120,8 +125,8 @@ namespace SharpCollisions.Sharp2D
         {
             FixVector2 CapsuleDirection = new FixVector2(Fix64.Zero, Height - Radius);
 
-            UpperPoint = FixVector2.Rotate(CapsuleDirection, RotationOffset);
-            LowerPoint = FixVector2.Rotate(-CapsuleDirection, RotationOffset);
+            UpperPoint = FixVector2.Rotate(CapsuleDirection, RotationOffset * Fix64.DegToRad);
+            LowerPoint = FixVector2.Rotate(-CapsuleDirection, RotationOffset * Fix64.DegToRad);
         }
 
         private void UpdateCapsulePoints(FixVector2 position, Fix64 rotation)

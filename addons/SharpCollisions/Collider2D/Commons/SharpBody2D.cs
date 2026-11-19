@@ -273,7 +273,7 @@ namespace SharpCollisions.Sharp2D
 
 			FixedPosition += direction;
 			UpdatePositions = true;
-			if (IsStationary) UpdateBoundingBoxes = true;
+			UpdateBoundingBoxes = IsStationary;
 			UpdateColliders();
 		}
 		
@@ -299,7 +299,7 @@ namespace SharpCollisions.Sharp2D
 			foreach (SharpCollider2D col in Colliders)
 			{
 				if (UpdatePositions || UpdateRotations)
-					col.UpdatePoints(FixedPosition, FixedRotation);
+					col.UpdatePoints(FixedPosition, FixedRotation * Fix64.DegToRad);
 				if (UpdateBoundingBoxes)
 					col.UpdateBoundingBox();
 			}

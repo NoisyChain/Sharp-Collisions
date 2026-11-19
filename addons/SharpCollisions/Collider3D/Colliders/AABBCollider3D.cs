@@ -8,12 +8,12 @@ namespace SharpCollisions.Sharp3D
     {
         [Export] private Vector3 _extents
         {
-            get => new Vector3((float)Fix64.FromRaw(raw_Extents_X), (float)Fix64.FromRaw(raw_Extents_Y), (float)Fix64.FromRaw(raw_Extents_Z));
+            get => (Vector3)Extents;
             set {
                 if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_Extents_X = ((Fix64)((decimal)value.X)).RawValue;
-                    raw_Extents_Y = ((Fix64)((decimal)value.Y)).RawValue;
-                    raw_Extents_Z = ((Fix64)((decimal)value.Z)).RawValue;
+                    raw_Extents_X = ((Fix64)value.X).RawValue;
+                    raw_Extents_Y = ((Fix64)value.Y).RawValue;
+                    raw_Extents_Z = ((Fix64)value.Z).RawValue;
                     Extents = new FixVector3(Fix64.FromRaw(raw_Extents_X), Fix64.FromRaw(raw_Extents_Y), Fix64.FromRaw(raw_Extents_Z));
                 }
             }
@@ -22,7 +22,7 @@ namespace SharpCollisions.Sharp3D
         [ExportSubgroup("Raw Values")]
         [Export] private long raw_extents_x
         {
-            get => raw_Extents_X;
+            get => Extents.x.RawValue;
             set
             {
                 raw_Extents_X = value;
@@ -31,7 +31,7 @@ namespace SharpCollisions.Sharp3D
         }
         [Export] private long raw_extents_y
         {
-            get => raw_Extents_Y;
+            get => Extents.y.RawValue;
             set
             {
                 raw_Extents_Y = value;
@@ -40,7 +40,7 @@ namespace SharpCollisions.Sharp3D
         }
         [Export] private long raw_extents_z
         {
-            get => raw_Extents_Z;
+            get => Extents.z.RawValue;
             set
             {
                 raw_Extents_Z = value;
@@ -68,12 +68,12 @@ namespace SharpCollisions.Sharp3D
             Color drawColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
             Vector3 pos = (Vector3)PositionOffset;
-            Vector3 newPos = SharpHelpers.Transform3D(pos, (Vector3)reference.FixedPosition, (Vector3)reference.FixedRotation);
+            Vector3 newPos = SharpHelpers.Transform3D(pos, (Vector3)reference.FixedPosition, (Vector3)(reference.FixedRotation * Fix64.DegToRad));
 
             DebugDraw3D.DrawBox(newPos, Quaternion.Identity, (Vector3)Extents * 2, drawColor, true);
         }
 
-        public override void UpdateBoundingBox() 
+        public override void UpdateBoundingBox()
         {
             BoundingBox = CollisionMath3D.UpdateAABBBoundingBox(Center, Extents);
         }

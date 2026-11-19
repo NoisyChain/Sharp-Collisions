@@ -106,6 +106,11 @@ namespace FixMath.NET
 			return new FixVector2(tx, ty);
 		}
 
+		public static FixVector2 TransformDegrees(FixVector2 v, FixVector2 refPosition, Fix64 refRotation)
+		{
+			return Transform(v, refPosition, refRotation * Fix64.DegToRad);
+		}
+
 		public static FixVector2 Project(FixVector2 u, FixVector2 v)
 		{
 			if (u == Zero) return Zero;
@@ -127,9 +132,13 @@ namespace FixMath.NET
 			return new FixVector2(rx, ry);
 		}
 
+		public static FixVector2 RotateDegrees(FixVector2 v, Fix64 angle)
+		{
+			return Rotate(v, angle * Fix64.DegToRad);
+		}
+
 		public static Fix64 Angle(FixVector2 a, FixVector2 b)
 		{
-			//return Fix64.Atan2(b.y - a.y, b.x - a.x);
 			Fix64 dot = Dot(a, b);
 			Fix64 magA = Length(a);
 			Fix64 magB = Length(b);

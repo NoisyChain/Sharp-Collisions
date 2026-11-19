@@ -20,6 +20,8 @@ size = Vector3(2, 2, 2)
 [sub_resource type="SphereMesh" id="15"]
 radius = 1.0
 height = 2.0
+radial_segments = 32
+rings = 16
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_omnyj"]
 
@@ -84,7 +86,7 @@ Faces = []
 DrawDebugShape = true
 
 [node name="Viewer" type="Node3D" parent="Box" unique_id=415964012]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2.9)
+transform = Transform3D(0.9999492, 0, 0, 0, 0.9999987, 0, 0, 0, 0.9999501, 0, 1, -2.9)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Box/Viewer" unique_id=1644634995]
 mesh = SubResource("BoxMesh_earb3")
@@ -116,7 +118,7 @@ DrawDebugShape = true
 DrawBoundingBox = true
 
 [node name="Viewer" type="Node3D" parent="Box2" unique_id=1636148238]
-transform = Transform3D(0.852965, -0.14405015, 0.4999999, 0.49965534, 0.49181792, -0.7071067, -0.14634567, 0.83958566, 0.4999999, -2.3, 2, 0)
+transform = Transform3D(0.852965, -0.14597404, 0.4999999, 0.49965534, 0.4983865, -0.7071067, -0.14634567, 0.8507989, 0.4999999, -2.3, 2, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Box2/Viewer" unique_id=1571333008]
 mesh = SubResource("12")
@@ -150,7 +152,7 @@ raw_positionOffset_x = -3865470566
 raw_positionOffset_y = 1717986918
 
 [node name="Viewer" type="Node3D" parent="Sphere" unique_id=1926988097]
-transform = Transform3D(0.99998623, 0, 0, 0, 0.999998, 0, 0, 0, 0.99998426, 2.5, 1.2, 0)
+transform = Transform3D(0.9998683, 0, 0, 0, 0.99999386, 0, 0, 0, 0.9998674, 2.5, 1.2, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Sphere/Viewer" unique_id=76623510]
 mesh = SubResource("15")
@@ -181,7 +183,7 @@ DrawBoundingBox = true
 raw_rotationOffset_z = 386547056640
 
 [node name="Viewer" type="Node3D" parent="Capsule" unique_id=720804035]
-transform = Transform3D(0.7070726, 0, 0.70700425, 0, 0.99998, 0, -0.7070726, 0, 0.70700425, 2.5, 0.5, 2.5)
+transform = Transform3D(0.7070694, 0, 0.7070054, 0, 0.99997693, 0, -0.7070694, 0, 0.7070054, 2.5, 0.5, 2.5)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Capsule/Viewer" unique_id=735253551]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)

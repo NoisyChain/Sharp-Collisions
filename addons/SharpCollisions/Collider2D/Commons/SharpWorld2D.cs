@@ -294,29 +294,4 @@ namespace SharpCollisions.Sharp2D
 			return FixVector2.LengthSq(newDepth);
 		}
 	}
-
-	public class CollisionProfile2D
-	{
-		public bool Collided;
-		public SharpBody2D BodyA;
-		public SharpBody2D BodyB;
-        public int ColliderA;
-        public int ColliderB;
-        public FixVector2 Normal;
-        public FixVector2 Depth;
-        public FixVector2 ContactPoint;
-
-		public CollisionProfile2D() {}
-        public CollisionProfile2D(bool collided, SharpBody2D bodyA, SharpBody2D bodyB, int colA, int colB, FixVector2 normal, FixVector2 depth, FixVector2 contact)
-        {
-			Collided = collided;
-			BodyA = bodyA;
-            BodyB = bodyB;
-            ColliderA = colA;
-            ColliderB = colB;
-            Normal = normal;
-            Depth = depth;
-            ContactPoint = contact;
-        }
-	}
 }

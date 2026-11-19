@@ -12,11 +12,12 @@ namespace SharpCollisions.Sharp2D
         /// </summary>
         [Export] protected Vector2 _positionOffset
         {
-            get => new Vector2((float)Fix64.FromRaw(raw_PositionOffset_X), (float)Fix64.FromRaw(raw_PositionOffset_Y));
+            get => (Vector2)PositionOffset;
             set {
-                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_PositionOffset_X = ((Fix64)((decimal)value.X)).RawValue;
-                    raw_PositionOffset_Y = ((Fix64)((decimal)value.Y)).RawValue;
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_PositionOffset_X = ((Fix64)value.X).RawValue;
+                    raw_PositionOffset_Y = ((Fix64)value.Y).RawValue;
 					PositionOffset = new FixVector2(Fix64.FromRaw(raw_PositionOffset_X), Fix64.FromRaw(raw_PositionOffset_Y));
                 }
             }
@@ -26,13 +27,13 @@ namespace SharpCollisions.Sharp2D
         /// </summary>
         [Export] protected float _rotationOffset
         {
-            get => (float)Fix64.FromRaw(raw_RotationOffset);
+            get => (float)RotationOffset;
             set
             {
                 if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
                 {
-                    raw_RotationOffset = ((Fix64)((decimal)value)).RawValue;
-					RotationOffset = Fix64.FromRaw(raw_RotationOffset) * Fix64.DegToRad;
+                    raw_RotationOffset = ((Fix64)value).RawValue;
+					RotationOffset = Fix64.FromRaw(raw_RotationOffset);
                 }
             }
         }
@@ -46,7 +47,7 @@ namespace SharpCollisions.Sharp2D
 		[ExportSubgroup("Raw Values")]
         [Export] private long raw_positionOffset_X
         {
-            get => raw_PositionOffset_X;
+            get => PositionOffset.x.RawValue;
             set
             {
                 raw_PositionOffset_X = value;
@@ -55,7 +56,7 @@ namespace SharpCollisions.Sharp2D
         }
         [Export] private long raw_positionOffset_Y
         {
-            get => raw_PositionOffset_Y;
+            get => PositionOffset.y.RawValue;
             set
             {
                 raw_PositionOffset_Y = value;
@@ -64,11 +65,11 @@ namespace SharpCollisions.Sharp2D
         }
         [Export] private long raw_rotationOffset
         {
-            get => raw_RotationOffset;
+            get => RotationOffset.RawValue;
             set
             {
                 raw_RotationOffset = value;
-               	RotationOffset = Fix64.FromRaw(raw_RotationOffset) * Fix64.DegToRad;
+               	RotationOffset = Fix64.FromRaw(raw_RotationOffset);
             }
         }
 

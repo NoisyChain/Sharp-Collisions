@@ -8,11 +8,12 @@ namespace SharpCollisions.Sharp2D
     {
         [Export] private Vector2 _extents
         {
-            get => new Vector2((float)Fix64.FromRaw(raw_Extents_X), (float)Fix64.FromRaw(raw_Extents_Y));
+            get => (Vector2)Extents;
             set {
-                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_Extents_X = ((Fix64)((decimal)value.X)).RawValue;
-                    raw_Extents_Y = ((Fix64)((decimal)value.Y)).RawValue;
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_Extents_X = ((Fix64)value.X).RawValue;
+                    raw_Extents_Y = ((Fix64)value.Y).RawValue;
                     Extents = new FixVector2(Fix64.FromRaw(raw_Extents_X), Fix64.FromRaw(raw_Extents_Y));
                 }
             }
@@ -21,7 +22,7 @@ namespace SharpCollisions.Sharp2D
         [ExportSubgroup("Raw Values")]
         [Export] private long raw_extents_x
         {
-            get => raw_Extents_X;
+            get => Extents.x.RawValue;
             set
             {
                 raw_Extents_X = value;
@@ -30,7 +31,7 @@ namespace SharpCollisions.Sharp2D
         }
         [Export] private long raw_extents_y
         {
-            get => raw_Extents_Y;
+            get => Extents.y.RawValue;
             set
             {
                 raw_Extents_Y = value;

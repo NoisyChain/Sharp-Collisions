@@ -8,10 +8,12 @@ namespace SharpCollisions.Sharp2D
     {
 		[Export] private float _radius
         {
-            get =>(float)Fix64.FromRaw(raw_Radius);
-            set {
-                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_Radius = ((Fix64)((decimal)value)).RawValue;
+            get =>(float)Radius;
+            set
+            {
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_Radius = ((Fix64)value).RawValue;
                     Radius = Fix64.FromRaw(raw_Radius);
                 }
             }
@@ -20,7 +22,7 @@ namespace SharpCollisions.Sharp2D
 		[ExportSubgroup("Raw Values")]
         [Export] private long raw_radius
         {
-            get => raw_Radius;
+            get => Radius.RawValue;
             set
             {
                 raw_Radius = value;
@@ -48,7 +50,7 @@ namespace SharpCollisions.Sharp2D
 			Vector3 DirX = (Vector3)reference.Right;
 			Vector3 DirY = (Vector3)reference.Up;
 			Vector3 pos = new Vector3((float)PositionOffset.x, (float)PositionOffset.y, 0);
-			Vector3 newPos = SharpHelpers.Transform3D(pos, (Vector3)reference.FixedPosition, new Vector3(0.0f, 0.0f, (float)reference.FixedRotation));
+			Vector3 newPos = SharpHelpers.Transform3D(pos, (Vector3)reference.FixedPosition, new Vector3(0.0f, 0.0f, (float)(reference.FixedRotation * Fix64.DegToRad)));
 
 			CustomDebugDraw.DrawCircle(newPos, DirX, DirY, (float)Radius + 0.005f, drawColor);
 		}

@@ -20,12 +20,14 @@ namespace SharpCollisions.Sharp3D
         /// </summary>
         [Export] private Vector3 _fixedPosition
         {
-            get => new Vector3((float)Fix64.FromRaw(raw_FixedPosition_X), (float)Fix64.FromRaw(raw_FixedPosition_Y), (float)Fix64.FromRaw(raw_FixedPosition_Z));
-            set {
-                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_FixedPosition_X = ((Fix64)((decimal)value.X)).RawValue;
-                    raw_FixedPosition_Y = ((Fix64)((decimal)value.Y)).RawValue;
-                    raw_FixedPosition_Z = ((Fix64)((decimal)value.Z)).RawValue;
+            get => (Vector3)FixedPosition;
+            set
+            {
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_FixedPosition_X = ((Fix64)value.X).RawValue;
+                    raw_FixedPosition_Y = ((Fix64)value.Y).RawValue;
+                    raw_FixedPosition_Z = ((Fix64)value.Z).RawValue;
                     FixedPosition = new FixVector3(Fix64.FromRaw(raw_FixedPosition_X), Fix64.FromRaw(raw_FixedPosition_Y), Fix64.FromRaw(raw_FixedPosition_Z));
                 }
             }
@@ -36,13 +38,14 @@ namespace SharpCollisions.Sharp3D
         /// </summary>
         [Export] private Vector3 _fixedRotation
         {
-            get => new Vector3((float)Fix64.FromRaw(raw_FixedRotation_X), (float)Fix64.FromRaw(raw_FixedRotation_Y), (float)Fix64.FromRaw(raw_FixedRotation_Z));
+            get => (Vector3)FixedRotation;
             set {
-                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_FixedRotation_X = ((Fix64)((decimal)value.X)).RawValue;
-                    raw_FixedRotation_Y = ((Fix64)((decimal)value.Y)).RawValue;
-                    raw_FixedRotation_Z = ((Fix64)((decimal)value.Z)).RawValue;
-                    FixedRotation = new FixVector3(Fix64.FromRaw(raw_FixedRotation_X), Fix64.FromRaw(raw_FixedRotation_Y), Fix64.FromRaw(raw_FixedRotation_Z)) * Fix64.DegToRad;
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_FixedRotation_X = ((Fix64)value.X).RawValue;
+                    raw_FixedRotation_Y = ((Fix64)value.Y).RawValue;
+                    raw_FixedRotation_Z = ((Fix64)value.Z).RawValue;
+                    FixedRotation = new FixVector3(Fix64.FromRaw(raw_FixedRotation_X), Fix64.FromRaw(raw_FixedRotation_Y), Fix64.FromRaw(raw_FixedRotation_Z));
                 }
             }
         }
@@ -50,7 +53,7 @@ namespace SharpCollisions.Sharp3D
         [ExportSubgroup("Raw Values")]
         [Export] private long raw_fixedPosition_x
         {
-            get => raw_FixedPosition_X;
+            get => FixedPosition.x.RawValue;
             set
             {
                 raw_FixedPosition_X = value;
@@ -59,7 +62,7 @@ namespace SharpCollisions.Sharp3D
         }
         [Export] private long raw_fixedPosition_y
         {
-            get => raw_FixedPosition_Y;
+            get => FixedPosition.y.RawValue;
             set
             {
                 raw_FixedPosition_Y = value;
@@ -68,7 +71,7 @@ namespace SharpCollisions.Sharp3D
         }
         [Export] private long raw_fixedPosition_z
         {
-            get => raw_FixedPosition_Z;
+            get => FixedPosition.z.RawValue;
             set
             {
                 raw_FixedPosition_Z = value;
@@ -77,29 +80,29 @@ namespace SharpCollisions.Sharp3D
         }
         [Export] private long raw_fixedRotation_x
         {
-            get => raw_FixedRotation_X;
+            get => FixedRotation.x.RawValue;
             set
             {
                 raw_FixedRotation_X = value;
-                FixedRotation = new FixVector3(Fix64.FromRaw(raw_FixedRotation_X), Fix64.FromRaw(raw_FixedRotation_Y), Fix64.FromRaw(raw_FixedRotation_Z)) * Fix64.DegToRad;
+                FixedRotation = new FixVector3(Fix64.FromRaw(raw_FixedRotation_X), Fix64.FromRaw(raw_FixedRotation_Y), Fix64.FromRaw(raw_FixedRotation_Z));
             }
         }
         [Export] private long raw_fixedRotation_y
         {
-            get => raw_FixedRotation_Y;
+            get => FixedRotation.y.RawValue;
             set
             {
                 raw_FixedRotation_Y = value;
-                FixedRotation = new FixVector3(Fix64.FromRaw(raw_FixedRotation_X), Fix64.FromRaw(raw_FixedRotation_Y), Fix64.FromRaw(raw_FixedRotation_Z)) * Fix64.DegToRad;
+                FixedRotation = new FixVector3(Fix64.FromRaw(raw_FixedRotation_X), Fix64.FromRaw(raw_FixedRotation_Y), Fix64.FromRaw(raw_FixedRotation_Z));
             }
         }
         [Export] private long raw_fixedRotation_z
         {
-            get => raw_FixedRotation_Z;
+            get => FixedRotation.z.RawValue;
             set
             {
                 raw_FixedRotation_Z = value;
-                FixedRotation = new FixVector3(Fix64.FromRaw(raw_FixedRotation_X), Fix64.FromRaw(raw_FixedRotation_Y), Fix64.FromRaw(raw_FixedRotation_Z)) * Fix64.DegToRad;
+                FixedRotation = new FixVector3(Fix64.FromRaw(raw_FixedRotation_X), Fix64.FromRaw(raw_FixedRotation_Y), Fix64.FromRaw(raw_FixedRotation_Z));
             }
         }
 
@@ -114,9 +117,9 @@ namespace SharpCollisions.Sharp3D
         //public FixVector3 LocalFixedPosition;
         //public FixVector3 LocalFixedRotation;
 
-        public FixVector3 Right => FixVector3.Rotate(FixVector3.Right, FixedRotation);
-        public FixVector3 Up => FixVector3.Rotate(FixVector3.Up, FixedRotation);
-        public FixVector3 Forward => FixVector3.Rotate(FixVector3.Forward, FixedRotation);
+        public FixVector3 Right => FixVector3.RotateDegrees(FixVector3.Right, FixedRotation);
+        public FixVector3 Up => FixVector3.RotateDegrees(FixVector3.Up, FixedRotation);
+        public FixVector3 Forward => FixVector3.RotateDegrees(FixVector3.Forward, FixedRotation);
         public FixVector3 Left => -Right;
         public FixVector3 Down => -Up;
         public FixVector3 Back => -Forward;
@@ -149,7 +152,7 @@ namespace SharpCollisions.Sharp3D
             Renderer.Visible = Active;
 			
 			Renderer.GlobalPosition = (Vector3)FixedPosition;
-			Renderer.GlobalRotation = (Vector3)FixedRotation;
+			Renderer.GlobalRotationDegrees = (Vector3)FixedRotation;
         }
 
         public override void PreviewNode(bool debug)
@@ -158,8 +161,8 @@ namespace SharpCollisions.Sharp3D
 
             Renderer.Visible = Active;
 
-			Renderer.GlobalPosition = _fixedPosition;
-			Renderer.GlobalRotationDegrees = _fixedRotation;
+			Renderer.GlobalPosition = (Vector3)FixedPosition;
+			Renderer.GlobalRotationDegrees = (Vector3)FixedRotation;
         }
 
         /*public void SetParent(FixedTransform3D newParent)

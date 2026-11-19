@@ -1,6 +1,5 @@
 using System;
 using FixMath.NET;
-using Godot;
 
 namespace SharpCollisions
 {
@@ -60,7 +59,7 @@ namespace SharpCollisions
             pointA = a;
             pointB = b;
         }
-    }
+    };
 
     public struct SupportPoint3D
     {
@@ -73,7 +72,7 @@ namespace SharpCollisions
             pointA = a;
             pointB = b;
         }
-    }
+    };
 
     public struct PossibleCollision
     {
@@ -93,6 +92,68 @@ namespace SharpCollisions
             Priority = priority;
             distance = newDist;
         }
+    };
+
+    public struct CollisionProfile2D
+	{
+		public bool Collided;
+		public Sharp2D.SharpBody2D BodyA;
+		public Sharp2D.SharpBody2D BodyB;
+        public int ColliderA;
+        public int ColliderB;
+        public FixVector2 Normal;
+        public FixVector2 Depth;
+        public FixVector2 ContactPoint;
+
+		public CollisionProfile2D() {}
+        public CollisionProfile2D(bool collided, Sharp2D.SharpBody2D bodyA, Sharp2D.SharpBody2D bodyB, int colA, int colB, FixVector2 normal, FixVector2 depth, FixVector2 contact)
+        {
+			Collided = collided;
+			BodyA = bodyA;
+            BodyB = bodyB;
+            ColliderA = colA;
+            ColliderB = colB;
+            Normal = normal;
+            Depth = depth;
+            ContactPoint = contact;
+        }
+	};
+
+    public struct CollisionProfile3D
+	{
+		public bool Collided;
+		public Sharp3D.SharpBody3D BodyA;
+		public Sharp3D.SharpBody3D BodyB;
+        public int ColliderA;
+        public int ColliderB;
+        public FixVector3 Normal;
+        public FixVector3 Depth;
+        public FixVector3 ContactPoint;
+
+		public CollisionProfile3D() {}
+        public CollisionProfile3D(bool collided, Sharp3D.SharpBody3D bodyA, Sharp3D.SharpBody3D bodyB, int colA, int colB, FixVector3 normal, FixVector3 depth, FixVector3 contact)
+        {
+			Collided = collided;
+			BodyA = bodyA;
+            BodyB = bodyB;
+            ColliderA = colA;
+            ColliderB = colB;
+            Normal = normal;
+            Depth = depth;
+            ContactPoint = contact;
+        }
+	};
+
+    public struct SurfaceData2D
+    {
+        public int ID;
+        public FixVector2 Normal;
+    };
+
+    public struct SurfaceData3D
+    {
+        public int ID;
+        public FixVector3 Normal;
     };
 
     [Flags]

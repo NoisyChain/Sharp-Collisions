@@ -298,28 +298,4 @@ namespace SharpCollisions.Sharp3D
 		}
 	}
 
-	public class CollisionProfile3D
-	{
-		public bool Collided;
-		public SharpBody3D BodyA;
-		public SharpBody3D BodyB;
-        public int ColliderA;
-        public int ColliderB;
-        public FixVector3 Normal;
-        public FixVector3 Depth;
-        public FixVector3 ContactPoint;
-
-		public CollisionProfile3D() {}
-        public CollisionProfile3D(bool collided, SharpBody3D bodyA, SharpBody3D bodyB, int colA, int colB, FixVector3 normal, FixVector3 depth, FixVector3 contact)
-        {
-			Collided = collided;
-			BodyA = bodyA;
-            BodyB = bodyB;
-            ColliderA = colA;
-            ColliderB = colB;
-            Normal = normal;
-            Depth = depth;
-            ContactPoint = contact;
-        }
-	};
 }

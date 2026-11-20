@@ -25,16 +25,16 @@ namespace SharpCollisions.Sharp3D
             {
                 if (Engine.IsEditorHint())  // Avoid any float values changing fixed point raw values when the game runs
                 {
-                    raw_Points_X = new long[value.Count];
-                    raw_Points_Y = new long[value.Count];
-                    raw_Points_Z = new long[value.Count];
+                    rawPoints_X = new long[value.Count];
+                    rawPoints_Y = new long[value.Count];
+                    rawPoints_Z = new long[value.Count];
                     RawPoints = new FixVector3[value.Count];
                     for (int i = 0; i < RawPoints.Length; i++)
                     {
-                        raw_Points_X[i] = ((Fix64)value[i].X).RawValue;
-                        raw_Points_Y[i] = ((Fix64)value[i].Y).RawValue;
-                        raw_Points_Z[i] = ((Fix64)value[i].Z).RawValue;
-                        RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
+                        rawPoints_X[i] = ((Fix64)value[i].X).RawValue;
+                        rawPoints_Y[i] = ((Fix64)value[i].Y).RawValue;
+                        rawPoints_Z[i] = ((Fix64)value[i].Z).RawValue;
+                        RawPoints[i] = new FixVector3(Fix64.FromRaw(rawPoints_X[i]), Fix64.FromRaw(rawPoints_Y[i]), Fix64.FromRaw(rawPoints_Z[i]));
                     }
                 }
             }
@@ -56,11 +56,11 @@ namespace SharpCollisions.Sharp3D
             }
             set
             {
-                raw_Points_X = value;
+                rawPoints_X = value;
                 RawPoints = new FixVector3[value.Length];
                 for (int i = 0; i < RawPoints.Length; i++)
                 {
-                    RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
+                    RawPoints[i] = new FixVector3(Fix64.FromRaw(rawPoints_X[i]), Fix64.FromRaw(rawPoints_Y[i]), Fix64.FromRaw(rawPoints_Z[i]));
                 }
             }
         }
@@ -77,11 +77,11 @@ namespace SharpCollisions.Sharp3D
             }
             set
             {
-                raw_Points_Y = value;
+                rawPoints_Y = value;
                 RawPoints = new FixVector3[value.Length];
                 for (int i = 0; i < RawPoints.Length; i++)
                 {
-                    RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
+                    RawPoints[i] = new FixVector3(Fix64.FromRaw(rawPoints_X[i]), Fix64.FromRaw(rawPoints_Y[i]), Fix64.FromRaw(rawPoints_Z[i]));
                 }
             }
         }
@@ -98,18 +98,18 @@ namespace SharpCollisions.Sharp3D
             }
             set
             {
-                raw_Points_Z = value;
+                rawPoints_Z = value;
                 RawPoints = new FixVector3[value.Length];
                 for (int i = 0; i < RawPoints.Length; i++)
                 {
-                    RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
+                    RawPoints[i] = new FixVector3(Fix64.FromRaw(rawPoints_X[i]), Fix64.FromRaw(rawPoints_Y[i]), Fix64.FromRaw(rawPoints_Z[i]));
                 }
             }
         }
 
-        private long[] raw_Points_X;
-        private long[] raw_Points_Y;
-        private long[] raw_Points_Z;
+        private long[] rawPoints_X;
+        private long[] rawPoints_Y;
+        private long[] rawPoints_Z;
         
         public FixVector3[] RawPoints;
 		public FixVector3[] Points;        

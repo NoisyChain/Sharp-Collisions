@@ -82,7 +82,7 @@ namespace SharpCollisions.Sharp3D
                 Input3D.y = Fix64.NegativeOne;
             */
 
-            if (IsOnGround() && IsWalkableSlope(GroundAngle))
+            if (IsOnGround() && IsWalkableSlope())
             {
                 UpVector = GroundNormal;
                 VerticalVelocity = -UpVector;
@@ -148,7 +148,10 @@ namespace SharpCollisions.Sharp3D
             //SetRotation(correctedRotation);
             SetLinearVelocity(finalVelocity);
             string groundAngle = IsOnGround() ? GroundAngle.ToString() : "No Ground";
-            if (debug != null && HasColliders()) debugText = "Normal: " + UpVector.ToString() + 
+            if (debug != null && HasColliders()) debugText = "Position: " + FixedPosition +
+                "\nRotation: " + FixedRotation +
+                "\nVelocity: " + LinearVelocity +
+                "\nNormal: " + UpVector.ToString() + 
                 "\nFlags: " + GetCollider(0).collisionFlags.ToString() + 
                 "\nCollisions: " + ConfirmedCollisionCount() + 
                 //"\nContact Point: " + (GetCollisions().Count > 0 ? GetCollision(0).ContactPoint : 0) + 
@@ -161,39 +164,31 @@ namespace SharpCollisions.Sharp3D
             debug.Text = debugText;
         }
 
-        public override void RenderNode(bool debug)
-        {
-            base.RenderNode(debug);
-
-            if (!debug) return;
-            
-            //foreach(CollisionResult3D col in GetCollisions())
-                //CustomDebugDraw.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, Colors.Yellow);
-        }
-
         public void GetSurfaceData(CollisionResult3D surface)
         {
+            //
             if (!IsValidFloor(surface.CollidedWith.CollisionLayers)) return;
             Fix64 err = (Fix64)0.1;
-            Fix64 SurfaceDot = FixVector3.Dot(surface.Normal, Up);
-            Fix64 GroundDot = FixVector3.Dot(GroundData.Normal, Up);
-            //Fix64 SurfaceAngle = FixVector3.AngleDegrees();
+            Fix64 surfaceDot = FixVector3.Dot(surface.Normal, Up);
+            Fix64 surfaceAngle = FixVector3.AngleDegrees(surface.Normal, Up);
             //Check floor
-            if (IsOnGround() && SurfaceDot > err)
+            if (IsOnGround() && surfaceDot > err)
             {
+                if (IsOnWalls() && surfaceAngle > (Fix64)SlopeLimit) return;
+
                 GroundData.ID = (int)surface.CollidedWith.GetBodyID();
                 GroundData.Normal = surface.Normal;
                 return;
             }
             //Checl ceiling
-            else if (IsOnCeiling() && SurfaceDot < -err)
+            else if (IsOnCeiling() && surfaceDot < -err)
             {
                 CeilingData.ID = (int)surface.CollidedWith.GetBodyID();
                 CeilingData.Normal = surface.Normal;
                 return;
             }
             //Check wall
-            else if (IsOnWalls() && Fix64.Abs(SurfaceDot) < err)
+            else if (IsOnWalls() && Fix64.Abs(surfaceDot) < err)
             {
                 WallData.ID = (int)surface.CollidedWith.GetBodyID();
                 WallData.Normal = surface.Normal;
@@ -206,9 +201,9 @@ namespace SharpCollisions.Sharp3D
             return ((FloorLayers & colliderLayer) & SharpHelpers.mask) != 0;
         }
 
-        public bool IsWalkableSlope(Fix64 angle)
+        public bool IsWalkableSlope()
         {
-            return Fix64.Abs(angle) <= (Fix64)SlopeLimit + Fix64.One;
+            return Fix64.Abs(GroundAngle) < (Fix64)SlopeLimit;
         }
 
         public bool IsAngularCeiling(Fix64 angle)

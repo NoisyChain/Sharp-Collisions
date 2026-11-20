@@ -25,14 +25,14 @@ namespace SharpCollisions.Sharp2D
             {
                 if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
                 {
-                    raw_Points_X = new long[value.Count];
-                    raw_Points_Y = new long[value.Count];
+                    rawPoints_X = new long[value.Count];
+                    rawPoints_Y = new long[value.Count];
                     RawPoints = new FixVector2[value.Count];
                     for (int i = 0; i < RawPoints.Length; i++)
                     {
-                        raw_Points_X[i] = ((Fix64)value[i].X).RawValue;
-                        raw_Points_Y[i] = ((Fix64)value[i].Y).RawValue;
-                        RawPoints[i] = new FixVector2(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]));
+                        rawPoints_X[i] = ((Fix64)value[i].X).RawValue;
+                        rawPoints_Y[i] = ((Fix64)value[i].Y).RawValue;
+                        RawPoints[i] = new FixVector2(Fix64.FromRaw(rawPoints_X[i]), Fix64.FromRaw(rawPoints_Y[i]));
                     }
                 }
             }
@@ -52,11 +52,11 @@ namespace SharpCollisions.Sharp2D
             }
             set
             {
-                raw_Points_X = value;
+                rawPoints_X = value;
                 RawPoints = new FixVector2[value.Length];
                 for (int i = 0; i < RawPoints.Length; i++)
                 {
-                    RawPoints[i] = new FixVector2(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]));
+                    RawPoints[i] = new FixVector2(Fix64.FromRaw(rawPoints_X[i]), Fix64.FromRaw(rawPoints_Y[i]));
                 }
             }
         }
@@ -73,17 +73,17 @@ namespace SharpCollisions.Sharp2D
             }
             set
             {
-                raw_Points_Y = value;
+                rawPoints_Y = value;
                 RawPoints = new FixVector2[value.Length];
                 for (int i = 0; i < RawPoints.Length; i++)
                 {
-                    RawPoints[i] = new FixVector2(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]));
+                    RawPoints[i] = new FixVector2(Fix64.FromRaw(rawPoints_X[i]), Fix64.FromRaw(rawPoints_Y[i]));
                 }
             }
         }
 
-        private long[] raw_Points_X;
-        private long[] raw_Points_Y;
+        private long[] rawPoints_X = [];
+        private long[] rawPoints_Y = [];
 
         public FixVector2[] RawPoints;
 		public FixVector2[] Points;

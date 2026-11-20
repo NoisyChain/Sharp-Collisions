@@ -68,7 +68,10 @@ namespace SharpCollisions.Sharp2D
 		public void ResetAllIgnoreStates()
 		{
 			foreach(SharpBody2D body in bodies)
+			{
+				if (body == null) continue;
 				body.ResetIgnoreBodies();
+			}
 		}
 
 		private void BroadPhase()
@@ -77,6 +80,7 @@ namespace SharpCollisions.Sharp2D
 			CollisionResults.Clear();
 			for (int i = 0; i < bodies.Count; i++)
 			{
+				if (bodies[i] == null) continue;
 				bodies[i].ClearFlags();
 			}
 
@@ -109,6 +113,8 @@ namespace SharpCollisions.Sharp2D
 		{
 			SharpBody2D bodyA = bodies[indA];
 			SharpBody2D bodyB = bodies[indB];
+
+			if (bodyA == null || bodyB == null) return;
 
 			if (!bodyA.Active || !bodyB.Active) return;
 			if (!bodyA.HasColliders() || !bodyB.HasColliders()) return;
@@ -235,6 +241,7 @@ namespace SharpCollisions.Sharp2D
 			// Suggestion for better solution: big bounding box with info from previous collision (gonna need it for CCD later so i'll leave it for later)
 			foreach (SharpBody2D body in bodies)
 			{
+				if (body == null) continue;
 				if (body.ConfirmedCollisionCount() == 0) continue;
 				for (int i = 0; i < body.ConfirmedCollisionCount(); i++)
 				{

@@ -131,7 +131,7 @@ viewerNode = NodePath("../Graphics")
 metadata/_custom_type_script = "uid://cjdj043ji4yll"
 
 [node name="Graphics" type="Node3D" parent="Box2" unique_id=1636148238]
-transform = Transform3D(0.852965, -0.145938, 0.4999999, 0.49965534, 0.49826342, -0.7071067, -0.14634567, 0.8505888, 0.4999999, -2.3, 2, 0)
+transform = Transform3D(0.852965, -0.14527549, 0.4999999, 0.49965534, 0.4960015, -0.7071067, -0.14634567, 0.8467275, 0.4999999, -2.3, 2, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Box2/Graphics" unique_id=1571333008]
 mesh = SubResource("12")

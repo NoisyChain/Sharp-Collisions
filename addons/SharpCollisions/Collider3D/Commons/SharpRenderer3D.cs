@@ -8,6 +8,7 @@ public partial class SharpRenderer3D : SharpRenderer
 	[Export] private Node3D viewerNode;
 	public override void Render()
 	{
+		if (!IsInstanceValid(this)) return; // Necessary to avoid checking disposed nodes
 		if (transform == null) return;
 		if (viewerNode == null) return;
 		

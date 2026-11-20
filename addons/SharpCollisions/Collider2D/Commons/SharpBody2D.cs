@@ -109,19 +109,6 @@ namespace SharpCollisions.Sharp2D
 			}
 		}
 
-		public override void _Destroy()
-        {
-			if (SharpManager.Instance == null)
-			{
-				QueueFree();
-				GD.PrintErr("SharpManager not found. Make sure to add a SharpManager to the scene");
-				return;
-			}
-
-            if (SharpManager.Instance.RemoveNode(this) && SharpManager.Instance.RemoveBody(this))
-                QueueFree();
-        }
-
 		public void SetBodyID(uint value)
 		{
 			ID = value;

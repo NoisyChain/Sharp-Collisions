@@ -39,6 +39,7 @@ namespace SharpCollisions.Sharp2D.Quadtree
 
             foreach (SharpBody2D body in shapes)
             {
+                if (body == null) continue;
                 if (!body.Active) continue;
                 if (!body.HasColliders()) continue;
                 

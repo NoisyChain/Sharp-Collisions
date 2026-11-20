@@ -70,7 +70,10 @@ namespace SharpCollisions.Sharp3D
 		public void ResetAllIgnoreStates()
 		{
 			foreach(SharpBody3D body in bodies)
+			{
+				if (body == null) continue;
 				body.ResetIgnoreBodies();
+			}
 		}
 
 		private bool CompareLayers(SharpBody3D colliderA, SharpBody3D colliderB)
@@ -85,6 +88,7 @@ namespace SharpCollisions.Sharp3D
 			CollisionResults.Clear();
 			for (int i = 0; i < bodies.Count; i++)
 			{
+				if (bodies[i] == null) return;
 				bodies[i].ClearFlags();
 			}
 
@@ -117,6 +121,8 @@ namespace SharpCollisions.Sharp3D
 		{
 			SharpBody3D bodyA = bodies[indA];
 			SharpBody3D bodyB = bodies[indB];
+
+			if (bodyA == null || bodyB == null) return;
 			
 			if (!bodyA.HasColliders() || !bodyB.HasColliders()) return;
 			if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2) return;
@@ -243,6 +249,7 @@ namespace SharpCollisions.Sharp3D
 			// Suggestion for better solution: big bounding box with info from previous collision (gonna need it for CCD later so i'll leave it for later)
 			foreach (SharpBody3D body in bodies)
 			{
+				if (body == null) continue;
 				if (body.ConfirmedCollisionCount() == 0) continue;
 				for (int i = 0; i < body.ConfirmedCollisionCount(); i++)
 				{

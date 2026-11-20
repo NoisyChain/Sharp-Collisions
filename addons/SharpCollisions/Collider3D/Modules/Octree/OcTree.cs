@@ -43,6 +43,7 @@ namespace SharpCollisions.Sharp3D.Octree
 
             foreach (SharpBody3D body in shapes)
             {
+                if (body == null) continue;
                 if (!body.Active) continue;
                 if (!body.HasColliders()) continue;
                 

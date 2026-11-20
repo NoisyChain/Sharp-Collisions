@@ -32,9 +32,19 @@ namespace SharpCollisions.Sharp3D
 				else if (colliderA.Shape == CollisionType3D.Sphere && colliderB.Shape == CollisionType3D.Capsule)
 					return SphereToCapsuleCollision(colliderA as SphereCollider3D, colliderB as CapsuleCollider3D, out Normal, out Depth, out ContactPoint);
 				else if (colliderA.Shape == CollisionType3D.Capsule && colliderB.Shape == CollisionType3D.Sphere)
-					return CapsuleToSphereCollision(colliderA as CapsuleCollider3D, colliderB as SphereCollider3D, out Normal, out Depth, out ContactPoint);
+					return SphereToCapsuleCollision(colliderB as SphereCollider3D, colliderA as CapsuleCollider3D, out Normal, out Depth, out ContactPoint, true);
 				else if (colliderA.Shape == CollisionType3D.Capsule && colliderB.Shape == CollisionType3D.Capsule)
 					return CapsuleToCapsuleCollision(colliderA as CapsuleCollider3D, colliderB as CapsuleCollider3D, out Normal, out Depth, out ContactPoint);
+				else if (colliderA.Shape == CollisionType3D.Sphere && colliderB.Shape == CollisionType3D.Cylinder)
+					return SphereToCylinderCollision(colliderA as SphereCollider3D, colliderB as CylinderCollider3D, out Normal, out Depth, out ContactPoint);
+				else if (colliderA.Shape == CollisionType3D.Cylinder && colliderB.Shape == CollisionType3D.Sphere)
+					return SphereToCylinderCollision(colliderB as SphereCollider3D, colliderA as CylinderCollider3D, out Normal, out Depth, out ContactPoint, true);
+				else if (colliderA.Shape == CollisionType3D.Capsule && colliderB.Shape == CollisionType3D.Cylinder)
+					return CapsuleToCylinderCollision(colliderA as CapsuleCollider3D, colliderB as CylinderCollider3D, out Normal, out Depth, out ContactPoint);
+				else if (colliderA.Shape == CollisionType3D.Cylinder && colliderB.Shape == CollisionType3D.Capsule)
+					return CapsuleToCylinderCollision(colliderB as CapsuleCollider3D, colliderA as CylinderCollider3D, out Normal, out Depth, out ContactPoint, true);
+				else if (colliderA.Shape == CollisionType3D.Cylinder && colliderB.Shape == CollisionType3D.Cylinder)
+					return CylinderToCylinderCollision(colliderA as CylinderCollider3D, colliderB as CylinderCollider3D, out Normal, out Depth, out ContactPoint);
 				else
 					return GJKCollision(colliderA, colliderB, out Normal, out Depth, out ContactPoint);
 			}
@@ -279,54 +289,38 @@ namespace SharpCollisions.Sharp3D
 			return collision;
 		}
 
-        //Just doing this because I don't know how to invert the normal in the previous function yet lol
-		public static bool SphereToCapsuleCollision(SphereCollider3D colliderA, CapsuleCollider3D colliderB, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint)
+		public static bool SphereToCapsuleCollision(SphereCollider3D colliderA, CapsuleCollider3D colliderB, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint, bool invert = false)
 		{
 			Normal = FixVector3.Zero;
 			Depth = FixVector3.Zero;
 			ContactPoint = FixVector3.Zero;
 
-			LineToPointDistance(colliderB.UpperPoint, colliderB.LowerPoint, colliderA.Center, out FixVector3 CapsulePoint);
+			FixVector3 r1 = colliderA.Center;
+            FixVector3 r2;
+
+			bool colB_Sphere = colliderB.Radius >= colliderB.Height;
+
+			if (colB_Sphere)
+                r2 = (colliderB.UpperPoint + colliderB.LowerPoint) / Fix64.Two;
+			else
+				LineToPointDistance(colliderB.UpperPoint, colliderB.LowerPoint, r1, out r2);
 
 			Fix64 radii = colliderA.Radius + colliderB.Radius;
             Fix64 radiiSq = radii * radii;
-			Fix64 distance = FixVector3.DistanceSq(CapsulePoint, colliderA.Center);
+			Fix64 distance = FixVector3.DistanceSq(r1, r2);
 			
 			bool collision = distance <= radiiSq;
 			
 			if (collision)
 			{
-				Normal = FixVector3.Normalize(CapsulePoint - colliderA.Center);
+				Normal = FixVector3.Normalize(r2 - r1);
+				if (invert) Normal = -Normal;
 				Depth = Normal * Fix64.Abs(radii - Fix64.Sqrt(distance));
-				ContactPoint = SphereContactPoint(CapsulePoint, colliderB.Radius, colliderA.Center, colliderA.Radius, Normal);
+				ContactPoint = SphereContactPoint(r2, colliderB.Radius, r1, colliderA.Radius, Normal);
 			}
 			
 			return collision;
 		}
-
-		public static bool CapsuleToSphereCollision(CapsuleCollider3D colliderA, SphereCollider3D colliderB, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint)
-        {
-            Normal = FixVector3.Zero;
-            Depth = FixVector3.Zero;
-            ContactPoint = FixVector3.Zero;
-
-            LineToPointDistance(colliderA.UpperPoint, colliderA.LowerPoint, colliderB.Center, out FixVector3 CapsulePoint);
-
-            Fix64 radii = colliderA.Radius + colliderB.Radius;
-            Fix64 radiiSq = radii * radii;
-            Fix64 distance = FixVector3.DistanceSq(CapsulePoint, colliderB.Center);
-
-            bool collision = distance <= radiiSq;
-
-            if (collision)
-            {
-                Normal = FixVector3.Normalize(colliderB.Center - CapsulePoint);
-                Depth = Normal * Fix64.Abs(radii - Fix64.Sqrt(distance));
-                ContactPoint = SphereContactPoint(CapsulePoint, colliderA.Radius, colliderB.Center, colliderB.Radius, Normal);
-            }
-
-            return collision;
-        }
 
 		public static bool CapsuleToCapsuleCollision(CapsuleCollider3D colliderA, CapsuleCollider3D colliderB, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint)
         {
@@ -334,8 +328,8 @@ namespace SharpCollisions.Sharp3D
             Depth = FixVector3.Zero;
             ContactPoint = FixVector3.Zero;
 
-            FixVector3 r1 = FixVector3.Zero;
-            FixVector3 r2 = FixVector3.Zero;
+            FixVector3 r1;
+            FixVector3 r2;
 
             bool colA_Sphere = colliderA.Radius >= colliderA.Height;
             bool colB_Sphere = colliderB.Radius >= colliderB.Height;
@@ -385,6 +379,33 @@ namespace SharpCollisions.Sharp3D
 
             return collision;
         }
+
+		public static bool SphereToCylinderCollision(SphereCollider3D colliderA, CylinderCollider3D colliderB, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint, bool invert = false)
+		{
+			Normal = FixVector3.Zero;
+            Depth = FixVector3.Zero;
+            ContactPoint = FixVector3.Zero;
+
+			return false;
+		}
+
+		public static bool CapsuleToCylinderCollision(CapsuleCollider3D colliderA, CylinderCollider3D colliderB, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint, bool invert = false)
+		{
+			Normal = FixVector3.Zero;
+            Depth = FixVector3.Zero;
+            ContactPoint = FixVector3.Zero;
+
+			return false;
+		}
+
+		public static bool CylinderToCylinderCollision(CylinderCollider3D colliderA, CylinderCollider3D colliderB, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint)
+		{
+			Normal = FixVector3.Zero;
+            Depth = FixVector3.Zero;
+            ContactPoint = FixVector3.Zero;
+
+			return false;
+		}
 
 		public static bool GJKCollision(SharpCollider3D colliderA, SharpCollider3D colliderB, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint)
 		{
@@ -451,6 +472,7 @@ namespace SharpCollisions.Sharp3D
 
 		public static void LineToLineDistance(FixVector3 p1, FixVector3 p2, FixVector3 p3, FixVector3 p4, out FixVector3 r1, out FixVector3 r2)
 		{
+			Fix64 err = (Fix64)1e-6;
 			FixVector3 r = p3 - p1;
 			FixVector3 u = p2 - p1;
 			FixVector3 v = p4 - p3;
@@ -462,7 +484,7 @@ namespace SharpCollisions.Sharp3D
 			Fix64 det = uu * vv - uv * uv;
 
 			Fix64 s, t;
-			if (det < Fix64.Epsilon * uu * vv)
+			if (det < err * uu * vv)
 			{
 				s = Fix64.Clamp01(ru / uu);
 				t = Fix64.Zero;
@@ -484,9 +506,10 @@ namespace SharpCollisions.Sharp3D
 		//https://arrowinmyknee.com/2021/03/15/some-math-about-capsule-collision/
 		public static void LineToPointDistance(FixVector3 p1, FixVector3 p2, FixVector3 p3, out FixVector3 r1)
 		{
+			Fix64 err = (Fix64)1e-6;
 			FixVector3 ab = p2 - p1;
 			Fix64 length = FixVector3.Dot(p3 - p1, ab);
-			if (length <= Fix64.Epsilon) 
+			if (length <= err) 
 			{
 				r1 = p1;
 			} 
@@ -547,7 +570,7 @@ namespace SharpCollisions.Sharp3D
 
 			// Check for a zero denominator before division
 			// I want a higher precision for this to avoid too many errors
-			if (Fix64.Abs(denom) <= Fix64.EpsilonPlus)
+			if (Fix64.Abs(denom) <= Fix64.Epsilon)
 			{
 				GD.Print("Degenerate triangle found. Cancelling operation");
 				return FixVector3.Zero;

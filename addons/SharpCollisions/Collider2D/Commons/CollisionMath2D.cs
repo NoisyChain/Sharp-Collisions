@@ -32,7 +32,7 @@ namespace SharpCollisions.Sharp2D
 				else if (colliderA.Shape == CollisionType2D.Circle && colliderB.Shape == CollisionType2D.Capsule)
 					return CircleToCapsuleCollision(colliderA as CircleCollider2D, colliderB as CapsuleCollider2D, out Normal, out Depth, out ContactPoint);
 				else if (colliderA.Shape == CollisionType2D.Capsule && colliderB.Shape == CollisionType2D.Circle)
-					return CapsuleToCircleCollision(colliderA as CapsuleCollider2D, colliderB as CircleCollider2D, out Normal, out Depth, out ContactPoint);
+					return CircleToCapsuleCollision(colliderB as CircleCollider2D, colliderA as CapsuleCollider2D, out Normal, out Depth, out ContactPoint, true);
 				else if (colliderA.Shape == CollisionType2D.Capsule && colliderB.Shape == CollisionType2D.Capsule)
 					return CapsuleToCapsuleCollision(colliderA as CapsuleCollider2D, colliderB as CapsuleCollider2D, out Normal, out Depth, out ContactPoint);
 				else
@@ -209,53 +209,38 @@ namespace SharpCollisions.Sharp2D
 			return collision;
 		}
 
-        public static bool CircleToCapsuleCollision(CircleCollider2D colliderA, CapsuleCollider2D colliderB, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
+        public static bool CircleToCapsuleCollision(CircleCollider2D colliderA, CapsuleCollider2D colliderB, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint, bool invert = false)
 		{
 			Normal = FixVector2.Zero;
 			Depth = FixVector2.Zero;
 			ContactPoint = FixVector2.Zero;
 
-			LineToPointDistance(colliderB.UpperPoint, colliderB.LowerPoint, colliderA.Center, out FixVector2 CapsulePoint);
+			FixVector2 r1 = colliderA.Center;
+            FixVector2 r2;
+
+			bool colB_Sphere = colliderB.Radius >= colliderB.Height;
+
+			if (colB_Sphere)
+                r2 = (colliderB.UpperPoint + colliderB.LowerPoint) / Fix64.Two;
+			else
+				LineToPointDistance(colliderB.UpperPoint, colliderB.LowerPoint, r1, out r2);
 
 			Fix64 radii = colliderA.Radius + colliderB.Radius;
 			Fix64 radiiSq = radii * radii;
-			Fix64 distance = FixVector2.DistanceSq(CapsulePoint, colliderA.Center);
+			Fix64 distance = FixVector2.DistanceSq(r1, r2);
 			
 			bool collision = distance <= radiiSq;
 			
 			if (collision)
 			{
-				Normal = FixVector2.Normalize(CapsulePoint - colliderA.Center);
+				Normal = FixVector2.Normalize(r2 - r1);
+                if (invert) Normal = -Normal;
 				Depth = Normal * (radii - Fix64.Sqrt(distance));
-				ContactPoint = CircleContactPoint(CapsulePoint, colliderB.Radius, colliderA.Center, colliderA.Radius, Normal);
+				ContactPoint = CircleContactPoint(r2, colliderB.Radius, r1, colliderA.Radius, Normal);
 			}
 			
 			return collision;
 		}
-
-		public static bool CapsuleToCircleCollision(CapsuleCollider2D colliderA, CircleCollider2D colliderB, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
-        {
-            Normal = FixVector2.Zero;
-            Depth = FixVector2.Zero;
-            ContactPoint = FixVector2.Zero;
-
-            LineToPointDistance(colliderA.UpperPoint, colliderA.LowerPoint, colliderB.Center, out FixVector2 CapsulePoint);
-
-            Fix64 radii = colliderA.Radius + colliderB.Radius;
-            Fix64 radiiSq = radii * radii;
-            Fix64 distance = FixVector2.DistanceSq(CapsulePoint, colliderB.Center);
-
-            bool collision = distance <= radiiSq;
-
-            if (collision)
-            {
-                Normal = FixVector2.Normalize(colliderB.Center - CapsulePoint);
-                Depth = Normal * (radii - Fix64.Sqrt(distance));
-                ContactPoint = CircleContactPoint(CapsulePoint, colliderA.Radius, colliderB.Center, colliderB.Radius, Normal);
-            }
-
-            return collision;
-        }
 
         public static bool CapsuleToCapsuleCollision(CapsuleCollider2D colliderA, CapsuleCollider2D colliderB, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
         {
@@ -375,6 +360,7 @@ namespace SharpCollisions.Sharp2D
 
 		public static void LineToLineDistance(FixVector2 p1, FixVector2 p2, FixVector2 p3, FixVector2 p4, out FixVector2 r1, out FixVector2 r2)
 		{
+            Fix64 err = (Fix64)1e-6;
 			FixVector2 r = p3 - p1;
 			FixVector2 u = p2 - p1;
 			FixVector2 v = p4 - p3;
@@ -386,7 +372,7 @@ namespace SharpCollisions.Sharp2D
 			Fix64 det = uu * vv - uv * uv;
 
 			Fix64 s, t;
-			if (det < Fix64.Epsilon * uu * vv)
+			if (det < err * uu * vv)
 			{
 				s = Fix64.Clamp01(ru / uu);
 				t = Fix64.Zero;
@@ -408,9 +394,10 @@ namespace SharpCollisions.Sharp2D
 		//https://arrowinmyknee.com/2021/03/15/some-math-about-capsule-collision/
 		public static void LineToPointDistance(FixVector2 p1, FixVector2 p2, FixVector2 p3, out FixVector2 r1)
 		{
+            Fix64 err = (Fix64)1e-6;
 			FixVector2 ab = p2 - p1;
 			Fix64 length = FixVector2.Dot(p3 - p1, ab);
-			if (length <= Fix64.Epsilon) 
+			if (length <= err) 
 			{
 				r1 = p1;
 			} 

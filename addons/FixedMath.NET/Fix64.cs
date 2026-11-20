@@ -21,17 +21,8 @@ namespace FixMath.NET
 		public static readonly Fix64 Two = new Fix64(TWO);
 		public static readonly Fix64 NegativeOne = -One;
 		public static readonly Fix64 Zero = new Fix64();
-		/// <summary>
-		/// Low-precision error margin
-		/// </summary>
-		public static readonly Fix64 Epsilon = (Fix64)1e-3;
-		/// <summary>
-		/// High-precision error margin
-		/// </summary>
-		public static readonly Fix64 EpsilonPlus = (Fix64)1e-6;
-		/// <summary>
-		/// The value of Pi
-		/// </summary>
+
+		public static readonly Fix64 Epsilon = FromRaw(1);
 		public static readonly Fix64 Pi = new Fix64(PI);
 		public static readonly Fix64 PiOver2 = new Fix64(PI_OVER_2);
 		public static readonly Fix64 PiTimes2 = new Fix64(PI_TIMES_2);

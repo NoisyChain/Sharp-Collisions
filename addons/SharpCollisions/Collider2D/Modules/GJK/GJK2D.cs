@@ -165,9 +165,11 @@ namespace SharpCollisions.Sharp2D.GJK
 		{
 			int maxIterations = 0;
 			int minIndex = 0;
+			Fix64 err = Fix64.One / (Fix64)1000;
 			Fix64 minDistance = Fix64.MaxValue;
 			FixVector2 minNormal = FixVector2.Zero;
 			Polytope = new Polytope2D(simplex.Points);
+			
 			bool IsClockWise = GetPolytopeDirection(Polytope);
 			while (minDistance == Fix64.MaxValue)
 			{
@@ -193,14 +195,15 @@ namespace SharpCollisions.Sharp2D.GJK
 				}
 				SupportPoint2D support = SupportFunction(colliderA, colliderB, minNormal);
 				Fix64 sDistance = FixVector2.Dot(minNormal, support.Point());
-				if (Fix64.Abs(sDistance - minDistance) > Fix64.Epsilon)
+
+				if (Fix64.Abs(sDistance - minDistance) > err)
 				{
 					minDistance = Fix64.MaxValue;
 					Polytope.Vertices.Insert(minIndex, support);
 				}
 			}
 			Normal = minNormal;
-			Depth = Fix64.Abs(minDistance) + Fix64.Epsilon;
+			Depth = Fix64.Abs(minDistance) + err;
 			Contact = GetContactPoint(colliderA, colliderB);
 		}
 

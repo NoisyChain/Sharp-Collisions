@@ -116,18 +116,6 @@ namespace SharpCollisions.Sharp3D.GJK
 				{
 					EPA(Simplex, colliderA, colliderB, out Normal, out Fix64 newDepth, out ContactPoint);
 					Depth = Normal * newDepth;
-
-					/*if (useEPA)
-					{
-						EPA(Simplex, colliderA, colliderB, out Normal, out Fix64 newDepth, out ContactPoint);
-						Depth = Normal * newDepth;
-					}
-					else
-					{
-						Normal = FixVector3.Zero;
-						Depth = FixVector3.Zero;
-						ContactPoint = FixVector3.Zero;
-					}*/
 					return true;
 				}
 			}
@@ -384,10 +372,12 @@ namespace SharpCollisions.Sharp3D.GJK
 				SupportPoint3D support = SupportFunction(colliderA, colliderB, fNormal);
 				Fix64 dist = FixVector3.Dot(support.Point(), fNormal);
 
-				if (dist - fDistance < Fix64.Epsilon)
+				Fix64 err = Fix64.One / (Fix64)1000;
+
+				if (dist - fDistance < err)
 				{
 					Normal = FixVector3.Normalize(fNormal);
-					Depth = Fix64.Abs(fDistance) + Fix64.Epsilon;
+					Depth = Fix64.Abs(fDistance) + err;
 					Contact = GetContactPoint(Polytope, Normal);
 					break;
 				}

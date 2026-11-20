@@ -196,7 +196,7 @@ namespace SharpCollisions.Sharp2D
             //Check floor
             if (surfaceDot > err)
             {
-                if (IsOnWalls() && surfaceAngle >= (Fix64)(SlopeLimit + 1)) return;
+                if (IsOnWalls() && surfaceAngle > (Fix64)(SlopeLimit + 1)) return;
 
                 GroundData.ID = (int)surface.CollidedWith.GetBodyID();
                 GroundData.Normal = surface.Normal;

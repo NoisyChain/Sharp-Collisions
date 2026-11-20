@@ -70,7 +70,7 @@ namespace SharpCollisions.Sharp2D
 
         public override void _FixedProcess(Fix64 delta)
         {
-            if (IsOnGround())
+            if (IsOnGround() && GroundData.ID > -1)
             {
                 UpVector = GroundNormal;
                 VerticalVelocity = -UpVector;
@@ -177,6 +177,8 @@ namespace SharpCollisions.Sharp2D
             SetVelocity(finalVelocity);
             
             GD.Print(FixVector2.Length(directionToTarget));*/
+            GroundData.ID = -1;
+            GroundData.Normal = FixVector2.Up;
         }
 
         public override void _Process(double delta)

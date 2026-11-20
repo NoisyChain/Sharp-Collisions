@@ -82,7 +82,7 @@ namespace SharpCollisions.Sharp3D
                 Input3D.y = Fix64.NegativeOne;
             */
 
-            if (IsOnGround() && IsWalkableSlope())
+            if (IsOnGround() && GroundData.ID > -1)
             {
                 UpVector = GroundNormal;
                 VerticalVelocity = -UpVector;
@@ -156,6 +156,9 @@ namespace SharpCollisions.Sharp3D
                 "\nCollisions: " + ConfirmedCollisionCount() + 
                 //"\nContact Point: " + (GetCollisions().Count > 0 ? GetCollision(0).ContactPoint : 0) + 
                 "\nFloor angle: " + groundAngle;
+            
+            GroundData.ID = -1;
+            GroundData.Normal = FixVector3.Up;
         }
 
         public override void _Process(double delta)

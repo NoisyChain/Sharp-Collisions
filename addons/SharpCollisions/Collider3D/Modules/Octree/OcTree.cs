@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using FixMath.NET;
+using Godot;
 
 namespace SharpCollisions.Sharp3D.Octree
 {
@@ -149,6 +150,50 @@ namespace SharpCollisions.Sharp3D.Octree
                     if (!collisions.Contains(newCol)) collisions.Add(newCol);
                 }
             }
+        }
+
+        public void Draw()
+        {
+            if (IsFull)
+            {
+                NW_P.Draw();
+                NE_P.Draw();
+                SW_P.Draw();
+                SE_P.Draw();
+                NW_N.Draw();
+                NE_N.Draw();
+                SW_N.Draw();
+                SE_N.Draw();
+                return;
+            }
+
+            Vector3[] points =
+            [
+                new Vector3((float)Area.x,(float)Area.y, (float)Area.z),
+                new Vector3((float)Area.w,(float)Area.y, (float)Area.z),
+                new Vector3((float)Area.w,(float)Area.h, (float)Area.z),
+                new Vector3((float)Area.x,(float)Area.h, (float)Area.z),
+                new Vector3((float)Area.x,(float)Area.y, (float)Area.d),
+                new Vector3((float)Area.w,(float)Area.y, (float)Area.d),
+                new Vector3((float)Area.w,(float)Area.h, (float)Area.d),
+                new Vector3((float)Area.x,(float)Area.h, (float)Area.d),
+            ];
+
+            //Draw Lower quad
+            DebugDraw3D.DrawLine(points[0], points[1], Colors.SeaGreen);
+            DebugDraw3D.DrawLine(points[1], points[2], Colors.SeaGreen);
+            DebugDraw3D.DrawLine(points[2], points[3], Colors.SeaGreen);
+            DebugDraw3D.DrawLine(points[3], points[0], Colors.SeaGreen);
+            //Draw Upper quad
+            DebugDraw3D.DrawLine(points[4], points[5], Colors.SeaGreen);
+            DebugDraw3D.DrawLine(points[5], points[6], Colors.SeaGreen);
+            DebugDraw3D.DrawLine(points[6], points[7], Colors.SeaGreen);
+            DebugDraw3D.DrawLine(points[7], points[4], Colors.SeaGreen);
+            //Connect both quads
+            DebugDraw3D.DrawLine(points[0], points[4], Colors.SeaGreen);
+            DebugDraw3D.DrawLine(points[1], points[5], Colors.SeaGreen);
+            DebugDraw3D.DrawLine(points[2], points[6], Colors.SeaGreen);
+            DebugDraw3D.DrawLine(points[3], points[7], Colors.SeaGreen);
         }
     }
 }

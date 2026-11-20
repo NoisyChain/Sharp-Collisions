@@ -30,6 +30,12 @@ namespace SharpCollisions.Sharp2D
 				qTree = new QuadTree(new FixRect(-quadtreeSize, -quadtreeSize, quadtreeSize, quadtreeSize), qtLimit);
 			}
 		}
+
+		public void DrawQuadTree()
+		{
+			if (qTree == null) return;
+			qTree.Draw();
+		}
 		
 		public void AddBody(SharpBody2D newBody)
 		{

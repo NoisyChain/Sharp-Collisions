@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using FixMath.NET;
+using Godot;
 
 namespace SharpCollisions.Sharp2D.Quadtree
 {
@@ -128,6 +129,33 @@ namespace SharpCollisions.Sharp2D.Quadtree
                     );
                     if (!collisions.Contains(newCol)) collisions.Add(newCol);  
                 }
+            }
+        }
+
+        public void Draw()
+        {
+            if (IsFull)
+            {
+                NW.Draw();
+                NE.Draw();
+                SW.Draw();
+                SE.Draw();
+                return;
+            }
+
+            Vector3[] points =
+            [
+                new Vector3((float)Area.x,(float)Area.y, 0.0f),
+                new Vector3((float)Area.w,(float)Area.y, 0.0f),
+                new Vector3((float)Area.w,(float)Area.h, 0.0f),
+                new Vector3((float)Area.x,(float)Area.h, 0.0f),
+            ];
+
+            for (int i = 0; i < points.Length; i++)
+            {
+                Vector3 start = points[i];
+                Vector3 end = points[(i + 1) % points.Length];
+                DebugDraw3D.DrawLine(start, end, Colors.SeaGreen);
             }
         }
     }

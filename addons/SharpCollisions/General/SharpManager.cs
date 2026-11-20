@@ -26,6 +26,7 @@ namespace SharpCollisions
 		[Export] private bool UseEngineSettings = false;
 		[Export] private bool RunOnDedicatedThread = false;
 		[Export] private bool ShowDebugShapes = false;
+		[Export] private bool DebugDrawSpacePartitioning = false;
 		public bool canRender;
 
 		private Thread physicsThread;
@@ -70,6 +71,12 @@ namespace SharpCollisions
             base._Process(delta);
 
 			physicsMutex.WaitOne();
+
+			if (ShowDebugShapes && DebugDrawSpacePartitioning)
+			{
+				world2D.DrawQuadTree();
+				world3D.DrawOcTree();
+			}
 
 			foreach(SharpBody2D body in world2D.bodies)
 				body.RenderNode(ShowDebugShapes);

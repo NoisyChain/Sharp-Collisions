@@ -32,6 +32,12 @@ namespace SharpCollisions.Sharp3D
 				);
 			}
 		}
+
+		public void DrawOcTree()
+		{
+			if (oTree == null) return;
+			oTree.Draw();
+		}
 		
 		public void AddBody(SharpBody3D newBody)
 		{

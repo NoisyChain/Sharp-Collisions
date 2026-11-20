@@ -1,5 +1,6 @@
 using Godot;
 using FixMath.NET;
+using System;
 
 namespace SharpCollisions.Sharp2D
 {
@@ -9,10 +10,12 @@ namespace SharpCollisions.Sharp2D
     {
         [Export] private float _radius
         {
-            get =>(float)Fix64.FromRaw(raw_Radius);
-            set {
-                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_Radius = ((Fix64)((decimal)value)).RawValue;
+            get =>(float)Radius;
+            set
+            {
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_Radius = ((Fix64)value).RawValue;
                     Radius = Fix64.FromRaw(raw_Radius);
                 }
             }
@@ -20,10 +23,12 @@ namespace SharpCollisions.Sharp2D
 
         [Export] private float _height
         {
-            get =>(float)Fix64.FromRaw(raw_Height);
-            set {
-                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_Height = ((Fix64)((decimal)value)).RawValue;
+            get =>(float)Height;
+            set
+            {
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_Height = ((Fix64)value).RawValue;
                     Height = Fix64.FromRaw(raw_Height);
                 }
             }
@@ -32,7 +37,7 @@ namespace SharpCollisions.Sharp2D
         [ExportSubgroup("Raw Values")]
         [Export] private long raw_radius
         {
-            get => raw_Radius;
+            get => Radius.RawValue;
             set
             {
                 raw_Radius = value;
@@ -41,7 +46,7 @@ namespace SharpCollisions.Sharp2D
         }
         [Export] private long raw_height
         {
-            get => raw_Height;
+            get => Height.RawValue;
             set
             {
                 raw_Height = value;
@@ -55,10 +60,8 @@ namespace SharpCollisions.Sharp2D
         public Fix64 Radius = new Fix64();
         public Fix64 Height = new Fix64();
 
-        public FixVector2 RawUpperPoint;
-        public FixVector2 RawLowerPoint;
-        public FixVector2 UpperPoint;
-        public FixVector2 LowerPoint;
+        public FixVector2 UpperPoint { get; private set; }
+        public FixVector2 LowerPoint { get; private set; }
 
         public override void Initialize()
         {
@@ -67,89 +70,26 @@ namespace SharpCollisions.Sharp2D
             CreateCapsulePoints();
         }
 
-        public override bool CollisionDetection(SharpCollider2D other, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
-        {
-            Normal = FixVector2.Zero;
-            Depth = FixVector2.Zero;
-            ContactPoint = FixVector2.Zero;
-
-            if (other.Shape == CollisionType2D.AABB) return false;
-
-            if (other.Shape == CollisionType2D.Circle)
-                return CapsuleToCircleCollision(this, other as CircleCollider2D, out Normal, out Depth, out ContactPoint);
-            else if (other.Shape == CollisionType2D.Capsule)
-                return CapsuleToCapsuleCollision(this, other as CapsuleCollider2D, out Normal, out Depth, out ContactPoint);
-            else if (other.Shape == CollisionType2D.Polygon)
-            {
-                ConvexShapeCollider2D pol = other as ConvexShapeCollider2D;
-                return pol.GJK.PolygonCollision(this, other, out Normal, out Depth, out ContactPoint);
-            }
-            return false;
-        }
-
-        private void CreateCapsulePoints()
-        {
-            FixVector2 CapsuleDirection = new FixVector2(Fix64.Zero, Height - Radius);
-
-            RawUpperPoint = CapsuleDirection;
-            RawLowerPoint = -CapsuleDirection;
-        }
-
-        private void UpdateCapsulePoints(FixVector2 position, Fix64 rotation)
-        {
-            CreateCapsulePoints();
-            UpperPoint = FixVector2.Rotate(RawUpperPoint, RotationOffset);
-            LowerPoint = FixVector2.Rotate(RawLowerPoint, RotationOffset);
-            UpperPoint = FixVector2.Transform(UpperPoint + PositionOffset, position, rotation);
-            LowerPoint = FixVector2.Transform(LowerPoint + PositionOffset, position, rotation);
-        }
-
-        public override void DebugDrawShapes(SharpBody2D reference)
+        public override void DebugDrawShapes(SharpBody2D reference, bool selected)
         {
             if (!Active) return;
-            if (!DrawDebug) return;
+            if (!DrawDebugShape) return;
 
-            Vector3 Dir = (Vector3)FixVector2.Normalize(UpperPoint - LowerPoint);
+            Color drawColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
-            float inflatedRadius = (float)Radius + 0.005f;
+            float scaledHeight = (float)Height;
+            float scaledRadius = (float)Radius;
 
-            Vector3 LineNormal = (Vector3)FixVector2.GetNormal(UpperPoint, LowerPoint);
-            Vector3 LineSpacing = LineNormal * inflatedRadius;
-
-            if (Radius >= Height)
-            {
-                DebugDraw3D.DrawSimpleSphere((Vector3)(UpperPoint + LowerPoint) * 0.5f, LineNormal, Dir, Vector3.Zero, inflatedRadius, debugColor);
-            }
-            else
-            {
-                DebugDraw3D.DrawHalfSphereY((Vector3)UpperPoint, LineNormal, Dir, Vector3.Zero, false, inflatedRadius, debugColor);
-                DebugDraw3D.DrawHalfSphereY((Vector3)LowerPoint, LineNormal, Dir, Vector3.Zero, true, inflatedRadius, debugColor);
-                DebugDraw3D.DrawLine((Vector3)UpperPoint, (Vector3)LowerPoint, debugColor);
-                DebugDraw3D.DrawLine((Vector3)UpperPoint + LineSpacing, (Vector3)LowerPoint + LineSpacing, debugColor);
-                DebugDraw3D.DrawLine((Vector3)UpperPoint - LineSpacing, (Vector3)LowerPoint - LineSpacing, debugColor);
-            }
-        }
-
-        public override void DebugDrawShapesEditor(Node3D reference, bool selected)
-        {
-            if (!Active) return;
-            if (!selected && !DrawDebug) return;
-
-            Color finalColor = selected ? selectedColor : debugColor;
-
-            float scaledHeight = (float)_height;
-            float scaledRadius = (float)_radius;
-
-            Vector2 PosOffset = _positionOffset;
-            float RotOffset = _rotationOffset;
+            Vector2 PosOffset = (Vector2)PositionOffset;
+            float RotOffset = (float)(RotationOffset * Fix64.DegToRad);
 
             Vector2 upPoint = PosOffset + (Vector2.Up * (scaledHeight - scaledRadius));
             Vector2 lowPoint = PosOffset - (Vector2.Up * (scaledHeight - scaledRadius));
 
-            Vector2 upperPoint0 = SharpHelpers.Rotate2D(upPoint, Mathf.DegToRad(RotOffset));
-            Vector2 lowerPoint0 = SharpHelpers.Rotate2D(lowPoint, Mathf.DegToRad(RotOffset));
-            Vector2 upperPoint = SharpHelpers.Transform2D(upperPoint0, reference.GlobalPosition, reference.GlobalRotation.Z);
-            Vector2 lowerPoint = SharpHelpers.Transform2D(lowerPoint0, reference.GlobalPosition, reference.GlobalRotation.Z);
+            Vector2 upperPoint0 = SharpHelpers.Rotate2D(upPoint, RotOffset);
+            Vector2 lowerPoint0 = SharpHelpers.Rotate2D(lowPoint, RotOffset);
+            Vector2 upperPoint = SharpHelpers.Transform2D(upperPoint0, (Vector2)reference.FixedPosition, (float)(reference.FixedRotation * Fix64.DegToRad));
+            Vector2 lowerPoint = SharpHelpers.Transform2D(lowerPoint0, (Vector2)reference.FixedPosition, (float)(reference.FixedRotation * Fix64.DegToRad));
 
             Vector2 direction = (upperPoint - lowerPoint).Normalized();
 
@@ -164,161 +104,43 @@ namespace SharpCollisions.Sharp2D
 
             if (_radius >= _height)
             {
-                DebugDraw3D.DrawSimpleSphere((Up + Low) * 0.5f, LineNormal, Dir, Vector3.Zero, inflatedRadius, finalColor);
+                CustomDebugDraw.DrawSimpleSphere((Up + Low) * 0.5f, LineNormal, Dir, Vector3.Zero, inflatedRadius, drawColor);
             }
             else
             {
-                DebugDraw3D.DrawHalfSphereY(Up, LineNormal, Dir, Vector3.Zero, false, inflatedRadius, finalColor);
-                DebugDraw3D.DrawHalfSphereY(Low, LineNormal, Dir, Vector3.Zero, true, inflatedRadius, finalColor);
-                DebugDraw3D.DrawLine(Up, Low, finalColor);
-                DebugDraw3D.DrawLine(Up + LineSpacing, Low + LineSpacing, finalColor);
-                DebugDraw3D.DrawLine(Up - LineSpacing, Low - LineSpacing, finalColor);
+                CustomDebugDraw.DrawHalfSphereY(Up, LineNormal, Dir, Vector3.Zero, false, inflatedRadius, drawColor);
+                CustomDebugDraw.DrawHalfSphereY(Low, LineNormal, Dir, Vector3.Zero, true, inflatedRadius, drawColor);
+                DebugDraw3D.DrawLine(Up, Low, drawColor);
+                DebugDraw3D.DrawLine(Up + LineSpacing, Low + LineSpacing, drawColor);
+                DebugDraw3D.DrawLine(Up - LineSpacing, Low - LineSpacing, drawColor);
             }
         }
 
-        protected override FixRect GetBoundingBoxPoints()
+        public override void UpdateBoundingBox()
+		{
+            BoundingBox = CollisionMath2D.UpdateCapsuleBoundingBox(UpperPoint, LowerPoint, Radius);
+		}
+        
+        private void CreateCapsulePoints()
         {
-            return UpdateCapsuleBoundingBox();
+            FixVector2 CapsuleDirection = new FixVector2(Fix64.Zero, Height - Radius);
+
+            UpperPoint = FixVector2.Rotate(CapsuleDirection, RotationOffset * Fix64.DegToRad);
+            LowerPoint = FixVector2.Rotate(-CapsuleDirection, RotationOffset * Fix64.DegToRad);
+        }
+
+        private void UpdateCapsulePoints(FixVector2 position, Fix64 rotation)
+        {
+            CreateCapsulePoints();
+            
+            UpperPoint = FixVector2.Transform(UpperPoint + PositionOffset, position, rotation);
+            LowerPoint = FixVector2.Transform(LowerPoint + PositionOffset, position, rotation);
         }
 
         public override void UpdatePoints(FixVector2 position, Fix64 rotation)
         {
             UpdateCapsulePoints(position, rotation);
             base.UpdatePoints(position, rotation);
-        }
-
-        public override FixVector2 Support(FixVector2 direction)
-        {
-            FixVector2 NormalizedDirection = FixVector2.Normalize(direction);
-            Fix64 Dy = FixVector2.Dot(NormalizedDirection, UpperPoint - LowerPoint);
-
-            if (Dy == Fix64.Zero) return Center + Radius * NormalizedDirection;
-            else return (Dy < Fix64.Zero ? LowerPoint : UpperPoint) + Radius * NormalizedDirection;
-        }
-
-        public FixRect UpdateCapsuleBoundingBox()
-        {
-            Fix64 minX = UpperPoint.x - Radius;
-            Fix64 minY = UpperPoint.y - Radius;
-            Fix64 maxX = UpperPoint.x + Radius;
-            Fix64 maxY = UpperPoint.y + Radius;
-
-            if (LowerPoint.x < UpperPoint.x)
-                minX = LowerPoint.x - Radius;
-            if (LowerPoint.x > UpperPoint.x)
-                maxX = LowerPoint.x + Radius;
-            if (LowerPoint.y < UpperPoint.y)
-                minY = LowerPoint.y - Radius;
-            if (LowerPoint.y > UpperPoint.y)
-                maxY = LowerPoint.y + Radius;
-
-            return new FixRect(minX, minY, maxX, maxY);
-        }
-
-        public bool CapsuleToCapsuleCollision(CapsuleCollider2D colliderA, CapsuleCollider2D colliderB, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
-        {
-            Normal = FixVector2.Zero;
-            Depth = FixVector2.Zero;
-            ContactPoint = FixVector2.Zero;
-
-            FixVector2 r1 = FixVector2.Zero;
-            FixVector2 r2 = FixVector2.Zero;
-
-            bool colA_Sphere = colliderA.Radius >= colliderA.Height;
-            bool colB_Sphere = colliderB.Radius >= colliderB.Height;
-
-            if (colA_Sphere && colB_Sphere)
-            {
-                r1 = (colliderA.UpperPoint + colliderA.LowerPoint) / Fix64.Two;
-                r2 = (colliderA.UpperPoint + colliderA.LowerPoint) / Fix64.Two;
-            }
-            else if (!colA_Sphere && colB_Sphere)
-            {
-                r2 = (colliderB.UpperPoint + colliderB.LowerPoint) / Fix64.Two;
-                LineToPointDistance(colliderA.UpperPoint, colliderA.LowerPoint, r2, out r1);
-            }
-            else if (colA_Sphere && !colB_Sphere)
-            {
-                r1 = (colliderA.UpperPoint + colliderA.LowerPoint) / Fix64.Two;
-                LineToPointDistance(colliderB.UpperPoint, colliderB.LowerPoint, r1, out r2);
-            }
-            else 
-                LineToLineDistance(colliderA.UpperPoint, colliderA.LowerPoint, colliderB.UpperPoint, colliderB.LowerPoint, out r1, out r2);
-
-            Fix64 radii = colliderA.Radius + colliderB.Radius;
-            Fix64 radiiSq = radii * radii;
-            Fix64 distance = FixVector2.DistanceSq(r1, r2);
-
-            bool collision = distance <= radiiSq;
-
-            if (collision)
-            {
-                Normal = FixVector2.Normalize(r2 - r1);
-                Depth = Normal * (radii - Fix64.Sqrt(distance));
-                if (!colA_Sphere && !colB_Sphere)
-                {
-                    ContactPoint = CapsuleContactPoint
-                    (
-                        colliderA.UpperPoint, colliderA.LowerPoint,
-                        colliderB.UpperPoint, colliderB.LowerPoint,
-                        colliderA.Radius, colliderB.Radius, Normal
-                    ); 
-                }
-                else
-                {
-                    ContactPoint = CircleContactPoint(r1, colliderA.Radius, r2, colliderB.Radius, Normal);
-                }
-            }
-
-            return collision;
-        }
-
-        public bool CapsuleToCircleCollision(CapsuleCollider2D colliderA, CircleCollider2D colliderB, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
-        {
-            Normal = FixVector2.Zero;
-            Depth = FixVector2.Zero;
-            ContactPoint = FixVector2.Zero;
-
-            LineToPointDistance(colliderA.UpperPoint, colliderA.LowerPoint, colliderB.Center, out FixVector2 CapsulePoint);
-
-            Fix64 radii = colliderA.Radius + colliderB.Radius;
-            Fix64 radiiSq = radii * radii;
-            Fix64 distance = FixVector2.DistanceSq(CapsulePoint, colliderB.Center);
-
-            bool collision = distance <= radiiSq;
-
-            if (collision)
-            {
-                Normal = FixVector2.Normalize(colliderB.Center - CapsulePoint);
-                Depth = Normal * (radii - Fix64.Sqrt(distance));
-                ContactPoint = CircleContactPoint(CapsulePoint, colliderA.Radius, colliderB.Center, colliderB.Radius, Normal);
-            }
-
-            return collision;
-        }
-
-        public FixVector2 CircleContactPoint(FixVector2 centerA, Fix64 radiusA, FixVector2 centerB, Fix64 radiusB, FixVector2 direction)
-        {
-            FixVector2 ContactA = centerA + (direction * radiusA);
-            FixVector2 ContactB = centerB - (direction * radiusB);
-            return (ContactA + ContactB) / Fix64.Two;
-        }
-
-        public FixVector2 CapsuleContactPoint(FixVector2 upperA, FixVector2 lowerA, FixVector2 upperB, FixVector2 lowerB, Fix64 radiusA, Fix64 radiusB, FixVector2 direction)
-        {
-            LineToPointDistance(upperB, lowerB, upperA, out FixVector2 r1);
-            LineToPointDistance(upperB, lowerB, lowerA, out FixVector2 r3);
-            LineToPointDistance(upperA, lowerA, upperB, out FixVector2 r2);
-            LineToPointDistance(upperA, lowerA, lowerB, out FixVector2 r4);
-
-            FixVector2 p1 = r1 - (direction * radiusB);
-            FixVector2 p2 = r2 + (direction * radiusA);
-            FixVector2 p3 = r3 - (direction * radiusB);
-            FixVector2 p4 = r4 + (direction * radiusA);
-
-            FixVector2 contact1 = (p1 + p2) / Fix64.Two;
-            FixVector2 contact2 = (p3 + p4) / Fix64.Two;
-            return (contact1 + contact2) / Fix64.Two;
         }
     }
 }

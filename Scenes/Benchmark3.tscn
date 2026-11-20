@@ -2,22 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://b8anaih0004go" path="res://Scenes/FPSDisplay.tscn" id="1_2qokf"]
 [ext_resource type="Script" uid="uid://dswu8dcd4cdwi" path="res://addons/SharpCollisions/General/SharpManager.cs" id="2_l005j"]
-[ext_resource type="Script" uid="uid://bibw4tjrys580" path="res://addons/SharpCollisions/Examples/Rotator.cs" id="4_802oi"]
-[ext_resource type="Script" uid="uid://s1sf13a5bmwf" path="res://addons/SharpCollisions/Collider3D/Colliders/BoxCollider3D.cs" id="5_vg68d"]
-[ext_resource type="Script" uid="uid://vanf8ydlw1ew" path="res://addons/SharpCollisions/Collider3D/Commons/SharpBody3D.cs" id="6_ibdrf"]
-[ext_resource type="Script" uid="uid://44pibwortjvd" path="res://addons/SharpCollisions/Collider3D/Colliders/SphereCollider3D.cs" id="7_f426n"]
-[ext_resource type="Script" uid="uid://cg5dxxak4nmpf" path="res://addons/SharpCollisions/Collider3D/Colliders/CapsuleCollider3D.cs" id="8_0kenx"]
-
-[sub_resource type="SphereMesh" id="15"]
-radius = 1.0
-height = 2.0
-
-[sub_resource type="BoxMesh" id="12"]
-size = Vector3(2, 2, 2)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_omnyj"]
-
-[sub_resource type="PrismMesh" id="PrismMesh_4fpna"]
+[ext_resource type="Script" uid="uid://c2pd4i5gql5t8" path="res://addons/SharpCollisions/Collider2D/Commons/SharpBody2D.cs" id="3_g3fdp"]
+[ext_resource type="PackedScene" uid="uid://p6wo82xe2iqf" path="res://Scenes/Examples/test_circle.tscn" id="3_qtguh"]
+[ext_resource type="Script" uid="uid://60swcfhcbcdh" path="res://addons/SharpCollisions/Collider2D/Commons/SharpRenderer2D.cs" id="5_k2x4t"]
+[ext_resource type="Script" uid="uid://d4idavsok0wfs" path="res://addons/SharpCollisions/Collider2D/Colliders/BoxCollider2D.cs" id="5_scd70"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ebdch"]
 
@@ -31,124 +19,567 @@ ambient_light_source = 3
 reflected_light_source = 2
 tonemap_mode = 2
 
-[node name="Main" type="Node3D"]
+[node name="Main" type="Node3D" unique_id=301612380]
 
-[node name="FPS_HUD" parent="." instance=ExtResource("1_2qokf")]
+[node name="FPS_HUD" parent="." unique_id=1887015984 instance=ExtResource("1_2qokf")]
 
-[node name="PhysicsManager" type="Node" parent="." node_paths=PackedStringArray("nodes")]
+[node name="PhysicsManager" type="Node" parent="." unique_id=210991773 node_paths=PackedStringArray("nodes")]
 script = ExtResource("2_l005j")
-nodes = [NodePath("../Sphere"), NodePath("../Sphere2"), NodePath("../Box"), NodePath("../Capsule"), NodePath("../Polygon")]
-debugLineThickness = 0.012
+nodes = [NodePath("../Wall1"), NodePath("../TestCircle1"), NodePath("../TestCircle2"), NodePath("../TestCircle3"), NodePath("../TestCircle4"), NodePath("../TestCircle5"), NodePath("../TestCircle6"), NodePath("../TestCircle7"), NodePath("../TestCircle8"), NodePath("../TestCircle9"), NodePath("../TestCircle10"), NodePath("../TestCircle11"), NodePath("../TestCircle12"), NodePath("../TestCircle13"), NodePath("../TestCircle14"), NodePath("../TestCircle15"), NodePath("../TestCircle16"), NodePath("../TestCircle17"), NodePath("../TestCircle18"), NodePath("../TestCircle19"), NodePath("../TestCircle20"), NodePath("../TestCircle21"), NodePath("../TestCircle22"), NodePath("../TestCircle23"), NodePath("../TestCircle24"), NodePath("../TestCircle25"), NodePath("../TestCircle26"), NodePath("../TestCircle27"), NodePath("../TestCircle28"), NodePath("../TestCircle29"), NodePath("../TestCircle30"), NodePath("../TestCircle31"), NodePath("../TestCircle32"), NodePath("../TestCircle33"), NodePath("../TestCircle34"), NodePath("../TestCircle35"), NodePath("../TestCircle36"), NodePath("../TestCircle37"), NodePath("../TestCircle38"), NodePath("../TestCircle39"), NodePath("../TestCircle40"), NodePath("../TestCircle41"), NodePath("../TestCircle42"), NodePath("../TestCircle43"), NodePath("../TestCircle44"), NodePath("../TestCircle45"), NodePath("../TestCircle46"), NodePath("../TestCircle47"), NodePath("../TestCircle48"), NodePath("../TestCircle49"), NodePath("../TestCircle50"), NodePath("../TestCircle51"), NodePath("../TestCircle52"), NodePath("../TestCircle53"), NodePath("../TestCircle54"), NodePath("../TestCircle55"), NodePath("../TestCircle56"), NodePath("../TestCircle57"), NodePath("../TestCircle58"), NodePath("../TestCircle59"), NodePath("../TestCircle60"), NodePath("../TestCircle61"), NodePath("../TestCircle62"), NodePath("../TestCircle63"), NodePath("../TestCircle64"), NodePath("../TestCircle65"), NodePath("../TestCircle66"), NodePath("../TestCircle67"), NodePath("../TestCircle68"), NodePath("../TestCircle69"), NodePath("../TestCircle70"), NodePath("../TestCircle71"), NodePath("../TestCircle72"), NodePath("../TestCircle73"), NodePath("../TestCircle74"), NodePath("../TestCircle75"), NodePath("../TestCircle76"), NodePath("../TestCircle77"), NodePath("../TestCircle78"), NodePath("../TestCircle79"), NodePath("../TestCircle80"), NodePath("../TestCircle81"), NodePath("../TestCircle82"), NodePath("../TestCircle83"), NodePath("../TestCircle84"), NodePath("../TestCircle85"), NodePath("../TestCircle86"), NodePath("../TestCircle87"), NodePath("../TestCircle88"), NodePath("../TestCircle89"), NodePath("../TestCircle90"), NodePath("../TestCircle91"), NodePath("../TestCircle92"), NodePath("../TestCircle93"), NodePath("../TestCircle94"), NodePath("../TestCircle95"), NodePath("../TestCircle96"), NodePath("../TestCircle97"), NodePath("../TestCircle98"), NodePath("../TestCircle99"), NodePath("../TestCircle100")]
 RunOnDedicatedThread = true
-ShowDebugShapes = true
 
-[node name="Sphere" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
-script = ExtResource("4_802oi")
-RotationSpeed = Vector3(45, 45, 45)
-Colliders = [NodePath("Collider")]
+[node name="TestCircle1" parent="." unique_id=1674980937 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-0.5, 0)
+raw_fixedPosition_x = -2147483648
+
+[node name="TestCircle2" parent="." unique_id=1576808368 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0.5, 0)
+raw_fixedPosition_x = 2147483648
+
+[node name="TestCircle3" parent="." unique_id=2125573576 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0, 0.5)
+raw_fixedPosition_y = 2147483648
+
+[node name="TestCircle4" parent="." unique_id=638241289 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0, -0.5)
+raw_fixedPosition_y = -2147483648
+
+[node name="TestCircle5" parent="." unique_id=859647433 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0, -1.25)
+raw_fixedPosition_y = -5368709120
+
+[node name="TestCircle6" parent="." unique_id=1615097785 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0, 1.25)
+raw_fixedPosition_y = 5368709120
+
+[node name="TestCircle7" parent="." unique_id=2076274912 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-1.25, 0)
+raw_fixedPosition_x = -5368709120
+
+[node name="TestCircle8" parent="." unique_id=356489574 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(1.25, 0)
+raw_fixedPosition_x = 5368709120
+
+[node name="TestCircle9" parent="." unique_id=535932187 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0.8, 0.7)
+raw_fixedPosition_x = 3435973888
+raw_fixedPosition_y = 3006477056
+
+[node name="TestCircle10" parent="." unique_id=132655887 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-0.8, 0.7)
+raw_fixedPosition_x = -3435973888
+raw_fixedPosition_y = 3006477056
+
+[node name="TestCircle11" parent="." unique_id=1384289603 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0.8, -0.7)
+raw_fixedPosition_x = 3435973888
+raw_fixedPosition_y = -3006477056
+
+[node name="TestCircle12" parent="." unique_id=411548474 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-0.8, -0.7)
+raw_fixedPosition_x = -3435973888
+raw_fixedPosition_y = -3006477056
+
+[node name="TestCircle13" parent="." unique_id=809729046 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-1.6, -0.7)
+raw_fixedPosition_x = -6871947776
+raw_fixedPosition_y = -3006477056
+
+[node name="TestCircle14" parent="." unique_id=533725060 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-0.8, -1.5)
+raw_fixedPosition_x = -3435973888
+raw_fixedPosition_y = -6442450944
+
+[node name="TestCircle15" parent="." unique_id=1606624086 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0.8, -1.5)
+raw_fixedPosition_x = 3435973888
+raw_fixedPosition_y = -6442450944
+
+[node name="TestCircle16" parent="." unique_id=2052596532 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(1.6, -0.7)
+raw_fixedPosition_x = 6871947776
+raw_fixedPosition_y = -3006477056
+
+[node name="TestCircle17" parent="." unique_id=1046518051 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0.8, 1.5)
+raw_fixedPosition_x = 3435973888
+raw_fixedPosition_y = 6442450944
+
+[node name="TestCircle18" parent="." unique_id=1466267712 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(1.6, 0.7)
+raw_fixedPosition_x = 6871947776
+raw_fixedPosition_y = 3006477056
+
+[node name="TestCircle19" parent="." unique_id=174766247 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-1.6, 0.7)
+raw_fixedPosition_x = -6871947776
+raw_fixedPosition_y = 3006477056
+
+[node name="TestCircle20" parent="." unique_id=1141235390 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-0.8, 1.5)
+raw_fixedPosition_x = -3435973888
+raw_fixedPosition_y = 6442450944
+
+[node name="TestCircle21" parent="." unique_id=927046496 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0, -2)
+raw_fixedPosition_y = -8589934592
+
+[node name="TestCircle22" parent="." unique_id=2030589307 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0, 2)
+raw_fixedPosition_y = 8589934592
+
+[node name="TestCircle23" parent="." unique_id=1962915730 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(2, 0)
+raw_fixedPosition_x = 8589934592
+
+[node name="TestCircle24" parent="." unique_id=1838108881 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-2, 0)
+raw_fixedPosition_x = -8589934592
+
+[node name="TestCircle25" parent="." unique_id=1700414454 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-2.765, 0)
+raw_fixedPosition_x = -11875585024
+
+[node name="TestCircle26" parent="." unique_id=757762927 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-2.36, 0.675)
+raw_fixedPosition_x = -10136122368
+raw_fixedPosition_y = 2899102976
+
+[node name="TestCircle27" parent="." unique_id=485451853 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-1.595, 1.42)
+raw_fixedPosition_x = -6850472960
+raw_fixedPosition_y = 6098853376
+
+[node name="TestCircle28" parent="." unique_id=1551147757 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-0.95, 2.295)
+raw_fixedPosition_x = -4080218880
+raw_fixedPosition_y = 9856950272
+
+[node name="TestCircle29" parent="." unique_id=119363449 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-0.21, 2.74)
+raw_fixedPosition_x = -901943104
+raw_fixedPosition_y = 11768210432
+
+[node name="TestCircle30" parent="." unique_id=1833654048 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0.73, 2.42)
+raw_fixedPosition_x = 3135326208
+raw_fixedPosition_y = 10393821184
+
+[node name="TestCircle31" parent="." unique_id=1216603590 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(1.48, 2.01)
+raw_fixedPosition_x = 6356551680
+raw_fixedPosition_y = 8632884224
+
+[node name="TestCircle32" parent="." unique_id=1378261377 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(1.94, 1.385)
+raw_fixedPosition_x = 8332236800
+raw_fixedPosition_y = 5948529664
+
+[node name="TestCircle33" parent="." unique_id=955198741 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(2.37, 0.685)
+raw_fixedPosition_x = 10179072000
+raw_fixedPosition_y = 2942052608
+
+[node name="TestCircle34" parent="." unique_id=682410986 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(2.79, -0.015)
+raw_fixedPosition_x = 11982958592
+raw_fixedPosition_y = -64424508
+
+[node name="TestCircle35" parent="." unique_id=480771627 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(2.47, -0.715)
+raw_fixedPosition_x = 10608569344
+raw_fixedPosition_y = -3070901504
+
+[node name="TestCircle36" parent="." unique_id=1008935801 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(2.055, -1.28)
+raw_fixedPosition_x = 8826158080
+raw_fixedPosition_y = -5497558016
+
+[node name="TestCircle37" parent="." unique_id=1432753082 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(1.515, -1.845)
+raw_fixedPosition_x = 6506875392
+raw_fixedPosition_y = -7924214784
+
+[node name="TestCircle38" parent="." unique_id=2030159631 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0.805, -2.26)
+raw_fixedPosition_x = 3457448704
+raw_fixedPosition_y = -9706626048
+
+[node name="TestCircle39" parent="." unique_id=1864167340 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-0.02, -2.79)
+raw_fixedPosition_x = -85899344
+raw_fixedPosition_y = -11982958592
+
+[node name="TestCircle40" parent="." unique_id=2066979788 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-0.8, -2.27)
+raw_fixedPosition_x = -3435973888
+raw_fixedPosition_y = -9749575680
+
+[node name="TestCircle41" parent="." unique_id=363508140 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-1.545, -1.69)
+raw_fixedPosition_x = -6635724288
+raw_fixedPosition_y = -7258494976
+
+[node name="TestCircle42" parent="." unique_id=1191553321 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-2.22, -1.085)
+raw_fixedPosition_x = -9534827520
+raw_fixedPosition_y = -4660039680
+
+[node name="TestCircle43" parent="." unique_id=1374392743 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-2.905, -0.7)
+raw_fixedPosition_x = -12476879872
+raw_fixedPosition_y = -3006477056
+
+[node name="TestCircle44" parent="." unique_id=1969795835 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-3.49, -0.3)
+raw_fixedPosition_x = -14989435904
+raw_fixedPosition_y = -1288490240
+
+[node name="TestCircle45" parent="." unique_id=1959220189 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-3.475, 0.455)
+raw_fixedPosition_x = -14925010944
+raw_fixedPosition_y = 1954210176
+
+[node name="TestCircle46" parent="." unique_id=1292728099 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-3.39, 1.145)
+raw_fixedPosition_x = -14559939584
+raw_fixedPosition_y = 4917737472
+
+[node name="TestCircle47" parent="." unique_id=1827339103 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-2.585, 1.395)
+raw_fixedPosition_x = -11102490624
+raw_fixedPosition_y = 5991479296
+
+[node name="TestCircle48" parent="." unique_id=472847873 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-1.73, 2.135)
+raw_fixedPosition_x = -7430293504
+raw_fixedPosition_y = 9169755136
+
+[node name="TestCircle49" parent="." unique_id=1777728685 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-2.45, 2.135)
+raw_fixedPosition_x = -10522670080
+raw_fixedPosition_y = 9169755136
+
+[node name="TestCircle50" parent="." unique_id=564455670 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-3.29, 2.135)
+raw_fixedPosition_x = -14130442240
+raw_fixedPosition_y = 9169755136
+
+[node name="TestCircle51" parent="." unique_id=806273121 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-1.005, 2.97)
+raw_fixedPosition_x = -4316442112
+raw_fixedPosition_y = 12756052992
+
+[node name="TestCircle52" parent="." unique_id=92222954 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-1.77, 2.97)
+raw_fixedPosition_x = -7602092032
+raw_fixedPosition_y = 12756052992
+
+[node name="TestCircle53" parent="." unique_id=1211723664 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-2.535, 2.97)
+raw_fixedPosition_x = -10887742464
+raw_fixedPosition_y = 12756052992
+
+[node name="TestCircle54" parent="." unique_id=1885346042 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-3.36, 2.97)
+raw_fixedPosition_x = -14431089664
+raw_fixedPosition_y = 12756052992
+
+[node name="TestCircle55" parent="." unique_id=294229995 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-3.36, 3.705)
+raw_fixedPosition_x = -14431089664
+raw_fixedPosition_y = 15912853504
+
+[node name="TestCircle56" parent="." unique_id=2131249894 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-2.62, 3.705)
+raw_fixedPosition_x = -11252813824
+raw_fixedPosition_y = 15912853504
+
+[node name="TestCircle57" parent="." unique_id=679238700 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-1.89, 3.705)
+raw_fixedPosition_x = -8117488128
+raw_fixedPosition_y = 15912853504
+
+[node name="TestCircle58" parent="." unique_id=156693283 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-1.11, 3.705)
+raw_fixedPosition_x = -4767413760
+raw_fixedPosition_y = 15912853504
+
+[node name="TestCircle59" parent="." unique_id=2074075481 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-0.345, 3.48)
+raw_fixedPosition_x = -1481763712
+raw_fixedPosition_y = 14946486272
+
+[node name="TestCircle60" parent="." unique_id=1313648541 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0.36, 3.215)
+raw_fixedPosition_x = 1546188288
+raw_fixedPosition_y = 13808319488
+
+[node name="TestCircle61" parent="." unique_id=1320687825 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0.36, 3.215)
+raw_fixedPosition_x = 1546188288
+raw_fixedPosition_y = 13808319488
+
+[node name="TestCircle62" parent="." unique_id=1465744318 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0.36, 3.945)
+raw_fixedPosition_x = 1546188288
+raw_fixedPosition_y = 16943645696
+
+[node name="TestCircle63" parent="." unique_id=1882534848 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(1.1, 3.69)
+raw_fixedPosition_x = 4724464128
+raw_fixedPosition_y = 15848429568
+
+[node name="TestCircle64" parent="." unique_id=1072660506 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(1.1, 3)
+raw_fixedPosition_x = 4724464128
+raw_fixedPosition_y = 12884901888
+
+[node name="TestCircle65" parent="." unique_id=1427253044 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(1.835, 3)
+raw_fixedPosition_x = 7881265152
+raw_fixedPosition_y = 12884901888
+
+[node name="TestCircle66" parent="." unique_id=1917727298 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(1.835, 3.67)
+raw_fixedPosition_x = 7881265152
+raw_fixedPosition_y = 15762530304
+
+[node name="TestCircle67" parent="." unique_id=1747006464 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(2.185, 2.355)
+raw_fixedPosition_x = 9384503296
+raw_fixedPosition_y = 10114648064
+
+[node name="TestCircle68" parent="." unique_id=1175816804 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(2.925, 2.355)
+raw_fixedPosition_x = 12562779136
+raw_fixedPosition_y = 10114648064
+
+[node name="TestCircle69" parent="." unique_id=117523172 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(2.58, 3.14)
+raw_fixedPosition_x = 11081015296
+raw_fixedPosition_y = 13486197760
+
+[node name="TestCircle70" parent="." unique_id=319601144 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(2.58, 3.845)
+raw_fixedPosition_x = 11081015296
+raw_fixedPosition_y = 16514149376
+
+[node name="TestCircle71" parent="." unique_id=1774770719 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(2.58, 1.715)
+raw_fixedPosition_x = 11081015296
+raw_fixedPosition_y = 7365869056
+
+[node name="TestCircle72" parent="." unique_id=745268444 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(3.345, 1.715)
+raw_fixedPosition_x = 14366665728
+raw_fixedPosition_y = 7365869056
+
+[node name="TestCircle73" parent="." unique_id=1151374648 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(2.945, 1.105)
+raw_fixedPosition_x = 12648678400
+raw_fixedPosition_y = 4745938944
+
+[node name="TestCircle74" parent="." unique_id=1080877193 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(3.315, 0.475)
+raw_fixedPosition_x = 14237816832
+raw_fixedPosition_y = 2040109440
+
+[node name="TestCircle75" parent="." unique_id=1277309167 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(3.72, 1.115)
+raw_fixedPosition_x = 15977278464
+raw_fixedPosition_y = 4788888576
+
+[node name="TestCircle76" parent="." unique_id=304263062 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(3.565, -0.21)
+raw_fixedPosition_x = 15311558656
+raw_fixedPosition_y = -901943104
+
+[node name="TestCircle77" parent="." unique_id=867733902 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(4.19, 0.315)
+raw_fixedPosition_x = 17995913216
+raw_fixedPosition_y = 1352914688
+
+[node name="TestCircle78" parent="." unique_id=347185963 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(3.18, -0.87)
+raw_fixedPosition_x = 13657996288
+raw_fixedPosition_y = -3736621568
+
+[node name="TestCircle79" parent="." unique_id=2010537094 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(3.96, -0.87)
+raw_fixedPosition_x = 17008070656
+raw_fixedPosition_y = -3736621568
+
+[node name="TestCircle80" parent="." unique_id=1443302505 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(4.545, -0.355)
+raw_fixedPosition_x = 19520626688
+raw_fixedPosition_y = -1524713344
+
+[node name="TestCircle81" parent="." unique_id=698232978 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(3.605, -1.46)
+raw_fixedPosition_x = 15483357184
+raw_fixedPosition_y = -6270652416
+
+[node name="TestCircle82" parent="." unique_id=1334158683 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(2.795, -1.46)
+raw_fixedPosition_x = 12004433920
+raw_fixedPosition_y = -6270652416
+
+[node name="TestCircle83" parent="." unique_id=419344610 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(4.345, -1.46)
+raw_fixedPosition_x = 18661632000
+raw_fixedPosition_y = -6270652416
+
+[node name="TestCircle84" parent="." unique_id=103948794 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(3.98, -2.155)
+raw_fixedPosition_x = 17093969920
+raw_fixedPosition_y = -9255654400
+
+[node name="TestCircle85" parent="." unique_id=2012561014 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(3.19, -2.155)
+raw_fixedPosition_x = 13700945920
+raw_fixedPosition_y = -9255654400
+
+[node name="TestCircle86" parent="." unique_id=2025703579 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(2.405, -2.155)
+raw_fixedPosition_x = 10329396224
+raw_fixedPosition_y = -9255654400
+
+[node name="TestCircle87" parent="." unique_id=939230717 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(1.635, -2.61)
+raw_fixedPosition_x = 7022271488
+raw_fixedPosition_y = -11209864192
+
+[node name="TestCircle88" parent="." unique_id=1809892200 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(0.92, -3.055)
+raw_fixedPosition_x = 3951369984
+raw_fixedPosition_y = -13121125376
+
+[node name="TestCircle89" parent="." unique_id=229831928 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(2.34, -3.055)
+raw_fixedPosition_x = 10050223104
+raw_fixedPosition_y = -13121125376
+
+[node name="TestCircle90" parent="." unique_id=311125182 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(3.105, -2.9)
+raw_fixedPosition_x = 13335873536
+raw_fixedPosition_y = -12455405568
+
+[node name="TestCircle91" parent="." unique_id=1166556462 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-1.355, -2.9)
+raw_fixedPosition_x = -5819680768
+raw_fixedPosition_y = -12455405568
+
+[node name="TestCircle92" parent="." unique_id=1462793025 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-0.675, -3.175)
+raw_fixedPosition_x = -2899102976
+raw_fixedPosition_y = -13636520960
+
+[node name="TestCircle93" parent="." unique_id=1968711686 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-1.98, -2.325)
+raw_fixedPosition_x = -8504035328
+raw_fixedPosition_y = -9985799168
+
+[node name="TestCircle94" parent="." unique_id=1033719001 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-2.25, -3.005)
+raw_fixedPosition_x = -9663676416
+raw_fixedPosition_y = -12906377216
+
+[node name="TestCircle95" parent="." unique_id=876028665 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-2.76, -2.33)
+raw_fixedPosition_x = -11854109696
+raw_fixedPosition_y = -10007273472
+
+[node name="TestCircle96" parent="." unique_id=395985278 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-2.655, -1.69)
+raw_fixedPosition_x = -11403138048
+raw_fixedPosition_y = -7258494976
+
+[node name="TestCircle97" parent="." unique_id=260436975 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-3.41, -1.345)
+raw_fixedPosition_x = -14645838848
+raw_fixedPosition_y = -5776731136
+
+[node name="TestCircle98" parent="." unique_id=1050665145 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-4.115, -0.885)
+raw_fixedPosition_x = -17673789440
+raw_fixedPosition_y = -3801046016
+
+[node name="TestCircle99" parent="." unique_id=1239053528 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-3.54, -2.13)
+raw_fixedPosition_x = -15204184064
+raw_fixedPosition_y = -9148280832
+
+[node name="TestCircle100" parent="." unique_id=2090288833 instance=ExtResource("3_qtguh")]
+_fixedPosition = Vector2(-3.345, -2.975)
+raw_fixedPosition_x = -14366665728
+raw_fixedPosition_y = -12777527296
+
+[node name="Wall1" type="Node" parent="." unique_id=583063280 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+process_mode = 4
+script = ExtResource("3_g3fdp")
+Colliders = [NodePath("Collider1"), NodePath("Collider2"), NodePath("Collider3"), NodePath("Collider4")]
 Attachments = []
+BodyMode = 2
 Renderer = NodePath("Viewer")
+metadata/_custom_type_script = "uid://c2pd4i5gql5t8"
 
-[node name="Collider" type="Node" parent="Sphere"]
-script = ExtResource("7_f426n")
-radius = 1000
-DrawDebug = true
+[node name="Collider1" type="Node" parent="Wall1" unique_id=728256148]
+script = ExtResource("5_scd70")
+_extents = Vector2(10, 0.5)
+raw_extents_X = 42949672960
+raw_extents_Y = 2147483648
+_points = []
+_positionOffset = Vector2(0, -7)
+DrawDebugShape = true
+raw_positionOffset_Y = -30064771072
+metadata/_custom_type_script = "uid://d4idavsok0wfs"
 
-[node name="Viewer" type="Node3D" parent="Sphere"]
+[node name="Collider2" type="Node" parent="Wall1" unique_id=837273756]
+script = ExtResource("5_scd70")
+_extents = Vector2(10, 0.5)
+raw_extents_X = 42949672960
+raw_extents_Y = 2147483648
+_points = []
+_positionOffset = Vector2(0, 7)
+DrawDebugShape = true
+raw_positionOffset_Y = 30064771072
+metadata/_custom_type_script = "uid://d4idavsok0wfs"
 
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere/Viewer"]
-mesh = SubResource("15")
-skeleton = NodePath("../..")
+[node name="Collider3" type="Node" parent="Wall1" unique_id=1459888442]
+script = ExtResource("5_scd70")
+_extents = Vector2(0.5, 10)
+raw_extents_X = 2147483648
+raw_extents_Y = 42949672960
+_points = []
+_positionOffset = Vector2(7, 0)
+DrawDebugShape = true
+raw_positionOffset_X = 30064771072
+metadata/_custom_type_script = "uid://d4idavsok0wfs"
 
-[node name="Sphere2" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
-script = ExtResource("4_802oi")
-RotationSpeed = Vector3(45, 45, 45)
-Colliders = [NodePath("Collider")]
-Attachments = []
-Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-3000, 0, -5000)
+[node name="Collider4" type="Node" parent="Wall1" unique_id=988748109]
+script = ExtResource("5_scd70")
+_extents = Vector2(0.5, 10)
+raw_extents_X = 2147483648
+raw_extents_Y = 42949672960
+_points = []
+_positionOffset = Vector2(-7, 0)
+DrawDebugShape = true
+raw_positionOffset_X = -30064771072
+metadata/_custom_type_script = "uid://d4idavsok0wfs"
 
-[node name="Collider" type="Node" parent="Sphere2"]
-script = ExtResource("7_f426n")
-radius = 1000
-DrawDebug = true
+[node name="Viewer" type="Node" parent="Wall1" unique_id=416266910]
+script = ExtResource("5_k2x4t")
+metadata/_custom_type_script = "uid://60swcfhcbcdh"
 
-[node name="Viewer" type="Node3D" parent="Sphere2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -5)
-
-[node name="MeshInstance" type="MeshInstance3D" parent="Sphere2/Viewer"]
-mesh = SubResource("15")
-skeleton = NodePath("../..")
-
-[node name="Box" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
-script = ExtResource("6_ibdrf")
-Colliders = [NodePath("Collider")]
-Attachments = []
-Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(6000, 0, 0)
-
-[node name="Collider" type="Node" parent="Box"]
-script = ExtResource("5_vg68d")
-extents = Vector3i(1000, 1000, 1000)
-vertices = []
-Faces = []
-DrawDebug = true
-
-[node name="Viewer" type="Node3D" parent="Box"]
-transform = Transform3D(0.999808, 0, 0, 0, 0.99982, 0, 0, 0, 0.999997, 6, 0, 0)
-
-[node name="MeshInstance" type="MeshInstance3D" parent="Box/Viewer"]
-mesh = SubResource("12")
-skeleton = NodePath("../..")
-
-[node name="Capsule" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
-script = ExtResource("6_ibdrf")
-Colliders = [NodePath("Collider")]
-Attachments = []
-Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(2500, 0, 3600)
-fixedRotation = Vector3i(0, 0, 450)
-
-[node name="Collider" type="Node" parent="Capsule"]
-script = ExtResource("8_0kenx")
-radius = 500
-height = 1000
-rotationOffset = Vector3i(0, 0, 900)
-DrawDebug = true
-
-[node name="Viewer" type="Node3D" parent="Capsule"]
-transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 2.5, 0, 3.6)
-
-[node name="MeshInstance" type="MeshInstance3D" parent="Capsule/Viewer"]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
-mesh = SubResource("CapsuleMesh_omnyj")
-skeleton = NodePath("../..")
-
-[node name="Polygon" type="Node" parent="." node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
-script = ExtResource("6_ibdrf")
-Colliders = []
-Attachments = []
-Renderer = NodePath("Viewer")
-fixedPosition = Vector3i(-4000, 0, 500)
-
-[node name="Collider" type="Node" parent="Polygon"]
-
-[node name="Viewer" type="Node3D" parent="Polygon"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0.5)
-
-[node name="MeshInstance" type="MeshInstance3D" parent="Polygon/Viewer"]
-visible = false
-mesh = SubResource("PrismMesh_4fpna")
-skeleton = NodePath("../..")
-
-[node name="Camera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 4.16488, 6.89399)
+[node name="Camera" type="Camera3D" parent="." unique_id=965923233]
+transform = Transform3D(1, 0, 0, 0, 0.9999996, 0, 0, 0, 0.9999996, 0, 0, 7)
+projection = 1
 current = true
 size = 9.0
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1884045680]
 environment = SubResource("Environment_bff8o")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=15950948]
 transform = Transform3D(0.76591, 0.470268, -0.43844, 0, 0.681922, 0.731425, 0.642948, -0.560206, 0.522291, -1.96341, 1.98419, 3.05469)
-shadow_enabled = true

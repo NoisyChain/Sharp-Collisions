@@ -13,12 +13,20 @@ namespace SharpCollisions.Sharp3D
         [Export] private bool KeepVelocityOnSlopes = true;
         [Export] private bool KeepSlopeVelocityOnJump = true;
         [Export] private bool StopAirVelocityOnCeiling = true;
+        [Export] private bool RotateOnMovingPlatformer = true;
         [Export(PropertyHint.Layers3DPhysics)]
 		public int FloorLayers = 1;
 
-        public FixVector3 GroundNormal => GetGround().Normal;
+        private SurfaceData3D GroundData;
+        private SurfaceData3D WallData;
+        private SurfaceData3D CeilingData;
+
+        public FixVector3 GroundNormal => GroundData.Normal;
         public Fix64 GroundAngle => FixVector3.AngleDegrees(GroundNormal, Up);
-        public Fix64 CeilingAngle => FixVector3.AngleDegrees(GetCeiling().Normal, Up);
+        public FixVector3 WallNormal => WallData.Normal;
+        public Fix64 WallAngle => FixVector3.AngleDegrees(WallNormal, Up);
+        public FixVector3 CeilingNormal => CeilingData.Normal;
+        public Fix64 CeilingAngle => FixVector3.AngleDegrees(CeilingNormal, Up);
 
         private FixVector3 VerticalVelocity;
         private FixVector3 LateralVelocity;
@@ -37,17 +45,17 @@ namespace SharpCollisions.Sharp3D
         public bool IsOnGround() 
         {
             if (!HasColliders()) return false;
-            return GetCollider(0).collisionFlags.Below;
+            return (GetCollider(0).collisionFlags & CollisionFlags.Below) > 0;
         }
         public bool IsOnCeiling()
         {
             if (!HasColliders()) return false;
-            return GetCollider(0).collisionFlags.Above;
+            return (GetCollider(0).collisionFlags & CollisionFlags.Above) > 0;
         }
         public bool IsOnWalls()
         {
             if (!HasColliders()) return false;
-            return GetCollider(0).collisionFlags.Walls;
+            return (GetCollider(0).collisionFlags & CollisionFlags.Walls) > 0;
         }
 
         public override void _Instance()
@@ -74,7 +82,7 @@ namespace SharpCollisions.Sharp3D
                 Input3D.y = Fix64.NegativeOne;
             */
 
-            if (IsOnGround() && IsValidFloor() && IsWalkableSlope(GroundAngle))
+            if (IsOnGround() && GroundData.ID > -1)
             {
                 UpVector = GroundNormal;
                 VerticalVelocity = -UpVector;
@@ -118,9 +126,9 @@ namespace SharpCollisions.Sharp3D
             {
                 UpVector = FixVector3.Up;
 
-                if (StopAirVelocityOnCeiling && GetCeiling() != null && !IsAngularCeiling())
+                //if (StopAirVelocityOnCeiling && GetCeiling() != null && !IsAngularCeiling())
                     //Add a bit of extra force or else the body gets stuck on the ceiling for some reason
-                    VerticalVelocity = -UpVector * ceilingUnstickForce;
+                    //VerticalVelocity = -UpVector * ceilingUnstickForce;
                 
                 VerticalVelocity -= UpVector * gravity * delta;
                 
@@ -134,17 +142,23 @@ namespace SharpCollisions.Sharp3D
             { 
                 LateralVelocity = FixVector3.Zero;
                 VerticalVelocity = FixVector3.Zero;
-                MoveTo(FixVector3.Up);
+                SetPosition(FixVector3.Up);
             }
 
             //SetRotation(correctedRotation);
             SetLinearVelocity(finalVelocity);
             string groundAngle = IsOnGround() ? GroundAngle.ToString() : "No Ground";
-            if (debug != null && HasColliders()) debugText = "Normal: " + UpVector.ToString() + 
+            if (debug != null && HasColliders()) debugText = "Position: " + FixedPosition +
+                "\nRotation: " + FixedRotation +
+                "\nVelocity: " + LinearVelocity +
+                "\nNormal: " + UpVector.ToString() + 
                 "\nFlags: " + GetCollider(0).collisionFlags.ToString() + 
-                "\nCollisions: " + GetCollisions().Count + 
-                "\nContact Point: " + (GetCollisions().Count > 0 ? GetCollision(0).ContactPoint : 0) + 
+                "\nCollisions: " + ConfirmedCollisionCount() + 
+                //"\nContact Point: " + (GetCollisions().Count > 0 ? GetCollision(0).ContactPoint : 0) + 
                 "\nFloor angle: " + groundAngle;
+            
+            GroundData.ID = -1;
+            GroundData.Normal = FixVector3.Up;
         }
 
         public override void _Process(double delta)
@@ -153,90 +167,66 @@ namespace SharpCollisions.Sharp3D
             debug.Text = debugText;
         }
 
-        public override void RenderNode(bool debug)
+        public void GetSurfaceData(CollisionResult3D surface)
         {
-            base.RenderNode(debug);
-
-            if (!debug) return;
-            
-            foreach(CollisionManifold3D col in GetCollisions())
-                DebugDraw3D.DrawSimpleSphere((Vector3)col.ContactPoint, Vector3.Right, Vector3.Up, Vector3.Forward, 0.1f, new Color(0f, 1f, 1f));
-        }
-
-        public CollisionManifold3D GetGround()
-        { 
-            CollisionManifold3D Ground = null;
-
-            if (GetCollisions().Count > 0)
+            //
+            if (!IsValidFloor(surface.CollidedWith.CollisionLayers)) return;
+            Fix64 err = (Fix64)0.1;
+            Fix64 surfaceDot = FixVector3.Dot(surface.Normal, Up);
+            Fix64 surfaceAngle = FixVector3.AngleDegrees(surface.Normal, Up);
+            //Check floor
+            if (IsOnGround() && surfaceDot > err)
             {
-                Ground = GetCollision(0);
+                if (IsOnWalls() && surfaceAngle > (Fix64)(SlopeLimit + 1)) return;
 
-                if (GetCollisions().Count > 1)
-                {
-                    for (int c = 1; c < GetCollisions().Count; c++)
-                    {
-                        if (IsWalkableSlope(FixVector3.AngleDegrees(GetCollision(c).Normal, Up)) ||
-                            !IsWalkableSlope(FixVector3.AngleDegrees(Ground.Normal, Up)))
-                            Ground = GetCollision(c);
-                    }
-                }
+                GroundData.ID = (int)surface.CollidedWith.GetBodyID();
+                GroundData.Normal = surface.Normal;
+                return;
             }
-
-            return Ground;
-        }
-
-        public CollisionManifold3D GetCeiling()
-        { 
-            CollisionManifold3D Ceiling = null;
-
-            if (IsOnCeiling() && GetCollisions().Count > 0)
+            //Checl ceiling
+            else if (IsOnCeiling() && surfaceDot < -err)
             {
-                Ceiling = GetCollision(0);
-
-                /*if (Collisions.Count > 1)
-                {
-                    for (int c = 1; c < Collisions.Count; c++)
-                    {
-                        if ((IsWalkableSlope(FixVector2.AngleDegrees(Collisions[c].Normal, Down)) ||
-                            !IsWalkableSlope(FixVector2.AngleDegrees(Ceiling.Normal, Down))) &&
-                            FixVector2.IsExactDirection(Collisions[c].Normal, LateralVelocity))
-                            Ceiling = Collisions[c];
-                    }
-                }*/
+                CeilingData.ID = (int)surface.CollidedWith.GetBodyID();
+                CeilingData.Normal = surface.Normal;
+                return;
             }
-
-            return Ceiling;
+            //Check wall
+            else if (IsOnWalls() && Fix64.Abs(surfaceDot) < err)
+            {
+                WallData.ID = (int)surface.CollidedWith.GetBodyID();
+                WallData.Normal = surface.Normal;
+                return;
+            }
         }
 
-        public bool IsValidFloor()
+        public bool IsValidFloor(int colliderLayer)
         {
-            return ((FloorLayers & GetGround().CollidedWith.CollisionLayers) & SharpWorld3D.mask) != 0;
+            return ((FloorLayers & colliderLayer) & SharpHelpers.mask) != 0;
         }
 
-        public bool IsWalkableSlope(Fix64 angle)
+        public bool IsWalkableSlope()
         {
-            return Fix64.Abs(angle) <= (Fix64)SlopeLimit + Fix64.One;
+            return Fix64.Abs(GroundAngle) < (Fix64)SlopeLimit;
         }
 
-        public bool IsAngularCeiling()
+        public bool IsAngularCeiling(Fix64 angle)
         {
-            //GD.Print(CeilingAngle);
-            Fix64 HalfThreshold = ((Fix64)CeilingAngleLimit + Fix64.One) / Fix64.Two;
-            return CeilingAngle >= (Fix64)90 - HalfThreshold && CeilingAngle <= (Fix64)90 + HalfThreshold;
+            return Fix64.Abs(angle) >= (Fix64)CeilingAngleLimit + Fix64.One;
         }
 
-        public override void OnBeginOverlap(CollisionManifold3D collision)
+        public override void OnBeginOverlap(CollisionResult3D collision)
         {
             base.OnBeginOverlap(collision);
             GD.Print(collision.CollidedWith.GetBodyID());
         }
 
-        public override void OnOverlap(CollisionManifold3D collision)
+        public override void OnOverlap(CollisionResult3D collision)
         {
             base.OnOverlap(collision);
+            GetSurfaceData(collision);
         }
 
-        public override void OnEndOverlap(CollisionManifold3D collision)
+        public override void OnEndOverlap(CollisionResult3D collision)
         {
             base.OnEndOverlap(collision);
             GD.Print(collision.CollidedWith.GetBodyID());

@@ -4,7 +4,7 @@ using Godot;
 namespace SharpCollisions.Sharp2D
 {
     [System.Serializable]
-    public partial class CollisionManifold2D
+    public partial class CollisionResult2D
     {
         public SharpBody2D CollidedWith;
         public int ColliderA;
@@ -15,9 +15,9 @@ namespace SharpCollisions.Sharp2D
 
         public SharpCollider2D Collider => CollidedWith.GetCollider(ColliderB);
 
-        public CollisionManifold2D() {}
+        public CollisionResult2D() {}
 
-        public CollisionManifold2D(SharpBody2D body, int colA, int colB, FixVector2 normal, FixVector2 depth, FixVector2 contact)
+        public CollisionResult2D(SharpBody2D body, int colA, int colB, FixVector2 normal, FixVector2 depth, FixVector2 contact)
         {
             CollidedWith = body;
             ColliderA = colA;

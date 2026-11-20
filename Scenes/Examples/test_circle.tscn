@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://p6wo82xe2iqf"]
+
+[ext_resource type="Script" uid="uid://ccmi21irkpgv4" path="res://addons/SharpCollisions/Examples/BallPhysics2D.cs" id="1_n68nv"]
+[ext_resource type="Script" uid="uid://b4o377chp53rf" path="res://addons/SharpCollisions/Collider2D/Colliders/CircleCollider2D.cs" id="2_gyqa7"]
+[ext_resource type="Script" uid="uid://60swcfhcbcdh" path="res://addons/SharpCollisions/Collider2D/Commons/SharpRenderer2D.cs" id="3_ic23n"]
+[ext_resource type="Texture2D" uid="uid://bx6bfwnydn8wd" path="res://icon_circle.png" id="4_dliys"]
+
+[node name="TestCircle" type="Node" unique_id=1674980937 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
+script = ExtResource("1_n68nv")
+Colliders = [NodePath("Collider")]
+Attachments = []
+Renderer = NodePath("Viewer")
+metadata/_custom_type_script = "uid://ccmi21irkpgv4"
+
+[node name="Collider" type="Node" parent="." unique_id=590352589]
+process_mode = 4
+script = ExtResource("2_gyqa7")
+_radius = 0.32
+raw_radius = 1374389504
+DrawDebugShape = true
+metadata/_custom_type_script = "uid://b4o377chp53rf"
+
+[node name="Viewer" type="Node" parent="." unique_id=1674269508 node_paths=PackedStringArray("transform", "viewerNode")]
+process_mode = 4
+script = ExtResource("3_ic23n")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://60swcfhcbcdh"
+
+[node name="Graphics" type="Node3D" parent="." unique_id=2000030869]
+process_mode = 3
+
+[node name="Sprite3D" type="Sprite3D" parent="Graphics" unique_id=864114936]
+texture = ExtResource("4_dliys")

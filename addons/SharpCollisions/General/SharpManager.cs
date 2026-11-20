@@ -20,13 +20,13 @@ namespace SharpCollisions
 		[Export] private Array<SharpNode> nodes;
 		[Export] private int TicksPerSecond = 60;
 		[Export] private int Substeps = 4;
-		//[Export] private bool UseSpacePartitioning = false;
 		[Export] private int AreaSize = 10;
 		[Export] private int MaxBodiesPerPartition = 4;
 		[Export] private float debugLineThickness = 0.025f;
 		[Export] private bool UseEngineSettings = false;
 		[Export] private bool RunOnDedicatedThread = false;
 		[Export] private bool ShowDebugShapes = false;
+		[Export] private bool DebugDrawSpacePartitioning = false;
 		public bool canRender;
 
 		private Thread physicsThread;
@@ -72,6 +72,12 @@ namespace SharpCollisions
 
 			physicsMutex.WaitOne();
 
+			if (ShowDebugShapes && DebugDrawSpacePartitioning)
+			{
+				world2D.DrawQuadTree();
+				world3D.DrawOcTree();
+			}
+
 			foreach(SharpBody2D body in world2D.bodies)
 				body.RenderNode(ShowDebugShapes);
 			foreach(SharpBody3D body in world3D.bodies)
@@ -98,7 +104,7 @@ namespace SharpCollisions
 				PhysicsLoop();
 				physicsMutex.ReleaseMutex();
 				threadEndTime = SharpTime.Now;
-                int sleepTime = (int)((1 / 60f) * 1000);
+                int sleepTime = (int)((1 / (float)TicksPerSecond) * 1000);
                 int threadTime = (int)(threadEndTime - threadStartTime);
                 Thread.Sleep(Mathf.Max(sleepTime - threadTime, 0));
 			}
@@ -137,7 +143,6 @@ namespace SharpCollisions
 			}
 			
 			world2D.AddBody(newBody);
-			GD.Print("2D Body created!");
 		}
 		
 		public void AddBody(SharpBody3D newBody)
@@ -149,7 +154,6 @@ namespace SharpCollisions
 			}
 			
 			world3D.AddBody(newBody);
-			GD.Print("3D Body created!");
 		}
 
 		public bool RemoveNode(SharpNode selectedNode)

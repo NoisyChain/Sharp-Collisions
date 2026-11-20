@@ -4,21 +4,20 @@ using FixMath.NET;
 namespace SharpCollisions.Sharp2D
 {
 	[Tool] [GlobalClass]
-	public partial class SharpCollider2D  : Node
+	public partial class SharpCollider2D : Node
 	{
 		[Export] public bool Active = true;
-		[Export] public bool IsTrigger = false;
-		[Export] public bool TriggerDetectsSolidBodies = true;
 		/// <summary>
         /// Don't use this variable in the simulation, its only purpose is to inject its value to the actual position
         /// </summary>
         [Export] protected Vector2 _positionOffset
         {
-            get => new Vector2((float)Fix64.FromRaw(raw_PositionOffset_X), (float)Fix64.FromRaw(raw_PositionOffset_Y));
+            get => (Vector2)PositionOffset;
             set {
-                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_PositionOffset_X = ((Fix64)((decimal)value.X)).RawValue;
-                    raw_PositionOffset_Y = ((Fix64)((decimal)value.Y)).RawValue;
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_PositionOffset_X = ((Fix64)value.X).RawValue;
+                    raw_PositionOffset_Y = ((Fix64)value.Y).RawValue;
 					PositionOffset = new FixVector2(Fix64.FromRaw(raw_PositionOffset_X), Fix64.FromRaw(raw_PositionOffset_Y));
                 }
             }
@@ -28,24 +27,27 @@ namespace SharpCollisions.Sharp2D
         /// </summary>
         [Export] protected float _rotationOffset
         {
-            get => (float)Fix64.FromRaw(raw_RotationOffset);
+            get => (float)RotationOffset;
             set
             {
                 if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
                 {
-                    raw_RotationOffset = ((Fix64)((decimal)value)).RawValue;
-					RotationOffset = Fix64.FromRaw(raw_RotationOffset) * Fix64.DegToRad;
+                    raw_RotationOffset = ((Fix64)value).RawValue;
+					RotationOffset = Fix64.FromRaw(raw_RotationOffset);
                 }
             }
         }
-		[Export] protected bool DrawDebug;
-		[Export] public Color debugColor = new Color(0, 0, 1);
-		[Export] public Color selectedColor = new Color(1, 0.6f, 0.1f);
+		[Export] public bool IsTrigger = false;
+		[Export] public bool TriggerDetectsSolidBodies = true;
+		[Export] protected bool DrawDebugShape;
+        [Export] protected bool DrawBoundingBox;
+		[Export] public Color DebugShapeColor = new Color(0, 0, 1);
+		[Export] public Color DebugShapeColorSelected = new Color(1, 0.6f, 0.1f);
 
 		[ExportSubgroup("Raw Values")]
         [Export] private long raw_positionOffset_X
         {
-            get => raw_PositionOffset_X;
+            get => PositionOffset.x.RawValue;
             set
             {
                 raw_PositionOffset_X = value;
@@ -54,7 +56,7 @@ namespace SharpCollisions.Sharp2D
         }
         [Export] private long raw_positionOffset_Y
         {
-            get => raw_PositionOffset_Y;
+            get => PositionOffset.y.RawValue;
             set
             {
                 raw_PositionOffset_Y = value;
@@ -63,190 +65,65 @@ namespace SharpCollisions.Sharp2D
         }
         [Export] private long raw_rotationOffset
         {
-            get => raw_RotationOffset;
+            get => RotationOffset.RawValue;
             set
             {
                 raw_RotationOffset = value;
-               	RotationOffset = Fix64.FromRaw(raw_RotationOffset) * Fix64.DegToRad;
+               	RotationOffset = Fix64.FromRaw(raw_RotationOffset);
             }
         }
 
         private long raw_PositionOffset_X;
         private long raw_PositionOffset_Y;
         private long raw_RotationOffset;
+
+		public CollisionType2D Shape = CollisionType2D.Null;
 		
 		public CollisionFlags collisionFlags;
 		public CollisionFlags globalCollisionFlags;
-		public CollisionType2D Shape = CollisionType2D.Null;
-		public FixVector2 Position;
+
+		public FixVector2 Center;
 		public FixVector2 PositionOffset;
 		public Fix64 RotationOffset;
-		public FixVector2 Center;
+		
 		public FixRect BoundingBox;
 
 		public bool TriggerIgnoresSolid => IsTrigger && !TriggerDetectsSolidBodies;
 
-		/*public SharpCollider2D(){}
-		
-		public SharpCollider2D(FixVector2 center, FixVector2 offset, FixVector2 size, FixVector2[] points, CollisionType shape)
-		{
-			Shape = shape;
-			Position = center;
-			Offset = offset;
-			Radius = Fix64.Min(size.x, size.y) / Fix64.Two;
-			Height = Fix64.Max(size.x, size.y) / Fix64.Two;
-			Size = size;
-			CreatePoints(points);
-		}*/
+		public virtual void Initialize() {}
+		public virtual void DebugDrawShapes(SharpBody2D reference, bool selected) {}
+		public virtual void UpdateBoundingBox() { BoundingBox = new FixRect(); }
+        public void DebugDrawBoundingBox()
+        {
+            if (!DrawBoundingBox) return;
 
-		public virtual void Initialize()
-		{
-			/*PositionOffset = new FixVector2(
-				(Fix64)startingPositionOffset.X  / SharpNode.NodeScale,
-				(Fix64)startingPositionOffset.Y  / SharpNode.NodeScale
-			);
-			RotationOffset = (Fix64)startingRotationOffset / SharpNode.NodeRotation;
-			RotationOffset *= Fix64.DegToRad;*/
-		}
+            Vector3[] points =
+            [
+                new Vector3((float)BoundingBox.x,(float)BoundingBox.y, 0.0f),
+                new Vector3((float)BoundingBox.w,(float)BoundingBox.y, 0.0f),
+                new Vector3((float)BoundingBox.w,(float)BoundingBox.h, 0.0f),
+                new Vector3((float)BoundingBox.x,(float)BoundingBox.h, 0.0f),
+            ];
 
-		public virtual void DebugDrawShapes(SharpBody2D reference)
-		{
-
-		}
-
-		public virtual void DebugDrawShapesEditor(Node3D reference, bool selected)
-		{
-
-		}
-
-		public bool IsOverlapping(SharpCollider2D other, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
-		{
-			Normal = FixVector2.Zero;
-			Depth = FixVector2.Zero;
-			ContactPoint = FixVector2.Zero;
-
-			if (!Active) return false;
-			if (!other.Active) return false;
-			
-			return CollisionDetection(other, out Normal, out Depth, out ContactPoint);
-		}
-
-		public virtual bool CollisionDetection(SharpCollider2D other, out FixVector2 Normal, out FixVector2 Depth, out FixVector2 ContactPoint)
-		{
-			Normal = FixVector2.Zero;
-			Depth = FixVector2.Zero;
-			ContactPoint = FixVector2.Zero;
-
-			return false;
-		}
-
-		public void GetCollisionFlags(FixVector2 normal, SharpBody2D body)
-		{
-			if (FixVector2.Dot(normal, body.Up) > Fix64.Epsilon)
-				collisionFlags.Below = true;
-			if (FixVector2.Dot(normal, body.Down) > Fix64.Epsilon)
-				collisionFlags.Above = true;
-			if (FixVector2.Dot(normal, body.Left) > Fix64.Epsilon)
-				collisionFlags.Right = true;
-			if (FixVector2.Dot(normal, body.Right) > Fix64.Epsilon)
-				collisionFlags.Left = true;
-		}
-
-		public void GetGlobalCollisionFlags(FixVector2 normal)
-		{
-			if (FixVector2.Dot(normal, FixVector2.Up) > Fix64.Epsilon)
-				globalCollisionFlags.Below = true;
-			if (FixVector2.Dot(normal, FixVector2.Down) > Fix64.Epsilon)
-				globalCollisionFlags.Above = true;
-			if (FixVector2.Dot(normal, FixVector2.Left) > Fix64.Epsilon)
-				globalCollisionFlags.Right = true;
-			if (FixVector2.Dot(normal, FixVector2.Right) > Fix64.Epsilon)
-				globalCollisionFlags.Left = true;
-		}
-
-		public virtual FixVector2 Support(FixVector2 direction)
-		{
-			return direction;
-		}
-		
-		public void UpdateBoundingBox()
-		{
-			BoundingBox = GetBoundingBoxPoints();
-		}
-
-		protected virtual FixRect GetBoundingBoxPoints()
-		{
-			return new FixRect();
-		}
-
+            for (int i = 0; i < points.Length; i++)
+            {
+                Vector3 start = points[i];
+                Vector3 end = points[(i + 1) % points.Length];
+                DebugDraw3D.DrawLine(start, end, Colors.Cyan);
+            }
+        }
 		public virtual void UpdatePoints(FixVector2 position, Fix64 rotation)
 		{
 			Center = FixVector2.Transform(PositionOffset, position, rotation);
 		}
-
-		public static void LineToLineDistance(FixVector2 p1, FixVector2 p2, FixVector2 p3, FixVector2 p4, out FixVector2 r1, out FixVector2 r2)
-		{
-			FixVector2 r = p3 - p1;
-			FixVector2 u = p2 - p1;
-			FixVector2 v = p4 - p3;
-			Fix64 ru = FixVector2.Dot(r, u);
-			Fix64 rv = FixVector2.Dot(r, v);
-			Fix64 uu = FixVector2.Dot(u, u);
-			Fix64 uv = FixVector2.Dot(u, v);
-			Fix64 vv = FixVector2.Dot(v, v);
-			Fix64 det = uu * vv - uv * uv;
-
-			Fix64 s, t;
-			if (det < Fix64.Epsilon * uu * vv)
-			{
-				s = Fix64.Clamp01(ru / uu);
-				t = Fix64.Zero;
-			} 
-			else
-			{
-				s = Fix64.Clamp01((ru * vv - rv * uv) / det);
-				t = Fix64.Clamp01((ru * uv - rv * uu) / det);
-			}
-
-			Fix64 S = Fix64.Clamp01((t * uv + ru) / uu);
-			Fix64 T = Fix64.Clamp01((s * uv - rv) / vv);
-
-			r1 = p1 + S * u;
-			r2 = p3 + T * v;
-		}
-
-		//Line to point collision code taken from Noah Zuo's Blog
-		//https://arrowinmyknee.com/2021/03/15/some-math-about-capsule-collision/
-		public static void LineToPointDistance(FixVector2 p1, FixVector2 p2, FixVector2 p3, out FixVector2 r1)
-		{
-			FixVector2 ab = p2 - p1;
-			Fix64 length = FixVector2.Dot(p3 - p1, ab);
-			if (length <= Fix64.Epsilon) 
-			{
-				r1 = p1;
-			} 
-			else 
-			{
-				Fix64 denom = FixVector2.Dot(ab, ab);
-				if (length >= denom) 
-				{
-					r1 = p2;
-				} 
-				else 
-				{
-					length = length / denom;
-					r1 = p1 + length * ab;
-				}
-			}
-		}
 	}
-}
-
-public enum CollisionType2D
-{
-	Null = -1,
-	AABB = 0,
-	Circle = 1,
-	Capsule = 2,
-	Polygon = 3,
+	
+	public enum CollisionType2D
+	{
+		Null = -1,
+		AABB = 0,
+		Circle = 1,
+		Capsule = 2,
+		Polygon = 3,
+	}
 }

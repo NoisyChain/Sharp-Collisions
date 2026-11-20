@@ -29,19 +29,6 @@ namespace FixMath.NET
         public static readonly FixVector3 Forward = new FixVector3(Fix64.Zero, Fix64.Zero, Fix64.One);
 		public static readonly FixVector3 Back = new FixVector3(Fix64.Zero, Fix64.Zero, Fix64.NegativeOne);
 		
-		public static Fix64 Length(FixVector3 v)
-		{
-			return Fix64.Sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-		}
-
-		public static Fix64 Distance(FixVector3 vec0, FixVector3 vec1)
-		{
-			Fix64 dx = vec0.x - vec1.x;
-			Fix64 dy = vec0.y - vec1.y;
-			Fix64 dz = vec0.z - vec1.z;
-			return Fix64.Sqrt(dx * dx + dy * dy + dz * dz);
-		}
-
 		public static Fix64 LengthSq(FixVector3 v)
 		{
 			return v.x * v.x + v.y * v.y + v.z * v.z;
@@ -55,6 +42,16 @@ namespace FixMath.NET
 			return dx * dx + dy * dy + dz * dz;
 		}
 
+		public static Fix64 Length(FixVector3 v)
+		{
+			return Fix64.Sqrt(LengthSq(v));
+		}
+
+		public static Fix64 Distance(FixVector3 vec0, FixVector3 vec1)
+		{
+			return Fix64.Sqrt(DistanceSq(vec0, vec1));
+		}
+
 		public static FixVector3 Normalize(FixVector3 v)
 		{
 			Fix64 len = Length(v);
@@ -62,6 +59,7 @@ namespace FixMath.NET
 			FixVector3 nor = new FixVector3(v.x / len, v.y / len, v.z / len);
 			return nor;
 		}
+
         public static Fix64 Dot(FixVector3 a, FixVector3 b)
 		{
 			return a.x * b.x + a.y * b.y + a.z * b.z;
@@ -72,7 +70,8 @@ namespace FixMath.NET
 			return new FixVector3(
 				(a.y * b.z) - (a.z * b.y),
 				(a.z * b.x) - (a.x * b.z),
-				(a.x * b.y) - (a.y * b.x));
+				(a.x * b.y) - (a.y * b.x)
+			);
 		}
 
 		public static FixVector3 TripleProduct(FixVector3 a, FixVector3 b, FixVector3 c)
@@ -123,6 +122,11 @@ namespace FixMath.NET
 			return new FixVector3(tx, ty, tz);
 		}
 
+		public static FixVector3 TransformDegrees(FixVector3 v, FixVector3 refPosition, FixVector3 refRotation)
+		{
+			return Transform(v, refPosition, refRotation * Fix64.RadToDeg);
+		}
+
 		public static FixVector3 Project(FixVector3 u, FixVector3 v)
 		{
 			if (u == Zero) return Zero;
@@ -143,19 +147,17 @@ namespace FixMath.NET
 		/// <returns>The rotated vector</returns>
 		public static FixVector3 Rotate(FixVector3 v, FixVector3 angle)
 		{
-			//FixVector3 RotRoll = Roll(v, angle.z);
-			//FixVector3 RotPitch = Pitch(RotRoll, angle.x);
-			//FixVector3 RotYaw = Yaw(RotPitch, angle.y);
-
 			FixVector3 ret = v;
-			if (angle.z != Fix64.Zero)
-				ret = Roll(ret, angle.z);
-			if (angle.x != Fix64.Zero)
-				ret = Pitch(ret, angle.x);
-			if (angle.y != Fix64.Zero)
-				ret = Yaw(ret, angle.y);
+			ret = Roll(ret, angle.z);
+			ret = Pitch(ret, angle.x);
+			ret = Yaw(ret, angle.y);
 
 			return ret;
+		}
+
+		public static FixVector3 RotateDegrees(FixVector3 v, FixVector3 angle)
+		{
+			return Rotate(v, angle * Fix64.DegToRad);
 		}
 
 		/// <summary>

@@ -1,4 +1,4 @@
-using Godot;
+using System;
 using FixMath.NET;
 
 namespace SharpCollisions
@@ -59,7 +59,7 @@ namespace SharpCollisions
             pointA = a;
             pointB = b;
         }
-    }
+    };
 
     public struct SupportPoint3D
     {
@@ -72,7 +72,7 @@ namespace SharpCollisions
             pointA = a;
             pointB = b;
         }
-    }
+    };
 
     public struct PossibleCollision
     {
@@ -94,52 +94,79 @@ namespace SharpCollisions
         }
     };
 
-    public struct CollisionFlags
+    public struct CollisionProfile2D
+	{
+		public bool Collided;
+		public Sharp2D.SharpBody2D BodyA;
+		public Sharp2D.SharpBody2D BodyB;
+        public int ColliderA;
+        public int ColliderB;
+        public FixVector2 Normal;
+        public FixVector2 Depth;
+        public FixVector2 ContactPoint;
+
+		public CollisionProfile2D() {}
+        public CollisionProfile2D(bool collided, Sharp2D.SharpBody2D bodyA, Sharp2D.SharpBody2D bodyB, int colA, int colB, FixVector2 normal, FixVector2 depth, FixVector2 contact)
+        {
+			Collided = collided;
+			BodyA = bodyA;
+            BodyB = bodyB;
+            ColliderA = colA;
+            ColliderB = colB;
+            Normal = normal;
+            Depth = depth;
+            ContactPoint = contact;
+        }
+	};
+
+    public struct CollisionProfile3D
+	{
+		public bool Collided;
+		public Sharp3D.SharpBody3D BodyA;
+		public Sharp3D.SharpBody3D BodyB;
+        public int ColliderA;
+        public int ColliderB;
+        public FixVector3 Normal;
+        public FixVector3 Depth;
+        public FixVector3 ContactPoint;
+
+		public CollisionProfile3D() {}
+        public CollisionProfile3D(bool collided, Sharp3D.SharpBody3D bodyA, Sharp3D.SharpBody3D bodyB, int colA, int colB, FixVector3 normal, FixVector3 depth, FixVector3 contact)
+        {
+			Collided = collided;
+			BodyA = bodyA;
+            BodyB = bodyB;
+            ColliderA = colA;
+            ColliderB = colB;
+            Normal = normal;
+            Depth = depth;
+            ContactPoint = contact;
+        }
+	};
+
+    public struct SurfaceData2D
     {
-        public bool Below;
-        public bool Above;
-        public bool Right;
-        public bool Left;
-        public bool Forward;
-        public bool Back;
+        public int ID;
+        public FixVector2 Normal;
+    };
 
-        public bool Walls => Right || Left || Forward || Back;
-        public bool Any  => Below || Above || Right || Left || Forward || Back;
+    public struct SurfaceData3D
+    {
+        public int ID;
+        public FixVector3 Normal;
+    };
 
-        public void Clear()
-        {
-            Below = false;
-            Above = false;
-            Right = false;
-            Left = false;
-            Forward = false;
-            Back = false;
-        }
-        public bool Compare(CollisionFlags compareTo)
-        {
-            return Below == compareTo.Below || Above == compareTo.Above || 
-                Right == compareTo.Right || Left == compareTo.Left || 
-                Forward == compareTo.Forward || Back == compareTo.Back;
-        }
-        public bool ComparePositive(CollisionFlags compareTo)
-        {
-            return (Below && Below == compareTo.Below) ||
-                (Above && Above == compareTo.Above) || 
-                (Right && Right == compareTo.Right) ||
-                (Left && Left == compareTo.Left) || 
-                (Forward && Forward == compareTo.Forward) ||
-                (Back && Back == compareTo.Back);
-        }
-        
-        public bool Equals(CollisionFlags compareTo)
-        {
-            return Below == compareTo.Below && Above == compareTo.Above &&
-                Right == compareTo.Right && Left == compareTo.Left &&
-                Forward == compareTo.Forward && Back == compareTo.Back;
-        }
-        public override string ToString()
-        {
-            return $"(Below: {Below}, Above: {Above}, Right: {Right}, Left: {Left}, Forward: {Forward}, Back: {Back})";
-        }
+    [Flags]
+    public enum CollisionFlags : byte
+    {
+        Empty = 0,
+        Below = 1 << 0,
+        Above = 1 << 1,
+        Right = 1 << 2,
+        Left = 1 << 3,
+        Forward = 1 << 4,
+        Back = 1 << 5,
+        Walls = Right | Left | Forward | Back,
+        Any = Below | Above | Right | Left | Forward | Back,
     }
 }

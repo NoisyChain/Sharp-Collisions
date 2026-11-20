@@ -3,95 +3,134 @@ using FixMath.NET;
 
 namespace SharpCollisions.Sharp3D
 {
-    [Tool]// [GlobalClass]
+    [Tool] [GlobalClass]
     public partial class CylinderCollider3D : SharpCollider3D
     {
-        public Fix64 Radius;
-        public Fix64 Height;
-        public FixVector3 RawUpperPoint;
-		public FixVector3 RawLowerPoint;
-		public FixVector3 UpperPoint;
-		public FixVector3 LowerPoint;
+        [Export] private float _radius
+        {
+            get =>(float)Radius;
+            set {
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_Radius = ((Fix64)value).RawValue;
+                    Radius = Fix64.FromRaw(raw_Radius);
+                }
+            }
+        }
 
-        [Export] protected int startingRadius;
-        [Export] protected int startingHeight;
+        [Export] private float _height
+        {
+            get =>(float)Height;
+            set {
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_Height = ((Fix64)value).RawValue;
+                    Height = Fix64.FromRaw(raw_Height);
+                }
+            }
+        }
+
+        [ExportSubgroup("Raw Values")]
+        [Export] private long raw_radius
+        {
+            get => Radius.RawValue;
+            set
+            {
+                raw_Radius = value;
+                Radius = Fix64.FromRaw(raw_Radius);
+            }
+        }
+        [Export] private long raw_height
+        {
+            get => Height.RawValue;
+            set
+            {
+                raw_Height = value;
+                Height = Fix64.FromRaw(raw_Height);
+            }
+        }
+
+        private long raw_Radius;
+        private long raw_Height;
+
+        public Fix64 Radius = new Fix64();
+        public Fix64 Height = new Fix64();
+        public FixVector3 RawUpperPoint { get; private set; }
+        public FixVector3 RawLowerPoint { get; private set; }
+        public FixVector3 UpperPoint { get; private set; }
+        public FixVector3 LowerPoint { get; private set; }
 
         public override void Initialize()
         {
             base.Initialize();
-            Radius = (Fix64)startingRadius / SharpNode.NodeScale;
-            Height = (Fix64)startingHeight / SharpNode.NodeScale;
             Shape = CollisionType3D.Cylinder;
             CreateCylinderPoints();
         }
 
+        public override void DebugDrawShapes(SharpBody3D reference, bool selected)
+        {
+            if (!Active) return;
+            if (!DrawDebugShape) return;
+
+            Color drawColor = selected ? DebugShapeColorSelected : DebugShapeColor;
+
+            float scaledHeight = (float)Height;
+            float scaledRadius = (float)Radius;
+
+            Vector3 scaledPosOffset = (Vector3)PositionOffset;
+            Vector3 scaledRotOffset = (Vector3)(RotationOffset * Fix64.DegToRad);
+
+            Vector3 upPoint = scaledPosOffset + (Vector3.Up * scaledHeight);
+            Vector3 lowPoint = scaledPosOffset - (Vector3.Up * scaledHeight);
+
+            Vector3 upperPoint0 = SharpHelpers.Rotate3D(upPoint, scaledRotOffset);
+            Vector3 lowerPoint0 = SharpHelpers.Rotate3D(lowPoint, scaledRotOffset);
+            Vector3 upperPoint = SharpHelpers.Transform3D(upperPoint0, (Vector3)reference.FixedPosition, (Vector3)(reference.FixedRotation * Fix64.DegToRad));
+            Vector3 lowerPoint = SharpHelpers.Transform3D(lowerPoint0, (Vector3)reference.FixedPosition, (Vector3)(reference.FixedRotation * Fix64.DegToRad));
+
+            Vector3 DirY = (upperPoint - lowerPoint).Normalized();
+            Vector3 DirX = SharpHelpers.GetLineNormal3D(DirY, (Vector3)reference.Forward, (Vector3)reference.Up);
+            Vector3 DirZ = DirX.Cross(DirY);
+
+            float inflatedRadius = scaledRadius + 0.005f;
+
+            Vector3 LineSpacing1 = DirX * inflatedRadius;
+            Vector3 LineSpacing2 = DirZ * inflatedRadius;
+
+            CustomDebugDraw.DrawCircle(upperPoint, DirX, DirZ, inflatedRadius, drawColor);
+            CustomDebugDraw.DrawCircle(lowerPoint, DirX, DirZ, inflatedRadius, drawColor);
+            DebugDraw3D.DrawLine(upperPoint + LineSpacing1, lowerPoint + LineSpacing1, drawColor);
+            DebugDraw3D.DrawLine(upperPoint - LineSpacing1, lowerPoint - LineSpacing1, drawColor);
+            DebugDraw3D.DrawLine(upperPoint + LineSpacing2, lowerPoint + LineSpacing2, drawColor);
+            DebugDraw3D.DrawLine(upperPoint - LineSpacing2, lowerPoint - LineSpacing2, drawColor);
+        }
+
+        public override void UpdateBoundingBox() 
+        {
+            BoundingBox = CollisionMath3D.UpdateCylinderBoundingBox(UpperPoint, LowerPoint, Radius);
+        }
+
         private void CreateCylinderPoints()
         {
-            FixVector3 CapsuleDirection = new FixVector3(Fix64.Zero, Fix64.Zero, Height);
+            FixVector3 CylinderDirection = new FixVector3(Fix64.Zero, Height, Fix64.Zero);
 
-			RawUpperPoint = CapsuleDirection;
-			RawLowerPoint = -CapsuleDirection;
+			RawUpperPoint = CylinderDirection;
+			RawLowerPoint = -CylinderDirection;
         }
 
         private void UpdateCylinderPoints(FixVector3 position, FixVector3 rotation)
         {
-            UpperPoint = FixVector3.Rotate(RawUpperPoint, RotationOffset);
-			LowerPoint = FixVector3.Rotate(RawLowerPoint, RotationOffset);
+            CreateCylinderPoints();
+            UpperPoint = FixVector3.Rotate(RawUpperPoint, RotationOffset * Fix64.DegToRad);
+            LowerPoint = FixVector3.Rotate(RawLowerPoint, RotationOffset * Fix64.DegToRad);
             UpperPoint = FixVector3.Transform(UpperPoint + PositionOffset, position, rotation);
-			LowerPoint = FixVector3.Transform(LowerPoint + PositionOffset, position, rotation);
-        }
-
-        public override void DebugDrawShapes(SharpBody3D reference)
-        {
-            if (!DrawDebug) return;
-
-            //Transform3D debugTransform = new(ParentNode.GlobalBasis, (Vector3)Center);
-            //DebugDraw.Cylinder(debugTransform, (float)Radius, (float)Height * 2);
-        }
-
-        protected override FixVolume GetBoundingBoxPoints()
-        {
-            return UpdateCylinderBoundingBox();
+            LowerPoint = FixVector3.Transform(LowerPoint + PositionOffset, position, rotation);
         }
 
         public override void UpdatePoints(FixVector3 position, FixVector3 rotation)
         {
             UpdateCylinderPoints(position, rotation);
             base.UpdatePoints(position, rotation);
-        }
-
-		public override FixVector3 Support(FixVector3 direction)
-		{
-			FixVector3 NormalizedDirection = FixVector3.Normalize(direction);
-			Fix64 Dy = FixVector3.Dot(NormalizedDirection, UpperPoint - LowerPoint);
-
-			if (Dy == Fix64.Zero) return Center + Radius * NormalizedDirection;
-			else return (Dy < Fix64.Zero ? LowerPoint : UpperPoint) + Radius * NormalizedDirection;
-		}
-
-        public FixVolume UpdateCylinderBoundingBox()
-        {
-            Fix64 minX = UpperPoint.x - Radius;
-            Fix64 minY = UpperPoint.y - Radius;
-            Fix64 minZ = UpperPoint.z - Radius;
-            Fix64 maxX = UpperPoint.x + Radius;
-            Fix64 maxY = UpperPoint.y + Radius;
-            Fix64 maxZ = UpperPoint.z + Radius;
-
-            if (LowerPoint.x < UpperPoint.x)
-                minX = LowerPoint.x - Radius;
-            if (LowerPoint.x > UpperPoint.x)
-                maxX = LowerPoint.x + Radius;
-            if (LowerPoint.y < UpperPoint.y)
-                minY = LowerPoint.y - Radius;
-            if (LowerPoint.y > UpperPoint.y)
-                maxY = LowerPoint.y + Radius;
-            if (LowerPoint.z < UpperPoint.z)
-                minZ = LowerPoint.z - Radius;
-            if (LowerPoint.z > UpperPoint.z)
-                maxZ = LowerPoint.z + Radius;
-
-            return new FixVolume(minX, minY, minZ, maxX, maxY, maxZ);
         }
     }
 }

@@ -1,45 +1,38 @@
 using Godot;
 using Godot.Collections;
 using FixMath.NET;
-using SharpCollisions.Sharp3D.GJK;
 
 namespace SharpCollisions.Sharp3D
 {
     [Tool] [GlobalClass]
     public partial class ConvexShapeCollider3D : SharpCollider3D
     {
-        public GJK3D GJK;
-
-        //[Export] private GJKCollisionLevel CollisionLevel;
         [Export] private Array<Vector3> _points
         {
-            get{
+            get
+            {
                 Array<Vector3> ret = new Array<Vector3>();
-                if (raw_Points_X != null && raw_Points_Y != null && raw_Points_Z != null)
-                {
-                    int length = Mathf.Min(raw_Points_X.Length, raw_Points_Y.Length);
-                    length = Mathf.Min(length, raw_Points_Z.Length);
-                
-                    for (int i = 0; i < length; i++)
+                if (RawPoints != null)
+                {                
+                    for (int i = 0; i < RawPoints.Length; i++)
                     {
-                        ret.Add(new Vector3((float)Fix64.FromRaw(raw_Points_X[i]), (float)Fix64.FromRaw(raw_Points_Y[i]), (float)Fix64.FromRaw(raw_Points_Z[i])));
+                        ret.Add((Vector3)RawPoints[i]);
                     }
                 }
                 return ret;
             }
-            set{
+            set
+            {
                 if (Engine.IsEditorHint())  // Avoid any float values changing fixed point raw values when the game runs
                 {
-                    raw_Points_X = new long[value.Count];
-                    raw_Points_Y = new long[value.Count];
-                    raw_Points_Z = new long[value.Count];
+                    _rawPoints = new long[value.Count * 3];
                     RawPoints = new FixVector3[value.Count];
-                    for (int i = 0; i < value.Count; i++)
+                    for (int i = 0; i < RawPoints.Length; i++)
                     {
-                        raw_Points_X[i] = ((Fix64)((decimal)value[i].X)).RawValue;
-                        raw_Points_Y[i] = ((Fix64)((decimal)value[i].Y)).RawValue;
-                        raw_Points_Z[i] = ((Fix64)((decimal)value[i].Z)).RawValue;
-                        RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
+                        _rawPoints[i * 3] = ((Fix64)value[i].X).RawValue;
+                        _rawPoints[i * 3 + 1] = ((Fix64)value[i].Y).RawValue;
+                        _rawPoints[i * 3 + 2] = ((Fix64)value[i].Z).RawValue;
+                        RawPoints[i] = new FixVector3(Fix64.FromRaw(_rawPoints[i * 3]), Fix64.FromRaw(_rawPoints[i * 3 + 1]), Fix64.FromRaw(_rawPoints[i * 3 + 2]));
                     }
                 }
             }
@@ -48,49 +41,36 @@ namespace SharpCollisions.Sharp3D
         [Export] public Array<Vector3I> Faces;
 
         [ExportSubgroup("Raw Values")]
-        [Export] private long[] raw_points_x
+        [Export] private long[] _raw_points
         {
-            get => raw_Points_X;
-            set
+            get
             {
-                raw_Points_X = value;
-                RawPoints = new FixVector3[_points.Count];
-                for (int i = 0; i < _points.Count; i++)
+                long[] ret = new long[RawPoints.Length * 3];
+                for (int i = 0; i < RawPoints.Length; i++)
                 {
-                    RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
+                    ret[i * 3]     = RawPoints[i].x.RawValue;
+                    ret[i * 3 + 1] = RawPoints[i].y.RawValue;
+                    ret[i * 3 + 2] = RawPoints[i].z.RawValue;
                 }
+                return ret;
             }
-        }
-        [Export] private long[] raw_points_y
-        {
-            get => raw_Points_Y;
             set
             {
-                raw_Points_Y = value;
-                RawPoints = new FixVector3[_points.Count];
-                for (int i = 0; i < _points.Count; i++)
+                _rawPoints = value;
+                RawPoints = new FixVector3[_rawPoints.Length / 3];
+                for (int i = 0; i < RawPoints.Length; i++)
                 {
-                    RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
-                }
-            }
-        }
-        [Export] private long[] raw_points_z
-        {
-            get => raw_Points_Z;
-            set
-            {
-                raw_Points_Z = value;
-                RawPoints = new FixVector3[_points.Count];
-                for (int i = 0; i < _points.Count; i++)
-                {
-                    RawPoints[i] = new FixVector3(Fix64.FromRaw(raw_Points_X[i]), Fix64.FromRaw(raw_Points_Y[i]), Fix64.FromRaw(raw_Points_Z[i]));
+                    RawPoints[i] = new FixVector3(Fix64.FromRaw(_rawPoints[i * 3]), Fix64.FromRaw(_rawPoints[i * 3 + 1]), Fix64.FromRaw(_rawPoints[i * 3 + 2]));
+                    _points[i] = (Vector3)RawPoints[i];
                 }
             }
         }
 
-        private long[] raw_Points_X;
-        private long[] raw_Points_Y;
-        private long[] raw_Points_Z;
+        private long[] _rawPoints = [];
+
+        //private long[] rawPoints_X;
+        //private long[] rawPoints_Y;
+        //private long[] rawPoints_Z;
         
         public FixVector3[] RawPoints;
 		public FixVector3[] Points;        
@@ -99,23 +79,11 @@ namespace SharpCollisions.Sharp3D
 
         public override void Initialize()
         {
-            GJK = new GJK3D(true);
             base.Initialize();
             Shape = CollisionType3D.Polygon;
             CreatePolygonPoints();
             CreateFaces();
         }
-
-        public override bool CollisionDetection(SharpCollider3D other, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint)
-		{
-			Normal = FixVector3.Zero;
-			Depth = FixVector3.Zero;
-			ContactPoint = FixVector3.Zero;
-
-            if (other.Shape == CollisionType3D.AABB) return false;
-
-            return GJK.PolygonCollision(this, other, out Normal, out Depth, out ContactPoint);
-		}
 
         protected virtual void CreatePolygonPoints()
         {
@@ -162,58 +130,39 @@ namespace SharpCollisions.Sharp3D
             }
         }
 
-        public override void DebugDrawShapes(SharpBody3D reference)
+        public override void DebugDrawShapes(SharpBody3D reference, bool selected)
         {
             if (!Active) return;
-            if (!DrawDebug) return;
-            if (Faces == null || Faces.Count <= 0) return;
-
-            for (int i = 0; i < Faces.Count; i++)
-            {
-                DebugDraw3D.DrawLine((Vector3)Points[Faces[i].X], (Vector3)Points[Faces[i].Y], debugColor);
-                DebugDraw3D.DrawLine((Vector3)Points[Faces[i].Y], (Vector3)Points[Faces[i].Z], debugColor);
-                DebugDraw3D.DrawLine((Vector3)Points[Faces[i].Z], (Vector3)Points[Faces[i].X], debugColor);
-
-                FixVector3 origin = FixVector3.FindTriangleCentroid(Points[Faces[i].X], Points[Faces[i].Y], Points[Faces[i].Z]);
-                FixVector3 normal = FixVector3.GetPlaneNormal(Points[Faces[i].X], Points[Faces[i].Y], Points[Faces[i].Z]);
-                Vector3 dir = (Vector3)origin + ((Vector3)normal * 0.5f);
-                DebugDraw3D.DrawLine((Vector3)origin, dir, new Color(0, 1, 0));
-            }
-        }
-
-        public override void DebugDrawShapesEditor(Node3D reference, bool selected)
-        {
-            if (!Active) return;
-            if (!selected && !DrawDebug) return;
+            if (!DrawDebugShape) return;
             if (_points == null || _points.Count <= 0) return;
             if (Faces == null || Faces.Count <= 0) return;
 
-            Color finalColor = selected ? selectedColor : debugColor;
+            Color drawColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
-            Vector3 scaledPosOffset = _positionOffset;
-            Vector3 scaledRotOffset = _rotationOffset;
+            Vector3 scaledPosOffset = (Vector3)PositionOffset;
+            Vector3 scaledRotOffset = (Vector3)(RotationOffset * Fix64.DegToRad);
 
-            Vector3 position = reference.GlobalPosition;
-            Vector3 rotation = reference.GlobalRotation;
+            Vector3 position = (Vector3)reference.FixedPosition;
+            Vector3 rotation = (Vector3)(reference.FixedRotation * Fix64.DegToRad);
 
             for (int i = 0; i < Faces.Count; i++)
             {
-                Vector3 rotPointA = SharpHelpers.RotateDeg3D(_points[Faces[i].X], scaledRotOffset);
+                Vector3 rotPointA = SharpHelpers.Rotate3D(_points[Faces[i].X], scaledRotOffset);
                 Vector3 pointA = SharpHelpers.Transform3D(rotPointA + scaledPosOffset, position, rotation);
-                Vector3 rotPointB = SharpHelpers.RotateDeg3D(_points[Faces[i].Y], scaledRotOffset);
+                Vector3 rotPointB = SharpHelpers.Rotate3D(_points[Faces[i].Y], scaledRotOffset);
                 Vector3 pointB = SharpHelpers.Transform3D(rotPointB + scaledPosOffset, position, rotation);
-                Vector3 rotPointC = SharpHelpers.RotateDeg3D(_points[Faces[i].Z], scaledRotOffset);
+                Vector3 rotPointC = SharpHelpers.Rotate3D(_points[Faces[i].Z], scaledRotOffset);
                 Vector3 pointC = SharpHelpers.Transform3D(rotPointC + scaledPosOffset, position, rotation);
 
-                DebugDraw3D.DrawLine(pointA, pointB, finalColor);
-                DebugDraw3D.DrawLine(pointB, pointC, finalColor);
-                DebugDraw3D.DrawLine(pointC, pointA, finalColor);
+                DebugDraw3D.DrawLine(pointA, pointB, drawColor);
+                DebugDraw3D.DrawLine(pointB, pointC, drawColor);
+                DebugDraw3D.DrawLine(pointC, pointA, drawColor);
             }
         }
 
-        protected override FixVolume GetBoundingBoxPoints()
+        public override void UpdateBoundingBox()
         {
-            return UpdatePolygonBoundingBox();
+            BoundingBox = CollisionMath3D.UpdatePolygonBoundingBox(Points);
         }
 
         public override void UpdatePoints(FixVector3 position, FixVector3 rotation)
@@ -222,22 +171,6 @@ namespace SharpCollisions.Sharp3D
             base.UpdatePoints(position, rotation);
         }
 
-        public override FixVector3 Support(FixVector3 direction)
-        {
-            FixVector3 maxPoint = FixVector3.Zero;
-			Fix64 maxDistance = Fix64.MinValue;
-
-			for (int i = 0; i < Points.Length; i++)
-			{
-				Fix64 dist = FixVector3.Dot(Points[i], direction);
-				if (dist > maxDistance)
-				{
-					maxDistance = dist;
-					maxPoint = Points[i];
-				}
-			}
-			return maxPoint;
-        }
         public Vector3I GetNearestFace(FixVector3 normal, out FixVector3 finalNormal)
         {
             Fix64 dot = Fix64.NegativeOne;
@@ -250,47 +183,16 @@ namespace SharpCollisions.Sharp3D
                 Vector3I f = Faces[i];
                 FixVector3 faceNormal = FixVector3.GetPlaneNormal(Points[f.X], Points[f.Y], Points[f.Z]);
                 FixVector3 faceCenter = FixVector3.FindTriangleCentroid(Points[f.X], Points[f.Y], Points[f.Z]);
-                //FixVector3 directionNormal = FixVector3.Normalize(point - fCenter);
                 Fix64 d = FixVector3.Dot(normal, faceNormal);
-
-                
-                //Fix64 minPointDistance = FixVector3.LengthSq(fCenter - point);
 
                 if (dot < d)
                 {
                     face = f;
                     finalNormal = faceNormal;
                     dot = d;
-                    //dist = minPointDistance;
                 }
             }
             return face;
-        }
-
-        public FixVolume UpdatePolygonBoundingBox()
-        {
-            Fix64 minX = Fix64.MaxValue;
-			Fix64 minY = Fix64.MaxValue;
-            Fix64 minZ = Fix64.MaxValue;
-			Fix64 maxX = Fix64.MinValue;
-			Fix64 maxY = Fix64.MinValue;
-            Fix64 maxZ = Fix64.MinValue;
-
-            FixVector3[] points = Points;
-
-            for (int p = 0; p < points.Length; p++)
-            {
-                FixVector3 v = points[p];
-
-                if (v.x < minX) minX = v.x;
-                if (v.x > maxX) maxX = v.x;
-                if (v.y < minY) minY = v.y;
-                if (v.y > maxY) maxY = v.y;
-                if (v.z < minZ) minZ = v.z;
-                if (v.z > maxZ) maxZ = v.z;
-            }
-
-            return new FixVolume(minX, minY, minZ, maxX, maxY, maxZ);
         }
     }
 }

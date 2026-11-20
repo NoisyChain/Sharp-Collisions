@@ -11,22 +11,80 @@ namespace SharpCollisions.Sharp3D.GJK
 
 		private Simplex3D Simplex;
 		private Polytope3D Polytope;
-		bool useEPA;
 
-		public GJK3D(bool epa)
+		public GJK3D()
 		{
 			Simplex = new Simplex3D();
 			Polytope = new Polytope3D();
-			useEPA = epa;
 		}
 
         private SupportPoint3D SupportFunction(SharpCollider3D colliderA, SharpCollider3D colliderB, FixVector3 direction)
 		{
-            FixVector3 SupportPointA = colliderA.Support(direction);
-            FixVector3 SupportPointB = colliderB.Support(-direction);
+            FixVector3 SupportPointA = Support(colliderA, direction);
+            FixVector3 SupportPointB = Support(colliderB, -direction);
 
-			return new SupportPoint3D { pointA = SupportPointA, pointB = SupportPointB};
+			return new SupportPoint3D { pointA = SupportPointA, pointB = SupportPointB };
 		}
+		private FixVector3 Support(SharpCollider3D collider, FixVector3 direction)
+		{
+			switch (collider)
+			{
+				case SphereCollider3D circle:
+					return SphereSupport(circle, direction);
+				case CapsuleCollider3D capsule:
+					return CapsuleSupport(capsule, direction);
+				case CylinderCollider3D cylinder:
+					return CylinderSupport(cylinder, direction);
+				case ConvexShapeCollider3D convex:
+					return ConvexShapeSupport(convex, direction);
+				default:
+					return direction;
+			}
+		}
+		public FixVector3 SphereSupport(SphereCollider3D collider, FixVector3 direction)
+		{
+			FixVector3 NormalizedDirection = FixVector3.Normalize(direction);
+			return collider.Center + collider.Radius * NormalizedDirection;
+		}
+		public FixVector3 CapsuleSupport(CapsuleCollider3D collider, FixVector3 direction)
+        {
+            FixVector3 NormalizedDirection = FixVector3.Normalize(direction);
+            Fix64 Dy = FixVector3.Dot(NormalizedDirection, collider.UpperPoint - collider.LowerPoint);
+
+            if (Dy == Fix64.Zero) return collider.Center + collider.Radius * NormalizedDirection;
+            else return (Dy < Fix64.Zero ? collider.LowerPoint : collider.UpperPoint) + collider.Radius * NormalizedDirection;
+        }
+		public FixVector3 CylinderSupport(CylinderCollider3D collider, FixVector3 direction)
+        {
+			/*dir = matRS_inverse*dir; //find support in model space
+
+			vec3 dir_xz = vec3(dir.x, 0, dir.z);
+			vec3 result = normalise(dir_xz)*r;
+			result.y = (dir.y>0) ? y_cap : y_base;
+
+			return matRS*result + pos; //convert support to world space*/
+            FixVector3 NormalizedDirection = FixVector3.Normalize(direction);
+            Fix64 Dy = FixVector3.Dot(NormalizedDirection, collider.UpperPoint - collider.LowerPoint);
+
+            if (Dy == Fix64.Zero) return collider.Center + collider.Radius * NormalizedDirection;
+            else return (Dy < Fix64.Zero ? collider.LowerPoint : collider.UpperPoint) + collider.Radius * NormalizedDirection;
+		}
+		public FixVector3 ConvexShapeSupport(ConvexShapeCollider3D collider, FixVector3 direction)
+        {
+            FixVector3 maxPoint = FixVector3.Zero;
+			Fix64 maxDistance = Fix64.MinValue;
+
+			for (int i = 0; i < collider.Points.Length; i++)
+			{
+				Fix64 dist = FixVector3.Dot(collider.Points[i], direction);
+				if (dist > maxDistance)
+				{
+					maxDistance = dist;
+					maxPoint = collider.Points[i];
+				}
+			}
+			return maxPoint;
+        }
 
         public bool PolygonCollision(SharpCollider3D colliderA, SharpCollider3D colliderB, out FixVector3 Normal, out FixVector3 Depth, out FixVector3 ContactPoint)
 		{
@@ -58,18 +116,6 @@ namespace SharpCollisions.Sharp3D.GJK
 				{
 					EPA(Simplex, colliderA, colliderB, out Normal, out Fix64 newDepth, out ContactPoint);
 					Depth = Normal * newDepth;
-
-					/*if (useEPA)
-					{
-						EPA(Simplex, colliderA, colliderB, out Normal, out Fix64 newDepth, out ContactPoint);
-						Depth = Normal * newDepth;
-					}
-					else
-					{
-						Normal = FixVector3.Zero;
-						Depth = FixVector3.Zero;
-						ContactPoint = FixVector3.Zero;
-					}*/
 					return true;
 				}
 			}
@@ -131,7 +177,6 @@ namespace SharpCollisions.Sharp3D.GJK
 					Simplex.Reset(new List<SupportPoint3D>(){a, c});
 					supportDirection = FixVector3.TripleProduct(ac, ao, ac);
 				}
-
 				else
 				{
 					Simplex.Reset(new List<SupportPoint3D>(){a, b});
@@ -145,7 +190,6 @@ namespace SharpCollisions.Sharp3D.GJK
 					Simplex.Reset(new List<SupportPoint3D>(){a, b});
 					return LineSimplex(ref Simplex, ref supportDirection);
 				}
-
 				else
 				{
 					if (FixVector3.IsSameDirection(abc, ao))
@@ -328,10 +372,12 @@ namespace SharpCollisions.Sharp3D.GJK
 				SupportPoint3D support = SupportFunction(colliderA, colliderB, fNormal);
 				Fix64 dist = FixVector3.Dot(support.Point(), fNormal);
 
-				if (dist - fDistance < Fix64.Epsilon)
+				Fix64 err = Fix64.One / (Fix64)1000;
+
+				if (dist - fDistance < err)
 				{
 					Normal = FixVector3.Normalize(fNormal);
-					Depth = Fix64.Abs(fDistance) + Fix64.Epsilon;
+					Depth = Fix64.Abs(fDistance) + err;
 					Contact = GetContactPoint(Polytope, Normal);
 					break;
 				}
@@ -348,7 +394,7 @@ namespace SharpCollisions.Sharp3D.GJK
 			Fix64 distance = FixVector3.Dot(polytope.Vertices[polytope.GetClosestFace().a].Point(), normal);
         	FixVector3 projectedPoint = -distance * normal;
 
-			FixVector3 barCoord = SharpCollider3D.GetBarycentricCoordinates(
+			FixVector3 barCoord = CollisionMath3D.GetBarycentricCoordinates(
 				projectedPoint, 
 				polytope.Vertices[polytope.GetClosestFace().a].Point(), 
 				polytope.Vertices[polytope.GetClosestFace().b].Point(), 

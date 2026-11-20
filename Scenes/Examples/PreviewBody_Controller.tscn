@@ -3,24 +3,33 @@
 [ext_resource type="Texture2D" uid="uid://bx6bfwnydn8wd" path="res://icon_circle.png" id="1"]
 [ext_resource type="Script" uid="uid://1guw870ug7p3" path="res://addons/SharpCollisions/Examples/CharacterController2D.cs" id="2"]
 [ext_resource type="Texture2D" uid="uid://bysbpvck7hqj3" path="res://icon.png" id="3"]
+[ext_resource type="Script" uid="uid://60swcfhcbcdh" path="res://addons/SharpCollisions/Collider2D/Commons/SharpRenderer2D.cs" id="3_vk2g6"]
 [ext_resource type="Script" uid="uid://b3noxcpjbrexh" path="res://addons/SharpCollisions/Collider2D/Colliders/CapsuleCollider2D.cs" id="4"]
 
-[node name="Body" type="Node" unique_id=1903889108 node_paths=PackedStringArray("debug", "Colliders", "Attachments", "Renderer3D")]
+[node name="Body" type="Node" unique_id=1903889108 node_paths=PackedStringArray("debug", "Colliders", "Attachments", "Renderer")]
 script = ExtResource("2")
 debug = NodePath("Debug/DebugText")
 Colliders = [NodePath("Collider")]
 Attachments = []
-Renderer3D = NodePath("Graphics")
+Renderer = NodePath("Viewer")
 
-[node name="Collider" type="Node" parent="." unique_id=1220634900]
+[node name="Collider" type="Node" parent="." unique_id=684078927]
 script = ExtResource("4")
 _radius = 0.3
 _height = 0.6
 raw_radius = 1288490188
 raw_height = 2576980377
 _positionOffset = Vector2(0, 0.6)
-DrawDebug = true
+DrawDebugShape = true
+DrawBoundingBox = true
 raw_positionOffset_Y = 2576980377
+metadata/_custom_type_script = "uid://b3noxcpjbrexh"
+
+[node name="Viewer" type="Node" parent="." unique_id=2123440008 node_paths=PackedStringArray("transform", "viewerNode")]
+script = ExtResource("3_vk2g6")
+transform = NodePath("..")
+viewerNode = NodePath("../Graphics")
+metadata/_custom_type_script = "uid://60swcfhcbcdh"
 
 [node name="Graphics" type="Node3D" parent="." unique_id=278301137]
 

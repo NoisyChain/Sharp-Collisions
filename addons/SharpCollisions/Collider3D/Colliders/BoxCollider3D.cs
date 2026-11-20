@@ -10,12 +10,12 @@ namespace SharpCollisions.Sharp3D
     {
         [Export] private Vector3 _extents
         {
-            get => new Vector3((float)Fix64.FromRaw(raw_Extents_X), (float)Fix64.FromRaw(raw_Extents_Y), (float)Fix64.FromRaw(raw_Extents_Z));
+            get => (Vector3)Extents;
             set {
                 if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_Extents_X = ((Fix64)((decimal)value.X)).RawValue;
-                    raw_Extents_Y = ((Fix64)((decimal)value.Y)).RawValue;
-                    raw_Extents_Z = ((Fix64)((decimal)value.Z)).RawValue;
+                    raw_Extents_X = ((Fix64)value.X).RawValue;
+                    raw_Extents_Y = ((Fix64)value.Y).RawValue;
+                    raw_Extents_Z = ((Fix64)value.Z).RawValue;
                     Extents = new FixVector3(Fix64.FromRaw(raw_Extents_X), Fix64.FromRaw(raw_Extents_Y), Fix64.FromRaw(raw_Extents_Z));
                 }
             }
@@ -24,7 +24,7 @@ namespace SharpCollisions.Sharp3D
         [ExportSubgroup("Raw Values")]
         [Export] private long raw_extents_x
         {
-            get => raw_Extents_X;
+            get => Extents.x.RawValue;
             set
             {
                 raw_Extents_X = value;
@@ -33,7 +33,7 @@ namespace SharpCollisions.Sharp3D
         }
         [Export] private long raw_extents_y
         {
-            get => raw_Extents_Y;
+            get => Extents.y.RawValue;
             set
             {
                 raw_Extents_Y = value;
@@ -42,7 +42,7 @@ namespace SharpCollisions.Sharp3D
         }
         [Export] private long raw_extents_z
         {
-            get => raw_Extents_Z;
+            get => Extents.z.RawValue;
             set
             {
                 raw_Extents_Z = value;
@@ -61,42 +61,22 @@ namespace SharpCollisions.Sharp3D
             base.Initialize();
         }
 
-        public override void DebugDrawShapes(SharpBody3D reference)
+        public override void DebugDrawShapes(SharpBody3D reference, bool selected)
         {
             if (!Active) return;
-            if (!DrawDebug) return;
+            if (!DrawDebugShape) return;
 
-            //Draw Lower quad
-            DebugDraw3D.DrawLine((Vector3)Points[0], (Vector3)Points[1], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[1], (Vector3)Points[2], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[2], (Vector3)Points[3], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[3], (Vector3)Points[0], debugColor);
-            //Draw Upper quad
-            DebugDraw3D.DrawLine((Vector3)Points[4], (Vector3)Points[5], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[5], (Vector3)Points[6], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[6], (Vector3)Points[7], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[7], (Vector3)Points[4], debugColor);
-            //Connect both quads
-            DebugDraw3D.DrawLine((Vector3)Points[0], (Vector3)Points[4], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[1], (Vector3)Points[5], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[2], (Vector3)Points[6], debugColor);
-            DebugDraw3D.DrawLine((Vector3)Points[3], (Vector3)Points[7], debugColor);
-        }
+            Color drawColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
-        public override void DebugDrawShapesEditor(Node3D reference, bool selected)
-        {
-            if (!Active) return;
-            if (!selected && !DrawDebug) return;
+            Vector3 scaledPosOffset = (Vector3)PositionOffset;
+            Vector3 scaledRotOffset = (Vector3)(RotationOffset * Fix64.DegToRad);
 
-            Color finalColor = selected ? selectedColor : debugColor;
+            Vector3 rot = (Vector3)(reference.FixedRotation * Fix64.DegToRad);
 
-            Vector3 scaledPosOffset = _positionOffset;
-            Vector3 scaledRotOffset = _rotationOffset;
+            Vector3 rotPos = SharpHelpers.Rotate3D(scaledPosOffset, scaledRotOffset);
+            Vector3 newPos = SharpHelpers.Transform3D(rotPos, (Vector3)reference.FixedPosition, rot);
 
-            Vector3 rotPos = SharpHelpers.RotateDeg3D(scaledPosOffset, scaledRotOffset);
-            Vector3 newPos = SharpHelpers.Transform3D(rotPos, reference.GlobalPosition, reference.GlobalRotation);
-
-            DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler(reference.GlobalRotation + SharpHelpers.VectorDegToRad(scaledRotOffset)), _extents * 2, finalColor, true);
+            DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler(rot + scaledRotOffset), (Vector3)Extents * 2, drawColor, true);
         }
 
         protected override void CreatePolygonPoints()

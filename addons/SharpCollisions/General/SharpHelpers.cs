@@ -5,6 +5,7 @@ namespace SharpCollisions
 {
     public static class SharpHelpers
     {
+        public const int mask = 0b_1111_1111;
         public static Vector2 GetNormal2D(Vector2 a, Vector2 b)
         {
             Vector2 edge = b - a;

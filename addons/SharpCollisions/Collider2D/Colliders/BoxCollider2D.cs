@@ -9,11 +9,13 @@ namespace SharpCollisions.Sharp2D
     {
         [Export] private Vector2 _extents
         {
-            get => new Vector2((float)Fix64.FromRaw(raw_Extents_X), (float)Fix64.FromRaw(raw_Extents_Y));
-            set {
-                if (Engine.IsEditorHint()) {  // Avoid any float values changing fixed point raw values when the game runs
-                    raw_Extents_X = ((Fix64)((decimal)value.X)).RawValue;
-                    raw_Extents_Y = ((Fix64)((decimal)value.Y)).RawValue;
+            get => (Vector2)Extents;
+            set
+            {
+                if (Engine.IsEditorHint()) // Avoid any float values changing fixed point raw values when the game runs
+                {
+                    raw_Extents_X = ((Fix64)value.X).RawValue;
+                    raw_Extents_Y = ((Fix64)value.Y).RawValue;
                     Extents = new FixVector2(Fix64.FromRaw(raw_Extents_X), Fix64.FromRaw(raw_Extents_Y));
                 }
             }
@@ -22,7 +24,7 @@ namespace SharpCollisions.Sharp2D
         [ExportSubgroup("Raw Values")]
         [Export] private long raw_extents_X
         {
-            get => raw_Extents_X;
+            get => Extents.x.RawValue;
             set
             {
                 raw_Extents_X = value;
@@ -31,7 +33,7 @@ namespace SharpCollisions.Sharp2D
         }
         [Export] private long raw_extents_Y
         {
-            get => raw_Extents_Y;
+            get => Extents.y.RawValue;
             set
             {
                 raw_Extents_Y = value;
@@ -51,8 +53,7 @@ namespace SharpCollisions.Sharp2D
 
         public override void CreatePolygonPoints()
         {
-            RawPoints = new FixVector2[]
-            {
+            RawPoints = new FixVector2[] {
                 new FixVector2(-Extents.x, Extents.y),
                 new FixVector2(-Extents.x, -Extents.y),
                 new FixVector2(Extents.x, -Extents.y),
@@ -62,21 +63,24 @@ namespace SharpCollisions.Sharp2D
             Points = new FixVector2[RawPoints.Length];
         }
 
-        public override void DebugDrawShapesEditor(Node3D reference, bool selected)
+        public override void DebugDrawShapes(SharpBody2D reference, bool selected)
         {
             if (!Active) return;
-            if (!selected && !DrawDebug) return;
+            if (!DrawDebugShape) return;
 
-            Color finalColor = selected ? selectedColor : debugColor;
+            Color drawColor = selected ? DebugShapeColorSelected : DebugShapeColor;
 
-            Vector3 PosOffset = new Vector3(_positionOffset.X, _positionOffset.Y, 0);
-            Vector3 RotOffset = new Vector3(0, 0, _rotationOffset);
-            Vector3 scaledExtents = new Vector3(_extents.X * 2, _extents.Y * 2, 0.1f);
+            Vector3 scaledPosOffset = (Vector3)PositionOffset;
+            Vector3 scaledRotOffset = new Vector3(0.0f, 0.0f, (float)(RotationOffset * Fix64.DegToRad));
 
-            Vector3 rotPos = SharpHelpers.RotateDeg3D(PosOffset, RotOffset);
-            Vector3 newPos = SharpHelpers.Transform3D(rotPos, reference.GlobalPosition, reference.GlobalRotation);
+            Vector3 rot = new Vector3(0.0f, 0.0f, (float)(reference.FixedRotation * Fix64.DegToRad));
 
-            DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler(reference.GlobalRotation + SharpHelpers.VectorDegToRad(RotOffset)), scaledExtents, finalColor, true);
+            Vector3 rotPos = SharpHelpers.Rotate3D(scaledPosOffset, scaledRotOffset);
+            Vector3 newPos = SharpHelpers.Transform3D(rotPos, (Vector3)reference.FixedPosition, rot);
+
+            Vector3 newExtents = new Vector3((float)Extents.x, (float)Extents.y, 0.01f);
+
+            DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler(rot + scaledRotOffset), newExtents * 2, drawColor, true);
         }
     }
 }

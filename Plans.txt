@@ -1,10 +1,10 @@
 Plans for now:
 	- SharpNode as a separate thing (X)
-	- Fix Destroy Nodes
+	- Fix Destroy Nodes (X)
 	- More intentional shape updates (X)
-	- New viewer component (OK)
+	- New viewer component (OKish)
 	- Interpolation? (X)
 	- Improve character controller a bit (OKish)
 	- Space partitioning gets colliders instead of bodies (OK)
-	- Fix the collided bodies bug (OK)
-	- Fix polygon null reference
+	- Fix the collided bodies bug (OKish)
+	- Fix polygon null reference (OK)

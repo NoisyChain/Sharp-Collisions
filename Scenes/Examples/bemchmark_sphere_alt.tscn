@@ -20,9 +20,7 @@ Renderer = NodePath("Viewer")
 script = ExtResource("2_qivpg")
 _points = Array[Vector3]([Vector3(0, 0.3, 0), Vector3(0.3, 0, 0.3), Vector3(0.3, 0, -0.3), Vector3(-0.3, 0, -0.3), Vector3(-0.3, 0, 0.3), Vector3(0, -0.3, 0)])
 Faces = Array[Vector3i]([Vector3i(0, 1, 2), Vector3i(0, 3, 4), Vector3i(2, 3, 5), Vector3i(4, 1, 5)])
-raw_points_x = PackedInt64Array(0, 1288490188, 1288490188, -1288490188, -1288490188, 0)
-raw_points_y = PackedInt64Array(1288490188, 0, 0, 0, 0, -1288490188)
-raw_points_z = PackedInt64Array(0, 1288490188, -1288490188, -1288490188, 1288490188, 0)
+_raw_points = PackedInt64Array(0, 1288490240, 0, 1288490240, 0, 1288490240, 1288490240, 0, -1288490240, -1288490240, 0, -1288490240, -1288490240, 0, 1288490240, 0, -1288490240, 0)
 DrawDebugShape = true
 metadata/_custom_type_script = "uid://c5oybgm7k4u0b"
 

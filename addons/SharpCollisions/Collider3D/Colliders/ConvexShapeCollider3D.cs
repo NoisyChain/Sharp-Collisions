@@ -25,16 +25,14 @@ namespace SharpCollisions.Sharp3D
             {
                 if (Engine.IsEditorHint())  // Avoid any float values changing fixed point raw values when the game runs
                 {
-                    rawPoints_X = new long[value.Count];
-                    rawPoints_Y = new long[value.Count];
-                    rawPoints_Z = new long[value.Count];
+                    _rawPoints = new long[value.Count * 3];
                     RawPoints = new FixVector3[value.Count];
                     for (int i = 0; i < RawPoints.Length; i++)
                     {
-                        rawPoints_X[i] = ((Fix64)value[i].X).RawValue;
-                        rawPoints_Y[i] = ((Fix64)value[i].Y).RawValue;
-                        rawPoints_Z[i] = ((Fix64)value[i].Z).RawValue;
-                        RawPoints[i] = new FixVector3(Fix64.FromRaw(rawPoints_X[i]), Fix64.FromRaw(rawPoints_Y[i]), Fix64.FromRaw(rawPoints_Z[i]));
+                        _rawPoints[i * 3] = ((Fix64)value[i].X).RawValue;
+                        _rawPoints[i * 3 + 1] = ((Fix64)value[i].Y).RawValue;
+                        _rawPoints[i * 3 + 2] = ((Fix64)value[i].Z).RawValue;
+                        RawPoints[i] = new FixVector3(Fix64.FromRaw(_rawPoints[i * 3]), Fix64.FromRaw(_rawPoints[i * 3 + 1]), Fix64.FromRaw(_rawPoints[i * 3 + 2]));
                     }
                 }
             }
@@ -43,73 +41,36 @@ namespace SharpCollisions.Sharp3D
         [Export] public Array<Vector3I> Faces;
 
         [ExportSubgroup("Raw Values")]
-        [Export] private long[] raw_points_x
+        [Export] private long[] _raw_points
         {
             get
             {
-                long[] ret = new long[RawPoints.Length];
-                for (int i = 0; i < ret.Length; i++)
+                long[] ret = new long[RawPoints.Length * 3];
+                for (int i = 0; i < RawPoints.Length; i++)
                 {
-                    ret[i] = RawPoints[i].x.RawValue;
+                    ret[i * 3]     = RawPoints[i].x.RawValue;
+                    ret[i * 3 + 1] = RawPoints[i].y.RawValue;
+                    ret[i * 3 + 2] = RawPoints[i].z.RawValue;
                 }
                 return ret;
             }
             set
             {
-                rawPoints_X = value;
-                RawPoints = new FixVector3[value.Length];
+                _rawPoints = value;
+                RawPoints = new FixVector3[_rawPoints.Length / 3];
                 for (int i = 0; i < RawPoints.Length; i++)
                 {
-                    RawPoints[i] = new FixVector3(Fix64.FromRaw(rawPoints_X[i]), Fix64.FromRaw(rawPoints_Y[i]), Fix64.FromRaw(rawPoints_Z[i]));
-                }
-            }
-        }
-        [Export] private long[] raw_points_y
-        {
-            get
-            {
-                long[] ret = new long[RawPoints.Length];
-                for (int i = 0; i < ret.Length; i++)
-                {
-                    ret[i] = RawPoints[i].y.RawValue;
-                }
-                return ret;
-            }
-            set
-            {
-                rawPoints_Y = value;
-                RawPoints = new FixVector3[value.Length];
-                for (int i = 0; i < RawPoints.Length; i++)
-                {
-                    RawPoints[i] = new FixVector3(Fix64.FromRaw(rawPoints_X[i]), Fix64.FromRaw(rawPoints_Y[i]), Fix64.FromRaw(rawPoints_Z[i]));
-                }
-            }
-        }
-        [Export] private long[] raw_points_z
-        {
-            get
-            {
-                long[] ret = new long[RawPoints.Length];
-                for (int i = 0; i < ret.Length; i++)
-                {
-                    ret[i] = RawPoints[i].z.RawValue;
-                }
-                return ret;
-            }
-            set
-            {
-                rawPoints_Z = value;
-                RawPoints = new FixVector3[value.Length];
-                for (int i = 0; i < RawPoints.Length; i++)
-                {
-                    RawPoints[i] = new FixVector3(Fix64.FromRaw(rawPoints_X[i]), Fix64.FromRaw(rawPoints_Y[i]), Fix64.FromRaw(rawPoints_Z[i]));
+                    RawPoints[i] = new FixVector3(Fix64.FromRaw(_rawPoints[i * 3]), Fix64.FromRaw(_rawPoints[i * 3 + 1]), Fix64.FromRaw(_rawPoints[i * 3 + 2]));
+                    _points[i] = (Vector3)RawPoints[i];
                 }
             }
         }
 
-        private long[] rawPoints_X;
-        private long[] rawPoints_Y;
-        private long[] rawPoints_Z;
+        private long[] _rawPoints = [];
+
+        //private long[] rawPoints_X;
+        //private long[] rawPoints_Y;
+        //private long[] rawPoints_Z;
         
         public FixVector3[] RawPoints;
 		public FixVector3[] Points;        

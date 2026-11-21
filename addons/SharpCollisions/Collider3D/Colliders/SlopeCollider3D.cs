@@ -93,14 +93,9 @@ namespace SharpCollisions.Sharp3D
             DebugDraw3D.DrawLine((Vector3)points[4], (Vector3)points[5], drawColor);
             DebugDraw3D.DrawLine((Vector3)points[5], (Vector3)points[2], drawColor);
             DebugDraw3D.DrawLine((Vector3)points[4], (Vector3)points[1], drawColor);
-            //DebugDraw3D.DrawLine((Vector3)points[1], (Vector3)points[4], Colors.Cyan);
             //Connect both quads
             DebugDraw3D.DrawLine((Vector3)points[0], (Vector3)points[4], drawColor);
             DebugDraw3D.DrawLine((Vector3)points[3], (Vector3)points[5], drawColor);
-            //DebugDraw3D.DrawLine(points[2], points[6], Colors.Cyan);
-            //DebugDraw3D.DrawLine(points[3], points[7], Colors.Cyan);
-
-            //DebugDraw3D.DrawBox(newPos, Quaternion.FromEuler(rot + scaledRotOffset), (Vector3)Extents * 2, drawColor, true);
         }
 
         protected override void CreatePolygonPoints()
@@ -111,10 +106,8 @@ namespace SharpCollisions.Sharp3D
                 new FixVector3(-Extents.x, -Extents.y, -Extents.z),
                 new FixVector3(Extents.x, -Extents.y, -Extents.z),
                 new FixVector3(Extents.x, -Extents.y, Extents.z),
-                //new FixVector3(-Extents.x, Extents.y, Extents.z),
                 new FixVector3(-Extents.x, Extents.y, -Extents.z),
                 new FixVector3(Extents.x, Extents.y, -Extents.z),
-                //new FixVector3(Extents.x, Extents.y, Extents.z)
             };
 
             Points = new FixVector3[RawPoints.Length];
@@ -129,13 +122,7 @@ namespace SharpCollisions.Sharp3D
                 new Vector3I(4, 1, 0),
                 new Vector3I(1, 4, 5),
                 new Vector3I(5, 2, 1),
-                //new Vector3I(2, 5, 6),
-                //new Vector3I(7, 3, 2),
-                //new Vector3I(6, 7, 2),
                 new Vector3I(0, 3, 4),
-                //new Vector3I(7, 4, 3),
-                //new Vector3I(6, 5, 4),
-                //new Vector3I(7, 6, 4),
             };
         }
     }

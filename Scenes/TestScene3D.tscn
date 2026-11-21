@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://vanf8ydlw1ew" path="res://addons/SharpCollisions/Collider3D/Commons/SharpBody3D.cs" id="10"]
 [ext_resource type="Script" uid="uid://dl5rlkjokjjpc" path="res://addons/SharpCollisions/Collider3D/Colliders/CylinderCollider3D.cs" id="10_8me38"]
 [ext_resource type="Script" uid="uid://cjdj043ji4yll" path="res://addons/SharpCollisions/Collider3D/Commons/SharpRenderer3D.cs" id="11_vtcxo"]
+[ext_resource type="Script" uid="uid://ci8a6nfvfh35" path="res://addons/SharpCollisions/Collider3D/Colliders/SlopeCollider3D.cs" id="12_5meyr"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_earb3"]
 size = Vector3(2, 2, 2)
@@ -57,9 +58,10 @@ tonemap_mode = 2
 
 [node name="PhysicsManager" type="Node" parent="." unique_id=10007918 node_paths=PackedStringArray("nodes")]
 script = ExtResource("2_od8d3")
-nodes = [NodePath("../Character"), NodePath("../Box"), NodePath("../Box2"), NodePath("../Sphere"), NodePath("../Capsule"), NodePath("../Polygon"), NodePath("../Cylinder"), NodePath("../Floor"), NodePath("../Floor2"), NodePath("../Floor3"), NodePath("../Floor4"), NodePath("../Wall"), NodePath("../Wall2"), NodePath("../Wall3"), NodePath("../Wall4")]
+nodes = [NodePath("../Character"), NodePath("../Box"), NodePath("../Box2"), NodePath("../Sphere"), NodePath("../Capsule"), NodePath("../Polygon"), NodePath("../Cylinder"), NodePath("../Slope"), NodePath("../Floor"), NodePath("../Floor2"), NodePath("../Floor3"), NodePath("../Floor4"), NodePath("../Wall"), NodePath("../Wall2"), NodePath("../Wall3"), NodePath("../Wall4")]
 debugLineThickness = 0.012
 RunOnDedicatedThread = true
+ShowDebugShapes = true
 
 [node name="Character" parent="." unique_id=1519820629 instance=ExtResource("2")]
 KeepVelocityOnSlopes = false
@@ -131,7 +133,7 @@ viewerNode = NodePath("../Graphics")
 metadata/_custom_type_script = "uid://cjdj043ji4yll"
 
 [node name="Graphics" type="Node3D" parent="Box2" unique_id=1636148238]
-transform = Transform3D(0.852965, -0.14527549, 0.4999999, 0.49965534, 0.4960015, -0.7071067, -0.14634567, 0.8467275, 0.4999999, -2.3, 2, 0)
+transform = Transform3D(0.852965, -0.14372662, 0.4999999, 0.49965534, 0.49071333, -0.7071067, -0.14634567, 0.8377, 0.4999999, -2.3, 2, 0)
 
 [node name="MeshInstance" type="MeshInstance3D" parent="Box2/Graphics" unique_id=1571333008]
 mesh = SubResource("12")
@@ -249,6 +251,7 @@ _fixedPosition = Vector3(-2, 1, 2.5)
 raw_fixedPosition_x = -8589934592
 raw_fixedPosition_y = 4294967296
 raw_fixedPosition_z = 10737418240
+Active = false
 metadata/_custom_type_script = "uid://vanf8ydlw1ew"
 
 [node name="Collider" type="Node" parent="Cylinder" unique_id=784900548]
@@ -271,10 +274,35 @@ metadata/_custom_type_script = "uid://cjdj043ji4yll"
 
 [node name="Graphics" type="Node3D" parent="Cylinder" unique_id=1761015019]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 2.5)
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Cylinder/Graphics" unique_id=507983933]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("CylinderMesh_nho35")
+
+[node name="Slope" type="Node" parent="." unique_id=790117379 node_paths=PackedStringArray("Colliders", "Attachments")]
+script = ExtResource("10")
+Colliders = [NodePath("Collider")]
+Attachments = []
+BodyMode = 2
+_fixedPosition = Vector3(0, 0.75, 3.4)
+raw_fixedPosition_y = 3221225472
+raw_fixedPosition_z = 14602889216
+metadata/_custom_type_script = "uid://vanf8ydlw1ew"
+
+[node name="Collider" type="Node" parent="Slope" unique_id=1675963429]
+script = ExtResource("12_5meyr")
+_extents = Vector3(0.5, 0.75, 1.5)
+raw_extents_x = 2147483648
+raw_extents_y = 3221225472
+raw_extents_z = 6442450944
+_points = []
+Faces = []
+_rotationOffset = Vector3(0, 90, 0)
+DrawDebugShape = true
+DrawBoundingBox = true
+raw_rotationOffset_y = 386547056640
+metadata/_custom_type_script = "uid://ci8a6nfvfh35"
 
 [node name="Floor" type="Node" parent="." unique_id=1367089990 node_paths=PackedStringArray("Colliders", "Attachments", "Renderer")]
 script = ExtResource("10")

@@ -112,6 +112,8 @@ namespace SharpCollisions.Sharp2D.Quadtree
                 {
                     var bodyB = Content[j].Item1;
 
+                    if (bodyA.GetBodyID() == bodyB.GetBodyID()) continue;
+
                     if (bodyA.BodyMode == 2 && bodyB.BodyMode == 2) continue;
                     if (bodyA.IsIgnoringBody(bodyB)) continue;
                     if (!bodyA.CompareLayers(bodyB)) continue;

@@ -52,33 +52,35 @@ namespace SharpCollisions.Sharp3D
 
 		public static void GetCollisionFlags(SharpCollider3D collider, FixVector3 normal, SharpBody3D body)
 		{
-			if (FixVector3.Dot(normal, body.Up) > Fix64.Epsilon)
+			Fix64 err = Fix64.One / (Fix64)1000;
+			if (FixVector3.Dot(normal, body.Up) > err)
 				collider.collisionFlags |= CollisionFlags.Below;
-			if (FixVector3.Dot(normal, body.Down) > Fix64.Epsilon)
+			if (FixVector3.Dot(normal, body.Down) > err)
 				collider.collisionFlags |= CollisionFlags.Above;
-			if (FixVector3.Dot(normal, body.Left) > Fix64.Epsilon)
+			if (FixVector3.Dot(normal, body.Left) > err)
 				collider.collisionFlags |= CollisionFlags.Right;
-			if (FixVector3.Dot(normal, body.Right) > Fix64.Epsilon)
+			if (FixVector3.Dot(normal, body.Right) > err)
 				collider.collisionFlags |= CollisionFlags.Left;
-			if (FixVector3.Dot(normal, body.Back) > Fix64.Epsilon)
+			if (FixVector3.Dot(normal, body.Back) > err)
 				collider.collisionFlags |= CollisionFlags.Forward;
-			if (FixVector3.Dot(normal, body.Forward) > Fix64.Epsilon)
+			if (FixVector3.Dot(normal, body.Forward) > err)
 				collider.collisionFlags |= CollisionFlags.Back;
 		}
 
 		public static void GetGlobalCollisionFlags(SharpCollider3D collider, FixVector3 normal)
 		{
-			if (FixVector3.Dot(normal, FixVector3.Up) > Fix64.Epsilon)
+			Fix64 err = Fix64.One / (Fix64)1000;
+			if (FixVector3.Dot(normal, FixVector3.Up) > err)
 				collider.globalCollisionFlags |= CollisionFlags.Below;
-			if (FixVector3.Dot(normal, FixVector3.Down) > Fix64.Epsilon)
+			if (FixVector3.Dot(normal, FixVector3.Down) > err)
 				collider.globalCollisionFlags |= CollisionFlags.Above;
-			if (FixVector3.Dot(normal, FixVector3.Left) > Fix64.Epsilon)
+			if (FixVector3.Dot(normal, FixVector3.Left) > err)
 				collider.globalCollisionFlags |= CollisionFlags.Right;
-			if (FixVector3.Dot(normal, FixVector3.Right) > Fix64.Epsilon)
+			if (FixVector3.Dot(normal, FixVector3.Right) > err)
 				collider.globalCollisionFlags |= CollisionFlags.Left;
-			if (FixVector3.Dot(normal, FixVector3.Back) > Fix64.Epsilon)
+			if (FixVector3.Dot(normal, FixVector3.Back) > err)
 				collider.globalCollisionFlags |= CollisionFlags.Forward;
-			if (FixVector3.Dot(normal, FixVector3.Forward) > Fix64.Epsilon)
+			if (FixVector3.Dot(normal, FixVector3.Forward) > err)
 				collider.globalCollisionFlags |= CollisionFlags.Back;
 		}
 

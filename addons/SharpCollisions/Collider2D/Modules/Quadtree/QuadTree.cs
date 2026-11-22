@@ -10,6 +10,7 @@ namespace SharpCollisions.Sharp2D.Quadtree
         public FixRect Area;
         public int Limit;
         public bool IsFull;
+        public bool NonStaticCollisions;
 
         public QuadTree NW;
         public QuadTree NE;
@@ -25,12 +26,9 @@ namespace SharpCollisions.Sharp2D.Quadtree
 
         public void Compute(List<SharpBody2D> shapes)
         {
-            // Expand Content to contain colliders
-            // Create new SharpBodies list to store the contained bodies
-            // Use new list to compute next areas
-            
             Content = new List<(SharpBody2D, int)>();
             List<SharpBody2D> ContainedBodies = new List<SharpBody2D>();
+            NonStaticCollisions = false;
             IsFull = false;
             NW = null;
             NE = null;
@@ -51,6 +49,7 @@ namespace SharpCollisions.Sharp2D.Quadtree
                     {
                         Content.Add((body, i));
                         if (!ContainedBodies.Contains(body)) ContainedBodies.Add(body);
+                        if (!NonStaticCollisions) NonStaticCollisions = body.BodyMode != 2;
                     }
                 }
             }
@@ -83,6 +82,7 @@ namespace SharpCollisions.Sharp2D.Quadtree
             }
 
             if (Content == null || Content.Count == 0) return;
+            if (!NonStaticCollisions) return;
             if (!Area.IsOverlapping(queryArea)) return;
 
             foreach ((SharpBody2D, int) conts in Content)
@@ -104,6 +104,8 @@ namespace SharpCollisions.Sharp2D.Quadtree
                 SE.CapturePossibleCollisions(ref collisions);
                 return;
             }
+
+            if (!NonStaticCollisions) return;
 
             for (int i = 0; i < Content.Count; i++)
             {

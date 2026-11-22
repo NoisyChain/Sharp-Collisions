@@ -281,8 +281,8 @@ namespace SharpCollisions.Sharp3D
 
 			foreach (SharpCollider3D col in Colliders)
 			{
-				if (UpdatePositions || UpdateRotations)
-					col.UpdatePoints(FixedPosition, FixedRotation * Fix64.DegToRad);
+				//if (UpdatePositions || UpdateRotations)
+				col.UpdatePoints(FixedPosition, FixedRotation * Fix64.DegToRad);
 				if (UpdateBoundingBoxes)
 					col.UpdateBoundingBox();
 			}

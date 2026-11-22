@@ -10,6 +10,7 @@ namespace SharpCollisions.Sharp3D.Octree
         public FixVolume Area;
         public int Limit;
         public bool IsFull;
+        public bool NonStaticCollisions;
 
         public OcTree NW_P;
         public OcTree NE_P;
@@ -31,6 +32,7 @@ namespace SharpCollisions.Sharp3D.Octree
         {
             Content = new List<(SharpBody3D, int)>();
             List<SharpBody3D> ContainedBodies = new List<SharpBody3D>();
+            NonStaticCollisions = false;
             IsFull = false;
             NW_P = null;
             NE_P = null;
@@ -55,6 +57,7 @@ namespace SharpCollisions.Sharp3D.Octree
                     {
                         Content.Add((body, i));
                         if (!ContainedBodies.Contains(body)) ContainedBodies.Add(body);
+                        if (!NonStaticCollisions) NonStaticCollisions = body.BodyMode != 2;
                     }
                 }
             }
@@ -99,6 +102,7 @@ namespace SharpCollisions.Sharp3D.Octree
             }
 
             if (Content == null || Content.Count == 0) return;
+            if (!NonStaticCollisions) return;
             if (!Area.IsOverlapping(queryArea)) return;
 
             foreach ((SharpBody3D, int) conts in Content)
@@ -124,6 +128,8 @@ namespace SharpCollisions.Sharp3D.Octree
                 SE_N.CapturePossibleCollisions(ref collisions);
                 return;
             }
+
+            if (!NonStaticCollisions) return;
 
             for (int i = 0; i < Content.Count; i++)
             {

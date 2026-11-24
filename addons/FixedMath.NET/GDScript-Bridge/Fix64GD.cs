@@ -1,6 +1,5 @@
 using Godot;
 using FixMath.NET;
-using System.Text.RegularExpressions;
 
 [GlobalClass]
 public partial class Fix64GD : RefCounted

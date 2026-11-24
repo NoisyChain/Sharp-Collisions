@@ -1,6 +1,9 @@
 extends Node
 
 var fixed : Fix64GD
+var f_vec2 : FixVector2GD
+var f_vec3 : FixVector3GD
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	fixed = Fix64GD.new()
